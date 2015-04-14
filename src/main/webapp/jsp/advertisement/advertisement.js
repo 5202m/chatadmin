@@ -1,7 +1,7 @@
 /**
  * 摘要：广告管理公用js
  * @author Gavin.guo
- * @date   2015-03-16
+ * @date   2015-04-14
  */
 var advertisement = {
 	gridId : 'advertisement_datagrid',
@@ -54,8 +54,8 @@ var advertisement = {
 	 */
 	initUploadFile : function(){
 		goldOfficeUtils.uploadFile({
-			'fileId' : 'logoImageId',
-			'formData' : {'imageDir' : 'pic'},
+			'fileId' : 'imgUrlId',
+			'formData' : {'imageDir' : 'advertisement'},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',

@@ -1,34 +1,32 @@
 /**
- * 摘要：应用管理新增js
+ * 摘要：广告管理新增js
  * @author Gavin.guo
- * @date   2015-03-17
+ * @date   2015-04-14
  */
-var appAdd = {
+var advertisementAdd = {
 	init : function(){
-		app.initUEditor('remarkAdd');
-		app.initUploadFile();
+		advertisement.initUploadFile();
 	},
 	/**
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
-		if($("#appAddForm").form('validate')){
+		if($("#advertisementAddForm").form('validate')){
 			$.messager.progress();    		  		//提交时，加入进度框
-			var serializeAppAddFormData = $("#appAddForm").serialize();
-			getJson(formatUrl(basePath + '/appController/create.do'),serializeAppAddFormData,function(data){
+			var serializeAdvertisementAddFormData = $("#advertisementAddForm").serialize();
+			getJson(formatUrl(basePath + '/advertisementController/create.do'),serializeAdvertisementAddFormData,function(data){
 				$.messager.progress('close');
 				if(data.success){
-					alert("新增应用成功 !");
-					jumpRequestPage(basePath + '/appController/index.do');
+					alert("新增广告成功 !");
+					jumpRequestPage(basePath + '/advertisementController/index.do');
 				}else{
-					alert("新增应用失败，错误信息："+data.msg);
+					alert("新增广告失败，错误信息："+data.msg);
 				}
 			},true);
 		}
 	}
 };
-		
-//初始化
+
 $(function() {
-	appAdd.init();
+	advertisementAdd.init();
 });

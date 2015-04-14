@@ -9,6 +9,7 @@ public enum FileDirectory{
 	logo("logo", "logo图片目录"),
 	member("member", "会员头像目录"),
 	article("article", "文章图片目录"),
+	advertisement("advertisement", "广告图片"),
 	pic("pic", "图片"),
 	video("video", "视频");
 	
