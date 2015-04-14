@@ -1,0 +1,38 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" charset="utf-8"></script>
+<div style="padding:5px;overflow:hidden;">
+  <form class="yxForm" method="post">
+    <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+      <tr>
+        <th width="15%">原始密码<span class="must">*</span></th>
+        <td colspan="3">
+        	<!--<input  style ="width:120px;" name="text" />-->
+        	<input id="srcPwd" style ="width:140px;" onkeyup="document.getElementById('srcPwd').value=this.value.replace(/./g,'*');" />
+        </td>
+      </tr>
+       <tr>
+        <th width="15%">新密码<span class="must">*</span></th>
+        <td colspan="3">
+        <!--
+        	<input id="pwd" type="password" style ="width:120px;" name="newPwd" onkeyup="pwdShow(this)" />
+        -->
+			<input id="newPwd" style ="width:140px;" onkeyup="document.getElementById('newPwd').value=this.value.replace(/./g,'*');" />
+			<br><span style="color:#999">&nbsp;6-16位,须由大写字母、小写字母、数字、特殊字符中的三类组成</span>
+        </td>
+      </tr>
+      <tr>
+        <th width="15%" >重复密码<span class="must">*</span></th>
+        <td colspan="3">
+        	<!--<input  type="password" style ="width:120px;" name="text" />-->
+        	<input id="repePwd" style ="width:140px;" onkeyup="document.getElementById('repePwd').value=this.value.replace(/./g,'*');" />
+        </td>
+      </tr>
+
+    </table>
+  </form>
+</div>
+
+
+
+
+
