@@ -1,25 +1,24 @@
 /**
- * 摘要：应用管理修改js
+ * 摘要：广告管理修改js
  * @author Gavin.guo
- * @date   2015-03-18
+ * @date   2015-04-14
  */
-var appEdit = {
+var advertisementEdit = {
 	init : function(){
-		app.initUEditor('remarkEdit');
-		app.initUploadFile();
+		advertisement.initUploadFile();
 	},
 	/**
 	 * 功能：修改时保存
 	 */
 	onSaveEdit : function(){
-		if($("#appEditForm").form('validate')){
+		if($("#advertisementEditForm").form('validate')){
 			$.messager.progress();    		  		//提交时，加入进度框
-			var serializeappEditFormData = $("#appEditForm").serialize();
-			getJson(formatUrl(basePath + '/appController/update.do'),serializeappEditFormData,function(data){
+			var serializeadvertisementEditFormData = $("#advertisementEditForm").serialize();
+			getJson(formatUrl(basePath + '/advertisementController/update.do'),serializeadvertisementEditFormData,function(data){
 				$.messager.progress('close');
 				if(data.success){
 					alert("修改应用成功 !");
-					jumpRequestPage(basePath + '/appController/index.do');
+					jumpRequestPage(basePath + '/advertisementController/index.do');
 				}else{
 					alert("修改应用失败，错误信息："+data.msg);
 				}
@@ -30,5 +29,5 @@ var appEdit = {
 		
 //初始化
 $(function() {
-	appEdit.init();
+	advertisementEdit.init();
 });
