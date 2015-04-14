@@ -13,6 +13,7 @@ public enum IdSeq {
     Dict("D",1000000),
     AppCategory("AC",1000000),
     App("AP",1000000),
+    Advertisement("AD",1000000),
     Account("AC",1000000),
     Member("MB",1000000),
     Category("CA",1000),
