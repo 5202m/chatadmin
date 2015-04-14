@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gwghk.ams.service.NodeAPIService;
 import com.gwghk.cms.SpringJunitTest;
+import com.gwghk.mis.service.NodeAPIService;
 
 public class NodeAPIServiceTest extends SpringJunitTest {
 

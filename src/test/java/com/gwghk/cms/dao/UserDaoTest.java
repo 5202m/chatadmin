@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.gwghk.ams.common.model.DetachedCriteria;
-import com.gwghk.ams.dao.DictDao;
-import com.gwghk.ams.dao.RoleDao;
-import com.gwghk.ams.dao.UserDao;
-import com.gwghk.ams.model.Attachment;
-import com.gwghk.ams.model.BoDict;
-import com.gwghk.ams.model.BoRole;
-import com.gwghk.ams.service.AttachmentService;
-import com.gwghk.ams.service.RoleService;
 import com.gwghk.cms.SpringJunitTest;
+import com.gwghk.mis.common.model.DetachedCriteria;
+import com.gwghk.mis.dao.DictDao;
+import com.gwghk.mis.dao.RoleDao;
+import com.gwghk.mis.dao.UserDao;
+import com.gwghk.mis.model.Attachment;
+import com.gwghk.mis.model.BoDict;
+import com.gwghk.mis.model.BoRole;
+import com.gwghk.mis.service.AttachmentService;
+import com.gwghk.mis.service.RoleService;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 

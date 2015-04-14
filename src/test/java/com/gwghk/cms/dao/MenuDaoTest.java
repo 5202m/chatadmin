@@ -6,11 +6,11 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gwghk.ams.dao.MenuDao;
-import com.gwghk.ams.model.BoMenu;
-import com.gwghk.ams.model.BoRole;
-import com.gwghk.ams.service.MenuService;
 import com.gwghk.cms.SpringJunitTest;
+import com.gwghk.mis.dao.MenuDao;
+import com.gwghk.mis.model.BoMenu;
+import com.gwghk.mis.model.BoRole;
+import com.gwghk.mis.service.MenuService;
 
 public class MenuDaoTest extends SpringJunitTest {
 

@@ -8,9 +8,9 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
-import com.gwghk.ams.common.dao.MongoDBBaseDao;
-import com.gwghk.ams.model.BoLog;
 import com.gwghk.cms.SpringJunitTest;
+import com.gwghk.mis.common.dao.MongoDBBaseDao;
+import com.gwghk.mis.model.BoLog;
 
 public class StudentDaoTest extends SpringJunitTest {
 

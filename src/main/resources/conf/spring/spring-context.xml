@@ -10,7 +10,7 @@
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     
     <!-- 通过该bean获取spring中其他的bean对象 -->
-	<bean id="appContext" class="com.gwghk.ams.util.SpringContextUtil"></bean>
+	<bean id="appContext" class="com.gwghk.mis.util.SpringContextUtil"></bean>
    
    	<!-- 启动对@AspectJ注解的支持 -->
     <aop:aspectj-autoproxy/>
