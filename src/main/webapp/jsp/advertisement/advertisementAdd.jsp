@@ -39,25 +39,25 @@
         <td width="35%" colspan="3">
         	<div>
 	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentImageFilePath" disabled="disabled" style="margin-bottom: 5px;width:300px;"/>
-	        	<input type="file"  id="imgUrlId" style="width:155px">
+	        	<input type="file"  id="imgId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceImagePath"/>
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="cutedImagePath"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="hidden" name="imgUrl" id="saveImagePath" />
-	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#imgUrlId').uploadify('upload', '*');">上传文件</a> 
-	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#imgUrlId').uploadify('cancel', '*');">停止上传</a> 
+	        	<input type="hidden" name="img" id="saveImagePath" />
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#imgId').uploadify('upload', '*');">上传文件</a> 
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#imgId').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedImagePath')">预览</a>
-                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceImagePath','#cutedImagePath','imgUrl')">裁剪</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceImagePath','#cutedImagePath','img')">裁剪</a> 
             </div>
         </td>
       </tr>
       <tr>
       	<th width="15%">广告链接URL<span class="red">*</span></th>
         <td width="35%" colspan="3">
-        	<input type="text" name="code" id="code" style="width: 800px;" class="easyui-validatebox" 
-		          	    data-options="required:true,missingMessage:'请输入链接URL'"/>
+        	<input type="text" name="imgUrl" id="imgUrl" style="width: 800px;" class="easyui-validatebox" 
+		          	    data-options="required:true,missingMessage:'请输入广告链接URL'"/>
         </td>
       </tr>
       <tr style="margin-top: 6px;">

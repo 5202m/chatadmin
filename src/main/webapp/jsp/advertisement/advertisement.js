@@ -54,7 +54,7 @@ var advertisement = {
 	 */
 	initUploadFile : function(){
 		goldOfficeUtils.uploadFile({
-			'fileId' : 'imgUrlId',
+			'fileId' : 'imgId',
 			'formData' : {'imageDir' : 'advertisement'},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',

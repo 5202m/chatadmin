@@ -5,6 +5,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/advertisement/advertisementEdit.js" type="text/css" ></script>
 <div style="padding:5px;overflow-x:hidden;overflow-y:scroll;height:800px;">
   <form id="advertisementEditForm" class="yxForm" method="post">
+    <input type="hidden" name="advertisementId" value="${advertisement.advertisementId}" />
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
       	<th width="15%">广告应用平台</th>
