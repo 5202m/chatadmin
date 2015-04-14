@@ -21,7 +21,7 @@ public class SystemLogAspect {
 	
 	private long startTime;
 	
-	@Pointcut("@annotation(com.gwghk.ams.authority.SystemServiceLog)")
+	@Pointcut("@annotation(com.gwghk.mis.authority.SystemServiceLog)")
     public  void serviceAspect() {
 	}
 	

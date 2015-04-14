@@ -10,7 +10,7 @@
     <context:property-placeholder location="classpath:init.properties"/>
 	
 	<!-- 扫描classpath的包下的所有类，该包路径下的类可以不需要配置bean了 -->
-	<context:component-scan base-package="com.gwghk.ams" />
+	<context:component-scan base-package="com.gwghk.mis" />
 	
 	<!-- 用注解方式注入bean -->
 	<context:annotation-config />
@@ -18,7 +18,7 @@
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射， 配置一个基于注解的定制的WebBindingInitializer，解决日期转换问题，方法级别的处理器映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
-			<bean class="com.gwghk.ams.interceptors.MyWebBinding" />
+			<bean class="com.gwghk.mis.interceptors.MyWebBinding" />
 		</property>
 	</bean>
 	
@@ -67,17 +67,17 @@
 	
 	<!-- 异常处理类 -->
 	<bean id="exceptionHandler"
-		class="com.gwghk.ams.exception.MyExceptionHandler" />
+		class="com.gwghk.mis.exception.MyExceptionHandler" />
 	
 	<!-- 拦截器 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.gwghk.ams.interceptors.LocaleInterceptor" />
+			<bean class="com.gwghk.mis.interceptors.LocaleInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.gwghk.ams.interceptors.AuthInterceptor">
+			<bean class="com.gwghk.mis.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController/login.do</value>

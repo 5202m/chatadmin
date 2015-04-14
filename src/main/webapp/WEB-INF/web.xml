@@ -22,7 +22,7 @@
   
   <listener>
     <listener-class>    
-           com.gwghk.ams.listener.InitParamListener    
+           com.gwghk.mis.listener.InitParamListener    
     </listener-class>
   </listener>
   
