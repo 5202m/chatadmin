@@ -71,7 +71,7 @@
 	</tag>
 	<tag>
 		<name>imageUpload</name>
-		<tag-class>com.gwghk.cms.tag.ImageUploadTag</tag-class>
+		<tag-class>com.gwghk.mis.tag.ImageUploadTag</tag-class>
 		<body-content>jsp</body-content>
 		<display-name>图片上传控件</display-name>
 		<description>图片上传控件</description>
