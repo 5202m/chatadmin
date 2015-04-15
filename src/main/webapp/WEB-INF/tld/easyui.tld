@@ -10,7 +10,7 @@
 	<!-- 选择下拉框 -->
 	<tag>
 		<name>dictSelect</name>
-		<tag-class>com.gwghk.cms.tag.DictSelectTag</tag-class>
+		<tag-class>com.gwghk.mis.tag.DictSelectTag</tag-class>
 		<body-content>jsp</body-content>
 		<display-name>数据字典下拉选择控件</display-name>
 		<description>数据字典下拉选择控件</description>
