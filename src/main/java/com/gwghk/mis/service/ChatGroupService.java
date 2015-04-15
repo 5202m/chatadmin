@@ -80,17 +80,12 @@ public class ChatGroupService{
 	 * @param group
 	 */
 	private void setGroupRule(ChatGroup group){
-		if(StringUtils.isNotBlank(group.getContentRuleIds())){
-			List<ChatGroupRule> ruleList=chatGroupRuleDao.getByIdArr(group.getContentRuleIds().split(","));
-			group.setContentRules(ruleList);
-		}
-		if(StringUtils.isNotBlank(group.getHomeUrlRuleId())){
-			ChatGroupRule rule=chatGroupRuleDao.findById(ChatGroupRule.class, group.getHomeUrlRuleId());
-			group.setHomeUrlRule(rule);
+		if(StringUtils.isNotBlank(group.getChatRuleIds())){
+			List<ChatGroupRule> ruleList=chatGroupRuleDao.getByIdArr(group.getChatRuleIds().split(","));
+			group.setChatRules(ruleList);
 		}
 		//不保存id
-		group.setContentRuleIds(null);
-		group.setHomeUrlRuleId(null);
+		group.setChatRuleIds(null);
 	}
 	
 	/**
@@ -124,11 +119,8 @@ public class ChatGroupService{
 			if(StringUtils.isNotBlank(model.getName())){
 				criter.and("name").regex(StringUtil.toFuzzyMatch(model.getName()));
 			}
-			if(StringUtils.isNotBlank(model.getHomeUrlRuleId())){
-				criter.and("homeUrlRule.id").is(model.getHomeUrlRuleId());
-			}
-			if(StringUtils.isNotBlank(model.getContentRuleIds())){
-				criter.and("contentRules.id").regex(model.getContentRuleIds().replaceAll(",","|"));;
+			if(StringUtils.isNotBlank(model.getChatRuleIds())){
+				criter.and("chatRules.id").regex(model.getChatRuleIds().replaceAll(",","|"));;
 			}
 			if(StringUtils.isNotBlank(model.getStatus())){
 				criter.and("status").is(model.getStatus());

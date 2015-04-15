@@ -32,12 +32,20 @@ var chatGroupRule = {
 							return chatGroupRule.getRuleNameByCode(rowData.type);
 						}},
 						{title : '规则名称',field : 'name'},
-			            {title : '使用规则前的值',field : 'beforeRuleVal'},
+			            {title : '需要使用规则的值',field : 'beforeRuleVal'},
 						{title : '使用规则后的值',field : 'afterRuleVal'},
-						{title : '创建人',field : 'createUser'},
-						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
+						{title : '生效时间段',field : 'periodstr',formatter : function(value, rowData, rowIndex) {
+							var startDate=rowData.periodStartDate,endDate=rowData.periodEndDate;
+							var str="";
+							if(startDate){
+								str+="从"+timeObjectUtil.longMsTimeConvertToDateTime(startDate);
+							}
+							if(endDate){
+								str+="到"+timeObjectUtil.longMsTimeConvertToDateTime(endDate);
+							}
+							return str;
 						}},
+						{title : '执行规则后的提示语',field : 'afterRuleTips'},
 						{title : '修改人',field : 'updateUser'},
 						{title : '修改时间',field : 'updateDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
@@ -78,7 +86,8 @@ var chatGroupRule = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupRuleController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 190,
+			height : 250,
+			width:630,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -112,7 +121,8 @@ var chatGroupRule = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupRuleController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 190,
+			height : 250,
+			width:630,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理

@@ -76,7 +76,6 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,Member member){
-		  System.out.println("sssssssssss");
 		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());

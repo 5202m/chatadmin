@@ -37,6 +37,7 @@ import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -82,15 +83,24 @@ public class ChatGroupController extends BaseController{
 	@RequestMapping(value = "/chatGroupController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatGroup chatGroup){
-		String[] contentRuleIdArr=request.getParameterValues("contentRuleId");
-    	if(contentRuleIdArr!=null){
-    		chatGroup.setContentRuleIds(StringUtils.join(contentRuleIdArr, ","));
+		String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
+    	if(chatRuleIdArr!=null){
+    		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
 		 Page<ChatGroup> page = chatGroupService.getChatGroupPage(this.createDetachedCriteria(dataGrid, chatGroup));
+		 List<ChatGroup> chatGroupList=page.getCollection();
+		 chatGroupList.forEach(e->formatChatUrl(e));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
-	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : page.getCollection());
+	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : chatGroupList);
 	     return result;
+	}
+	
+	/**
+	 * 格式聊天室路径
+	 */
+	private void formatChatUrl(ChatGroup row){
+		row.setChatUrl(String.format(PropertiesUtil.getInstance().getProperty("chatURL"), row.getId()));
 	}
 	
 	/**
@@ -113,8 +123,7 @@ public class ChatGroupController extends BaseController{
     @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	setCommonShow(map);
-    	map.addAttribute("contentRuleIds","");
-    	map.put("homeUrlRuleId","");
+    	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
     	return "chat/groupSubmit";
     }
@@ -127,12 +136,12 @@ public class ChatGroupController extends BaseController{
     public String edit(@PathVariable String chatGroupId , ModelMap map) throws Exception {
     	setCommonShow(map);
     	ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
-    	if(chatGroup!=null && chatGroup.getContentRules()!=null){
+    	if(chatGroup!=null && chatGroup.getChatRules()!=null){
     		ArrayList<String> list=new ArrayList<String>();
-    		for(ChatGroupRule row:chatGroup.getContentRules()){
+    		for(ChatGroupRule row:chatGroup.getChatRules()){
     			list.add(row.getId());
     		}
-    		chatGroup.setContentRuleIds(StringUtils.join(list, ","));
+    		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
     	map.addAttribute("chatGroup",chatGroup);
 		return "chat/groupSubmit";
@@ -146,9 +155,9 @@ public class ChatGroupController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,false);
     	AjaxJson j = new AjaxJson();
-    	String[] contentRuleIdArr=request.getParameterValues("contentRuleId");
-    	if(contentRuleIdArr!=null){
-    		chatGroup.setContentRuleIds(StringUtils.join(contentRuleIdArr, ","));
+    	String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
+    	if(chatRuleIdArr!=null){
+    		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false);
     	if(result.isOk()){
@@ -174,9 +183,9 @@ public class ChatGroupController extends BaseController{
    	@ResponseBody
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,true);
-    	String[] contentRuleIdArr=request.getParameterValues("contentRuleId");
-    	if(contentRuleIdArr!=null){
-    		chatGroup.setContentRuleIds(StringUtils.join(contentRuleIdArr, ","));
+    	String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
+    	if(chatRuleIdArr!=null){
+    		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
     	AjaxJson j = new AjaxJson();
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true);

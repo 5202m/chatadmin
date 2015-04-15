@@ -16,13 +16,9 @@
           <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="false"  dataList="${statusList}"/></td>
         </tr>
         <tr>
-          <th width="15%">主页链接规则</th>
-          <td width="35%">
-             <select class="easyui-combotree" style="width:170px;" id="chatHomeUrlRuleId" name="homeUrlRuleId" ></select>
-          </td>
-          <th width="15%">聊天内容规则</th>
-          <td width="35%" colspan="4">
-             <select class="easyui-combotree" style="width:170px;" name="contentRuleId"  id="chatContentRuleIds" data-options="cascadeCheck:false" multiple></select>
+          <th width="15%">聊天规则</th>
+          <td width="80%" colspan="6">
+             <select class="easyui-combotree" style="width:170px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
           </td>
 	      </tr>
         <tr>

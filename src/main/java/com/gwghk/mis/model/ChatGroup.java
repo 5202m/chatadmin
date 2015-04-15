@@ -28,30 +28,26 @@ public class ChatGroup extends BaseModel{
 	 * 内容状态：0 、禁用 ；1、启动
 	 */
 	private String status;
-	
+
 	/**
-	 * 跳转到主页的规则
+	 * 聊天规则
 	 */
-	private ChatGroupRule homeUrlRule;
+	private List<ChatGroupRule> chatRules;
 	
-	/**
-	 * 内容规则
-	 */
-	private List<ChatGroupRule> contentRules;
-	
-	/**
-	 * 跳转到主页的规则id(用于数据传输）
-	 */
-	private String homeUrlRuleId;
-	
-	/**
-	 * 内容规则id(用于数据传输）
-	 */
-	private String contentRuleIds;
 	/**
      * 是否删除
      */
 	private Integer valid;
+	
+	/**
+	 * 聊天规则id(用于数据传输）
+	 */
+	private String chatRuleIds;
+	
+	/**
+	 * 聊天室路径(用于页面显示）
+	 */
+	private String chatUrl;
 	
 	public String getStatus() {
 		return status;
@@ -84,36 +80,29 @@ public class ChatGroup extends BaseModel{
 	public void setValid(Integer valid) {
 		this.valid = valid;
 	}
-
-	public String getHomeUrlRuleId() {
-		return homeUrlRuleId;
+	
+	public List<ChatGroupRule> getChatRules() {
+		return chatRules;
 	}
 
-	public void setHomeUrlRuleId(String homeUrlRuleId) {
-		this.homeUrlRuleId = homeUrlRuleId;
+	public void setChatRules(List<ChatGroupRule> chatRules) {
+		this.chatRules = chatRules;
 	}
 
-	public String getContentRuleIds() {
-		return contentRuleIds;
+	public String getChatRuleIds() {
+		return chatRuleIds;
 	}
 
-	public void setContentRuleIds(String contentRuleIds) {
-		this.contentRuleIds = contentRuleIds;
+	public void setChatRuleIds(String chatRuleIds) {
+		this.chatRuleIds = chatRuleIds;
 	}
 
-	public ChatGroupRule getHomeUrlRule() {
-		return homeUrlRule;
+	public String getChatUrl() {
+		return chatUrl;
 	}
 
-	public void setHomeUrlRule(ChatGroupRule homeUrlRule) {
-		this.homeUrlRule = homeUrlRule;
+	public void setChatUrl(String chatUrl) {
+		this.chatUrl = chatUrl;
 	}
-
-	public List<ChatGroupRule> getContentRules() {
-		return contentRules;
-	}
-
-	public void setContentRules(List<ChatGroupRule> contentRules) {
-		this.contentRules = contentRules;
-	}
+	
 }

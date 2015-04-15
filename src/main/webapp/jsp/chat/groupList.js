@@ -17,13 +17,8 @@ var chatGroup = {
 	intRuleCombox:function(){
 		var data=getJson(basePath +"/chatGroupRuleController/getGroupRuleCombox.do");
 		chatGroup.ruleComboxData=data;
-		//设置链接规则的下拉框
-		$("#chatHomeUrlRuleId").combotree({
-			editable:true,
-		    data:data
-		}); 
-		//设置内容规则的下拉框
-		$("#chatContentRuleIds").combotree({
+		//设置规则的下拉框
+		$("#chatRuleIds").combotree({
 		    data:data
 		}); 
 	},
@@ -53,19 +48,17 @@ var chatGroup = {
 						{title : '状态',field : 'statusName',formatter : function(value, rowData, rowIndex) {
 							return chatGroup.getStatusNameByCode(rowData.status);
 						}},
-						{title : '主页连接规则',field : 'homeRuleName',formatter : function(value, rowData, rowIndex) {
-							return rowData.homeUrlRule.name;
-						}},
-						{title : '聊天内容规则',field : 'contentRuleName',formatter : function(value, rowData, rowIndex) {
-							var contentRules=rowData.contentRules,result=[];
-							if(contentRules==null){
+						{title : '聊天规则',field : 'chatRuleName',formatter : function(value, rowData, rowIndex) {
+							var chatRules=rowData.chatRules,result=[];
+							if(chatRules==null){
 								return "";
 							}
-							for(var index in contentRules){
-								result.push(contentRules[index].name);
+							for(var index in chatRules){
+								result.push(chatRules[index].name);
 							}
 							return result.join("，");
 						}},
+						{title : '聊天室路径',field : 'chatUrl'},
 						{title : '创建人',field : 'createUser'},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
