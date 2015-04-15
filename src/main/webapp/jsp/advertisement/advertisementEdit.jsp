@@ -20,7 +20,7 @@
       <tr>
         <th width="15%">编号<span class="red">*</span></th>
         <td width="35%"><input type="text" name="code" id="code" style="width: 155px;" class="easyui-validatebox" 
-		          	    data-options="required:true,missingMessage:'请输入编号'" value="${advertisement.code}"/></td>
+		          	    data-options="required:true,missingMessage:'请输入编号'" value="${advertisement.code}" disabled="disabled"/></td>
         <th width="15%">标题</th>
         <td width="35%"><input type="text" name="title" id="title" style="width: 155px;" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'请输入标题'"  value="${advertisement.title}"/>
