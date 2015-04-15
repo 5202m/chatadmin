@@ -11,6 +11,15 @@ var advertisementAdd = {
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
+		if($("#platform").val() == ''){
+			alert("请选择广告应用平台!");
+			$("#platform").focus();
+			return;
+		}
+		if($("#saveImagePath").val() == ''){
+			alert("请上传广告图片!");
+			return;
+		}
 		if($("#advertisementAddForm").form('validate')){
 			$.messager.progress();    		  		//提交时，加入进度框
 			var serializeAdvertisementAddFormData = $("#advertisementAddForm").serialize();

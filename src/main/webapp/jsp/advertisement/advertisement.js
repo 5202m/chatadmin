@@ -32,9 +32,9 @@ var advertisement = {
 			            {title : '标题',field : 'title'},	
 			            {title : '链接URL',field : 'imgUrl'},	
 						{title : '广告应用平台',field : 'platform',formatter : function(value, rowData, rowIndex) {
-							if(platform == 1){
+							if(value == 1){
 								return  '微信平台';
-							}else {
+							}else{
 								return '其它平台';
 							}
 						}},

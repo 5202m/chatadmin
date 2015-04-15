@@ -5,11 +5,11 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/advertisement/advertisementAdd.js" type="text/css" ></script>
 <div style="padding:5px;overflow-x:hidden;overflow-y:scroll;height:800px;">
   <form id="advertisementAddForm" class="yxForm" method="post">
-    <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+    <table class="tableForm_L">
       <tr>
-      	<th width="15%">广告应用平台</th>
+      	<th width="15%">广告应用平台<span class="red">*</span></th>
         <td width="35%" colspan="3">
-        	<select name="platform" style="width: 155px;">
+        	<select id="platform" name="platform" style="width: 155px;">
         		<option value="">---请选择---</option>
         		<option value="1">---微信平台---</option>
 	        	<option value="2">---其它平台---</option>

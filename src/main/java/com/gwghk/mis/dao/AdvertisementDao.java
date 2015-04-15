@@ -1,5 +1,6 @@
 package com.gwghk.mis.dao;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -40,6 +41,21 @@ public class AdvertisementDao extends MongoDBBaseDao{
 	public Advertisement getByAdvertisementCode(String code){
 		return this.findOne(Advertisement.class,Query.query(
 				   new Criteria().andOperator(Criteria.where("code").is(code),Criteria.where("valid").is(1))));
+	}
+	
+	/**
+	 * 功能：判断是否存在广告
+	 */
+	public boolean isExistAdvertisement(String advertisementId,Integer platform){
+		Query query = new Query();
+		if(StringUtils.isNotEmpty(advertisementId)){
+			query.addCriteria(Criteria.where("advertisementId").ne(advertisementId));
+		}
+		if(platform != null){
+			query.addCriteria(Criteria.where("platform").is(platform));
+		}
+		query.addCriteria(Criteria.where("valid").is(1));
+		return this.findOne(Advertisement.class,query) != null;
 	}
 
 	/**

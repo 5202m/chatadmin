@@ -211,7 +211,7 @@ body {
 	padding-top: 5px;
 	padding-left: 5px;
 }
-/*----------闁搞儱澧芥晶鏍礆濡ゅ嫨锟斤拷----------*/
+/*----------闂佹悶鍎辨晶鑺ユ櫠閺嶎厼绀嗘俊銈呭閿熸枻鎷�----------*/
 .preview_picture ul {
 	width: 100%;
 	float: left;
@@ -249,7 +249,7 @@ body {
 	border-radius: 5px; /*box-shadow :3px 3px 4px #999;
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color="#999999");*/
 }
-/*----------form閻炴稏鍔屽畷锟�----------
+/*----------form闁荤偞绋忛崝灞界暦閿燂拷----------
 table, td, tr {
 	font-size: 12px;
 }
@@ -304,7 +304,7 @@ table.tableForm_L {
 	margin: 0px auto;
 	border-collapse:collapse;
 	empty-cells:hide;
-	
+	border : 0;
 }
 
 table.tableForm_L .search {
@@ -376,7 +376,7 @@ table.tableForm_R th {
 	word-break: keep-all;
 	white-space: nowrap;
 }
-/*---------------闁圭粯鍔楅妵姘┍閳╁啩绱�----------------*/
+/*---------------闂佸湱绮崝妤呭Φ濮橆厾鈹嶉柍鈺佸暕缁憋拷----------------*/
 #box {
 	position: absolute;
 	width: 360px;
@@ -432,7 +432,7 @@ h3 {
 	color: #555658;
 	line-height: 24px;
 }
-/*---------------婵烇綀顕ф慨鐐存償閺冨倹鏆�----------------*/
+/*---------------濠电儑缍�椤曆勬叏閻愬瓨鍎熼柡鍐ㄥ�归弳锟�----------------*/
 .item {
 	width: 200px;
 	float: left;
@@ -557,7 +557,7 @@ h3 {
 	background: url('icons/add_button.png') 0px -24px no-repeat;
 	display: block;
 }
-/*---------------闁告帒妫濋妴锟�----------------*/
+/*---------------闂佸憡甯掑Λ婵嬪Υ閿燂拷----------------*/
 #appPage ul {
 	width: 200px;
 	height: 25px;
@@ -1070,7 +1070,7 @@ color:#FF0000;
 	position:absolute;top:22px;left:32%
 }
 
-/*--------------权限验证配置样式----------------*/
+/*--------------鏉冮檺楠岃瘉閰嶇疆鏍峰紡----------------*/
 .noValidAuthority{
 	display: block;
 }

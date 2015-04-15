@@ -11,10 +11,19 @@ var advertisementEdit = {
 	 * 功能：修改时保存
 	 */
 	onSaveEdit : function(){
+		if($("#platform").val() == ''){
+			alert("请选择广告应用平台!");
+			$("#platform").focus();
+			return;
+		}
+		if($("#saveImagePath").val() == ''){
+			alert("请上传广告图片!");
+			return;
+		}
 		if($("#advertisementEditForm").form('validate')){
 			$.messager.progress();    		  		//提交时，加入进度框
-			var serializeadvertisementEditFormData = $("#advertisementEditForm").serialize();
-			getJson(formatUrl(basePath + '/advertisementController/update.do'),serializeadvertisementEditFormData,function(data){
+			var advertisementFormData = $("#advertisementEditForm").serialize();
+			getJson(formatUrl(basePath + '/advertisementController/update.do'),advertisementFormData,function(data){
 				$.messager.progress('close');
 				if(data.success){
 					alert("修改应用成功 !");

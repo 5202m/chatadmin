@@ -16,10 +16,10 @@
         <tr>
            <th width="10%">广告应用平台</th>
            <td width="23%" colspan="3">
-	           <select id="platform" style="width: 155px;">
+	           <select name="platform" style="width: 155px;">
 	        		<option value="">---请选择---</option>
-	        		<option value="0">---微信平台---</option>
-	        		<option value="1">---其它平台---</option>
+	        		<option value="1">---微信平台---</option>
+	        		<option value="2">---其它平台---</option>
 	        	</select>
            </td>
         </tr>

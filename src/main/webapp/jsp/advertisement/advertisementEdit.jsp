@@ -8,9 +8,9 @@
     <input type="hidden" name="advertisementId" value="${advertisement.advertisementId}" />
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
-      	<th width="15%">广告应用平台</th>
+      	<th width="15%">广告应用平台<span class="red">*</span></th>
         <td width="35%" colspan="3">
-        	<select name="platform" style="width: 155px;">
+        	<select id="platform" name="platform" style="width: 155px;">
         		<option value="">---请选择---</option>
 	        	<option value="1" <c:if test="${advertisement.platform == 1}">selected</c:if>>---微信平台---</option>
          		<option value="2" <c:if test="${advertisement.platform == 2}">selected</c:if>>---其它平台---</option>

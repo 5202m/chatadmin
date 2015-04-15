@@ -39,6 +39,9 @@ public class AdvertisementService{
 			if(StringUtils.isNotBlank(advertisement.getTitle())){
 				criteria.and("title").regex(StringUtil.toFuzzyMatch(advertisement.getTitle()));
 			}
+			if(advertisement.getPlatform() != null){
+				criteria.and("platform").is(advertisement.getPlatform());
+			}
 			criteria.and("valid").is(1);
 			query.addCriteria(criteria);
 		}
@@ -60,16 +63,22 @@ public class AdvertisementService{
 	}
 	
 	/**
-	 * 功能：保存广告
+	 * 功能：保存广告(广告应用平台的不能重复)
 	 */
 	public ApiResult saveAdvertisement(Advertisement advertisementParam,boolean isUpdate) {
 		ApiResult result=new ApiResult();
-    	if(isUpdate){
+    	if(isUpdate){  
     		Advertisement advertisement = advertisementDao.getByAdvertisementId(advertisementParam.getAdvertisementId());
+    		if(!advertisementParam.getPlatform().equals(advertisement.getPlatform())){
+    			if(advertisementDao.isExistAdvertisement(advertisementParam.getAdvertisementId(),advertisementParam.getPlatform())){
+    				return result.setCode(ResultCode.Error102);
+    			}
+    		}
     		BeanUtils.copyExceptNull(advertisement, advertisementParam);
     		advertisementDao.update(advertisement);
     	}else{
-    		if(advertisementDao.getByAdvertisementCode(advertisementParam.getCode())!=null){
+    		if(advertisementDao.getByAdvertisementCode(advertisementParam.getCode()) != null
+    			|| advertisementDao.isExistAdvertisement(advertisementParam.getAdvertisementId(),advertisementParam.getPlatform())){
     			return result.setCode(ResultCode.Error102);
     		}
     		advertisementDao.addAdvertisement(advertisementParam);
