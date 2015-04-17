@@ -9,33 +9,33 @@ import org.springframework.stereotype.Service;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
-import com.gwghk.mis.dao.ChatContentDao;
+import com.gwghk.mis.dao.ChatMessageDao;
 import com.gwghk.mis.enums.ResultCode;
-import com.gwghk.mis.model.ChatContent;
+import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.util.StringUtil;
 
 /**
- * 聊天室内容管理服务类
+ * 聊天室信息管理服务类
  * @author Alan.wu
  * @date  2015年4月1日
  */
 @Service
-public class ChatContentService{
+public class ChatMessgeService{
 
 	@Autowired
-	private ChatContentDao chatContentDao;
+	private ChatMessageDao chatContentDao;
 	
 	/**
 	 * 删除内容
 	 * @param ids
 	 * @return
 	 */
-	public ApiResult deleteChatContent(String[] ids) {
+	public ApiResult deleteChatMessage(String[] ids) {
 		ApiResult api=new ApiResult();
-		ChatContent content=null;
+		ChatMessage content=null;
 		boolean isSuccess=false;
 	    for(String id:ids){
-	    	content=new ChatContent();
+	    	content=new ChatMessage();
 	    	content.setId(id);
 	    	chatContentDao.remove(content);
 	    	isSuccess=true;
@@ -48,16 +48,16 @@ public class ChatContentService{
 	 * @param dCriteria
 	 * @return
 	 */
-	public Page<ChatContent> getChatContentPage(
-			DetachedCriteria<ChatContent> dCriteria) {
+	public Page<ChatMessage> getChatMessagePage(
+			DetachedCriteria<ChatMessage> dCriteria) {
 		Criteria criter=new Criteria();
-		ChatContent model=dCriteria.getSearchModel();
+		ChatMessage model=dCriteria.getSearchModel();
 		if(model!=null){
 			if(StringUtils.isNotBlank(model.getUserId())){
 				criter.and("id").regex(StringUtil.toFuzzyMatch(model.getUserId()));
 			}
 			if(StringUtils.isNotBlank(model.getUserNickname())){
-				criter.and("userNickname").regex(StringUtil.toFuzzyMatch(model.getUserNickname()));
+				criter.and("nickname").regex(StringUtil.toFuzzyMatch(model.getUserNickname()));
 			}
 			if(model.getUserType()!=null){
 				criter.and("userType").is(model.getUserType());
@@ -69,6 +69,6 @@ public class ChatContentService{
 				criter.and("status").is(model.getStatus());
 			}
 		}
-		return chatContentDao.findPage(ChatContent.class, Query.query(criter), dCriteria);
+		return chatContentDao.findPage(ChatMessage.class, Query.query(criter), dCriteria);
 	}
 }

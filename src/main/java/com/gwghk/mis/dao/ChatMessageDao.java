@@ -10,5 +10,5 @@ import com.gwghk.mis.common.dao.MongoDBBaseDao;
  * @date  2015年4月1日
  */
 @Repository
-public class ChatContentDao extends MongoDBBaseDao{
+public class ChatMessageDao extends MongoDBBaseDao{
 }

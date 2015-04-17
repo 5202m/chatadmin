@@ -29,7 +29,7 @@ import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.ChatContent;
+import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
@@ -79,7 +79,7 @@ public class ChatUserController extends BaseController{
 		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
-	     result.put("rows", null == page ? new ArrayList<ChatContent>() : page.getCollection());
+	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());
 	     return result;
 	}
 	

@@ -6,12 +6,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 聊天室内容实体类
+ * 聊天室信息实体类
  * @author Alan.wu
  * @date   2015年3月16日
  */
 @Document
-public class ChatContent extends ChatOnlineUser{
+public class ChatMessage extends ChatOnlineUser{
 	
 	/**
 	 * 内容Id
@@ -20,7 +20,12 @@ public class ChatContent extends ChatOnlineUser{
 	private String id;
 	
 	/**
-	 * 内容
+	 * 信息类型(text,img,file)
+	 */
+	private String msgType;
+	
+	/**
+	 * 信息内容
 	 */
 	private String content;
 	
@@ -46,14 +51,6 @@ public class ChatContent extends ChatOnlineUser{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getStatus() {
@@ -96,4 +93,21 @@ public class ChatContent extends ChatOnlineUser{
 		this.createDate = createDate;
 	}
 
+	public String getMsgType() {
+		return msgType;
+	}
+
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	
 }
