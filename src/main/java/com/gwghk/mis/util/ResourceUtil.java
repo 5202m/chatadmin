@@ -63,7 +63,7 @@ public class ResourceUtil {
 	 * 功能：获取PM 文件目录路径
 	 */
 	public static String getPmFilesPath(){
-		return PropertiesUtil.getInstance().getProperty("pmfilespath");
+		return PropertiesUtil.getInstance().getProperty("pmfilesRootPath");
 	}
 	
 	/**

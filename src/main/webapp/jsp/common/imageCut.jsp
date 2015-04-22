@@ -52,7 +52,7 @@ function validCutForm(){
 };
 </script>
 <div align="center" style="margin-top: 20px;">
-	<img src="<%=request.getContextPath()%>/${sourceImagePath}" id="target"/>  <!-- 裁剪的图片 -->
+	<img src="${sourceImagePath}" id="target"/>  <!-- 裁剪的图片 -->
 </div>
 <form id="coordsForm" name="coordsForm" method="post">
 	<div id="coordsDiv" style="margin:20px auto 0;text-align:center">

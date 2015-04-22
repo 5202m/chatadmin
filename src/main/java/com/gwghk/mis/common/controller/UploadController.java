@@ -24,6 +24,7 @@ import com.gwghk.mis.enums.FileDirectory;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.util.FileUtils;
 import com.gwghk.mis.util.ImageHelper;
+import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -157,7 +158,7 @@ public class UploadController extends BaseController{
 	 */
 	@RequestMapping(value = "/uploadController/viewImage", method = RequestMethod.GET)
 	public  String  viewImage(HttpServletRequest request,ModelMap map){
-		map.addAttribute("imagePath",request.getParameter("imagePath"));   //查看图片路径
+		map.addAttribute("imagePath",PropertiesUtil.getInstance().getProperty("pmfilesIP")+"/"+request.getParameter("imagePath"));   //查看图片路径
 		return "common/imageView";
 	}
 	
@@ -170,7 +171,7 @@ public class UploadController extends BaseController{
 						  : Integer.parseInt(request.getParameter("fixedWith"));
 		Integer fixedHeight = (null == request.getParameter("fixedHeight")) ?  0         //裁剪时固定的宽度，如果为0，表示不限制
 						    : Integer.parseInt(request.getParameter("fixedHeight"));
-		map.addAttribute("sourceImagePath",request.getParameter("sourceImagePath"));   	 //剪切图片路径
+		map.addAttribute("sourceImagePath",PropertiesUtil.getInstance().getProperty("pmfilesIP")+"/"+request.getParameter("sourceImagePath"));   	 //剪切图片路径
 		map.addAttribute("fixedWith",fixedWith);   	 	 			 
 		map.addAttribute("fixedHeight",fixedHeight);     			 					 //裁剪时是否固定高度，如果为null，表示不限制
 		return "common/imageCut";

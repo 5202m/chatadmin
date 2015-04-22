@@ -112,7 +112,7 @@ public class FileUtils {
 		MultipartFile srcFile = uploadFileInfo.getSrcFile();
 		String fileExtend = FileUtils.getExtend(srcFile.getOriginalFilename());
 		//创建主目录
-		String basePath = PropertiesUtil.getInstance().getProperty("uploadpath")+ "/"+uploadFileInfo.getSrcFileDirectory()+"/"+DateUtil.toYyyymm()+"/";
+		String basePath = PropertiesUtil.getInstance().getProperty("uploadBasePath")+ "/"+uploadFileInfo.getSrcFileDirectory()+"/"+DateUtil.toYyyymm()+"/";
 		String realPath = ResourceUtil.getPmFilesPath() + "/"+basePath ;			  // 文件的硬盘真实路径
 		File file = new File(realPath);
 		if (!file.exists()) {
