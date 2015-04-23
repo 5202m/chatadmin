@@ -37,7 +37,7 @@ public class ChatMessage extends ChatOnlineUser{
 	/**
 	 * 发布日期
 	 */
-	private Date publishDate;
+	private long publishTime;
 	
 	private String createUser;
 
@@ -61,12 +61,12 @@ public class ChatMessage extends ChatOnlineUser{
 		this.status = status;
 	}
 
-	public Date getPublishDate() {
-		return publishDate;
+	public long getPublishTime() {
+		return publishTime;
 	}
 
-	public void setPublishDate(Date publishDate) {
-		this.publishDate = publishDate;
+	public void setPublishTime(long publishTime) {
+		this.publishTime = publishTime;
 	}
 
 	public String getCreateUser() {
