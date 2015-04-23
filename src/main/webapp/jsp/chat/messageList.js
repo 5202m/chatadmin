@@ -40,10 +40,10 @@ var chatMessage = {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
-							return rowData.msgType!='text'?'<img src="'+rowData.content+'"/>':rowData.content;
+							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
 						}},
-						{title : '发布时间',field : 'publishDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
+						{title : '发布时间',field : 'publishTime',sortable : true,formatter : function(value, rowData, rowIndex) {
+							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value/1000) : '';
 						}}
 						
 			]],

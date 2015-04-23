@@ -30,11 +30,13 @@ var chatUser = {
 						}},
 						{title : '账号',field : 'memberId'},
 						{title : '昵称',field : 'nickname'},
-						{title : '头像',field : 'avatar'},
+						{title : '头像',field : 'avatar',formatter : function(value, rowData, rowIndex) {
+							return rowData.loginPlatform.chatUserGroup[0].avatar;
+						}},
 			            {title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return chatUser.getComboxNameByCode("#chatUserGroupId",rowData.loginPlatform.chatUserGroup[0].id);
 						}},
-						{title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
+						{title : '所属组',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
 							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].onlineStatus);
 						}},
 						{title : '上线时间',field : 'onlineDateStr',sortable : true,formatter : function(value, rowData, rowIndex) {

@@ -27,7 +27,7 @@ public class ChatMessage extends ChatOnlineUser{
 	/**
 	 * 信息内容
 	 */
-	private String content;
+	private ChatContent content;
 	
 	/**
 	 * 内容状态：0 、禁用 ；1、启动
@@ -101,11 +101,11 @@ public class ChatMessage extends ChatOnlineUser{
 		this.msgType = msgType;
 	}
 
-	public String getContent() {
+	public ChatContent getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(ChatContent content) {
 		this.content = content;
 	}
 

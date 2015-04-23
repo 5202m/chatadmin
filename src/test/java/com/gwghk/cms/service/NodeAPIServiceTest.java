@@ -1,6 +1,7 @@
 package com.gwghk.cms.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,6 @@ public class NodeAPIServiceTest extends SpringJunitTest {
 	@Test
 	public void test(){
 		//nodeAPIService.getChatOnlineUserPage(null);
-		System.out.println(new Timestamp(1428489304218210l));
+		System.out.println(new Date(1429254898116116l/1000));
 	}
 }
