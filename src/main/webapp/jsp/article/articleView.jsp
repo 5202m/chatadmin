@@ -4,7 +4,7 @@
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.all.js"> </script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/lang/zh-cn/zh-cn.js"></script>
-<<script type="text/javascript">
+<script type="text/javascript">
 function goBack(){
   jumpRequestPage(basePath + '/articleController/index.do');
 }
