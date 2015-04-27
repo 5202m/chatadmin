@@ -30,7 +30,7 @@ var articleEdit = {
 			     $(tabTid+" td[tid=content]").html('<script id="'+editorId+'" name="content" type="text/plain" style="width:auto;height:auto;"></script>');
 			     UE.getEditor(editorId,{
 				  		initialFrameWidth : '100%',
-				  		initialFrameHeight:'400'
+				  		initialFrameHeight:'200'
 			  	  });
 			     $(tabTid+" form[name=articleDetailForm] input[type=hidden][name=lang]").val(lang);
 			}else{
@@ -64,7 +64,7 @@ var articleEdit = {
 		$("[id^=article_editor_]").each(function(){
 			UE.getEditor(this.id,{
 		  		initialFrameWidth : '100%',
-		  		initialFrameHeight:'400'
+		  		initialFrameHeight:'200'
 	  	  });
 		});
 	},

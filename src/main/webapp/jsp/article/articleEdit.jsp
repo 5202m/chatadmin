@@ -75,7 +75,7 @@
 	        <th width="15%">内容</th>
 	        <td width="85%" tid="content">
 	          <script id="article_editor_${articleDetail.lang}" name="content" type="text/plain" style="width:auto;height:auto;">
-			 	${articleDetail.content}
+			 		${articleDetail.content}
 			  </script>
 	        </td>
 	      </tr>

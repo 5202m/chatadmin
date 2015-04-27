@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div id="articleDetailTemp" style="display:none;">
-<div style="padding:0px;overflow-x:auto;height:700px;width:100%;">
+<div style="padding:0px;overflow-x:hidden;height:700px;width:100%;">
   <form name="articleDetailForm" class="yxForm">
     <input type="hidden" name="lang"/>
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
