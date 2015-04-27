@@ -39,7 +39,7 @@
         <th width="15%">广告图片<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<div>
-	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentImageFilePath" value="${advertisement.img}" disabled="disabled" style="margin-bottom: 5px;width:300px;"/>
+	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentImageFilePath" value="${advertisement.img}" disabled="disabled" style="margin-bottom: 5px;width:450px;"/>
 	        	<input type="file"  id="imgId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceImagePath" value="${advertisement.img}"/>
