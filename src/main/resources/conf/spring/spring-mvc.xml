@@ -92,7 +92,7 @@
 	</mvc:interceptors>
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-  		<property name="defaultLocale" value="zh_TW"></property>
+  		<property name="defaultLocale" value="zh_CN"></property>
  	</bean>
  
 	<!-- Application Message Bundle  -->

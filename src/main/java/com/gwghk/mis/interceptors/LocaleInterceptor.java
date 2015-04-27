@@ -26,7 +26,7 @@ public class LocaleInterceptor implements HandlerInterceptor {
 	
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		Locale locale = new Locale("zh", "TW");
+		Locale locale = new Locale("zh", "CN");
     	String lang = request.getParameter("locale");
     	if(StringUtils.isBlank(lang)){
     		lang=request.getParameter("request_locale");
@@ -39,7 +39,7 @@ public class LocaleInterceptor implements HandlerInterceptor {
 			}else if(lang.equalsIgnoreCase("en_US") ||  lang.equalsIgnoreCase("en")){
 				locale = new Locale("en", "US");
 			}else{
-				locale = new Locale("zh", "TW");
+				locale = new Locale("zh", "CN");
 			}
 			request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME,locale);
 			request.getSession().setAttribute(WebConstant.WW_TRANS_I18N_LOCALE,locale);

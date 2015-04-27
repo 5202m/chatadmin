@@ -61,7 +61,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(HttpServletRequest request, ModelMap map){
 		String locale = request.getParameter("locale");
-		map.addAttribute("locale",StringUtils.isEmpty(locale) ? WebConstant.LOCALE_ZH_TW : locale);
+		map.addAttribute("locale",StringUtils.isEmpty(locale) ? WebConstant.LOCALE_ZH_CN : locale);
 		return "login/login";
 	}
 	
@@ -71,7 +71,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String login(HttpServletRequest request, ModelMap map){
 		String locale = request.getParameter("locale");
-		map.addAttribute("locale",StringUtils.isEmpty(locale) ? WebConstant.LOCALE_ZH_TW : locale);
+		map.addAttribute("locale",StringUtils.isEmpty(locale) ? WebConstant.LOCALE_ZH_CN : locale);
 		return "login/login";
 	}
 	
