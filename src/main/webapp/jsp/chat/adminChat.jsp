@@ -16,6 +16,7 @@
 </style>
 <div class="easyui-layout" data-options="fit:true">
  	<div region="north" class="title" border="false" align="left" style="height:60px;">
+ 		<input type="hidden" id="chatURL" value="${chatURL}"/>
  		<c:choose>
  			<c:when test="${chatGroupList != null}">
 	 			<c:forEach items="${chatGroupList}" var="chatGroup">

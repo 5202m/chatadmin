@@ -1,17 +1,25 @@
 package com.gwghk.mis.controller;
 
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.UserService;
+import com.gwghk.mis.util.HttpClientUtils;
+import com.gwghk.mis.util.PropertiesUtil;
+import com.gwghk.mis.util.ResourceUtil;
 
 /**
  * 摘要：管理员聊天室管理
@@ -22,6 +30,8 @@ import com.gwghk.mis.service.UserService;
 @Controller
 public class AdminChatController extends BaseController{
 
+	private static final Logger logger = LoggerFactory.getLogger(AdminChatController.class);
+	
 	@Autowired
 	private UserService userService;
 	
@@ -36,6 +46,22 @@ public class AdminChatController extends BaseController{
 		BoUser boUser = ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY).getUser();
 		BoRole boRole = roleService.getByRoleId(boUser.getRole().getRoleId());
 		map.put("chatGroupList", boRole.getChatGroupList());
+		String token = "";
+		try{
+			String apiURL = PropertiesUtil.getInstance().getProperty("nodeAPIURL");
+			final String responseJson = HttpClientUtils.httpGetString(apiURL+"/token/getToken",null,"utf-8");
+			JSONObject jsonObject = JSONObject.fromObject(responseJson.trim());
+			if(jsonObject.containsKey("token")){
+				token = jsonObject.getString("token");
+			}
+		}catch(Exception e){
+			logger.error("<<get token fail !",e);
+		}
+		String chatUrl = PropertiesUtil.getInstance().getProperty("chatURL")+"?token="+token;
+		chatUrl += "&userId="+ResourceUtil.getSessionUser().getUserId()
+				+ "&nickname="+ResourceUtil.getSessionUser().getUserName()+"("+boRole.getRoleName()+")"
+				+ "&userType=2";
+		map.put("chatURL",chatUrl);
 		return "chat/adminChat";
 	}
 }

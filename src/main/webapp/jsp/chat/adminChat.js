@@ -21,7 +21,7 @@ var adminChat = {
 		var p = $('<div/>').appendTo('body');
 		p.panel({
 			title : groupName,
-			content:'<iframe src="' + 'http://127.0.0.1:3000/chat?userId=33&'+'groupId='+ groupId
+			content:'<iframe src="' + $("#chatURL").val()+'&groupId='+ groupId
 					+ '" frameborder=0 height=100% width=100% scrolling=no></iframe>',
 			height:500,
 			closable:true,
