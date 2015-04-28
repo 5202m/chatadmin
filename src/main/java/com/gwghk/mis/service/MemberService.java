@@ -12,9 +12,9 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.MemberDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatUserGroup;
+import com.gwghk.mis.model.FinanceApp;
 import com.gwghk.mis.model.LoginPlatform;
 import com.gwghk.mis.model.Member;
-import com.gwghk.mis.model.PmApp;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.MD5;
 import com.gwghk.mis.util.PropertiesUtil;
@@ -79,7 +79,7 @@ public class MemberService{
     			return result.setCode(ResultCode.Error102);
     		}
     		LoginPlatform lp=new LoginPlatform();
-    		PmApp pmApp=new PmApp();
+    		FinanceApp pmApp=new FinanceApp();
     		pmApp.setPwd(MD5.getMd5(PropertiesUtil.getInstance().getProperty("defaultPwd")));//密码默认设置123456
     		lp.setPmApp(pmApp);
     		memberParam.setLoginPlatform(lp);

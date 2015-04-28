@@ -3,7 +3,6 @@ package com.gwghk.mis.model;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @date   2015年4月10日
  */
 @Document
-public class PmApp {
+public class FinanceApp {
 	/**
 	 * 密码
 	 */

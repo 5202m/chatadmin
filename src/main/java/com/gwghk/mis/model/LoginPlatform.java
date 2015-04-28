@@ -17,10 +17,10 @@ public class LoginPlatform{
 	private List<ChatUserGroup> chatUserGroup;
 	
 	/**
-	 * pmApp登陆信息集
+	 * 第三方平台登录需要的信息
 	 */
-	private PmApp pmApp;
-
+	private FinanceApp pmApp;
+	
 	public List<ChatUserGroup> getChatUserGroup() {
 		return chatUserGroup;
 	}
@@ -29,14 +29,12 @@ public class LoginPlatform{
 		this.chatUserGroup = chatUserGroup;
 	}
 
-	public PmApp getPmApp() {
+	public FinanceApp getPmApp() {
 		return pmApp;
 	}
 
-	public void setPmApp(PmApp pmApp) {
+	public void setPmApp(FinanceApp pmApp) {
 		this.pmApp = pmApp;
 	}
-	
-	
 	
 }
