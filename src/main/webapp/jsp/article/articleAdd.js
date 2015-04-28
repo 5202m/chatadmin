@@ -30,7 +30,7 @@ var articleAdd = {
 			     $(tabTid+" td[tid=content]").html('<script id="'+editorId+'" name="content" type="text/plain" style="width:auto;height:auto;"></script>');
 			     UE.getEditor(editorId,{
 				  		initialFrameWidth : '100%',
-				  		initialFrameHeight:'400'
+				  		initialFrameHeight:'200'
 			  	  });
 			     $(tabTid+" form[name=articleDetailForm] input[type=hidden][name=lang]").val(lang);
 			}else{
