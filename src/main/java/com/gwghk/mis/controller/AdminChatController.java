@@ -1,7 +1,6 @@
 package com.gwghk.mis.controller;
 
 import net.sf.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
@@ -19,7 +17,6 @@ import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.HttpClientUtils;
 import com.gwghk.mis.util.PropertiesUtil;
-import com.gwghk.mis.util.ResourceUtil;
 
 /**
  * 摘要：管理员聊天室管理
@@ -58,8 +55,9 @@ public class AdminChatController extends BaseController{
 			logger.error("<<get token fail !",e);
 		}
 		String chatUrl = PropertiesUtil.getInstance().getProperty("chatURL")+"?token="+token;
-		chatUrl += "&userId="+ResourceUtil.getSessionUser().getUserId()
-				+ "&nickname="+ResourceUtil.getSessionUser().getUserName()+"("+boRole.getRoleName()+")"
+		chatUrl += "&userId="+userParam.getUserNo()
+				+ "&mobilePhone="+userParam.getTelephone()
+				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
 				+ "&back=true";
 		map.put("chatURL",chatUrl);
 		return "chat/adminChat";
