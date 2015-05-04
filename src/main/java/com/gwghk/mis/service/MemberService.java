@@ -1,5 +1,7 @@
 package com.gwghk.mis.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,6 +18,7 @@ import com.gwghk.mis.model.FinanceApp;
 import com.gwghk.mis.model.LoginPlatform;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.MD5;
 import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.StringUtil;
@@ -110,6 +113,23 @@ public class MemberService{
 		}
 	}
 
+	/**
+	 * 功能：设置禁言
+	 */
+	public ApiResult saveUserGag(String memberId,String gagStartDateF,String gagEndDateE,String gagTips){
+		Member member = memberDao.getByMemberId(memberId);
+		List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
+		if(userGroupList != null && userGroupList.size() > 0){
+			for(ChatUserGroup cg : userGroupList){
+				cg.setGagStartDate(DateUtil.parseDateSecondFormat(gagStartDateF));
+				cg.setGagEndDate(DateUtil.parseDateSecondFormat(gagEndDateE));
+				cg.setGagTips(gagTips);
+			}
+		}
+		memberDao.update(member);
+		return new ApiResult().setCode(ResultCode.OK);
+	}
+	
 	/**
 	 * 分页查询聊天室用户组信息
 	 * @param dCriteria

@@ -21,10 +21,10 @@ var chatUser = {
 			singleSelect : false,
 			url : basePath+'/chatUserController/datagrid.do?loginPlatform.chatUserGroup[0].id='+$("#chatUserGroupId").val(),
 			columns : [[
-			            {title : 'id',field : 'id',checkbox : true},
+			            {title : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
 							$("#chatUser_datagrid_rowOperation a").each(function(){
-								$(this).attr("id",rowData.id);
+								$(this).attr("id",rowData.memberId);
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
@@ -77,20 +77,37 @@ var chatUser = {
 		$('#'+chatUser.gridId).datagrid('reload');
 	},
 	/**
-	 * 功能：批量删除
+	 * 功能：设置禁言
 	 */
-	batchDel : function(){
-		var url = formatUrl(basePath + '/chatUserController/del.do');
-		goldOfficeUtils.deleteBatch('chatUser_datagrid',url);	
-	},
-	/**
-	 * 功能：删除单行
-	 * @param recordId  dataGrid行Id
-	 */
-	del : function(recordId){
+	setUserGag : function(recordId){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/del.do');
-		goldOfficeUtils.deleteOne('chatUser_datagrid',recordId,url);
+		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+recordId);
+		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
+		goldOfficeUtils.openEditorDialog({
+			title : '设置禁言',
+			width : 630,
+			height : 160,
+			href : url,
+			iconCls : 'ope-redo',
+			handler : function(){    //提交时处理
+				if($("#userGagForm").form('validate')){
+					goldOfficeUtils.ajaxSubmitForm({
+						url : submitUrl,
+						formId : 'userGagForm',
+						onSuccess : function(data){   //提交成功后处理
+							var d = $.parseJSON(data);
+							if (d.success) {
+								$("#myWindow").dialog("close");
+								chatUser.refresh();
+								$.messager.alert($.i18n.prop("common.operate.tips"),'设置禁言成功!','info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'设置禁言失败','error');
+							}
+						}
+					});
+				}
+			}
+		});
 	}
 };
 		

@@ -1,7 +1,6 @@
 package com.gwghk.mis.model;
 
 import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -44,6 +43,20 @@ public class ChatUserGroup {
 	 */
 	private String nickname;
 	
+	/**
+     * 禁言-开始时间
+     */
+	private Date  gagStartDate;
+	
+	/**
+     * 禁言-结束时间
+     */
+	private Date  gagEndDate;
+	
+	/**
+     * 禁言提示语
+     */
+	private String gagTips; 
 
 	public String getId() {
 		return id;
@@ -92,5 +105,28 @@ public class ChatUserGroup {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	
+
+	public Date getGagStartDate() {
+		return gagStartDate;
+	}
+
+	public void setGagStartDate(Date gagStartDate) {
+		this.gagStartDate = gagStartDate;
+	}
+
+	public Date getGagEndDate() {
+		return gagEndDate;
+	}
+
+	public void setGagEndDate(Date gagEndDate) {
+		this.gagEndDate = gagEndDate;
+	}
+
+	public String getGagTips() {
+		return gagTips;
+	}
+
+	public void setGagTips(String gagTips) {
+		this.gagTips = gagTips;
+	}
 }

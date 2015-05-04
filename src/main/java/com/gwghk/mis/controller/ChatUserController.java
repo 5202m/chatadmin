@@ -83,10 +83,47 @@ public class ChatUserController extends BaseController{
 	     return result;
 	}
 	
+	/**
+	 * 功能：进入用户禁言页面
+	 */
+    @RequestMapping(value="/chatUserController/toUserGag", method = RequestMethod.GET)
+    public String toUserGag(HttpServletRequest request,ModelMap map) throws Exception {
+    	 map.put("memberId", request.getParameter("memberId"));
+    	 return "chat/userGag";
+    }
+    
+	/**
+	 * 功能：设置用户禁言
+	 */
+	@RequestMapping(value="/chatUserController/setUserGag",method=RequestMethod.POST)
+    @ResponseBody
+    public AjaxJson setUserGag(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String memberId = request.getParameter("memberId");
+		String gagStartDateF = request.getParameter("gagStartDateF");
+		String gagEndDate = request.getParameter("gagEndDateE");
+		String gagTips = request.getParameter("gagTips");
+		ApiResult apiResult = memberService.saveUserGag(memberId,gagStartDateF,gagEndDate,gagTips);
+		if(apiResult.isOk()){
+			j.setSuccess(true);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:batchDel()|"+message);
+		}else{
+			j.setSuccess(false);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户禁言失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+apiResult.toString());
+		}
+		return j;
+	} 
+	
    /**
   	* 功能：聊天室内容管理-删除
   	*/
-    @RequestMapping(value="/chatUserController/del",method=RequestMethod.POST)
+    @RequestMapping(value="/chatUserController/del")
     @ResponseBody
     @ActionVerification(key="delete")
     public AjaxJson del(HttpServletRequest request,HttpServletResponse response){

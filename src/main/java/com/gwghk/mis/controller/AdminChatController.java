@@ -58,7 +58,7 @@ public class AdminChatController extends BaseController{
 		chatUrl += "&userId="+userParam.getUserNo()
 				+ "&mobilePhone="+userParam.getTelephone()
 				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
-				+ "&back=true";
+				+ "&fromPlatform=pm_mis";
 		map.put("chatURL",chatUrl);
 		return "chat/adminChat";
 	}

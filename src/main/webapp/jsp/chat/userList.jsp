@@ -55,13 +55,12 @@
   
    <!-- datagrid-toolbar -->
   <div id="chatUser_datagrid_toolbar" style="display:none;">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatUser.refresh()"><spring:message code="common.buttons.refresh" /></a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatUser.batchDel();">踢出用户</a>
+      <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatUser.refresh()"><spring:message code="common.buttons.refresh" /></a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="chatUser_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatUser.del(this.id)">踢出用户</a>
+	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatUser.setUserGag(this.id)">设置禁言时间</a>
   </div>
  
 </div>
