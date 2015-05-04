@@ -7,7 +7,7 @@
         <th width="15%"><spring:message code="user.no" /><!-- 账号 --><span class="red">*</span></th>
         <td width="35%"><input type="text" name="userNo" id="userNo" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'<spring:message code="user.valid.no" />'" value="${mngUser.userNo}"/></td>
-        <th width="15%"><spring:message code="user.name" /><!-- 姓名 --></th>
+        <th width="15%"><spring:message code="user.name" /><!-- 姓名 --><span class="red">*</span></th>
         <td width="35%"><input type="text" name="userName" id="userName" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'<spring:message code="user.valid.name" />'" value="${mngUser.userName}"/></td>
       </tr>
