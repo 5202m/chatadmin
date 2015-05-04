@@ -60,7 +60,7 @@
   
   <!-- datagrid-操作按钮 -->
   <div id="chatUser_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatUser.setUserGag(this.id)">设置禁言时间</a>
+	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatUser.setUserGag(this)">设置禁言时间</a>
   </div>
  
 </div>

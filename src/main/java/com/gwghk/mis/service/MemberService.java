@@ -116,14 +116,17 @@ public class MemberService{
 	/**
 	 * 功能：设置禁言
 	 */
-	public ApiResult saveUserGag(String memberId,String gagStartDateF,String gagEndDateE,String gagTips){
+	public ApiResult saveUserGag(String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips){
 		Member member = memberDao.getByMemberId(memberId);
 		List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
 		if(userGroupList != null && userGroupList.size() > 0){
 			for(ChatUserGroup cg : userGroupList){
-				cg.setGagStartDate(DateUtil.parseDateSecondFormat(gagStartDateF));
-				cg.setGagEndDate(DateUtil.parseDateSecondFormat(gagEndDateE));
-				cg.setGagTips(gagTips);
+				if(groupId.equals(cg.getId())){
+					cg.setGagStartDate(DateUtil.parseDateSecondFormat(gagStartDateF));
+					cg.setGagEndDate(DateUtil.parseDateSecondFormat(gagEndDateE));
+					cg.setGagTips(gagTips);
+					break;
+				}
 			}
 		}
 		memberDao.update(member);

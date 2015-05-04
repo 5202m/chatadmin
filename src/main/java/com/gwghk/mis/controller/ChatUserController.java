@@ -30,6 +30,7 @@ import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
@@ -88,7 +89,22 @@ public class ChatUserController extends BaseController{
 	 */
     @RequestMapping(value="/chatUserController/toUserGag", method = RequestMethod.GET)
     public String toUserGag(HttpServletRequest request,ModelMap map) throws Exception {
-    	 map.put("memberId", request.getParameter("memberId"));
+    	 String memberId = request.getParameter("memberId");
+    	 String groupId = request.getParameter("groupId");
+    	 Member member = memberService.getByMemberId(memberId);
+    	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
+ 		 if(userGroupList != null && userGroupList.size() > 0){
+ 			for(ChatUserGroup cg : userGroupList){
+ 				if(groupId.equals(cg.getId())){
+ 					map.put("gagStartDate", cg.getGagStartDate());
+ 			    	map.put("gagEndDate", cg.getGagEndDate());
+ 			    	map.put("gagTips", cg.getGagTips());
+ 					break;
+ 				}
+ 			}
+ 		 }
+ 		 map.put("memberId", memberId);
+    	 map.put("groupId", groupId);
     	 return "chat/userGag";
     }
     
@@ -100,10 +116,11 @@ public class ChatUserController extends BaseController{
     public AjaxJson setUserGag(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String memberId = request.getParameter("memberId");
+		String groupId = request.getParameter("groupId");
 		String gagStartDateF = request.getParameter("gagStartDateF");
 		String gagEndDate = request.getParameter("gagEndDateE");
 		String gagTips = request.getParameter("gagTips");
-		ApiResult apiResult = memberService.saveUserGag(memberId,gagStartDateF,gagEndDate,gagTips);
+		ApiResult apiResult = memberService.saveUserGag(memberId,groupId,gagStartDateF,gagEndDate,gagTips);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
