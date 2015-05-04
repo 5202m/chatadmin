@@ -60,7 +60,7 @@ public class AdminChatController extends BaseController{
 		String chatUrl = PropertiesUtil.getInstance().getProperty("chatURL")+"?token="+token;
 		chatUrl += "&userId="+ResourceUtil.getSessionUser().getUserId()
 				+ "&nickname="+ResourceUtil.getSessionUser().getUserName()+"("+boRole.getRoleName()+")"
-				+ "&userType=2";
+				+ "&back=true";
 		map.put("chatURL",chatUrl);
 		return "chat/adminChat";
 	}
