@@ -53,7 +53,7 @@ public class ArticleDao extends MongoDBBaseDao{
 	 * @throws Exception 
 	 */
 	public void addArticle(Article article) throws Exception{
-		article.setId(this.getNextSeqId(IdSeq.Article));
+		article.setId(this.getIncSeq(IdSeq.Article).toString());
 		article.setStatus(1);
 		this.add(article);
 	}

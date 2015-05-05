@@ -120,7 +120,7 @@ public class UserController extends BaseController{
    	 */
     @RequestMapping(value="/userController/create",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson create(HttpServletRequest request,HttpServletResponse response,BoUser user){
+    public AjaxJson create(HttpServletRequest request,BoUser user){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	user.setCreateUser(userParam.getUserNo());
     	user.setCreateIp(IPUtil.getClientIP(request));
@@ -147,7 +147,7 @@ public class UserController extends BaseController{
    	*/
     @RequestMapping(value="/userController/update",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson update(HttpServletRequest request,HttpServletResponse response,BoUser user){
+    public AjaxJson update(HttpServletRequest request,BoUser user){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	user.setUpdateUser(userParam.getUserNo());
     	user.setUpdateIp(IPUtil.getClientIP(request));

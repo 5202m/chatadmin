@@ -31,7 +31,10 @@ var systemUser = {
 			            {title : $.i18n.prop("user.email"),field : 'email'},						/**Email*/
 						{title : $.i18n.prop("user.phone"),field : 'telephone',sortable : true},	/**手机号*/		
 						{title : $.i18n.prop("user.role"),field :'roleName',sortable : true,formatter : function(value, rowData, rowIndex) {/**状态*/
-						  return rowData.role.roleName;
+						    if(rowData.role != null){
+						    	return rowData.role.roleName;
+						    }
+							return '';
 						}},   	/**所属角色*/
 						{title : $.i18n.prop("common.status"),field : 'status',sortable : true,formatter : function(value, rowData, rowIndex) {/**状态*/
 							if (value == 0) {

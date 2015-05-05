@@ -45,7 +45,7 @@ public class CategoryDao extends MongoDBBaseDao{
 	 * 功能：新增栏目
 	 */
     public boolean addCategory(Category category){
-    	category.setId(this.getNextSeqId(IdSeq.Category));
+    	category.setId(this.getIncSeq(IdSeq.Category).toString());
     	category.setStatus(1);
 		this.add(category);
 		return true;

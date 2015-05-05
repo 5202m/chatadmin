@@ -125,20 +125,15 @@ public class UserService{
     			boRole=roleDao.getByRoleId(roleId);
         	}
     	}
-    	
     	if(isUpdate){
     		BoUser user=userDao.getByUserId(userParam.getUserId());
     		if(user==null){
     			return result.setCode(ResultCode.Error104);
     		}
+    		BeanUtils.copyExceptNull(user, userParam);
     		if(boRole!=null){
-    			BoRole dbBoRole=user.getRole();
-    			if(dbBoRole!=null){
-    				userDao.remove(dbBoRole);
-    			}
     			user.setRole(boRole);
     		}
-        	BeanUtils.copyExceptNull(user, userParam);
     		userDao.update(user);
     	}else{
     		if(userDao.getByUserNo(userParam.getUserNo())!=null){

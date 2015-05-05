@@ -30,7 +30,7 @@
       <tr>
         <th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
         <td width="35%">
-         	<select id="roleId" name="roleId" style="width: 155px;">
+         	<select id="roleId" name="role.roleId" style="width: 155px;">
          		<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
          		<c:forEach var="role" items="${roleList}">
       				<option value="${role.roleId}">${role.roleName}</option>

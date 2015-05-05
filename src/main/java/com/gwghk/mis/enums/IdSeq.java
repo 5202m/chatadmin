@@ -16,8 +16,8 @@ public enum IdSeq {
     Advertisement("AD",1000000),
     Account("AC",1000000),
     Member("MB",1000000),
-    Category("CA",1000),
-    Article("AR",1000),
+    Category("",1),
+    Article("",10000000),
     ChatGroupRule("CGR",1000);
 	public static final char[] charArray = new char[] { 'A', 'B', 'C', 'D',
 		'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',

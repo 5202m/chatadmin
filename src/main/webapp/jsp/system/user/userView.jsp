@@ -16,7 +16,7 @@
       </tr>
       <tr>
         <th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
-        <td width="35%"><span>${mngUser.roleName}</span></td>
+        <td width="35%"><span>${mngUser.role.roleName}</span></td>
         <th width="15%"><spring:message code="common.status" /><!-- 状态 --></th>
         <td width="35%">
         	<span>

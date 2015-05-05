@@ -21,11 +21,11 @@
       <tr>
         <th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
         <td width="35%">
-         	<select id="roleId" name="roleId" style="width: 155px;">
+         	<select id="roleId" name="role.roleId" style="width: 155px;">
          		<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
          		<c:forEach var="role" items="${roleList}">
          		   <c:choose>
-	      				 <c:when test="${role.roleId == mngUser.roleId}"> 
+	      				 <c:when test="${role.roleId == mngUser.role.roleId}"> 
 					      	<option value="${role.roleId}" selected="selected">${role.roleName}</option>
 					     </c:when> 
 					     <c:otherwise> 
@@ -53,7 +53,6 @@
         <td width="35%" colspan="3"><textarea name="remark" id="remark"  rows="5" cols="70">${mngUser.remark}</textarea></td>
       </tr>
     </table>
-    <input type="hidden" name="id" value="${mngUser.id}"/>
     <input type="hidden" name="userId" value="${mngUser.userId}"/>
   </form>
 </div>

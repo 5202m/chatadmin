@@ -74,7 +74,32 @@ public class MongoDBBaseDao implements IBaseDao{
 			.append(charArray[charArrayIndex])
 			.append(String.valueOf(jobNo % startNum + startNum).substring(1));
 		return sb.toString();
-	 }
+	}
+	
+	/**
+	 * 功能：获取自增长的seq
+	 */
+	public Long getIncSeq(IdSeq seq){
+		String name=seq.name();
+		//自增序列 id，从 1开始
+	    Update update = new Update();
+		update.inc("seq", 1);
+		//返回新自增序列 id
+		FindAndModifyOptions options = new FindAndModifyOptions();
+		options.returnNew(true);
+		SequenceId seqId = mongoTemplate.findAndModify(new Query(Criteria.where("id").is(name)), update, options, SequenceId.class);
+		Long startNum=seq.getStartNum();
+		Long seqNo=startNum;
+		if(seqId != null) {
+			seqNo = seqId.getSeq();
+		}else{
+			SequenceId newSeq=new SequenceId();
+			newSeq.setId(name);
+			newSeq.setSeq(startNum);
+			mongoTemplate.insert(newSeq);
+		}
+		return seqNo;
+	}
 	
     /** 
      * 功能：根据主键id-->获取对象
