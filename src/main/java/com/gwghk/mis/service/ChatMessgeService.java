@@ -1,5 +1,7 @@
 package com.gwghk.mis.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,8 +25,10 @@ import com.gwghk.mis.util.StringUtil;
 public class ChatMessgeService{
 
 	@Autowired
-	private ChatMessageDao chatContentDao;
-	
+	private ChatMessageDao chatMessageDao;
+
+	@Autowired
+	private ChatApiService chatApiService;
 	/**
 	 * 删除内容
 	 * @param ids
@@ -34,11 +38,32 @@ public class ChatMessgeService{
 		ApiResult api=new ApiResult();
 		ChatMessage content=null;
 		boolean isSuccess=false;
+		List<ChatMessage> list=chatMessageDao.getListByIds(ids, "publishTime","groupId");
 	    for(String id:ids){
 	    	content=new ChatMessage();
 	    	content.setId(id);
-	    	chatContentDao.remove(content);
+	    	chatMessageDao.remove(content);
 	    	isSuccess=true;
+	    }
+	    if(isSuccess){
+	    	int size=0;
+	    	String groupId="";
+	    	ChatMessage row=null;
+	    	if(list!=null && (size=list.size())>0){
+	    		StringBuffer buffer=new StringBuffer();
+	    		for(int i=0;i<size;i++){
+	    			row=list.get(i);
+	    			buffer.append(row.getPublishTime());
+	    			groupId=row.getGroupId();
+	    			if(i!=size-1){
+	    				buffer.append(",");
+	    			}
+		    	}
+	    		if(buffer.length()>0){
+	    			//通知聊天室客户端移除对应记录
+	        		chatApiService.removeMsg(buffer.toString(),groupId);
+	    		}
+	    	}
 	    }
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
@@ -50,25 +75,25 @@ public class ChatMessgeService{
 	 */
 	public Page<ChatMessage> getChatMessagePage(
 			DetachedCriteria<ChatMessage> dCriteria) {
-		Criteria criter=new Criteria();
+		Criteria criteria=new Criteria();
 		ChatMessage model=dCriteria.getSearchModel();
 		if(model!=null){
 			if(StringUtils.isNotBlank(model.getUserId())){
-				criter.and("id").regex(StringUtil.toFuzzyMatch(model.getUserId()));
+				criteria.and("id").regex(StringUtil.toFuzzyMatch(model.getUserId()));
 			}
-			if(StringUtils.isNotBlank(model.getUserNickname())){
-				criter.and("nickname").regex(StringUtil.toFuzzyMatch(model.getUserNickname()));
+			if(StringUtils.isNotBlank(model.getNickname())){
+				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
 			}
 			if(model.getUserType()!=null){
-				criter.and("userType").is(model.getUserType());
+				criteria.and("userType").is(model.getUserType());
 			}
 			if(StringUtils.isNotBlank(model.getGroupId())){
-				criter.and("groupId").is(model.getGroupId());
+				criteria.and("groupId").is(model.getGroupId());
 			}
 			if(StringUtils.isNotBlank(model.getStatus())){
-				criter.and("status").is(model.getStatus());
+				criteria.and("status").is(model.getStatus());
 			}
 		}
-		return chatContentDao.findPage(ChatMessage.class, Query.query(criter), dCriteria);
+		return chatMessageDao.findPage(ChatMessage.class, Query.query(criteria), dCriteria);
 	}
 }

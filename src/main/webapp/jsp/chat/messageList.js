@@ -19,7 +19,7 @@ var chatMessage = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatMessageController/datagrid.do',
+			url : basePath+'/chatMessageController/datagrid.do?groupId='+$("#chatMessageGroupId").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -39,11 +39,22 @@ var chatMessage = {
 			            {title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
+						{title : '用户来源',field : 'fromPlatform'},
+						{title : '消息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
+							var type=rowData.content.msgType;
+							if(type=='text'){
+								return "文本";
+							}
+							if(type=='img'){
+								return "图片";
+							}
+							return "";
+						}},
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
 							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
 						}},
-						{title : '发布时间',field : 'publishTime',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value/1000) : '';
+						{title : '发布时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}}
 						
 			]],

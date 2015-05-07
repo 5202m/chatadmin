@@ -17,12 +17,12 @@ public class ChatOnlineUser{
 	/**
 	 * 用户昵称
 	 */
-	protected String userNickname;
+	protected String nickname;
 	
 	/**
 	 * 用户头像
 	 */
-	protected String userAvatar;
+	protected String avatar;
 	
 	
 	/**
@@ -39,6 +39,9 @@ public class ChatOnlineUser{
 	 * 上线时间
 	 */
 	private Date onlineDate;
+	
+	
+	private String fromPlatform;//平台来源
 
 	public String getUserId() {
 		return userId;
@@ -48,20 +51,20 @@ public class ChatOnlineUser{
 		this.userId = userId;
 	}
 
-	public String getUserNickname() {
-		return userNickname;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setUserNickname(String userNickname) {
-		this.userNickname = userNickname;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
-	public String getUserAvatar() {
-		return userAvatar;
+	public String getAvatar() {
+		return avatar;
 	}
 
-	public void setUserAvatar(String userAvatar) {
-		this.userAvatar = userAvatar;
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	public Integer getUserType() {
@@ -86,5 +89,14 @@ public class ChatOnlineUser{
 
 	public void setOnlineDate(Date onlineDate) {
 		this.onlineDate = onlineDate;
+	}
+	
+
+	public String getFromPlatform() {
+		return fromPlatform;
+	}
+
+	public void setFromPlatform(String fromPlatform) {
+		this.fromPlatform = fromPlatform;
 	}
 }

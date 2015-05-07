@@ -65,7 +65,7 @@ var chatUser = {
 				queryParams[this.name] = $(this).val();
 			});
 			$('#'+chatUser.gridId).datagrid({
-				url : basePath+'/chatUserController/datagrid.do?groupId='+$("#chatUserGroupId").val(),
+				url : basePath+'/chatUserController/datagrid.do',
 				pageNumber : 1
 			});
 		});

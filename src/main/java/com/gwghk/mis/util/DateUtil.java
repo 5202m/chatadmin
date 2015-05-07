@@ -11,6 +11,34 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class DateUtil {
+	public final static String FORMAT_YYYYDDMMHHMMSS="YYYY/dd/MM HH:mm:ss";
+	/**
+	 * MM/dd/yyyy
+	 */
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	/**
+	 * MM/dd/yyyy HH:mm
+	 */
+	private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+	/**
+	 * MM/dd/yyyy HH:mm:ss
+	 */
+	@SuppressWarnings("unused")
+	private static final SimpleDateFormat DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	/**
+	 * yyyyMMdd
+	 */
+	private static final SimpleDateFormat ORA_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+	/**
+	 * yyyyMMddHHmm
+	 */
+	private static final SimpleDateFormat ORA_DATE_TIME_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
+	/**
+	 * yyyyMMddHHmmss
+	 */
+	@SuppressWarnings("unused")
+	private static final SimpleDateFormat ORA_DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+	
 	final static Logger logger = Logger.getLogger(DateUtil.class);
 
 	private static final int[] dayArray = new int[] { 31, 28, 31, 30, 31, 30,
@@ -514,6 +542,7 @@ public class DateUtil {
 	 */
 	public static synchronized Date parseDateFormat(String strDate,
 			String pattern) {
+		System.out.println(strDate);
 		if(StringUtils.isBlank(strDate)){
 			return null;
 		}
@@ -523,6 +552,7 @@ public class DateUtil {
 			try {
 				date = sdf.parse(strDate);
 			} catch (Exception e) {
+				System.out.println(e.getMessage());
 				return null;
 			}
 			return date;
@@ -1287,38 +1317,7 @@ public class DateUtil {
 		return toString(theDate, theFormat);
 	}
 
-	/**
-	 * ��׼���ڸ�ʽ
-	 */
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
-			"MM/dd/yyyy");
-	/**
-	 * ��׼ʱ���ʽ
-	 */
-	private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat(
-			"MM/dd/yyyy HH:mm");
-	/**
-	 * ��ʱ����ı�׼ʱ���ʽ
-	 */
-	@SuppressWarnings("unused")
-	private static final SimpleDateFormat DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat(
-			"MM/dd/yyyy HH:mm:ss");
-	/**
-	 * ORA��׼���ڸ�ʽ
-	 */
-	private static final SimpleDateFormat ORA_DATE_FORMAT = new SimpleDateFormat(
-			"yyyyMMdd");
-	/**
-	 * ORA��׼ʱ���ʽ
-	 */
-	private static final SimpleDateFormat ORA_DATE_TIME_FORMAT = new SimpleDateFormat(
-			"yyyyMMddHHmm");
-	/**
-	 * ��ʱ�����ORA��׼ʱ���ʽ
-	 */
-	@SuppressWarnings("unused")
-	private static final SimpleDateFormat ORA_DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat(
-			"yyyyMMddHHmmss");
+
 
 	/**
 	 * ����һ���׼���ڸ�ʽ�Ŀ�¡

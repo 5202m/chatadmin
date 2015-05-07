@@ -8,27 +8,26 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
-import com.gwghk.mis.enums.ApiDir;
 import com.gwghk.mis.model.ChatOnlineUser;
 import com.gwghk.mis.util.HttpClientUtils;
 import com.gwghk.mis.util.PropertiesUtil;
 
 /**
- * Node API请求服务类
+ * 聊天室API请求服务类
  * @author Alan.wu
  * @date  2015年4月1日
  */
 @Service
-public class NodeAPIService{
+public class ChatApiService{
 	/**
 	 * 格式请求url
 	 * @return
 	 */
-	private String formatUrl(ApiDir apiDir,String actionName){
-		return String.format("%s%s/%s",PropertiesUtil.getInstance().getProperty("nodeAPIUrl"),apiDir.getValue(),actionName);
+	private String formatUrl(String actionName){
+		return String.format("%s/%s",PropertiesUtil.getInstance().getProperty("chatApiUrl"),actionName);
 	}
 	
 	/**
@@ -45,7 +44,7 @@ public class NodeAPIService{
         			 paramMap.put("groupId", model.getGroupId());
         		 }
         	 }
-			 String str=HttpClientUtils.httpGetString(formatUrl(ApiDir.chat,"getUser"),paramMap);
+			 String str=HttpClientUtils.httpGetString(formatUrl("getOnlineUser"),paramMap);
 			 List<ChatOnlineUser> list=JSON.parseArray(str,ChatOnlineUser.class);
 			 page.addAll(list);
 			 page.setTotalSize(list.size());
@@ -53,5 +52,26 @@ public class NodeAPIService{
 			return null;
 		}
 		return page;
+    }
+    
+	/**
+	 * 通知移除聊天内容
+	 * @param msgId
+	 */
+    public boolean removeMsg(String msgIds,String groupId){
+    	 Map<String, String> paramMap=new HashMap<String, String>();
+    	 paramMap.put("msgIds", msgIds);
+    	 paramMap.put("groupId", groupId);
+         try {
+			String str=HttpClientUtils.httpPostString(formatUrl("removeMsg"),paramMap);
+			if(StringUtils.isNotBlank(str)){
+				JSONObject obj=JSON.parseObject(str);
+				return obj.getBoolean("isOk");
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
     }
 } 

@@ -6,7 +6,6 @@ package com.gwghk.mis.enums;
  * 2015年3月20日
  */
 public enum ApiDir{
-	chat("chat"), 
 	app("app");
 	private String value;
 

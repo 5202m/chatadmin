@@ -328,7 +328,6 @@ public class HttpClientUtils {
 		} else {
 			strtTotalURL = strUrl + "&" + getUrl(map);
 		}
-        System.out.println("strtTotalURL:"+strtTotalURL);
 		return strtTotalURL;
 	}
 	

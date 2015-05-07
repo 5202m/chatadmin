@@ -30,6 +30,7 @@ import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.service.ChatApiService;
 import com.gwghk.mis.service.ChatMessgeService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -51,7 +52,6 @@ public class ChatMessageController extends BaseController{
 	private ChatMessgeService chatContentService;
 	@Autowired
 	private ChatGroupService chatGroupService;
-
 	/**
 	 * 功能：聊天室信息管理-首页
 	 */
@@ -69,13 +69,15 @@ public class ChatMessageController extends BaseController{
 	 * 获取datagrid列表
 	 * @param request
 	 * @param dataGrid  分页查询参数对象
-	 * @param chatContent   实体查询参数对象
+	 * @param chatMessage   实体查询参数对象
 	 * @return Map<String,Object> datagrid需要的数据
 	 */
 	@RequestMapping(value = "/chatMessageController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage chatContent){
-		 Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatContent));
+	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage chatMessage){
+		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
+		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
+		 Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());

@@ -20,11 +20,6 @@ public class ChatMessage extends ChatOnlineUser{
 	private String id;
 	
 	/**
-	 * 信息类型(text,img,file)
-	 */
-	private String msgType;
-	
-	/**
 	 * 信息内容
 	 */
 	private ChatContent content;
@@ -37,7 +32,7 @@ public class ChatMessage extends ChatOnlineUser{
 	/**
 	 * 发布日期
 	 */
-	private long publishTime;
+	private String publishTime;
 	
 	private String createUser;
 
@@ -45,6 +40,17 @@ public class ChatMessage extends ChatOnlineUser{
 
 	private Date createDate;
 
+	/**
+	 * 发布开始日期（用于查询）
+	 */
+	private String publishStartDateStr;
+	
+	/**
+	 * 发布结束日期（用于查询）
+	 */
+	private String publishEndDateStr;
+	
+	
 	public String getId() {
 		return id;
 	}
@@ -61,11 +67,11 @@ public class ChatMessage extends ChatOnlineUser{
 		this.status = status;
 	}
 
-	public long getPublishTime() {
+	public String getPublishTime() {
 		return publishTime;
 	}
 
-	public void setPublishTime(long publishTime) {
+	public void setPublishTime(String publishTime) {
 		this.publishTime = publishTime;
 	}
 
@@ -93,14 +99,6 @@ public class ChatMessage extends ChatOnlineUser{
 		this.createDate = createDate;
 	}
 
-	public String getMsgType() {
-		return msgType;
-	}
-
-	public void setMsgType(String msgType) {
-		this.msgType = msgType;
-	}
-
 	public ChatContent getContent() {
 		return content;
 	}
@@ -109,5 +107,20 @@ public class ChatMessage extends ChatOnlineUser{
 		this.content = content;
 	}
 
+	public String getPublishStartDateStr() {
+		return publishStartDateStr;
+	}
+
+	public void setPublishStartDateStr(String publishStartDateStr) {
+		this.publishStartDateStr = publishStartDateStr;
+	}
+
+	public String getPublishEndDateStr() {
+		return publishEndDateStr;
+	}
+
+	public void setPublishEndDateStr(String publishEndDateStr) {
+		this.publishEndDateStr = publishEndDateStr;
+	}
 	
 }
