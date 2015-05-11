@@ -45,7 +45,7 @@ public class AdminChatController extends BaseController{
 		map.put("chatGroupList", boRole.getChatGroupList());
 		String token = "";
 		try{
-			String apiURL = PropertiesUtil.getInstance().getProperty("nodeAPIURL");
+			String apiURL = PropertiesUtil.getInstance().getProperty("pmApiUrl");
 			final String responseJson = HttpClientUtils.httpGetString(apiURL+"/token/getToken",null,"utf-8");
 			JSONObject jsonObject = JSONObject.fromObject(responseJson.trim());
 			if(jsonObject.containsKey("token")){
