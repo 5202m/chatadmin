@@ -1,0 +1,190 @@
+/**
+ * 摘要：token设置-公用js
+ * @author Gavin.guo
+ * @date   2015-05-11
+ */
+var tokenaccess = {
+	gridId : 'tokenaccess_datagrid',
+	init : function(){
+		this.initGrid();
+		this.setEvent();
+	},
+	/**
+	 * 功能：dataGrid初始化
+	 */
+	initGrid : function(){
+		goldOfficeUtils.dataGrid({
+			gridId : tokenaccess.gridId,
+			idField : 'tokenaccessId',
+			sortName : 'tokenaccessId',
+			sortOrder : 'desc',
+			singleSelect : false,
+			url : basePath+'/tokenaccessController/datagrid.do',
+			columns : [[
+			            {title : 'tokenAccessId',field : 'tokenAccessId',checkbox : true},
+			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
+							$("#tokenaccess_datagrid_rowOperation a").each(function(){
+								$(this).attr("id",rowData.tokenAccessId);
+						    });
+							return $("#tokenaccess_datagrid_rowOperation").html();
+						}},
+						{title : 'appId',field : 'appId'},
+			            {title : 'appSecret',field : 'appSecret'},
+						{title : '是否启动',field : 'status',sortable : true,formatter : function(value, rowData, rowIndex) {
+							if (value == 0) {
+								return '禁用';
+							} else {
+								return '启用';
+							}
+						}}
+			]],
+			toolbar : '#tokenaccess_datagrid_toolbar'
+		});
+	},
+	setEvent:function(){
+		// 列表查询
+		$("#tokenaccess_queryForm_search").on("click",function(){
+			var queryParams = $('#'+tokenaccess.gridId).datagrid('options').queryParams;
+			$('#'+tokenaccess.gridId).datagrid({
+				url : basePath+'/tokenaccessController/datagrid.do',
+				pageNumber : 1
+			});
+		});
+		// 重置
+		$("#tokenaccess_queryForm_reset").on("click",function(){
+			$("#tokenaccess_queryForm")[0].reset();
+		});
+	},
+	/**
+	 * 功能：增加
+	 */
+	add : function(){
+		var url = formatUrl(basePath + '/tokenAccessController/add.do');
+		var submitUrl =  formatUrl(basePath + '/tokenAccessController/create.do');
+		goldOfficeUtils.openEditorDialog({
+			title : $.i18n.prop("common.operatetitle.add"),
+			height : 220,
+			href : url,
+			iconCls : 'pag-add',
+			handler : function(){   //提交时处理
+				if($("#tokenAccessAddForm").form('validate')){
+					goldOfficeUtils.ajaxSubmitForm({
+						url : submitUrl,
+						formId : 'tokenAccessAddForm',
+						onSuccess : function(data){  //提交成功后处理
+							var d = $.parseJSON(data);
+							if (d.success) {
+								// 提交成功后先关闭弹出框,然后刷新表格,弹出对应的成功提示
+								$("#myWindow").dialog("close");
+								tokenaccess.refresh();
+								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.addsuccess"),'info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');
+							}
+						}
+					});
+				}
+			}
+		});
+	},
+	/**
+	 * 功能：新增时保存
+	 */
+	onSaveAdd : function(){
+		if($("#tokenAccessAddForm").form('validate')){
+			$.messager.progress();    		  		//提交时，加入进度框
+			var serializetokenAccessAddFormData = $("#tokenAccessAddForm").serialize();
+			getJson(formatUrl(basePath + '/tokenAccessController/create.do'),serializetokenAccessAddFormData,function(data){
+				$.messager.progress('close');
+				if(data.success){
+					alert("新增token成功 !");
+					jumpRequestPage(basePath + '/tokenAccessController/index.do');
+				}else{
+					alert("新增token失败，错误信息："+data.msg);
+				}
+			},true);
+		}
+	},
+	/**
+	 * 功能：修改
+	 */
+	edit : function(recordId){
+		var url = formatUrl(basePath + '/tokenAccessController/add.do');
+		var submitUrl =  formatUrl(basePath + '/tokenAccessController/create.do');
+		goldOfficeUtils.openEditorDialog({
+			title : $.i18n.prop("common.operatetitle.add"),				/**添加记录*/
+			height : 220,
+			href : url,
+			iconCls : 'pag-add',
+			handler : function(){   //提交时处理
+				if($("#tokenAccessEditForm").form('validate')){
+					goldOfficeUtils.ajaxSubmitForm({
+						url : submitUrl,
+						formId : 'tokenAccessEditForm',
+						onSuccess : function(data){  //提交成功后处理
+							var d = $.parseJSON(data);
+							if (d.success) {
+								// 提交成功后先关闭弹出框,然后刷新表格,弹出对应的成功提示
+								$("#myWindow").dialog("close");
+								tokenaccess.refresh();
+								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.addsuccess"),'info');   /**操作提示  新增成功!*/
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');   	/**操作提示 新增失败!*/
+							}
+						}
+					});
+				}
+			}
+		});
+	},
+	/**
+	 * 功能：修改时保存
+	 */
+	onSaveEdit : function(){
+		if($("#tokenAccessEditForm").form('validate')){
+			$.messager.progress();    		  		//提交时，加入进度框
+			var serializeTokenAccessFormData = $("#tokenAccessEditForm").serialize();
+			getJson(formatUrl(basePath + '/tokenAccessController/update.do'),serializeTokenAccessFormData,function(data){
+				$.messager.progress('close');
+				if(data.success){
+					alert("修改token成功 !");
+					jumpRequestPage(basePath + '/tokenAccessController/index.do');
+				}else{
+					alert("修改token失败，错误信息："+data.msg);
+				}
+			},true);
+		}
+	},
+	/**
+	 * 功能：刷新
+	 */
+	refresh : function(){
+		$('#'+tokenaccess.gridId).datagrid('reload');
+	},
+	/**
+	 * 功能：批量删除
+	 */
+	batchDel : function(){
+		var url = formatUrl(basePath + '/tokenaccessController/batchDel.do');
+		goldOfficeUtils.deleteBatch('tokenaccess_datagrid',url,"tokenAccessId");	
+	},
+	/**
+	 * 功能：删除单行
+	 */
+	del : function(recordId){
+		$("#tokenaccess_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/tokenaccessController/oneDel.do');
+		goldOfficeUtils.deleteOne('tokenaccess_datagrid',recordId,url);
+	},
+	/**
+	 * 功能：返回到主列表页面
+	 */
+	back : function(){
+		jumpRequestPage(basePath + '/tokenaccessController/index.do');
+	}
+};
+		
+//初始化
+$(function() {
+	tokenaccess.init();
+});
