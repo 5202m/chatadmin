@@ -19,7 +19,7 @@ var tokenaccess = {
 			sortName : 'tokenaccessId',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/tokenaccessController/datagrid.do',
+			url : basePath+'/tokenAccessController/datagrid.do',
 			columns : [[
 			            {title : 'tokenAccessId',field : 'tokenAccessId',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -46,7 +46,7 @@ var tokenaccess = {
 		$("#tokenaccess_queryForm_search").on("click",function(){
 			var queryParams = $('#'+tokenaccess.gridId).datagrid('options').queryParams;
 			$('#'+tokenaccess.gridId).datagrid({
-				url : basePath+'/tokenaccessController/datagrid.do',
+				url : basePath+'/tokenAccessController/datagrid.do',
 				pageNumber : 1
 			});
 		});
@@ -63,7 +63,8 @@ var tokenaccess = {
 		var submitUrl =  formatUrl(basePath + '/tokenAccessController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),
-			height : 220,
+			width : 650,
+			height : 150,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -109,13 +110,14 @@ var tokenaccess = {
 	 * 功能：修改
 	 */
 	edit : function(recordId){
-		var url = formatUrl(basePath + '/tokenAccessController/add.do');
-		var submitUrl =  formatUrl(basePath + '/tokenAccessController/create.do');
+		var url = formatUrl(basePath + '/tokenAccessController/edit.do'+'?tokenAccessId='+recordId);
+		var submitUrl =  formatUrl(basePath + '/tokenAccessController/update.do');
 		goldOfficeUtils.openEditorDialog({
-			title : $.i18n.prop("common.operatetitle.add"),				/**添加记录*/
-			height : 220,
+			title : '修改记录',
+			width : 650,
+			height : 150,
 			href : url,
-			iconCls : 'pag-add',
+			iconCls : 'pag-edit',
 			handler : function(){   //提交时处理
 				if($("#tokenAccessEditForm").form('validate')){
 					goldOfficeUtils.ajaxSubmitForm({
@@ -127,9 +129,9 @@ var tokenaccess = {
 								// 提交成功后先关闭弹出框,然后刷新表格,弹出对应的成功提示
 								$("#myWindow").dialog("close");
 								tokenaccess.refresh();
-								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.addsuccess"),'info');   /**操作提示  新增成功!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'修改成功！','info');
 							}else{
-								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');   	/**操作提示 新增失败!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'修改失败，原因：'+d.msg,'error');
 							}
 						}
 					});
@@ -165,7 +167,7 @@ var tokenaccess = {
 	 * 功能：批量删除
 	 */
 	batchDel : function(){
-		var url = formatUrl(basePath + '/tokenaccessController/batchDel.do');
+		var url = formatUrl(basePath + '/tokenAccessController/batchDel.do');
 		goldOfficeUtils.deleteBatch('tokenaccess_datagrid',url,"tokenAccessId");	
 	},
 	/**
@@ -173,14 +175,14 @@ var tokenaccess = {
 	 */
 	del : function(recordId){
 		$("#tokenaccess_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/tokenaccessController/oneDel.do');
+		var url = formatUrl(basePath + '/tokenAccessController/oneDel.do');
 		goldOfficeUtils.deleteOne('tokenaccess_datagrid',recordId,url);
 	},
 	/**
 	 * 功能：返回到主列表页面
 	 */
 	back : function(){
-		jumpRequestPage(basePath + '/tokenaccessController/index.do');
+		jumpRequestPage(basePath + '/tokenAccessController/index.do');
 	}
 };
 		
