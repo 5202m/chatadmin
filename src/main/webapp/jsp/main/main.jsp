@@ -10,43 +10,15 @@
 <%
    String contextPath = request.getContextPath();
 %>
-<script type="text/javascript" charset="UTF-8">
-   var path = "<%=request.getContextPath()%>";
-   var locale = "${locale}";                       //简体：zh_CN 繁体：zh_TW 英文：en_US
-</script>
-<script type="text/javascript" src="<%=contextPath%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=contextPath%>/base/js/jquery/jquery.cookie.js" charset="UTF-8"></script>
 <!-- easyui -->
-<link id="yxuiTheme" type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui/themes/yxui/easyui.css?timestamp=<%=(int)(Math.random() *100)%>" />
-<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui/themes/icon.css?timestamp=<%=(int)(Math.random() *100)%>" />
-<script type="text/javascript" src="<%=contextPath%>/base/js/easyui/jquery.easyui.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=contextPath%>/base/js/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8"></script>
+<link id="yxuiTheme" type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui/themes/yxui/easyui.css"/>
+<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui/themes/icon.css" />
 <!-- yxui.css baseIcons.css -->
-<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/yxui.css?timestamp=<%=(int)(Math.random() *100)%>" />
-<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/yxuiForm.css?timestamp=<%=(int)(Math.random() *100)%>" />
-<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/baseIcons.css?timestamp=<%=(int)(Math.random() *100)%>" />
-
+<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/yxui.css" />
+<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/yxuiForm.css" />
+<link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/baseIcons.css" />
 <!-- portal -->
 <link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui-portal/portal.css" />
-<script type="text/javascript" src="<%=contextPath%>/base/js/easyui-portal/jquery.portal.js" charset="UTF-8"></script>
-
-<!-- jquery UI -->
-<script type="text/javascript" src="<%=contextPath%>/base/js/jqueryui/jquery-ui-1.9.2.custom.min.js" charset="UTF-8"></script>
-<!-- My97 -->
-<script type="text/javascript" src="<%=contextPath%>/base/js/My97DatePicker/WdatePicker.js" charset="UTF-8"></script>
-<!-- yxuiLang -->
-<script type="text/javascript" src="<%=contextPath%>/base/js/locale/yxui-lang-zh_CN.js" charset="UTF-8"></script>
-<!-- yxuiUtil -->
-<script type="text/javascript" src="<%=contextPath%>/base/js/util/yxuiUtil.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=contextPath%>/base/js/util/dateUtil.js" charset="UTF-8"></script>
-<!-- main -->
-<script type="text/javascript" src="<%=contextPath%>/js/lib/jquery.i18n.properties-1.0.9.js"></script>
-<script type="text/javascript" src="<%=contextPath%>/js/common.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=contextPath%>/jsp/main/main.js" charset="UTF-8"></script>
-<!-- 工具类 -->
-<script type="text/javascript" src="<%=contextPath%>/base/js/extends/goldOfficeUtils.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=contextPath%>/base/js/extends/Event.js" charset="UTF-8"></script>
-
 </head>
 <body class="easyui-layout">
   <!-- north -->
@@ -99,5 +71,33 @@
     <div iconCls="ope-close" type="closeOther"><spring:message code="main.closeother" /><!-- 关闭其他 --></div>
     <div iconCls="ope-cancelSelect" type="closeAll"><spring:message code="main.closeall" /><!-- 关闭所有 --></div>
   </div>
+<script type="text/javascript" charset="UTF-8">
+   var path = "<%=request.getContextPath()%>";
+   var locale = "${locale}";                       //简体：zh_CN 繁体：zh_TW 英文：en_US
+</script>
+
+<script type="text/javascript" src="<%=contextPath%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=contextPath%>/base/js/jquery/jquery.cookie.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="<%=contextPath%>/base/js/easyui/jquery.easyui.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=contextPath%>/base/js/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8"></script>
+
+<script type="text/javascript" src="<%=contextPath%>/base/js/easyui-portal/jquery.portal.js" charset="UTF-8"></script>
+<!-- jquery UI -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/jqueryui/jquery-ui-1.9.2.custom.min.js" charset="UTF-8"></script>
+<!-- My97 -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/My97DatePicker/WdatePicker.js" charset="UTF-8"></script>
+<!-- yxuiLang -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/locale/yxui-lang-zh_CN.js" charset="UTF-8"></script>
+<!-- yxuiUtil -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/util/yxuiUtil.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=contextPath%>/base/js/util/dateUtil.js" charset="UTF-8"></script>
+<!-- main -->
+<script type="text/javascript" src="<%=contextPath%>/js/lib/jquery.i18n.properties-1.0.9.js"></script>
+<script type="text/javascript" src="<%=contextPath%>/js/common.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=contextPath%>/jsp/main/main.js" charset="UTF-8"></script>
+<!-- 工具类 -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/extends/goldOfficeUtils.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=contextPath%>/base/js/extends/Event.js" charset="UTF-8"></script>
 </body>
 </html>
