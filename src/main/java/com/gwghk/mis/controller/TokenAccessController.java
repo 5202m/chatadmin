@@ -74,7 +74,6 @@ public class TokenAccessController extends BaseController{
 	 * 功能：token设置-新增
 	 */
     @RequestMapping(value="/tokenAccessController/add", method = RequestMethod.GET)
-    @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	return "tokenaccess/tokenaccessAdd";
     }
@@ -82,7 +81,6 @@ public class TokenAccessController extends BaseController{
 	/**
 	 * 功能：token设置-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/tokenAccessController/edit", method = RequestMethod.GET)
     public String edit(HttpServletRequest request , ModelMap map) throws Exception {
     	String tokenAccessId = request.getParameter("tokenAccessId");
