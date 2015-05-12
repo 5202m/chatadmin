@@ -18,10 +18,6 @@
         		<option value="0">永远有效</option>
          		<option value="1">1小时</option>
          		<option value="2" selected="selected">2小时</option>
-         		<option value="3">3小时</option>
-         		<option value="4">4小时</option>
-         		<option value="5">5小时</option>
-         		<option value="6">6小时</option>
          	</select>
         </td>
         <th width="15%">状态</th>
