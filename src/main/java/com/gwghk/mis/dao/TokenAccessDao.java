@@ -9,7 +9,6 @@ import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.enums.IdSeq;
-import com.gwghk.mis.model.App;
 import com.gwghk.mis.model.TokenAccess;
 import com.mongodb.WriteResult;
 
@@ -59,7 +58,8 @@ public class TokenAccessDao extends MongoDBBaseDao{
 	 * 功能：删除token设置信息
 	 */
 	public boolean deleteTokenAccess(Object[] tokenAccessIds){
-		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("tokenAccessId").in(tokenAccessIds)), Update.update("valid", 0), App.class);
+		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("tokenAccessId").in(tokenAccessIds))
+					   , Update.update("valid", 0), TokenAccess.class);
 		return wr!=null && wr.getN()>0;
 	}
 	
