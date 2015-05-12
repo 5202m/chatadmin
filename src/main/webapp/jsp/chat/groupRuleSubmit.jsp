@@ -6,7 +6,7 @@
 		function selectVal(){
 			var val=$("#chatGroupRuleSubmitForm select[name=type]").find("option:selected").val();
 			$("tbody[id^=chatGroupRule_]").hide();
-			if(val.indexOf("_filter")!=-1){
+			if(val.indexOf("_filter")!=-1||val.indexOf("url_")!=-1){
 				$("#chatGroupRule_beforeRule_tbody").show();
 			}
 			if(val.indexOf("_replace")!=-1){
