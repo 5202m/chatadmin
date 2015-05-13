@@ -30,6 +30,17 @@ var tokenaccess = {
 						}},
 						{title : 'appId',field : 'appId'},
 			            {title : 'appSecret',field : 'appSecret'},
+			            {title : '有效时间',field : 'expires',sortable : true,formatter : function(value, rowData, rowIndex) {
+							if(value == 0) {
+								return '一次有效';
+							}else if(value == 1){
+								return '1小时';
+							}else if(value == 2){
+								return '2小时';
+							}else{
+								return '';
+							}
+						}},
 						{title : '是否启动',field : 'status',sortable : true,formatter : function(value, rowData, rowIndex) {
 							if (value == 0) {
 								return '禁用';
