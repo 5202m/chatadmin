@@ -18,7 +18,7 @@
       	<th width="15%">有效时间</th>
         <td width="35%">
         	<select id="expires" name="expires" style="width: 155px;">
-        		<option value="0" <c:if test="${tokenAccess.expires == 0}">selected="selected"</c:if>>永远有效</option>
+        		<option value="0" <c:if test="${tokenAccess.expires == 0}">selected="selected"</c:if>>一次有效</option>
          		<option value="1" <c:if test="${tokenAccess.expires == 1}">selected="selected"</c:if>>1小时</option>
          		<option value="2" <c:if test="${tokenAccess.expires == 2}">selected="selected"</c:if>>2小时</option>
          	</select>

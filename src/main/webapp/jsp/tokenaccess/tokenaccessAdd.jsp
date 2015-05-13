@@ -15,7 +15,7 @@
       	<th width="15%">有效时间</th>
         <td width="35%">
         	<select id="expires" name="expires" style="width: 180px;">
-        		<option value="0">永远有效</option>
+        		<option value="0">一次有效</option>
          		<option value="1">1小时</option>
          		<option value="2" selected="selected">2小时</option>
          	</select>
