@@ -1,6 +1,12 @@
 package com.gwghk.mis.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
@@ -43,10 +52,29 @@ public class AdminChatController extends BaseController{
 		BoUser boUser = ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY).getUser();
 		BoRole boRole = roleService.getByRoleId(boUser.getRole().getRoleId());
 		map.put("chatGroupList", boRole.getChatGroupList());
+		String chatUrl = PropertiesUtil.getInstance().getProperty("tokenChatURL");
+		chatUrl += "?userId="+userParam.getUserNo()
+				+ "&mobilePhone="+userParam.getTelephone()
+				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
+				+ "&fromPlatform=pm_mis";
+		map.put("chatURL",chatUrl);
+		return "chat/adminChat";
+	}
+	
+	/**
+	 * 功能：获取token
+	 */
+	@RequestMapping(value="/adminChatController/getToken",method=RequestMethod.GET)
+    @ResponseBody
+    public AjaxJson getToken(HttpServletRequest request){
+		AjaxJson result = new AjaxJson();
 		String token = "";
 		try{
 			String apiURL = PropertiesUtil.getInstance().getProperty("pmApiUrl");
-			final String responseJson = HttpClientUtils.httpGetString(apiURL+"/token/getToken",null,"utf-8");
+			Map<String,String> paramMap = new HashMap<String,String>();
+			paramMap.put("appId", PropertiesUtil.getInstance().getProperty("appId"));
+			paramMap.put("appSecret", PropertiesUtil.getInstance().getProperty("appSecret"));
+			final String responseJson = HttpClientUtils.httpPostString(apiURL+"/token/getToken",paramMap);
 			JSONObject jsonObject = JSONObject.fromObject(responseJson.trim());
 			if(jsonObject.containsKey("token")){
 				token = jsonObject.getString("token");
@@ -54,12 +82,7 @@ public class AdminChatController extends BaseController{
 		}catch(Exception e){
 			logger.error("<<get token fail !",e);
 		}
-		String chatUrl = PropertiesUtil.getInstance().getProperty("chatURL")+"?token="+token;
-		chatUrl += "&userId="+userParam.getUserNo()
-				+ "&mobilePhone="+userParam.getTelephone()
-				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
-				+ "&fromPlatform=pm_mis";
-		map.put("chatURL",chatUrl);
-		return "chat/adminChat";
+		result.setObj(token);
+		return result;
 	}
 }
