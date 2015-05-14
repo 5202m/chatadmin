@@ -30,7 +30,9 @@ var chatUser = {
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
 						{title : '账号',field : 'memberId'},
-						{title : '昵称',field : 'nickname'},
+						{title : '昵称',field : 'nickname',formatter : function(value, rowData, rowIndex) {
+							return rowData.loginPlatform.chatUserGroup[0].nickname;
+						}},
 						{title : '头像',field : 'avatar',formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPlatform.chatUserGroup[0].avatar;
 						}},
