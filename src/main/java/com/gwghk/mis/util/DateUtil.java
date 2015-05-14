@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class DateUtil {
-	public final static String FORMAT_YYYYDDMMHHMMSS="YYYY/dd/MM HH:mm:ss";
+	public final static String FORMAT_YYYYDDMMHHMMSS="YYYY/MM/dd HH:mm:ss";
 	/**
 	 * MM/dd/yyyy
 	 */
@@ -542,7 +542,6 @@ public class DateUtil {
 	 */
 	public static synchronized Date parseDateFormat(String strDate,
 			String pattern) {
-		System.out.println(strDate);
 		if(StringUtils.isBlank(strDate)){
 			return null;
 		}

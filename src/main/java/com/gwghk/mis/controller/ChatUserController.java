@@ -77,7 +77,15 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,Member member){
-		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member));
+		 Date onlineStartDate=null,onlineEndDate=null;
+		 String onlineStartDateStr=request.getParameter("onlineStartDate"),onlineEndDateStr=request.getParameter("onlineEndDate");
+		 if(StringUtils.isNotBlank(onlineStartDateStr)){
+			 onlineStartDate=DateUtil.parseDateSecondFormat(onlineStartDateStr);
+		 }
+		 if(StringUtils.isNotBlank(onlineEndDateStr)){
+			 onlineEndDate=DateUtil.parseDateSecondFormat(onlineEndDateStr);
+		 }
+		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());

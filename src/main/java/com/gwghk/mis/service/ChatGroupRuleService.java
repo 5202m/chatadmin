@@ -17,6 +17,7 @@ import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.StringUtil;
 
 /**
  * 聊天室组别管理服务类
@@ -90,6 +91,9 @@ public class ChatGroupRuleService{
 		if(model!=null){
 			if(StringUtils.isNotBlank(model.getType())){
 				criter.and("type").is(model.getType());
+			}
+			if(StringUtils.isNotBlank(model.getName())){
+				criter.and("name").regex(StringUtil.toFuzzyMatch(model.getName()));
 			}
 		}
 		return chatGroupRuleDao.findPage(ChatGroupRule.class, Query.query(criter), dCriteria);

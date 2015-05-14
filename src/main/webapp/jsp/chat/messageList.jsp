@@ -33,15 +33,19 @@
           </td>
         </tr>
          <tr>
-	      <th width="10%">状态</th>
-          <td width="80%" colspan="6">
-          	<t:dictSelect id="chatMessageStatus" field="status" isEdit="false" isShowPleaseSelected="true"  dataList="${statusList}" selectClass="width:160px;"/>
-          </td>
-          <!-- <th width="10%">发布时间</th>
+          <th width="10%">信息类型</th>
           <td width="40%"> 
-          	从&nbsp; <input name="publishStartDateStr" id="publishStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'publishEndDate\')}',dateFmt:'yyyy/MM/dd HH:mm:ss'})" style="width:150px" />
-             &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="publishEndDateStr" id="publishEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'publishStartDate\')}',dateFmt:'yyyy/MM/dd HH:mm:ss'})" style="width:150px" />
-		  </td> -->
+             <select name="content.msgType" id="chatMessageMsgType" style="width:160px;">
+                  <option value="">--请选择--</option>
+	              <option value="text">文本</option>
+	              <option value="img">图片</option>
+             </select>
+          </td>
+          <th width="10%">发布时间</th>
+          <td width="40%"> 
+          	从&nbsp; <input name="publishStartDateStr" id="publishStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'publishEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+             &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="publishEndDateStr" id="publishEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'publishStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+		  </td>
         </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;

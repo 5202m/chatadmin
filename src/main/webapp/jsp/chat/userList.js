@@ -29,12 +29,13 @@ var chatUser = {
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
-						{title : '账号',field : 'memberId'},
+						{title : '手机号码',field : 'mobilePhone'},
+						{title : '账号',field : 'userIds',formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return isBlank(row.userId)?row.accountNo:row.userId;
+						}},
 						{title : '昵称',field : 'nickname',formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPlatform.chatUserGroup[0].nickname;
-						}},
-						{title : '头像',field : 'avatar',formatter : function(value, rowData, rowIndex) {
-							return rowData.loginPlatform.chatUserGroup[0].avatar;
 						}},
 						{title : '所属组Id',field : 'groupId',hidden:true,formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPlatform.chatUserGroup[0].id;
@@ -46,7 +47,12 @@ var chatUser = {
 							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].onlineStatus);
 						}},
 						{title : '上线时间',field : 'onlineDateStr',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return value ? timeObjectUtil.longMsTimeConvertToDateTime(rowData.loginPlatform.chatUserGroup[0].onlineDate) : '';
+							var date=rowData.loginPlatform.chatUserGroup[0].onlineDate;
+							return  date? timeObjectUtil.formatterDateTime(date) : '';
+						}},
+						{title : '禁言时间段',field : 'gagDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return  (row.gagStartDate && row.gagEndDate)? timeObjectUtil.formatterDateTime(row.gagStartDate)+" 到 "+timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
 						}}
 						
 			]],

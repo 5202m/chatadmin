@@ -17,6 +17,11 @@ public class ChatUserGroup {
 	 */
 	@Id
 	private String id;
+	
+	/**
+	 * 用户id
+	 */
+	private String userId;
 		
 	/**
 	 * 在线状态(0为下线，1为在线）
@@ -128,5 +133,13 @@ public class ChatUserGroup {
 
 	public void setGagTips(String gagTips) {
 		this.gagTips = gagTips;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

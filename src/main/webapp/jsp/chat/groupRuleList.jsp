@@ -9,7 +9,9 @@
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">规则类别</th>
-          <td width="80%"><t:dictSelect id="chatGroupRuleCode" field="type" isEdit="false" isShowPleaseSelected="true" dataList="${dictList}"/></td>
+          <td width="40%"><t:dictSelect id="chatGroupRuleCode" field="type" isEdit="false" isShowPleaseSelected="true" dataList="${dictList}"/></td>
+          <th width="10%">规则名称</th>
+          <td width="40%"><input type="text" name="name"/></td>
         </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;

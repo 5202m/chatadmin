@@ -9,9 +9,9 @@
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">账号</th>
-          <td width="40%"><input type="text" name="userId"></td>
+          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].userId"></td>
           <th width="10%">昵称</th>
-          <td width="40%"><input type="text" name="userNickname"></td>
+          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
         </tr>
         <tr>
           <th width="10%">在线状态</th>
@@ -34,8 +34,8 @@
          <tr>
           <th width="10%">上线时间</th>
           <td width="80%" colspan="8"> 
-          	从&nbsp; <input name="publishStartDateStr" id="publishStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'publishEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
-             &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="publishEndDateStr" id="publishEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'publishStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+          	从&nbsp; <input name="onlineStartDate" id="onlineStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'onlineEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+             &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="onlineEndDate" id="onlineEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'onlineStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
 		  </td>
         </tr>
         <tr>

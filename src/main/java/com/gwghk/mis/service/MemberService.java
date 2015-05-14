@@ -1,5 +1,6 @@
 package com.gwghk.mis.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -138,23 +139,36 @@ public class MemberService{
 	 * @param dCriteria
 	 * @return
 	 */
-	public Page<Member> getChatUserPage(DetachedCriteria<Member> dCriteria) {
+	public Page<Member> getChatUserPage(DetachedCriteria<Member> dCriteria,Date onlineStartDate,Date onlineEndDate) {
 		Member member = dCriteria.getSearchModel();
 		Query query=new Query();
 		ChatUserGroup userGroup=member.getLoginPlatform().getChatUserGroup().get(0);
 		if(userGroup != null){
 			Criteria criteria = new Criteria();
+			if(StringUtils.isNotBlank(userGroup.getUserId())){
+				criteria.and("loginPlatform.chatUserGroup.userId").regex(StringUtil.toFuzzyMatch(userGroup.getUserId()));
+			}
+			if(StringUtils.isNotBlank(userGroup.getNickname())){
+				criteria.and("loginPlatform.chatUserGroup.nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));
+			}
 			if(StringUtils.isNotBlank(userGroup.getId())){
 				criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId());
 			}
 			if(userGroup.getOnlineStatus()!=null){
 				criteria.and("loginPlatform.chatUserGroup.onlineStatus").is(userGroup.getOnlineStatus());
 			}
-			if(userGroup.getOnlineDate()!=null){
-				criteria.and("loginPlatform.chatUserGroup.onlineDate").is(userGroup.getOnlineDate());
+			if(onlineStartDate!=null){
+				criteria = criteria.and("loginPlatform.chatUserGroup.onlineDate").gte(onlineStartDate);
+			}
+			if(onlineEndDate != null){
+				if(onlineStartDate != null){
+					criteria.lte(onlineEndDate);
+				}else{
+					criteria.and("loginPlatform.chatUserGroup.onlineDate").lte(onlineEndDate);
+				}
 			}
 			query.addCriteria(criteria);
 		}
-		return memberDao.findPage(Member.class, query, dCriteria);
+		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone");
 	}
 }

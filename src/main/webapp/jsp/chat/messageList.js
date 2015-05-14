@@ -30,9 +30,6 @@ var chatMessage = {
 						}},
 						{title : '账号',field : 'userId'},
 						{title : '昵称',field : 'nickname'},
-						{title : '使用状态',field : 'statusName',formatter : function(value, rowData, rowIndex) {
-							return chatMessage.getComboxNameByCode("#chatMessageStatus",rowData.status);
-						}},
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageUserType",rowData.userType);
 						}},
@@ -40,7 +37,7 @@ var chatMessage = {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
 						{title : '用户来源',field : 'fromPlatform'},
-						{title : '消息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
+						{title : '信息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.content.msgType;
 							if(type=='text'){
 								return "文本";
@@ -53,8 +50,8 @@ var chatMessage = {
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
 							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
 						}},
-						{title : '发布时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
+						{title : '发布时间',field : 'publishTime',sortable : true,formatter : function(value, rowData, rowIndex) {
+							return value ? timeObjectUtil.longMsTimeConvertToDateTime(Number(value.replace(/_.+/,""))) : '';
 						}}
 						
 			]],

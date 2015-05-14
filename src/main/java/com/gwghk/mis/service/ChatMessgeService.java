@@ -14,6 +14,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatMessageDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -79,7 +80,7 @@ public class ChatMessgeService{
 		ChatMessage model=dCriteria.getSearchModel();
 		if(model!=null){
 			if(StringUtils.isNotBlank(model.getUserId())){
-				criteria.and("id").regex(StringUtil.toFuzzyMatch(model.getUserId()));
+				criteria.and("userId").regex(StringUtil.toFuzzyMatch(model.getUserId()));
 			}
 			if(StringUtils.isNotBlank(model.getNickname())){
 				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
@@ -90,8 +91,18 @@ public class ChatMessgeService{
 			if(StringUtils.isNotBlank(model.getGroupId())){
 				criteria.and("groupId").is(model.getGroupId());
 			}
-			if(StringUtils.isNotBlank(model.getStatus())){
-				criteria.and("status").is(model.getStatus());
+			if(model.getContent()!=null && StringUtils.isNotBlank(model.getContent().getMsgType())){
+				criteria.and("content.msgType").is(model.getContent().getMsgType());
+			}
+			if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
+				criteria = criteria.and("createDate").gte(DateUtil.parseDateSecondFormat(model.getPublishStartDateStr()));
+			}
+			if(StringUtils.isNotBlank(model.getPublishEndDateStr())){
+				if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
+					criteria.lte(DateUtil.parseDateSecondFormat(model.getPublishEndDateStr()));
+				}else{
+					criteria.and("createDate").lte(DateUtil.parseDateSecondFormat(model.getPublishEndDateStr()));
+				}
 			}
 		}
 		return chatMessageDao.findPage(ChatMessage.class, Query.query(criteria), dCriteria);
