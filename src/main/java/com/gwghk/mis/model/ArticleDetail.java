@@ -1,5 +1,6 @@
 package com.gwghk.mis.model;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -13,6 +14,7 @@ public class ArticleDetail{
 	/**
 	 * 语言(zh、tw、en)
 	 */
+	@Indexed
 	private String lang;
 	
 	/**

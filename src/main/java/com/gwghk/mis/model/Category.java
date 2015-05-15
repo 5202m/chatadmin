@@ -3,6 +3,7 @@ package com.gwghk.mis.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  * 摘要：栏目实体对象
@@ -22,6 +23,7 @@ public class Category extends BaseModel{
 	/**
 	 * 栏目编号
 	 */
+	@Indexed
 	private String code;
 	
 	/**

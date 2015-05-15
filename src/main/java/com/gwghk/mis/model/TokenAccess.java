@@ -1,6 +1,7 @@
 package com.gwghk.mis.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -17,11 +18,13 @@ public class TokenAccess extends BaseModel{
 	/**
 	 * token授权appId
 	 */
+	@Indexed
 	private String appId;
 	
 	/**
 	 * token授权appSecret
 	 */
+	@Indexed
 	private String appSecret;
 	
 	/**

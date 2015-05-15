@@ -2,7 +2,9 @@ package com.gwghk.mis.model;
 
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -21,6 +23,7 @@ public class Article extends BaseModel{
 	/**
      * 栏目id
      */
+	@Indexed
 	private String categoryId;
 	
 	/**
