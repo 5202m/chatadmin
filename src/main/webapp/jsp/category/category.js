@@ -41,7 +41,13 @@ var category = {
 			    {title : 'parentPath',field:'parentPath',hidden : true},
 			    {title : 'parentId',field:'parentId',hidden : true},
 			    {title : '编号',field:'code'},
-			    {title : '状态',field:'status'},
+			    {title : '状态',field:'status',formatter:function(value, rowData, rowIndex) {
+					if (value == 0) {
+						return '启用';
+					} else {
+						return '禁用';
+					}
+				}},
 			    {title : '排序',field:'sort'}
 			]],
 			toolbar : '#category_datagrid_toolbar'
