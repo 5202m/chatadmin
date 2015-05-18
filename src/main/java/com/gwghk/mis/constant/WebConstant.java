@@ -73,20 +73,7 @@ public class WebConstant {
 	 
 	 public static final String FILESTORE_UPLOADFILES="uploadfiles";
 	 
-	 /**额度报表模板的路径*/
-	 public final static String AMOUNT_REPORT_TEMPLATE_PATH ="/template/amount_report_data.xls";
-	 /**月报表模板的路径*/
-	 public final static String MONTH_REPORT_TEMPLATE_PATH ="/template/month_report_data.xls";
-	 /**日报表模板的路径*/
-	 public final static String DAILY_REPORT_TEMPLATE_PATH ="/template/daily_report_data.xls";
-	 /**交易报表模板的路径*/
-	 public final static String TRADE_REPORT_TEMPLATE_PATH ="/template/trade_report_data.xls";
-	 /**日结单模板的路径*/
-	 public final static String DAILY_REPORT_STATEMENT_TEMPLATE_PATH ="/template/daily_report_statement_data.xls";
-	 /**月结单模板的路径*/
-	 public final static String MONTH_REPORT_STATEMENT_TEMPLATE_PATH ="/template/month_report_statement_data.xls";
-	 /**金道盾管理模板的路径*/
-	 public final static String GWSHIELD_MGR_TEMPLATE_PATH ="/template/gwshield_mgt_data.xls";
-	 /**金道盾客户资料管理模板的路径*/
-	 public final static String GWSHIELD_CUSTOMER_MGR_TEMPLATE_PATH ="/template/gwshield_customer_mgt_data.xls";
+	 /**聊天记录模板的路径*/
+	 public final static String CHAT_RECORDS_TEMPLATE_PATH ="/template/chat_records_data.xls";
+	
 }

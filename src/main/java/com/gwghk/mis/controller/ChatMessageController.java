@@ -1,5 +1,6 @@
 package com.gwghk.mis.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,13 +31,15 @@ import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatMessage;
-import com.gwghk.mis.service.ChatApiService;
-import com.gwghk.mis.service.ChatMessgeService;
 import com.gwghk.mis.service.ChatGroupService;
+import com.gwghk.mis.service.ChatMessgeService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.sdk.poi.FormatConfig;
+import com.sdk.poi.POIExcelBuilder;
 
 /**
  * 聊天室信息管理
@@ -82,6 +85,32 @@ public class ChatMessageController extends BaseController{
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());
 	     return result;
+	}
+	
+	/**
+	 * 功能：导出聊天记录(以模板的方式导出)
+	 */
+	@RequestMapping(value = "/chatMessageController/exportRecord", method = RequestMethod.GET)
+	public void exportRecord(HttpServletRequest request, HttpServletResponse response,ChatMessage chatMessage){
+		try{
+			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_RECORDS_TEMPLATE_PATH)));
+			DataGrid dataGrid = new DataGrid();
+			dataGrid.setPage(0);
+			dataGrid.setRows(0);
+			Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
+			List<ChatMessage>  monthlyList = page.getCollection();
+			builder.put("rowSet",monthlyList,new FormatConfig(){
+				@Override
+				public Object fromatValue(String fieldName,Object fieldValue) {
+					return fieldValue;
+				}
+		    });
+			builder.parse();
+			ExcelUtil.wrapExcelExportResponse("聊天记录", request, response);
+			builder.write(response.getOutputStream());
+		}catch(Exception e){
+			logger.error("<<method:exportRecord()|chat message export error!",e);
+		}
 	}
 	
    /**

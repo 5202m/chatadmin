@@ -102,6 +102,18 @@ var chatMessage = {
 		$("#chatMessage_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/chatMessageController/del.do');
 		goldOfficeUtils.deleteOne('chatMessage_datagrid',recordId,url);
+	},
+	/**
+	 * 功能：导出记录
+	 */
+	exportRecord : function(){
+		alert($("#chatMessage_queryForm").serialize());
+		return;
+		var path = basePath+ '/chatMessageController/exportRecord.do';
+		path += '?reportDate='+ $("#reportDateMRSearch").val()+'&platform='+$("#platFormMRSearch").val()
+				 +'&accountNo='+$("#accountNoMRSearch").val()+'&accountStatus='
+				 +$("#accountStatusMRSearch").val();
+		window.location.href = path;
 	}
 };
 		
