@@ -33,7 +33,7 @@
 	      <tr>
 	          <th width="15%">聊天规则</th>
 	          <td width="80%" colspan="6">
-	             <select class="easyui-combotree" style="width:170px;" name="chatRuleId"  id="chatSubmitRuleIds" tId="${chatGroup.chatRuleIds}" data-options="cascadeCheck:false" multiple></select>
+	             <select class="easyui-combotree" style="width:455px;" name="chatRuleId"  id="chatSubmitRuleIds" tId="${chatGroup.chatRuleIds}" data-options="cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
 	      <tr>
