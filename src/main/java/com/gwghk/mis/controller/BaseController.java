@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -43,10 +44,12 @@ public	class BaseController{
 		 dCriteria.setSearchModel(t);
 		 dCriteria.setPageNo(dataGrid.getPage());
 		 dCriteria.setPageSize(dataGrid.getRows());
-		 SortDirection sd = "asc".equalsIgnoreCase(dataGrid.getOrder()) ? SortDirection.ASC : SortDirection.DESC;
-		 HashMap<String,SortDirection> orderMap = new  HashMap<String,SortDirection>();
-		 orderMap.put(dataGrid.getSort(), sd);
-		 dCriteria.setOrderbyMap(orderMap);
+		 if(StringUtils.isNotEmpty(dataGrid.getSort())){
+			 SortDirection sd = "asc".equalsIgnoreCase(dataGrid.getOrder()) ? SortDirection.ASC : SortDirection.DESC;
+			 HashMap<String,SortDirection> orderMap = new  HashMap<String,SortDirection>();
+			 orderMap.put(dataGrid.getSort(), sd);
+			 dCriteria.setOrderbyMap(orderMap); 
+		 }
 		 return dCriteria;
 	}
 	

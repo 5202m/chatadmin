@@ -38,7 +38,8 @@ import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceUtil;
-import com.sdk.poi.FormatConfig;
+import com.sdk.orm.DataRowSet;
+import com.sdk.orm.IRow;
 import com.sdk.poi.POIExcelBuilder;
 
 /**
@@ -97,14 +98,37 @@ public class ChatMessageController extends BaseController{
 			DataGrid dataGrid = new DataGrid();
 			dataGrid.setPage(0);
 			dataGrid.setRows(0);
+			dataGrid.setSort("id");
+			dataGrid.setOrder("desc");
+			chatMessage.getContent().setMsgType("text");  //默认只导出文本类型
 			Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
-			List<ChatMessage>  monthlyList = page.getCollection();
-			builder.put("rowSet",monthlyList,new FormatConfig(){
-				@Override
-				public Object fromatValue(String fieldName,Object fieldValue) {
-					return fieldValue;
+			List<ChatMessage>  chatMessageList = page.getCollection();
+			if(chatMessageList != null && chatMessageList.size() > 0){
+				DataRowSet dataSet = new DataRowSet();
+				for(ChatMessage cm : chatMessageList){
+					IRow row = dataSet.append();
+					row.set("userId", cm.getUserId());
+					String userTypeVal = "";
+					Integer userType = cm.getUserType();
+					if(userType == 0){
+						userTypeVal = "普通会员";
+					}else if(userType == 1){
+						userTypeVal = "系统管理员";
+					}else if("2".equals(userTypeVal)){
+						userTypeVal = "分析师";
+					}
+					row.set("nickname", cm.getNickname());
+					row.set("userType", userTypeVal);
+					row.set("groupId", chatGroupService.getChatGroupById(cm.getGroupId()).getName());
+					row.set("fromPlatform", cm.getFromPlatform());
+					row.set("msgType", "文本");
+					row.set("content", cm.getContent().getValue());
+					row.set("publishTime",DateUtil.longMsTimeConvertToDateTime(Long.valueOf(cm.getPublishTime().split("_")[0])));
 				}
-		    });
+				builder.put("rowSet",dataSet);
+			}else{
+				builder.put("rowSet",new DataRowSet());
+			}
 			builder.parse();
 			ExcelUtil.wrapExcelExportResponse("聊天记录", request, response);
 			builder.write(response.getOutputStream());

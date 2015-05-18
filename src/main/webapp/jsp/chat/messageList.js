@@ -107,12 +107,7 @@ var chatMessage = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		alert($("#chatMessage_queryForm").serialize());
-		return;
-		var path = basePath+ '/chatMessageController/exportRecord.do';
-		path += '?reportDate='+ $("#reportDateMRSearch").val()+'&platform='+$("#platFormMRSearch").val()
-				 +'&accountNo='+$("#accountNoMRSearch").val()+'&accountStatus='
-				 +$("#accountStatusMRSearch").val();
+		var path = basePath+ '/chatMessageController/exportRecord.do?'+$("#chatMessage_queryForm").serialize();
 		window.location.href = path;
 	}
 };

@@ -3,7 +3,6 @@ package com.gwghk.mis.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -33,7 +32,6 @@ public class ChatMessage extends ChatOnlineUser{
 	/**
 	 * 发布日期
 	 */
-	@Indexed
 	private String publishTime;
 	
 	private String createUser;

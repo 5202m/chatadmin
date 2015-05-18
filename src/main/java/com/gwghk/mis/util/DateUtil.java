@@ -517,6 +517,17 @@ public class DateUtil {
 	}
 
 	/**
+	 * 功能：将毫秒转换为yyyy-MM-dd HH:mm:ss日期
+	 */
+	public static synchronized String longMsTimeConvertToDateTime(long longMs){
+		Date dat = new Date(longMs);
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(dat);  
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(gc.getTime()); 
+	}
+	
+	/**
 	 * @param strDate
 	 * @param pattern
 	 * @return java.util.Calendar
@@ -1401,24 +1412,6 @@ public class DateUtil {
 		return theDateFormat.format(theDate);
 	}
 
-	public static void main(String args[]) {
-		try {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.DATE, 1);
-			System.out.println(isTodaySaturday(calendar.getTime()));
-			System.out.println(getYear());
-			
-			System.out.println(getDateByMillTime(1379174340));
-			System.out.println(Calendar.getInstance().getTimeInMillis() / 1000);
-			
-			System.out.println(time());
-			
-			System.out.println(compareToDate(getDateSecondFormat(Calendar.getInstance()),"2014-04-26 23:59:59"));
-		} catch (Exception e) {
-			logger.error("error", e);
-		}
-	}
-	
 	public static String getDateByMillTime(long millSeconds){
 		Calendar gc = Calendar.getInstance(); 
 		gc.setTimeInMillis(millSeconds * 1000-8*3600*1000);
@@ -1663,5 +1656,9 @@ public class DateUtil {
             exception.printStackTrace();
             return 3;
         }
+	}
+	
+	public static void main(String args[]) {
+		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
 	}
 }
