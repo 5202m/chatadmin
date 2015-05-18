@@ -30,8 +30,8 @@
 	      	 <th width="15%">状态： </th>
 	      	 <td width="35%">
 	      	      <select name="status">
-	      	 	    <option value="0">启用</option>
-	      	 	  	<option value="1">禁用</option>
+	      	 	  	 <option value="0" <c:if test="${category.status == 0}">selected="selected"</c:if> >启用</option>
+         			 <option value="1" <c:if test="${category.status == 1}">selected="selected"</c:if> >禁用</option>
 	      	      </select>
 	      	  </td>
 		     <th width="15%">排序：</th>
