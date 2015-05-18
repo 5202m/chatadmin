@@ -260,19 +260,19 @@
 			<artifactId>poi</artifactId>
 			<version>3.7</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 			<groupId>poi.sdk</groupId>
 			<artifactId>poi.sdk.common</artifactId>
-			<version>1.0</version> 
+			<version>1.0</version>
 			<scope>system</scope>
-    		<systemPath>${basedir}/lib/sdk.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/sdk.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>jmagick.sdk</groupId>
 			<artifactId>jmagick.sdk.common</artifactId>
 			<version>6.4.0</version>
 			<scope>system</scope>
-    		<systemPath>${basedir}/lib/jmagick-6.4.0.jar</systemPath>
+    		<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jmagick-6.4.0.jar</systemPath>
 		</dependency>
   	</dependencies>
   	<build>
@@ -298,21 +298,6 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>true</addMavenDescriptor>
-						<index>true</index>
-						<manifest>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>				
 		</plugins>
 	</build>
 </project>
