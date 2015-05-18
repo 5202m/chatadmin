@@ -62,7 +62,7 @@
           </table>
         </div>
       </div>
-      <p class="gw_copyright">Copyright &copy; 2009-2012 <spring:message code="login.copyright" /></p>
+      <p class="gw_copyright">Copyright &copy; 2009-2015 <spring:message code="login.copyright" /></p>
     </div>
   </form>
 </body>
