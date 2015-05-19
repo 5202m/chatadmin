@@ -52,9 +52,11 @@ public class ChatGroupRuleService{
 		ApiResult result=new ApiResult();
 		chatGroupRuleParam.setValid(1);
     	if(isUpdate){
-    		ChatGroupRule rule=getChatGroupRuleById(chatGroupRuleParam.getId());
+    		ChatGroupRule rule = getChatGroupRuleById(chatGroupRuleParam.getId());
     		BeanUtils.copyExceptNull(rule, chatGroupRuleParam);
-     		chatGroupRuleDao.update(rule);
+    		rule.setPeriodStartDate(chatGroupRuleParam.getPeriodStartDate());
+    		rule.setPeriodEndDate(chatGroupRuleParam.getPeriodEndDate());
+    		chatGroupRuleDao.update(rule);
      		chatGroupDao.updateGroupRule(rule);//更新组别关联的规则
     	}else{
     		chatGroupRuleParam.setId(chatGroupRuleDao.getNextSeqId(IdSeq.ChatGroupRule));

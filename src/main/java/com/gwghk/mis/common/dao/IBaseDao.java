@@ -48,4 +48,6 @@ public interface IBaseDao {
     <T> Long count(Class<T> entityClass, Query query);
     
     <T> void addCollection(Class<T> entityClass, Collection<T> collection);
+    
+    <T> void updateFirst(Query query,T t);
 }

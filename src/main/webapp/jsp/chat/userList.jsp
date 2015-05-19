@@ -18,8 +18,8 @@
           <td width="40%">
 	          <select name="loginPlatform.chatUserGroup[0].onlineStatus" id="chatUserOnlineStatus" style="width:160px;">
           		<option value="">--请选择--</option>
-          		<option value="0">在线</option>
-          		<option value="1">下线</option>
+          		<option value="1">在线</option>
+          		<option value="0">下线</option>
 	          </select>
           </td>
           <th width="10%">所属组别</th>

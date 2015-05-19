@@ -261,6 +261,19 @@ public class MongoDBBaseDao implements IBaseDao{
     }
     
     /**
+     * 功能：更新对象(如果传入的值为null,则删除该字段,否则更新改字段)
+     */
+    @SuppressWarnings("hiding")
+    public <T> void updateFirst(Query query,T t){
+    	if(t instanceof BaseModel){
+			BaseModel baseModel=(BaseModel)t;
+			baseModel.setUpdateDate(new Date());
+		}
+    	Update update = buildBaseUpdate(t);
+    	this.mongoTemplate.updateFirst(query, update, t.getClass());
+    }
+    
+    /**
      * 功能：构造更新的Update
      */
     @SuppressWarnings("hiding")
@@ -272,7 +285,9 @@ public class MongoDBBaseDao implements IBaseDao{
             try {
             	Object value = field.get(t);
 	            if (value != null) {
-	               update.set(field.getName(), value);
+	                update.set(field.getName(), value);
+	            }else{
+	            	update.unset(field.getName());
 	            }
             }catch(Exception e){
             	e.printStackTrace();
