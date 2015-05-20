@@ -38,6 +38,7 @@ import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.PropertiesUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -168,6 +169,7 @@ public class ChatGroupController extends BaseController{
     		logger.info("<<method:create()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增聊天室组别："+chatGroup.getName()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -197,6 +199,7 @@ public class ChatGroupController extends BaseController{
     		logger.info("<--method:update()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改聊天室组别："+chatGroup.getId()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -227,6 +230,7 @@ public class ChatGroupController extends BaseController{
     		logger.info("<<method:batchDel()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室组别失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));

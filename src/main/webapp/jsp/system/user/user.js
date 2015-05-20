@@ -106,13 +106,12 @@ var systemUser = {
 						formId : 'userAddForm',
 						onSuccess : function(data){  //提交成功后处理
 							var d = $.parseJSON(data);
-							if (d.success) {
-								// 提交成功后先关闭弹出框,然后刷新表格,弹出对应的成功提示
+							if(d.success) {
 								$("#myWindow").dialog("close");
 								systemUser.refresh();
-								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("user.add"),'info');   /**新增成功,密码已经发到对应的邮件!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增成功，用户的初始密码为：admin888','info');
 							}else{
-								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');	/**操作提示 新增失败!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');
 							}
 						}
 					});

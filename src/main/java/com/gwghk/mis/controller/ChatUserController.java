@@ -37,6 +37,7 @@ import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -137,6 +138,7 @@ public class ChatUserController extends BaseController{
     		logger.info("<<method:batchDel()|"+message);
 		}else{
 			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(apiResult.getCode()));
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户禁言失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));

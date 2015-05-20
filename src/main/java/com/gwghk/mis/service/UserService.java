@@ -139,7 +139,7 @@ public class UserService{
     		if(userDao.getByUserNo(userParam.getUserNo())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
-    		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword()));
+    		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+WebConstant.DEFAULT_PWD));
     		if(boRole!=null){
     			userParam.setRole(boRole);
     		}
@@ -196,5 +196,26 @@ public class UserService{
 	 */
 	public BoUser getUserById(String userId) {
 		return userDao.getByUserId(userId);
+	}
+	
+	/**
+	 * 功能：保存修改的密码
+	 * @param userNo  用户no
+	 * @param oldPwd  旧密码
+	 * @param newPwd  新密码
+	 */
+	public ApiResult saveChangePwd(String userNo,String oldPwd,String newPwd){
+		ApiResult result = new ApiResult();
+		List<BoUser> userList = userDao.getUserList(new Query(new Criteria()
+							  .andOperator(Criteria.where("userNo").is(userNo),Criteria.where("password")
+							  .is(MD5.getMd5(WebConstant.MD5_KEY+oldPwd)))));
+		if(null == userList || userList.size() == 0){
+			return result.setCode(ResultCode.Error1010);
+		}else{
+			BoUser bu = userList.get(0);
+			bu.setPassword(MD5.getMd5(WebConstant.MD5_KEY+newPwd));
+			userDao.update(bu);
+			return result.setCode(ResultCode.OK);
+		}
 	}
 }

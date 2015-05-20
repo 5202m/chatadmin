@@ -32,6 +32,7 @@ import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -134,6 +135,7 @@ public class UserController extends BaseController{
     		logger.info("<<method:create()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增用户："+user.getUserNo()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -161,6 +163,7 @@ public class UserController extends BaseController{
     		logger.info("<--method:update()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改用户："+user.getUserNo()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -214,6 +217,7 @@ public class UserController extends BaseController{
     		logger.info("<<method:batchDel()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除用户失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -241,6 +245,7 @@ public class UserController extends BaseController{
     		logger.info("<<method:oneDel()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));

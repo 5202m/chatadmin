@@ -44,6 +44,7 @@ import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.JsonUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -231,6 +232,7 @@ public class ArticleController extends BaseController{
     		logger.info("<<method:create()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增文章："+article.getId()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -276,6 +278,7 @@ public class ArticleController extends BaseController{
     		logger.info("<--method:update()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改文章："+article.getId()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
@@ -306,6 +309,7 @@ public class ArticleController extends BaseController{
     		logger.info("<<method:deleteArticle|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除文章失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));

@@ -25,11 +25,18 @@ public class WebConstant {
 	public final static Integer Log_Leavel_WARRING = 2;
 	public final static Integer Log_Leavel_ERROR = 3;
 	
-	/**数据字典的key*/
+	/**
+	 * 数据字典的key
+	 */
 	public final static String DICT_KEY = "DICT_KEY";
 	
-	/*文件附件key*/
+	/**
+	 * 文件附件key
+	 */
 	public final static String ATTACHMENT_KEY = "ATTACHMENT_KEY";
+	
+	public final static String DEFAULT_PWD = "admin888";
+	
 	/**
 	 * 日志类型
 	 */

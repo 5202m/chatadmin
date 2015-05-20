@@ -12,14 +12,6 @@
 		          	    data-options="required:true,missingMessage:'<spring:message code="user.valid.name" />'"/></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.pass" /><!-- 密码 --><span class="red">*</span></th>
-        <td width="35%"><input type="password" name="password" id="pwd" class="easyui-validatebox"
-        				data-options="required:true,missingMessage:'<spring:message code="user.valid.pass" />'"/></td>
-        <th width="15%"><spring:message code="user.confirmpass" /><!-- 确认密码 --><span class="red">*</span></th>
-        <td width="35%"><input type="password"  id="confirmPwd" class="easyui-validatebox" 
-        				data-options="required:true,validType:'same[\'pwd\']',missingMessage:'<spring:message code="user.valid.confirmpass" />'"/></td>
-      </tr>
-      <tr>
         <th width="15%"><spring:message code="user.phone" /><!-- 手机号 --><span class="red">*</span></th>
         <td width="35%"><input type="text" name="telephone" id="telephone" class="easyui-validatebox" 
         				data-options="required:true,validType:'mobile',missingMessage:'<spring:message code="user.valid.phone" />'"/></td>

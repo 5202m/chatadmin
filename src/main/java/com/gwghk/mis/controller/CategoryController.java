@@ -29,6 +29,7 @@ import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.JsonUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 
 /**
  * 栏目管理
@@ -144,6 +145,8 @@ public class CategoryController extends BaseController{
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<create()|"+message);
     	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增栏目："+category.getName()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<create()|"+message+",ErrorMsg:"+result.toString());
@@ -169,6 +172,8 @@ public class CategoryController extends BaseController{
 	    	logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<method:update()|"+message);
     	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改栏目："+category.getName()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:update()|"+message+",ErrorMsg:"+result.toString());
@@ -192,6 +197,7 @@ public class CategoryController extends BaseController{
     		logger.info("<<method:oneDel()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除栏目失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:oneDel()|"+message+",ErrorMsg:"+result.toString());

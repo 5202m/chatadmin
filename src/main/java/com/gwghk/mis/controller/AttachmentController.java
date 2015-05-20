@@ -32,6 +32,7 @@ import com.gwghk.mis.service.AttachmentService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 
 /**
  * 摘要：附件管理
@@ -114,6 +115,7 @@ public class AttachmentController extends BaseController{
     		logger.info("<<method:oneDel()|"+message);
     	}else{
     		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
     		String message = " 附件: " + paths+ " "+DateUtil.getDateSecondFormat(new Date()) + " 删除附件失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));

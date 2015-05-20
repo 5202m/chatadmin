@@ -209,26 +209,37 @@ $(function() {
 /*
  * 修改密码
  */
-function updatePwdOpen() {
-	var p = parent.yxui.dialog({
-		title : $.i18n.prop("main.editpassword"),
-		iconCls : 'pag-edit',
-		href : 'pwdchange.html',
+function updatePwd() {
+	var url = path+'/loginController/pwdChange.do';
+	var submitUrl =  path+'/loginController/doPwdChange.do';
+	goldOfficeUtils.openEditorDialog({
+		title : '修改密码',
 		width : 480,
 		height : 190,
-		buttons : [{
-					text : $.i18n.prop("buttons.submit"),
-					iconCls : 'ope-save',
-					handler : function() {
-						$.messager.alert($.i18n.prop("tips.systemtips"), $.i18n.prop("savesuccess"));
+		href : url,
+		iconCls : 'pag-edit',
+		handler : function(){   //提交时处理
+			if($("#pwdchangeForm").form('validate')){
+				if($("#newPwd").val() != $("#repePwd").val()){
+					alert("密码不一致！");
+					$("#repePwd").focus();
+					return;
+				}
+				goldOfficeUtils.ajaxSubmitForm({
+					url : submitUrl,
+					formId : 'pwdchangeForm',
+					onSuccess : function(data){  //提交成功后处理
+						var d = $.parseJSON(data);
+						if (d.success) {
+							$("#myWindow").dialog("close");
+							$.messager.alert($.i18n.prop("common.operate.tips"),'修改成功!','info');
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'修改失败，原因：'+d.msg,'error');
+						}
 					}
-				}, {
-					text : $.i18n.prop("buttons.cancel"),
-					iconCls : 'ope-close',
-					handler : function() {
-						p.dialog('close');
-					}
-				}]
+				});
+			}
+		}
 	});
 };
 /*
@@ -236,10 +247,10 @@ function updatePwdOpen() {
  */
 function loginOut() {
 	$.messager.confirm($.i18n.prop("tips.systemtips"), $.i18n.prop("comfirmlogout"), function(r) {
-				if (r) {
-					window.location = path+"/logout.do";
-				}
-			});
+		if (r) {
+			window.location = path+"/logout.do";
+		}
+	});
 };
 
 /**

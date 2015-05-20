@@ -17,7 +17,8 @@ public enum ResultCode{
 	Error1006("1001","用户名或密码错误！"),
 	Error1007("1007","上传图片失败！"),
 	Error1008("1008","上传图片格式不对！"),
-	Error1009("1009","裁剪图片失败！");
+	Error1009("1009","裁剪图片失败！"),
+	Error1010("1010","旧密码不对！"),;
 	
 	private String code;
 	private String message;

@@ -132,6 +132,44 @@ public class LoginController extends BaseController{
 	}
 	
 	/**
+	 * 功能：修改密码
+	 */
+	@RequestMapping(value="/loginController/pwdChange")
+	public ModelAndView toPwdChange(HttpServletRequest request) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("userNo", userParam.getUserNo());
+		return new ModelAndView("main/pwdchange",map);
+	}
+	
+	/**
+	 * 功能：保存修改的密码
+	 */
+	@RequestMapping(value="/loginController/doPwdChange",method=RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson doPwdChange(HttpServletRequest request) {
+		AjaxJson ajaxResult = new AjaxJson();
+		String userNo = request.getParameter("userNo");
+		String oldpwd = request.getParameter("oldpwd");
+		String newpwd = request.getParameter("newpwd");
+		ApiResult result = userService.saveChangePwd(userNo,oldpwd,newpwd);
+		if(result != null && result.isOk()){
+			String message = "用户："+userNo+",旧密码："+oldpwd+",新密码："+newpwd+" 修改成功!";
+			logService.addLog(message, WebConstant.Log_Leavel_INFO,WebConstant.Log_Type_UPDATE
+    				 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+			logger.info(message);
+			ajaxResult.setSuccess(true);
+			return ajaxResult;
+		}else{
+			logger.error("<<method:doPwdChange()|用户："+userNo+",旧密码："+oldpwd+",新密码："+newpwd+" 修改失败,[IP]:"
+						+IPUtil.getClientIP(request)+",[ErrorMsg]:"+result.toString());
+			ajaxResult.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+			ajaxResult.setSuccess(false);
+			return ajaxResult;
+		}
+	}
+	
+	
+	/**
 	 * 功能：无权限页面提示跳转
 	 */
 	@RequestMapping(value="/loginController/noAuth")
