@@ -139,7 +139,7 @@ public class UserService{
     		if(userDao.getByUserNo(userParam.getUserNo())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
-    		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+WebConstant.DEFAULT_PWD));
+    		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword()));
     		if(boRole!=null){
     			userParam.setRole(boRole);
     		}

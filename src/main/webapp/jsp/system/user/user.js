@@ -16,6 +16,7 @@ var systemUser = {
 		goldOfficeUtils.dataGrid({
 			gridId : systemUser.gridId,
 			idField:"userId",
+			sortName : 'userId',
 			singleSelect : false,
 			url : basePath+'/userController/datagrid.do',
 			columns : [[
@@ -109,7 +110,7 @@ var systemUser = {
 							if(d.success) {
 								$("#myWindow").dialog("close");
 								systemUser.refresh();
-								$.messager.alert($.i18n.prop("common.operate.tips"),'新增成功，用户的初始密码为：admin888','info');
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增用户成功，密码为：'+$("#pwd").val(),'info');
 							}else{
 								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');
 							}
