@@ -110,7 +110,7 @@ var systemUser = {
 							if(d.success) {
 								$("#myWindow").dialog("close");
 								systemUser.refresh();
-								$.messager.alert($.i18n.prop("common.operate.tips"),'新增用户成功，密码为：'+$("#pwd").val(),'info');
+								$.messager.alert($.i18n.prop("common.operate.tips"),'新增用户成功！密码为：'+$("#pwd").val(),'info');
 							}else{
 								$.messager.alert($.i18n.prop("common.operate.tips"),'新增失败，原因：'+d.msg,'error');
 							}
