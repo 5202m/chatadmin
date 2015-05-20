@@ -18,6 +18,8 @@ var systemAuthority = {
 		goldOfficeUtils.dataGrid({
 			gridId : systemAuthority.gridId,
 			singleSelect : true,
+			idField:"roleId",
+			sortName : 'roleId',
 			url : basePath+'/roleController/datagrid.do',
 			columns : [[
 	            {title : 'roleId',field : 'roleId',hidden : true},
