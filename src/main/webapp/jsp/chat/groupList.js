@@ -175,6 +175,38 @@ var chatGroup = {
 		});
 	},
 	/**
+	 * 设置token规则
+	 */
+	setToken : function(recordId){
+		var url = formatUrl(basePath + '/chatGroupController/toSetToken.do?chatGroupId='+recordId);
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/setToken.do');
+		goldOfficeUtils.openEditorDialog({
+			title : '设置token',
+			height : 120,
+			href : url,
+			iconCls : 'pag-add',
+			handler : function(){   //提交时处理
+				if($("#setTokenForm").form('validate')){
+					goldOfficeUtils.ajaxSubmitForm({
+						url : submitUrl,
+						formId : 'setTokenForm',
+						onSuccess : function(data){  //提交成功后处理
+							var d = $.parseJSON(data);
+							if (d.success) {
+								// 提交成功后先关闭弹出框,然后刷新表格,弹出对应的成功提示
+								$("#myWindow").dialog("close");
+								chatGroup.refresh();
+								$.messager.alert($.i18n.prop("common.operate.tips"),'操作成功！','info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'操作失败，原因：'+d.msg,'error');
+							}
+						}
+					});
+				}
+			}
+		});
+	},
+	/**
 	 * 功能：刷新
 	 */
 	refresh : function(){

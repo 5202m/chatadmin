@@ -34,6 +34,7 @@ import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.service.ChatGroupService;
+import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
@@ -51,9 +52,13 @@ import com.gwghk.mis.util.ResourceUtil;
 public class ChatGroupController extends BaseController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ChatGroupController.class);
+	
 	@Autowired
 	private ChatGroupService chatGroupService;
 
+	@Autowired
+	private TokenAccessService tokenAccessService;
+	
 	/**
 	 * 设置状态
 	 * @param map
@@ -235,6 +240,42 @@ public class ChatGroupController extends BaseController{
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
+    	}
+  		return j;
+    }
+    
+    /**
+     * 功能：设置组别
+     */
+    @RequestMapping(value="/chatGroupController/toSetToken", method = RequestMethod.GET)
+    public String toSetToken(HttpServletRequest request,ModelMap map) throws Exception {
+    	map.put("chatGroupId", request.getParameter("chatGroupId"));
+    	map.put("tokenAccessList", tokenAccessService.findTokenList());
+    	return "chat/setToken";
+    } 
+    
+    
+    /**
+     * 功能：保存设置token
+     */
+    @RequestMapping(value="/chatGroupController/setToken",method=RequestMethod.POST)
+   	@ResponseBody
+    public AjaxJson setToken(HttpServletRequest request,ChatGroup chatGroup){
+    	AjaxJson j = new AjaxJson();
+    	ApiResult result = chatGroupService.saveSetToken(chatGroup);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置组别成功！";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:setToken()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置组别失败！";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:setToken()|"+message+",ErrorMsg:"+result.toString());
     	}
   		return j;
     }

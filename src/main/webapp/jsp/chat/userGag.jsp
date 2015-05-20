@@ -5,7 +5,6 @@
     <input type="hidden" name="memberId" value="${memberId}"/>
     <input type="hidden" name="groupId" value="${groupId}"/>
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-        <tbody>
 	      <tbody>
 		      <tr>
 		          <th width="30%">禁言时间段(若不填值，则不受该时间段限制)</th>

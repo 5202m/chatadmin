@@ -28,6 +28,7 @@ var tokenaccess = {
 						    });
 							return $("#tokenaccess_datagrid_rowOperation").html();
 						}},
+						{title : '使用平台',field : 'platform'},
 						{title : 'appId',field : 'appId'},
 			            {title : 'appSecret',field : 'appSecret'},
 			            {title : '有效时间',field : 'expires',sortable : true,formatter : function(value, rowData, rowIndex) {
@@ -41,6 +42,7 @@ var tokenaccess = {
 								return '';
 							}
 						}},
+						{title : '备注',field : 'remark'},
 						{title : '是否启动',field : 'status',sortable : true,formatter : function(value, rowData, rowIndex) {
 							if (value == 0) {
 								return '禁用';
@@ -53,9 +55,11 @@ var tokenaccess = {
 		});
 	},
 	setEvent:function(){
-		// 列表查询
 		$("#tokenaccess_queryForm_search").on("click",function(){
 			var queryParams = $('#'+tokenaccess.gridId).datagrid('options').queryParams;
+			$("#tokenaccess_queryForm input[name]").each(function(){
+				queryParams[this.name] = $(this).val();
+			});
 			$('#'+tokenaccess.gridId).datagrid({
 				url : basePath+'/tokenAccessController/datagrid.do',
 				pageNumber : 1
@@ -75,7 +79,7 @@ var tokenaccess = {
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),
 			width : 650,
-			height : 150,
+			height : 228,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -126,7 +130,7 @@ var tokenaccess = {
 		goldOfficeUtils.openEditorDialog({
 			title : '修改记录',
 			width : 650,
-			height : 150,
+			height : 228,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){   //提交时处理

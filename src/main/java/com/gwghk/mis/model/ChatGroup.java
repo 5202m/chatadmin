@@ -35,6 +35,11 @@ public class ChatGroup extends BaseModel{
 	private List<ChatGroupRule> chatRules;
 	
 	/**
+	 * 关联tokenAccess的id
+	 */
+	private String tokenAccessId;
+	
+	/**
      * 是否删除
      */
 	private Integer valid;
@@ -104,5 +109,12 @@ public class ChatGroup extends BaseModel{
 	public void setChatUrl(String chatUrl) {
 		this.chatUrl = chatUrl;
 	}
-	
+
+	public String getTokenAccessId() {
+		return tokenAccessId;
+	}
+
+	public void setTokenAccessId(String tokenAccessId) {
+		this.tokenAccessId = tokenAccessId;
+	}
 }

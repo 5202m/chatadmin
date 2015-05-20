@@ -1,10 +1,13 @@
 package com.gwghk.mis.service;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -33,6 +36,9 @@ public class TokenAccessService{
 		Query query=new Query();
 		if(tokenAccess != null){
 			Criteria criteria = new Criteria();
+			if(StringUtils.isNotBlank(tokenAccess.getPlatform())){
+				criteria.and("platform").regex(StringUtil.toFuzzyMatch(tokenAccess.getPlatform()));
+			}
 			if(StringUtils.isNotBlank(tokenAccess.getAppId())){
 				criteria.and("appId").regex(StringUtil.toFuzzyMatch(tokenAccess.getAppId()));
 			}
@@ -51,6 +57,20 @@ public class TokenAccessService{
 	public TokenAccess getByTokenAccessId(String tokenAccessId){
 		return tokenAccessDao.getByTokenAccessId(tokenAccessId);
 	}
+	
+	/**
+	 * 功能：根据平台-->获取token设置信息
+	 */
+	public TokenAccess getByPlatform(String platform){
+		return tokenAccessDao.getByPlatform(platform);
+	}
+	
+	/**
+	 * 功能：获取token列表
+	 */
+	public List<TokenAccess> findTokenList(){
+		return tokenAccessDao.findTokenList();
+	}
 
 	/**
 	 * 功能：保存token设置信息
@@ -62,7 +82,8 @@ public class TokenAccessService{
     		BeanUtils.copyExceptNull(tokenAccess, tokenAccessparam);
     		tokenAccessDao.update(tokenAccess);
     	}else{
-    		if(tokenAccessDao.getByAppIdAndSecret(tokenAccessparam.getAppId(),tokenAccessparam.getAppSecret())!=null){
+    		if(tokenAccessDao.getByAppIdAndSecret(tokenAccessparam.getAppId(),tokenAccessparam.getAppSecret())!=null
+    				|| tokenAccessDao.getByPlatform(tokenAccessparam.getPlatform()) != null){
     			return result.setCode(ResultCode.Error102);
     		}
     		tokenAccessDao.addTokenAccess(tokenAccessparam);

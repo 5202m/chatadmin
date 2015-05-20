@@ -1,5 +1,7 @@
 package com.gwghk.mis.dao;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -35,12 +37,30 @@ public class TokenAccessDao extends MongoDBBaseDao{
 	}
 	
 	/**
+	 * 功能：获取token列表
+	 */
+	public List<TokenAccess> findTokenList(){
+		return this.findList(TokenAccess.class, Query.query(Criteria.where("valid").is(1)));
+	}
+	
+	/**
 	 * 功能：根据appId、appSecret-->获取token设置信息
 	 */
 	public TokenAccess getByAppIdAndSecret(String appId,String appSecret){
 		return this.findOne(TokenAccess.class,Query.query(
 			   new Criteria().andOperator(Criteria.where("appId").is(appId),
 			   Criteria.where("appSecret").is(appSecret),
+			   Criteria.where("status").is(1),
+			   Criteria.where("valid").is(1))));
+	}
+
+	/**
+	 * 功能：根据平台-->获取token设置信息
+	 */
+	public TokenAccess getByPlatform(String platform){
+		return this.findOne(TokenAccess.class,Query.query(
+			   new Criteria().andOperator(Criteria.where("platform").is(platform),
+			   Criteria.where("status").is(1),
 			   Criteria.where("valid").is(1))));
 	}
 

@@ -33,6 +33,12 @@ public class TokenAccess extends BaseModel{
 	private Integer expires;
 	
 	/**
+	 * 平台
+	 */
+	@Indexed
+	private String platform;
+	
+	/**
      * 是否删除
      */
 	private Integer valid; 
@@ -40,7 +46,12 @@ public class TokenAccess extends BaseModel{
 	/**
 	 * 启用状态
 	 */
-	private String status;
+	private Integer status;
+	
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 	public String getTokenAccessId() {
 		return tokenAccessId;
@@ -66,14 +77,6 @@ public class TokenAccess extends BaseModel{
 		this.appSecret = appSecret;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public Integer getValid() {
 		return valid;
 	}
@@ -88,5 +91,29 @@ public class TokenAccess extends BaseModel{
 
 	public void setExpires(Integer expires) {
 		this.expires = expires;
+	}
+
+	public String getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

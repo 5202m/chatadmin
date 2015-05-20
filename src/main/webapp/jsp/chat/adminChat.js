@@ -18,7 +18,7 @@ var adminChat = {
 	 */
 	add : function(groupId,groupName){
 		goldOfficeUtils.ajax({
-			url : basePath +'/adminChatController/getToken.do',
+			url : basePath +'/adminChatController/getToken.do?groupId='+groupId,
 			type : 'get',
 			success : function(data){
 				if(data.obj != null){

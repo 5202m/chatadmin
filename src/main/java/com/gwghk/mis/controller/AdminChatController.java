@@ -22,7 +22,9 @@ import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
+import com.gwghk.mis.model.TokenAccess;
 import com.gwghk.mis.service.RoleService;
+import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.HttpClientUtils;
 import com.gwghk.mis.util.PropertiesUtil;
@@ -43,6 +45,9 @@ public class AdminChatController extends BaseController{
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private TokenAccessService tokenAccessService;
 	
 	/**
 	 * 功能：管理员聊天室-首页
@@ -72,12 +77,15 @@ public class AdminChatController extends BaseController{
 		try{
 			String apiURL = PropertiesUtil.getInstance().getProperty("pmApiUrl");
 			Map<String,String> paramMap = new HashMap<String,String>();
-			paramMap.put("appId", PropertiesUtil.getInstance().getProperty("appId"));
-			paramMap.put("appSecret", PropertiesUtil.getInstance().getProperty("appSecret"));
-			final String responseJson = HttpClientUtils.httpPostString(apiURL+"/token/getToken",paramMap);
-			JSONObject jsonObject = JSONObject.fromObject(responseJson.trim());
-			if(jsonObject.containsKey("token")){
-				token = jsonObject.getString("token");
+			TokenAccess ta = tokenAccessService.getByPlatform(request.getParameter("groupId"));
+			if(ta != null){
+				paramMap.put("appId", ta.getAppId());
+				paramMap.put("appSecret", ta.getAppSecret());
+				final String responseJson = HttpClientUtils.httpPostString(apiURL+"/token/getToken",paramMap);
+				JSONObject jsonObject = JSONObject.fromObject(responseJson.trim());
+				if(jsonObject.containsKey("token")){
+					token = jsonObject.getString("token");
+				}
 			}
 		}catch(Exception e){
 			logger.error("<<get token fail !",e);

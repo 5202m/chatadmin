@@ -8,19 +8,15 @@
     <form class="yxForm" id="tokenaccess_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
-          <th width="10%">编号</th>
-          <td width="23%"><input type="text" name="code" id="code" style="width:160px"/></td>
-          <th width="10%">标题</th>
-          <td width="23%"><input type="text" name="title" id="title" style="width:160px"/></td>
+          <th width="10%">使用平台</th>
+          <td width="23%"><input type="text" name="platform" id="platform" style="width:185px"/></td>
+          <th width="10%">appId</th>
+          <td width="23%"><input type="text" name="appId" id="appId" style="width:185px"/></td>
         </tr>
         <tr>
-           <th width="10%">状态</th>
+           <th width="10%">appSecret</th>
            <td width="23%" colspan="3">
-          	 <select id="status"  style="width:160px">
-          	 	<option value="">---请选择---</option>
-	          	<option value="1"><spring:message code="common.enabled" /><!-- 启用 --></option>
-	          	<option value="0"><spring:message code="common.disabled" /><!-- 禁用 --></option>
-	          </select>
+          	  <input type="text" name="appSecret" id="appSecret" style="width:185px"/>
            </td>
         </tr>
         <tr>

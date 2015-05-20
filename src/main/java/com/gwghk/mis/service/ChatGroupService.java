@@ -15,9 +15,11 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatGroupDao;
 import com.gwghk.mis.dao.ChatGroupRuleDao;
 import com.gwghk.mis.dao.RoleDao;
+import com.gwghk.mis.dao.TokenAccessDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
+import com.gwghk.mis.model.TokenAccess;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.StringUtil;
 
@@ -37,6 +39,9 @@ public class ChatGroupService{
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	@Autowired
+	private TokenAccessDao tokenAccessDao;
 
 	/**
 	 * 通过id找对应记录
@@ -86,6 +91,26 @@ public class ChatGroupService{
 		}
 		//不保存id
 		group.setChatRuleIds(null);
+	}
+	
+	/**
+	 * 功能：设置组别
+	 */
+	public ApiResult saveSetToken(ChatGroup group){
+		ApiResult result = new ApiResult();
+		ChatGroup g = getChatGroupById(group.getId());
+		if(g != null){
+			g.setTokenAccessId(group.getTokenAccessId());
+			chatGroupDao.update(g);
+		}
+		return result.setCode(ResultCode.OK);
+	}
+	
+	/**
+	 * 功能：根据groupId-->获取 TokenAccess
+	 */
+	public TokenAccess getTokenAccessByGroupId(String groupId){
+		return tokenAccessDao.getByTokenAccessId(getChatGroupById(groupId).getTokenAccessId());
 	}
 	
 	/**
