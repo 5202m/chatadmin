@@ -226,6 +226,11 @@
 	        <version>1.6.2.RELEASE</version>
     	</dependency>
     	<dependency>
+	        <groupId>org.springframework.data</groupId>
+	        <artifactId>spring-data-redis</artifactId>
+	        <version>1.5.0.RELEASE</version>
+    	</dependency>
+    	<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
 			<version>8.0.18</version>
