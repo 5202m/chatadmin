@@ -1,19 +1,14 @@
 package com.gwghk.mis.dao;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.enums.IdSeq;
-import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.BoMenu;
 import com.gwghk.mis.model.BoRole;
 import com.mongodb.WriteResult;

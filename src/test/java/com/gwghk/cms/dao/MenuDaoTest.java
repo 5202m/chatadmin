@@ -3,6 +3,7 @@ package com.gwghk.cms.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,7 +25,8 @@ public class MenuDaoTest extends SpringJunitTest {
      * 插入单条数据，id自定义 
      */
 	
-	//@Test
+	@Test
+    @Ignore
 	public void testAdd() {
         try{
         	BoMenu menu = new BoMenu();
@@ -52,12 +54,15 @@ public class MenuDaoTest extends SpringJunitTest {
         }
     }
 
+	@Test
 	public void testFind(){
-		List<BoMenu> menulist=menuDao.getMenuByRoleId("");
+		//List<BoMenu> menulist=menuDao.getMenuByRoleId("");
+		List<BoMenu> menulist=menuDao.getAllMenuList();
 		System.out.println("size:"+menulist.size());
 	}
 	
-
+	@Test
+    @Ignore
 	public void update(){
 		List<BoMenu> menulist=menuDao.getAllMenuList();
 		for(BoMenu bo:menulist){
@@ -67,6 +72,7 @@ public class MenuDaoTest extends SpringJunitTest {
 	}
 	
 	@Test
+    @Ignore
 	public void deleteMenuRole(){
 		menuService.setMenuRole(new String[]{"M150312B000021"},"R150311B000003");//new String[]{"M150311B000012"}
 	}
