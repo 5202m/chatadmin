@@ -1,16 +1,15 @@
 package com.gwghk.mis.dao;
 
 import java.util.List;
-
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.enums.IdSeq;
+import com.gwghk.mis.model.Token;
 import com.gwghk.mis.model.TokenAccess;
 import com.mongodb.WriteResult;
 
@@ -73,6 +72,14 @@ public class TokenAccessDao extends MongoDBBaseDao{
 		this.add(tokenAccess);
 		return true;
 	}
+    
+    /**
+     * 功能：删除token信息
+     */
+    public boolean deleteToken(String tokenAccessId){
+    	WriteResult wr = this.mongoTemplate.remove(Query.query(Criteria.where("tokenAccessId").is(tokenAccessId)),Token.class);
+    	return wr!=null && wr.getN()>0;
+    }
     
     /**
 	 * 功能：删除token设置信息

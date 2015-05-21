@@ -27,7 +27,7 @@ public class TokenAccessService{
 	
 	@Autowired
 	private TokenAccessDao tokenAccessDao;
-
+	
 	/**
 	 * 功能：tokenAccess 分页查询
 	 */
@@ -81,6 +81,7 @@ public class TokenAccessService{
     		TokenAccess tokenAccess = tokenAccessDao.getByTokenAccessId(tokenAccessparam.getTokenAccessId());
     		BeanUtils.copyExceptNull(tokenAccess, tokenAccessparam);
     		tokenAccessDao.update(tokenAccess);
+    		tokenAccessDao.deleteToken(tokenAccessparam.getTokenAccessId());
     	}else{
     		if(tokenAccessDao.getByAppIdAndSecret(tokenAccessparam.getAppId(),tokenAccessparam.getAppSecret())!=null
     				|| tokenAccessDao.getByPlatform(tokenAccessparam.getPlatform()) != null){

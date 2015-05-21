@@ -22,6 +22,7 @@ var adminChat = {
 			type : 'get',
 			success : function(data){
 				if(data.obj != null){
+					alert(data.obj);
 					$('#'+groupId).linkbutton('disable');
 					var p = $('<div/>').appendTo('body');
 					p.panel({
