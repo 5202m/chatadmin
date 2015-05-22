@@ -51,7 +51,7 @@ public class AuthorityController extends BaseController{
     public AjaxJson getFuns(HttpServletRequest request,ModelMap map){
 		String menuId = request.getParameter("menuId");
 		AjaxJson result = new AjaxJson();
-		result.setObj(this.getFunMenuList(menuId));
+		result.setObj(menuService.getSubFunByMenuId(menuId,ResourceUtil.getSessionUser().getRole().getRoleId()));
 		return result;
 	}
 	/**
