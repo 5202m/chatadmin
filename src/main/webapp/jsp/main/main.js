@@ -168,8 +168,8 @@ var main={
 							closable : true,
 							href : url,
 							onLoad:function(){    //按钮权限控制
-								alert(basebasePath+"/authorityController/getFuns.do");
-								var result = getJson(basebasePath+"/authorityController/getFuns.do",{menuId:node.id},null);
+								alert(basePath+"/authorityController/getFuns.do");
+								var result = getJson(basePath+"/authorityController/getFuns.do",{menuId:node.id},null);
 								var obj = result.obj;
 							    if(validObj(obj)){
 							       for(var i=0;i<obj.length;i++){
