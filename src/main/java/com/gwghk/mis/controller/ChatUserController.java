@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
-import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
@@ -147,35 +145,5 @@ public class ChatUserController extends BaseController{
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+apiResult.toString());
 		}
 		return j;
-	} 
-	
-   /**
-  	* 功能：聊天室内容管理-删除
-  	*/
-    @RequestMapping(value="/chatUserController/del")
-    @ResponseBody
-    @ActionVerification(key="delete")
-    public AjaxJson del(HttpServletRequest request,HttpServletResponse response){
-    	BoUser boUser = ResourceUtil.getSessionUser();
-    	String delIds = request.getParameter("ids");
-    	if(StringUtils.isBlank(delIds)){
-    		delIds = request.getParameter("id");
-    	}
-    	AjaxJson j = new AjaxJson();
-    	ApiResult result =null;//chatContentService.deleteChatContent(delIds.split(","));
-    	if(result.isOk()){
-    		j.setSuccess(true);
-    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室内容成功";
-    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.info("<<method:batchDel()|"+message);
-    	}else{
-    		j.setSuccess(false);
-    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室内容失败";
-    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
-    	}
-  		return j;
-    }
+	}
 }
