@@ -72,6 +72,7 @@
     <div iconCls="ope-cancelSelect" type="closeAll"><spring:message code="main.closeall" /><!-- 关闭所有 --></div>
   </div>
 <script type="text/javascript" charset="UTF-8">
+   var basePath = "<%=request.getContextPath()%>";
    var path = "<%=request.getContextPath()%>";
    var locale = "${locale}";                       //简体：zh_CN 繁体：zh_TW 英文：en_US
 </script>

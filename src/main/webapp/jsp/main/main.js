@@ -9,7 +9,7 @@ var main={
 		var day = nowDate.getDate() < 10 ? '0' + nowDate.getDate() : nowDate.getDate();
 		$('#yxui_main_today').html(year + '-' + month + '-' + day);
 		$('#yxui_main_fullyear').html(year);
-		var westUrl = path+'/menuController/getMenuRoleTree.do';
+		var westUrl = basePath+'/menuController/getMenuRoleTree.do';
 		var $west = $('#yxui_main_accordion');
 		var $center = $('#yxui_main_tabs');
 		var $centerMenu = $('#yxui_main_tabs_menu');
@@ -105,7 +105,7 @@ var main={
 		westTreeClick = function(node) {
 			// 先判断session是否过期,如果过期,则跳转到登录页面
 			$.ajax({
-				url : path+'/sessionValid.do',
+				url : basePath+'/sessionValid.do',
 				type : 'get',
 				cache : false,
 				success : function(data) {
@@ -117,7 +117,7 @@ var main={
 						}
 					}else{
 						alert($.i18n.prop("main.sessiontimeout")); //对不起，会话已经过期,请重新登录!
-						top.location.href = path+'/login.do';
+						top.location.href = basePath+'/login.do';
 					}
 				}
 			});
@@ -168,7 +168,8 @@ var main={
 							closable : true,
 							href : url,
 							onLoad:function(){    //按钮权限控制
-								var result = getJson(path+"/authorityController/getFuns.do",{menuId:node.id},null);
+								alert(basebasePath+"/authorityController/getFuns.do");
+								var result = getJson(basebasePath+"/authorityController/getFuns.do",{menuId:node.id},null);
 								var obj = result.obj;
 							    if(validObj(obj)){
 							       for(var i=0;i<obj.length;i++){
@@ -210,8 +211,8 @@ $(function() {
  * 修改密码
  */
 function updatePwd() {
-	var url = path+'/loginController/pwdChange.do';
-	var submitUrl =  path+'/loginController/doPwdChange.do';
+	var url = basePath+'/loginController/pwdChange.do';
+	var submitUrl =  basePath+'/loginController/doPwdChange.do';
 	goldOfficeUtils.openEditorDialog({
 		title : '修改密码',
 		width : 480,
@@ -248,7 +249,7 @@ function updatePwd() {
 function loginOut() {
 	$.messager.confirm($.i18n.prop("tips.systemtips"), $.i18n.prop("comfirmlogout"), function(r) {
 		if (r) {
-			window.location = path+"/logout.do";
+			window.location = basePath+"/logout.do";
 		}
 	});
 };

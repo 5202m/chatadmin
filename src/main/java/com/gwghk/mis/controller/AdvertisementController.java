@@ -76,6 +76,7 @@ public class AdvertisementController extends BaseController{
 	 * 功能：广告管理-新增
 	 */
     @RequestMapping(value="/advertisementController/add", method = RequestMethod.GET)
+    @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	return "advertisement/advertisementAdd";
     }
@@ -84,6 +85,7 @@ public class AdvertisementController extends BaseController{
 	 * 功能：广告管理-查看
 	 */
     @RequestMapping(value="/advertisementController/{advertisementId}/view", method = RequestMethod.GET)
+    @ActionVerification(key="view")
     public String view(@PathVariable String advertisementId , ModelMap map) throws Exception {
     	Advertisement advertisement = advertisementService.getByAdvertisementId(advertisementId);
     	map.addAttribute("advertisement",advertisement);
@@ -93,8 +95,8 @@ public class AdvertisementController extends BaseController{
 	/**
 	 * 功能：广告管理-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/advertisementController/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(HttpServletRequest request , ModelMap map) throws Exception {
     	String advertisementId = request.getParameter("advertisementId");
     	Advertisement advertisement = advertisementService.getByAdvertisementId(advertisementId);
