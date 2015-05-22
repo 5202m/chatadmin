@@ -138,7 +138,6 @@ public class DictionaryController extends BaseController{
    	 */
     @RequestMapping(value="/dictionaryController/create",method=RequestMethod.POST)
    	@ResponseBody
-    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,DictionaryJsonParam dictionaryJsonParam){
     	BoDict dict=new BoDict();
         BeanUtils.copyExceptNull(dict, dictionaryJsonParam);
@@ -192,7 +191,6 @@ public class DictionaryController extends BaseController{
    	*/
     @RequestMapping(value="/dictionaryController/update",method=RequestMethod.POST)
    	@ResponseBody
-    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,BoDict dictParam){
     	dictParam.setUpdateUser(userParam.getUserNo());
     	dictParam.setUpdateIp(IPUtil.getClientIP(request));
