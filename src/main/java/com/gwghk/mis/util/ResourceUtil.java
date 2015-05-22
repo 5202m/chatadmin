@@ -104,7 +104,6 @@ public class ResourceUtil {
 
 	/**
 	 * 功能：获取当前登录用户对象
-	 * @return MngUser 当前登录用户对象
 	 */
 	public static BoUser getSessionUser() {
 		Object userNoSession = ContextHolderUtils.getSession().getAttribute(ContextHolderUtils.getSessionId());
