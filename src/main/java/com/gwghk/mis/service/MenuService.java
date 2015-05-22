@@ -10,7 +10,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.WebConstant;
@@ -37,6 +36,12 @@ public class MenuService{
 	@Autowired
 	private RoleDao roleDao;
 	
+	/**
+	 * 功能：获取子功能列表
+	 */
+	public List<BoMenu> getSubFunByMenuId(String menuId,String roleId){
+		return menuDao.getSubFunByMenuId(menuId,roleId);
+	}
 	/**
 	 * 功能：提取树形菜单
 	 */

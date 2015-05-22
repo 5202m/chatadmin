@@ -91,10 +91,22 @@ public class MenuDao extends MongoDBBaseDao{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("valid").is(1));
 		query.addCriteria(Criteria.where("type").is(0));
-		query.addCriteria(new Criteria().orOperator(Criteria.where("parent_menu_id").is(""),Criteria.where("parent_menu_id").is(null)));
+		query.addCriteria(new Criteria().orOperator(Criteria.where("parentMenuId").is(""),Criteria.where("parentMenuId").is(null)));
 		return this.findList(BoMenu.class, query);
 	}
 
+	/**
+	 * 功能：获取子功能列表
+	 */
+	public List<BoMenu> getSubFunByMenuId(String menuId,String roleId){
+		Criteria criteria=new Criteria();
+		criteria.and("valid").is(1);
+		criteria.and("type").is(1);
+		criteria.and("parentMenuId").is(menuId);
+		criteria.and("roleList.roleId").is(roleId);
+		return this.findList(BoMenu.class, Query.query(criteria));
+	}
+	
 	/**
 	 * 通过角色id找菜单列表
 	 * @param roleId
