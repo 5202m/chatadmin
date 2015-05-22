@@ -101,7 +101,7 @@ public class MenuController extends BaseController{
    	 */
     @RequestMapping(value="/menuController/create",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson create(HttpServletRequest request,HttpServletResponse response,BoMenu menu){
+    public AjaxJson create(HttpServletRequest request,BoMenu menu){
     	menu.setCreateUser(userParam.getUserNo());
     	menu.setCreateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();

@@ -218,7 +218,7 @@ public class UserController extends BaseController{
     @RequestMapping(value="/userController/batchDel",method=RequestMethod.POST)
     @ResponseBody
     @ActionVerification(key="delete")
-    public AjaxJson batchDel(HttpServletRequest request,HttpServletResponse response){
+    public AjaxJson batchDel(HttpServletRequest request){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	String delIds = request.getParameter("ids");
     	AjaxJson j = new AjaxJson();
