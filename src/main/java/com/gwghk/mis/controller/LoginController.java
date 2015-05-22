@@ -187,9 +187,8 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public  ModelAndView logout(HttpServletRequest request) {
-		BoUser user = ResourceUtil.getSessionUser();
-		if(user != null){
-			String message = "用户: " + user.getUserNo() + ",IP:"+IPUtil.getClientIP(request)+","+DateUtil.getDateSecondFormat(new Date()) + " 退出系统";
+		if(userParam != null){
+			String message = "用户: " + userParam.getUserNo() + ",IP:"+IPUtil.getClientIP(request)+","+DateUtil.getDateSecondFormat(new Date()) + " 退出系统";
 			logService.addLog(message,WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_EXIT
 							 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 			logger.info(message);
