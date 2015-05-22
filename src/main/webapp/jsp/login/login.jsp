@@ -27,10 +27,10 @@
         <div id="input_body">
           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="login_table">
             <tr>
-              <td><input id="userNo" name="userNo" type="text" class="login_input"  value="admin" /></td>
+              <td><input id="userNo" name="userNo" type="text" class="login_input"/></td>
             </tr>
             <tr>
-              <td><input id="password" name="password" type="password"  class="login_input" value="11111111" /></td>
+              <td><input id="password" name="password" type="password"  class="login_input"/></td>
             </tr>
             <tr>
               <td>
