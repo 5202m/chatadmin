@@ -83,8 +83,8 @@ public class AppCategoryController extends BaseController{
 	/**
 	 * 功能：应用类别管理-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/appCategoryController/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(HttpServletRequest request , ModelMap map) throws Exception {
     	String appCategoryId = request.getParameter("appCategoryId");
     	AppCategory appCategory = appCategoryService.getByAppCategoryId(appCategoryId);
