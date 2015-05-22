@@ -21,6 +21,7 @@ import com.gwghk.mis.enums.AttachmentType;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.Attachment;
 import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.PropertiesUtil;
 
 /**
  * 附件管理相关Service
@@ -37,7 +38,9 @@ public class AttachmentService{
 	 */
 	public List<Attachment> getAttachmentList(DetachedCriteria<Attachment> detachedCriteria) {
 		 Attachment attachment=detachedCriteria.getSearchModel();
-		 Path fp = Paths.get("D:\\log");//文件服务器确认后，改成远程附件服务器路径
+		 PropertiesUtil pUtil=PropertiesUtil.getInstance();
+		 String url=String.format("%s%s/%s", pUtil.getProperty("pmfilesDomain"),pUtil.getProperty("pmfilesRootPath"),pUtil.getProperty("uploadBasePath"));
+		 Path fp = Paths.get(url);//文件服务器确认后，改成远程附件服务器路径
 		 if(attachment==null){
 			 return null;
 		 }

@@ -109,6 +109,7 @@ public class AdvertisementController extends BaseController{
    	 */
     @RequestMapping(value="/advertisementController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,Advertisement advertisement){
     	this.setBaseInfo(advertisement, request,false);
     	AjaxJson j = new AjaxJson();
@@ -135,6 +136,7 @@ public class AdvertisementController extends BaseController{
    	*/
     @RequestMapping(value="/advertisementController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,Advertisement advertisement){
     	this.setBaseInfo(advertisement , request,true);
     	AjaxJson j = new AjaxJson();

@@ -54,13 +54,13 @@
    <!-- datagrid-toolbar -->
   <div id="attachment_datagrid_toolbar">
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="attachment.del();"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
-    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="attachment.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="attachment.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="attachment_datagrid_rowOperation">
 	  <a class="easyui-linkbutton cover" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="attachment.cover(this.id)">覆盖</a>
-	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="attachment.del(this.id)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="attachment.del(this.id)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
   </div>
   
 </div>

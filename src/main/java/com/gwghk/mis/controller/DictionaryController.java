@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.constant.WebConstant;
@@ -123,6 +124,7 @@ public class DictionaryController extends BaseController{
 	 * 功能：数据字典管理-新增
 	 */
     @RequestMapping(value="/dictionaryController/add", method = RequestMethod.GET)  
+    @ActionVerification(key="add")
     public String add(HttpServletRequest request,ModelMap map) throws Exception {
     	String type = request.getParameter("type");
     	String parentCode = request.getParameter("parentCode");
@@ -136,6 +138,7 @@ public class DictionaryController extends BaseController{
    	 */
     @RequestMapping(value="/dictionaryController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,DictionaryJsonParam dictionaryJsonParam){
     	BoDict dict=new BoDict();
         BeanUtils.copyExceptNull(dict, dictionaryJsonParam);
@@ -162,6 +165,7 @@ public class DictionaryController extends BaseController{
 	 * 功能：数据字典管理-修改
 	 */
     @RequestMapping(value="/dictionaryController/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(HttpServletRequest request,ModelMap map) throws Exception {
     	String id = request.getParameter("id");
     	String type=request.getParameter("type");
@@ -188,6 +192,7 @@ public class DictionaryController extends BaseController{
    	*/
     @RequestMapping(value="/dictionaryController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,BoDict dictParam){
     	dictParam.setUpdateUser(userParam.getUserNo());
     	dictParam.setUpdateIp(IPUtil.getClientIP(request));
@@ -214,6 +219,7 @@ public class DictionaryController extends BaseController{
   	*/
     @RequestMapping(value="/dictionaryController/oneDel",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="delete")
     public AjaxJson oneDel(HttpServletRequest request){
     	String delId = request.getParameter("id");
     	String type = request.getParameter("type");

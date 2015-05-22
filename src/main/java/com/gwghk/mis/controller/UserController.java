@@ -121,6 +121,7 @@ public class UserController extends BaseController{
    	 */
     @RequestMapping(value="/userController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,BoUser user){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	user.setCreateUser(userParam.getUserNo());
@@ -149,6 +150,7 @@ public class UserController extends BaseController{
    	*/
     @RequestMapping(value="/userController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,BoUser user){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	user.setUpdateUser(userParam.getUserNo());
@@ -188,6 +190,7 @@ public class UserController extends BaseController{
   	*/
     @RequestMapping(value="/userController/saveResetPwd",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="resetPwd")
     public AjaxJson saveResetPwd(HttpServletRequest request){
     	String id = request.getParameter("id"),newPwd = request.getParameter("newPwd");
     	AjaxJson j = new AjaxJson();

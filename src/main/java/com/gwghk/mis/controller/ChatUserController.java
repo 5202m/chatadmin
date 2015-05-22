@@ -97,6 +97,7 @@ public class ChatUserController extends BaseController{
 	 * 功能：进入用户禁言页面
 	 */
     @RequestMapping(value="/chatUserController/toUserGag", method = RequestMethod.GET)
+    @ActionVerification(key="setGagTime")
     public String toUserGag(HttpServletRequest request,ModelMap map) throws Exception {
     	 String memberId = request.getParameter("memberId");
     	 String groupId = request.getParameter("groupId");
@@ -122,6 +123,7 @@ public class ChatUserController extends BaseController{
 	 */
 	@RequestMapping(value="/chatUserController/setUserGag",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="setGagTime")
     public AjaxJson setUserGag(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String memberId = request.getParameter("memberId");

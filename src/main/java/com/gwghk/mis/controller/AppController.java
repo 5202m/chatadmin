@@ -115,6 +115,7 @@ public class AppController extends BaseController{
    	 */
     @RequestMapping(value="/appController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,App app){
     	this.setBaseInfo(app, request,false);
     	AjaxJson j = new AjaxJson();
@@ -141,6 +142,7 @@ public class AppController extends BaseController{
    	*/
     @RequestMapping(value="/appController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,App app){
     	this.setBaseInfo(app, request,true);
     	AjaxJson j = new AjaxJson();

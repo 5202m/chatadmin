@@ -158,6 +158,7 @@ public class ChatGroupController extends BaseController{
    	 */
     @RequestMapping(value="/chatGroupController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,false);
     	AjaxJson j = new AjaxJson();
@@ -188,6 +189,7 @@ public class ChatGroupController extends BaseController{
    	*/
     @RequestMapping(value="/chatGroupController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,true);
     	String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
@@ -244,39 +246,4 @@ public class ChatGroupController extends BaseController{
   		return j;
     }
     
-    /**
-     * 功能：设置组别
-     */
-    @RequestMapping(value="/chatGroupController/toSetToken", method = RequestMethod.GET)
-    public String toSetToken(HttpServletRequest request,ModelMap map) throws Exception {
-    	map.put("chatGroupId", request.getParameter("chatGroupId"));
-    	map.put("tokenAccessList", tokenAccessService.findTokenList());
-    	return "chat/setToken";
-    } 
-    
-    
-    /**
-     * 功能：保存设置token
-     */
-    @RequestMapping(value="/chatGroupController/setToken",method=RequestMethod.POST)
-   	@ResponseBody
-    public AjaxJson setToken(HttpServletRequest request,ChatGroup chatGroup){
-    	AjaxJson j = new AjaxJson();
-    	ApiResult result = chatGroupService.saveSetToken(chatGroup);
-    	if(result.isOk()){
-    		j.setSuccess(true);
-    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置组别成功！";
-    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.info("<<method:setToken()|"+message);
-    	}else{
-    		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置组别失败！";
-    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_UPDATE
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.error("<<method:setToken()|"+message+",ErrorMsg:"+result.toString());
-    	}
-  		return j;
-    }
 }

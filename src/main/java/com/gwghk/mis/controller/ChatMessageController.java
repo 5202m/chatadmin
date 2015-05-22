@@ -93,6 +93,7 @@ public class ChatMessageController extends BaseController{
 	 * 功能：导出聊天记录(以模板的方式导出)
 	 */
 	@RequestMapping(value = "/chatMessageController/exportRecord", method = RequestMethod.GET)
+	@ActionVerification(key="export")
 	public void exportRecord(HttpServletRequest request, HttpServletResponse response,ChatMessage chatMessage){
 		try{
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_RECORDS_TEMPLATE_PATH)));

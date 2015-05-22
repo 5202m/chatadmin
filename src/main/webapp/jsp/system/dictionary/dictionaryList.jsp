@@ -30,15 +30,15 @@
   
    <!-- datagrid-toolbar -->
   <div id="system_dictionary_datagrid_toolbar" style="display:none;">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="systemDictionary.addTypeGroup();"><spring:message code="dictionary.addgroup" /><!-- 新增字典分组 --></a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="systemDictionary.addType();"><spring:message code="dictionary.add" /><!-- 新增字典 --></a>
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="systemDictionary.addTypeGroup();"><spring:message code="dictionary.addgroup" /><!-- 新增字典分组 --></a>
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="systemDictionary.addType();"><spring:message code="dictionary.add" /><!-- 新增字典 --></a>
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="systemDictionary.reload()"><spring:message code="common.buttons.refresh" /></a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="system_dictionary_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="systemDictionary.edit(this)"><spring:message code="common.buttons.edit" /></a>
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="systemDictionary.del(this)"><spring:message code="common.buttons.delete" /></a>
+	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="systemDictionary.edit(this)"><spring:message code="common.buttons.edit" /></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="systemDictionary.del(this)"><spring:message code="common.buttons.delete" /></a>
   </div>
  
 </div>

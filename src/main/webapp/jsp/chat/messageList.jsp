@@ -64,14 +64,14 @@
   
    <!-- datagrid-toolbar -->
   <div id="chatMessage_datagrid_toolbar" style="display:none;">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatMessage.refresh()"><spring:message code="common.buttons.refresh" /></a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-export',disabled:false"  onclick="chatMessage.exportRecord();">导出记录</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.batchDel();">删除</a>
+    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatMessage.refresh()"><spring:message code="common.buttons.refresh" /></a>
+    <a class="easyui-linkbutton export" data-options="plain:true,iconCls:'ope-export',disabled:false"  onclick="chatMessage.exportRecord();">导出记录</a>
+    <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.batchDel();">删除</a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="chatMessage_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.del(this.id)"><spring:message code="common.buttons.delete" /></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.del(this.id)"><spring:message code="common.buttons.delete" /></a>
   </div>
  
 </div>

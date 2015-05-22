@@ -43,13 +43,13 @@
   <div id="advertisement_datagrid_toolbar">
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="advertisement.add();">新增<!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="advertisement.batchDel();">删除<!-- 删除 --></a>
-    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="advertisement.refresh();">刷新<!-- 刷新 --></a> 
+    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="advertisement.refresh();">刷新<!-- 刷新 --></a> 
   </div>
   
   <!-- datagrid-操作按钮 -->
   <div id="advertisement_datagrid_rowOperation">
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="advertisement.edit(this.id)">修改<!-- 修改 --></a>
-	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="advertisement.del(this.id)">删除<!-- 删除 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="advertisement.del(this.id)">删除<!-- 删除 --></a>
   </div>
   
 </div>

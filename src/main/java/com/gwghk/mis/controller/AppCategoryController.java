@@ -97,6 +97,7 @@ public class AppCategoryController extends BaseController{
    	 */
     @RequestMapping(value="/appCategoryController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,AppCategory appCategory){
     	this.setBaseInfo(appCategory, request,false);
     	AjaxJson j = new AjaxJson();
@@ -123,6 +124,7 @@ public class AppCategoryController extends BaseController{
    	*/
     @RequestMapping(value="/appCategoryController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,AppCategory appCategory){
     	this.setBaseInfo(appCategory, request,true);
     	AjaxJson j = new AjaxJson();

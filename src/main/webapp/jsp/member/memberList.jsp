@@ -39,13 +39,13 @@
   <div id="member_datagrid_toolbar">
       <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="member.add();">新增<!-- 新增 --></a> 
       <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="member.batchDel();">删除<!-- 删除 --></a>
-      <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="member.refresh();">刷新<!-- 刷新 --></a> 
+      <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="member.refresh();">刷新<!-- 刷新 --></a> 
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="member_datagrid_rowOperation">
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="member.edit(this.id)">修改<!-- 修改 --></a>
-	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="member.del(this.id)">删除<!-- 删除 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="member.del(this.id)">删除<!-- 删除 --></a>
   	  <a class="easyui-linkbutton resetPwd" data-options="plain:true,iconCls:'ope-redo',disabled:false"  onclick="member.resetPwd(this.id)">重置密码<!-- 重置密码 --></a>
   </div>
 </div>

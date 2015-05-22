@@ -65,7 +65,7 @@ var articlePlatformStr='${articlePlatformJson}';
   <div id="article_datagrid_rowOperation">
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="article.edit(this.id)">修改<!-- 修改 --></a>
 	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="article.view(this.id)">查看<!-- 查看 --></a>
-	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="article.del(this.id)">删除<!-- 删除 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="article.del(this.id)">删除<!-- 删除 --></a>
   </div>
   
 </div>

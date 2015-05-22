@@ -74,6 +74,7 @@ public class TokenAccessController extends BaseController{
 	 * 功能：token设置-新增
 	 */
     @RequestMapping(value="/tokenAccessController/add", method = RequestMethod.GET)
+    @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	return "tokenaccess/tokenaccessAdd";
     }
@@ -82,6 +83,7 @@ public class TokenAccessController extends BaseController{
 	 * 功能：token设置-修改
 	 */
     @RequestMapping(value="/tokenAccessController/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(HttpServletRequest request , ModelMap map) throws Exception {
     	String tokenAccessId = request.getParameter("tokenAccessId");
     	TokenAccess tokenAccess = tokenAccessService.getByTokenAccessId(tokenAccessId);
@@ -94,6 +96,7 @@ public class TokenAccessController extends BaseController{
    	 */
     @RequestMapping(value="/tokenAccessController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,TokenAccess tokenAccess){
     	this.setBaseInfo(tokenAccess, request,false);
     	AjaxJson j = new AjaxJson();
@@ -122,6 +125,7 @@ public class TokenAccessController extends BaseController{
    	*/
     @RequestMapping(value="/tokenAccessController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,TokenAccess tokenAccess){
     	this.setBaseInfo(tokenAccess, request,true);
     	AjaxJson j = new AjaxJson();

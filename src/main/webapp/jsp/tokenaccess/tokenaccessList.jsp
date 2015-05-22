@@ -45,7 +45,7 @@
   <!-- datagrid-操作按钮 -->
   <div id="tokenaccess_datagrid_rowOperation">
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="tokenaccess.edit(this.id)">修改<!-- 修改 --></a>
-	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="tokenaccess.del(this.id)">删除<!-- 删除 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="tokenaccess.del(this.id)">删除<!-- 删除 --></a>
   </div>
   
 </div>

@@ -37,15 +37,15 @@
   
    <!-- datagrid-toolbar -->
   <div id="category_datagrid_toolbar" style="display:none;">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="category.add();">新增栏目</a>
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="category.add();">新增栏目</a>
     <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="category.reload()"><spring:message code="common.buttons.refresh" /></a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="category_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="category.edit(this)"><spring:message code="common.buttons.edit" /></a>
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="category.add(this);">新增子栏目</a>
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="category.del(this)"><spring:message code="common.buttons.delete" /></a>
+	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="category.edit(this)"><spring:message code="common.buttons.edit" /></a>
+	  <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="category.add(this);">新增子栏目</a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="category.del(this)"><spring:message code="common.buttons.delete" /></a>
   </div>
  
 </div>

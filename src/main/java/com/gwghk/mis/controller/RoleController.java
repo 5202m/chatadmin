@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
@@ -82,6 +83,7 @@ public class RoleController extends BaseController{
 	 * 功能：角色管理-新增
 	 */
     @RequestMapping(value="/roleController/add", method = RequestMethod.GET)  
+    @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	return "system/role/roleAdd";
     }
@@ -99,6 +101,7 @@ public class RoleController extends BaseController{
 	 * 功能：角色管理-修改
 	 */
     @RequestMapping(value="/roleController/{id}/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(@PathVariable String id , ModelMap map) throws Exception {
     	map.addAttribute("mngRole",roleService.getByRoleId(id));
 		return "system/role/roleEdit";
@@ -109,6 +112,7 @@ public class RoleController extends BaseController{
    	 */
     @RequestMapping(value="/roleController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,BoRole role){
     	role.setCreateUser(userParam.getUserNo());
     	role.setCreateIp(IPUtil.getClientIP(request));
@@ -136,6 +140,7 @@ public class RoleController extends BaseController{
    	*/
     @RequestMapping(value="/roleController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,BoRole role){
     	AjaxJson j = new AjaxJson();
     	ApiResult result = roleService.saveRole(role, true);
@@ -161,6 +166,7 @@ public class RoleController extends BaseController{
   	*/
     @RequestMapping(value="/roleController/batchDel",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="delete")
     public AjaxJson batchDel(HttpServletRequest request){
     	AjaxJson j = new AjaxJson();
     	String delIds = request.getParameter("ids");
@@ -188,6 +194,7 @@ public class RoleController extends BaseController{
   	*/
     @RequestMapping(value="/roleController/oneDel",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="delete")
     public AjaxJson oneDel(HttpServletRequest request){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	String delId = request.getParameter("id");
@@ -214,6 +221,7 @@ public class RoleController extends BaseController{
   	 * 功能：角色管理-分配聊天室
   	 */
     @RequestMapping(value="/roleController/assignChatGroup", method = RequestMethod.GET)  
+    @ActionVerification(key="assignChatGroup")
     public String assignChatGroup(HttpServletRequest request,ModelMap map) throws Exception {
     	String roleId = request.getParameter("roleId");
       	Map<String,Object> dataMap = roleService.getRoleChatGroupRelation(roleId);
@@ -228,6 +236,7 @@ public class RoleController extends BaseController{
    	*/
     @RequestMapping(value="/roleController/updateAssignChatGroup",method=RequestMethod.POST)
    	@ResponseBody
+   	@ActionVerification(key="assignChatGroup")
     public AjaxJson updateAssignChatGroup(HttpServletRequest request){
     	String roleId = request.getParameter("roleId");
     	String selectGroupIds = request.getParameter("groupIds");
@@ -252,7 +261,8 @@ public class RoleController extends BaseController{
     /**
 	 * 功能：角色管理-分配人员
 	 */
-    @RequestMapping(value="/roleController/assignUser", method = RequestMethod.GET)  
+    @RequestMapping(value="/roleController/assignUser", method = RequestMethod.GET) 
+    @ActionVerification(key="assignUser")
     public String assignUser(HttpServletRequest request,ModelMap map) throws Exception {
     	String roleId=request.getParameter("roleId");
     	Map<String,Object> dataMap = userService.getUserRoleRelation(roleId);
@@ -286,6 +296,7 @@ public class RoleController extends BaseController{
    	*/
     @RequestMapping(value="/roleController/updateAssignUser",method=RequestMethod.POST)
    	@ResponseBody
+   	@ActionVerification(key="assignUser")
     public AjaxJson updateAssignUser(HttpServletRequest request){
     	String roleId = request.getParameter("roleId");
     	String userIds = request.getParameter("userIds");

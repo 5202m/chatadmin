@@ -218,6 +218,7 @@ public class ArticleController extends BaseController{
    	 */
     @RequestMapping(value="/articleController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,false);
@@ -264,6 +265,7 @@ public class ArticleController extends BaseController{
    	*/
     @RequestMapping(value="/articleController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,true);

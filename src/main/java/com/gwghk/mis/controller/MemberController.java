@@ -107,6 +107,7 @@ public class MemberController extends BaseController{
    	 */
     @RequestMapping(value="/memberController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,Member member){
     	this.setBaseInfo(member, request,false);
     	AjaxJson j = new AjaxJson();
@@ -133,6 +134,7 @@ public class MemberController extends BaseController{
    	*/
     @RequestMapping(value="/memberController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,Member member){
     	this.setBaseInfo(member, request,true);
     	AjaxJson j = new AjaxJson();
@@ -212,6 +214,7 @@ public class MemberController extends BaseController{
    	 * 功能：会员管理-重置密码
    	 */
     @RequestMapping(value="/memberController/resetPwd", method = RequestMethod.GET)
+    @ActionVerification(key="resetPwd")
     public String resetPwd(HttpServletRequest request ,ModelMap map) throws Exception {
     	map.addAttribute("memberId",request.getParameter("memberId"));
     	return "member/memberResetPwd";
@@ -222,6 +225,7 @@ public class MemberController extends BaseController{
    	*/
     @RequestMapping(value="/memberController/saveResetPwd",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="resetPwd")
     public AjaxJson saveResetPwd(HttpServletRequest request,Member member){
     	this.setBaseInfo(member, request,true);
     	AjaxJson j = new AjaxJson();

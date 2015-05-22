@@ -38,15 +38,15 @@
   
    <!-- datagrid-toolbar -->
   <div id="chatGroup_datagrid_toolbar" style="display:none;">
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatGroup.add();">新增</a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatGroup.refresh()"><spring:message code="common.buttons.refresh" /></a>
-    <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatGroup.batchDel();">删除</a>
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatGroup.add();">新增</a>
+    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"  onclick="chatGroup.refresh()"><spring:message code="common.buttons.refresh" /></a>
+    <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatGroup.batchDel();">删除</a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="chatGroup_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatGroup.edit(this.id)"><spring:message code="common.buttons.edit" /></a>
-	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatGroup.del(this.id)"><spring:message code="common.buttons.delete" /></a>
+	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatGroup.edit(this.id)"><spring:message code="common.buttons.edit" /></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatGroup.del(this.id)"><spring:message code="common.buttons.delete" /></a>
   </div>
  
 </div>

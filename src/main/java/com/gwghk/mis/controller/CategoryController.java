@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.TreeBean;
@@ -97,6 +98,7 @@ public class CategoryController extends BaseController{
 	 * 功能：栏目管理-新增
 	 */
     @RequestMapping(value="/categoryController/view", method = RequestMethod.GET)  
+    @ActionVerification(key="edit")
     public String view(HttpServletRequest request,ModelMap map) throws Exception {
     	String id = request.getParameter("id");
     	String parentId=request.getParameter("parentId");
@@ -132,6 +134,7 @@ public class CategoryController extends BaseController{
    	 */
     @RequestMapping(value="/categoryController/create",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,Category category){
     	category.setCreateUser(userParam.getUserNo());
     	category.setCreateIp(IPUtil.getClientIP(request));
@@ -159,6 +162,7 @@ public class CategoryController extends BaseController{
    	*/
     @RequestMapping(value="/categoryController/update",method=RequestMethod.POST)
    	@ResponseBody
+    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,Category category){
     	category.setUpdateUser(userParam.getUserNo());
     	category.setUpdateIp(IPUtil.getClientIP(request));
@@ -186,6 +190,7 @@ public class CategoryController extends BaseController{
   	*/
     @RequestMapping(value="/categoryController/del",method=RequestMethod.POST)
     @ResponseBody
+    @ActionVerification(key="delete")
     public AjaxJson del(HttpServletRequest request){
     	String delId = request.getParameter("id");
     	AjaxJson j = new AjaxJson();
