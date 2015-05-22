@@ -191,11 +191,16 @@ public class UserService{
 
 	/**
 	 * 通过userId查用户信息
-	 * @param userId
-	 * @return
 	 */
 	public BoUser getUserById(String userId) {
 		return userDao.getByUserId(userId);
+	}
+	
+	/**
+	 * 通过userNo查用户信息
+	 */
+	public BoUser getUserByNo(String userNo) {
+		return userDao.getByUserNo(userNo);
 	}
 	
 	/**

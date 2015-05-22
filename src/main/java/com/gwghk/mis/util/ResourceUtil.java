@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoMenu;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.MenuResult;
+import com.gwghk.mis.service.UserService;
 
 /**
  * 摘要：项目参数工具类
@@ -107,10 +107,9 @@ public class ResourceUtil {
 	 * @return MngUser 当前登录用户对象
 	 */
 	public static BoUser getSessionUser() {
-		if(ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId())!=null){
-			return ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId()).getUser();
-		}
-		return null;
+		Object userNoSession = ContextHolderUtils.getSession().getAttribute(ContextHolderUtils.getSessionId());
+		UserService userService = (UserService)SpringContextUtil.getBean("userService");
+		return userService.getUserByNo(userNoSession != null ? userNoSession.toString() : null);
 	}
 	
 	/**

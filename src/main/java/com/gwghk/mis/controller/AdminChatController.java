@@ -18,16 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gwghk.mis.common.model.AjaxJson;
-import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.model.BoRole;
-import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.TokenAccess;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.service.UserService;
-import com.gwghk.mis.util.ContextHolderUtils;
 import com.gwghk.mis.util.HttpClientUtils;
 import com.gwghk.mis.util.PropertiesUtil;
+import com.gwghk.mis.util.ResourceUtil;
 
 /**
  * 摘要：管理员聊天室管理
@@ -54,8 +52,7 @@ public class AdminChatController extends BaseController{
 	 */
 	@RequestMapping(value = "/adminChatController/index", method = RequestMethod.GET)
 	public String index(ModelMap map){
-		BoUser boUser = ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId()).getUser();
-		BoRole boRole = roleService.getByRoleId(boUser.getRole().getRoleId());
+		BoRole boRole = roleService.getByRoleId(ResourceUtil.getSessionUser().getRole().getRoleId());
 		map.put("chatGroupList", boRole.getChatGroupList());
 		String chatUrl = PropertiesUtil.getInstance().getProperty("tokenChatURL");
 		chatUrl += "?userId="+userParam.getUserNo()

@@ -4,11 +4,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.gwghk.mis.common.service.ClientManager;
+import com.gwghk.mis.util.ContextHolderUtils;
 
 /**
  * 摘要：监听在线用户上线下线
@@ -25,7 +23,7 @@ public class OnlineListener implements ServletContextListener,HttpSessionListene
 	}
 	
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-		ClientManager.getInstance().removeClinet(httpSessionEvent.getSession().getId());
+		ContextHolderUtils.getSession().removeAttribute(ContextHolderUtils.getSessionId());
 	}
 
 	/**

@@ -4,9 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
-import com.gwghk.mis.common.model.Client;
 import com.gwghk.mis.common.model.DetachedCriteria;
-import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.BoDict;
@@ -90,12 +85,8 @@ public class LoginController extends BaseController{
 			mngUser = (BoUser)result.getReturnObj()[0];
 			String message = "用户: " + mngUser.getUserNo() + ",IP:"+IPUtil.getClientIP(req)+","
 						   + DateUtil.getDateSecondFormat(new Date()) + " 登录成功";
-			Client client = new Client();
-            client.setIp(IPUtil.getClientIP(req));
-            client.setLogindatetime(new Date());
-            client.setUser(mngUser);
-            ClientManager.getInstance().addClinet(ContextHolderUtils.getSessionId(),client);
-            ContextHolderUtils.getSession().setAttribute(WebConstant.SESSION_LOGIN_FLAG_KEY, mngUser.getUserNo());
+            //将账户放入session中
+			ContextHolderUtils.getSession().setAttribute(ContextHolderUtils.getSessionId(), mngUser.getUserNo());
             logService.addLog(message, WebConstant.Log_Leavel_INFO,WebConstant.Log_Type_LOGIN
             				 ,BrowserUtils.checkBrowse(req),IPUtil.getClientIP(req));
             logger.info(message);
@@ -127,7 +118,7 @@ public class LoginController extends BaseController{
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("userNo", userParam.getUserNo());
 		map.put("locale", ResourceUtil.getSessionLocale());
-		map.put("onlineCount", ClientManager.getInstance().getOnlineCount());
+		map.put("onlineCount", "10");
 		return new ModelAndView("main/main",map);
 	}
 	
@@ -183,9 +174,9 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/sessionValid",method=RequestMethod.GET)
 	@ResponseBody
 	public AjaxJson sessionValid(HttpServletRequest request) {
-		Client client = ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId());
+		Object userNoSession = ContextHolderUtils.getSession().getAttribute(ContextHolderUtils.getSessionId());
 		AjaxJson j = new AjaxJson();
-		j.setSuccess(client != null && client.getUser()!=null);
+		j.setSuccess(userNoSession != null);
 		return j;
 	}
 	
@@ -201,7 +192,7 @@ public class LoginController extends BaseController{
 							 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 			logger.info(message);
 		}
-		ClientManager.getInstance().removeClinet(ContextHolderUtils.getSessionId());
+		ContextHolderUtils.getSession().removeAttribute(ContextHolderUtils.getSessionId());
 		ContextHolderUtils.getSession().removeAttribute(WebConstant.SESSION_MENU_KEY);
 		ContextHolderUtils.getSession().removeAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		ContextHolderUtils.getSession().removeAttribute(WebConstant.WW_TRANS_I18N_LOCALE);

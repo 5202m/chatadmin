@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -15,9 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gwghk.mis.authority.ActionVerification;
-import com.gwghk.mis.common.model.Client;
-import com.gwghk.mis.common.service.ClientManager;
-import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoMenu;
 import com.gwghk.mis.model.MenuResult;
 import com.gwghk.mis.util.ContextHolderUtils;
@@ -52,13 +48,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response
 			 , Object handler) throws Exception {
-		HttpSession session = request.getSession();
 		String requestPath = ResourceUtil.getRequestPath(request);
 		if (StringUtils.isBlank(requestPath) || excludeUrls.contains(requestPath)) {
 			return true;
 		} else {
-			Client client = ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId());
-			if (session.getAttribute(WebConstant.SESSION_LOGIN_FLAG_KEY) != null  && (client != null && client.getUser()!=null)) {
+			if (ContextHolderUtils.getSession().getAttribute(ContextHolderUtils.getSessionId()) != null) {
 				return actionAuth(request,response,handler);
 			} else {
 				//response.sendRedirect(request.getContextPath()+"/jsp/login/timeout.jsp");
