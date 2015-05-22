@@ -158,7 +158,10 @@ public class UploadController extends BaseController{
 	 */
 	@RequestMapping(value = "/uploadController/viewImage", method = RequestMethod.GET)
 	public  String  viewImage(HttpServletRequest request,ModelMap map){
-		map.addAttribute("imagePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/"+request.getParameter("imagePath"));   //查看图片路径
+		String imagePathPar=request.getParameter("imagePath");
+		if(StringUtils.isNotBlank(imagePathPar) && !imagePathPar.startsWith("/"))
+			imagePathPar="/"+imagePathPar;
+		map.addAttribute("imagePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain")+imagePathPar);   //查看图片路径
 		return "common/imageView";
 	}
 	
