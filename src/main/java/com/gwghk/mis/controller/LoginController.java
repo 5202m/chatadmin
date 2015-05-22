@@ -94,7 +94,7 @@ public class LoginController extends BaseController{
             client.setIp(IPUtil.getClientIP(req));
             client.setLogindatetime(new Date());
             client.setUser(mngUser);
-            ClientManager.getInstance().addClinet(WebConstant.SESSION_LOGIN_KEY,client);
+            ClientManager.getInstance().addClinet(ContextHolderUtils.getSessionId(),client);
             ContextHolderUtils.getSession().setAttribute(WebConstant.SESSION_LOGIN_FLAG_KEY, mngUser.getUserNo());
             logService.addLog(message, WebConstant.Log_Leavel_INFO,WebConstant.Log_Type_LOGIN
             				 ,BrowserUtils.checkBrowse(req),IPUtil.getClientIP(req));
@@ -183,7 +183,7 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/sessionValid",method=RequestMethod.GET)
 	@ResponseBody
 	public AjaxJson sessionValid(HttpServletRequest request) {
-		Client client = ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY);
+		Client client = ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId());
 		AjaxJson j = new AjaxJson();
 		j.setSuccess(client != null && client.getUser()!=null);
 		return j;
@@ -201,7 +201,7 @@ public class LoginController extends BaseController{
 							 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 			logger.info(message);
 		}
-		ClientManager.getInstance().removeClinet(WebConstant.SESSION_LOGIN_KEY);
+		ClientManager.getInstance().removeClinet(ContextHolderUtils.getSessionId());
 		ContextHolderUtils.getSession().removeAttribute(WebConstant.SESSION_MENU_KEY);
 		ContextHolderUtils.getSession().removeAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		ContextHolderUtils.getSession().removeAttribute(WebConstant.WW_TRANS_I18N_LOCALE);

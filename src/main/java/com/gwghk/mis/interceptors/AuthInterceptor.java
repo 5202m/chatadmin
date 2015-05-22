@@ -20,6 +20,7 @@ import com.gwghk.mis.common.service.ClientManager;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoMenu;
 import com.gwghk.mis.model.MenuResult;
+import com.gwghk.mis.util.ContextHolderUtils;
 import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
@@ -56,7 +57,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if (StringUtils.isBlank(requestPath) || excludeUrls.contains(requestPath)) {
 			return true;
 		} else {
-			Client client = ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY);
+			Client client = ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId());
 			if (session.getAttribute(WebConstant.SESSION_LOGIN_FLAG_KEY) != null  && (client != null && client.getUser()!=null)) {
 				return actionAuth(request,response,handler);
 			} else {

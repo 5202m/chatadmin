@@ -27,4 +27,11 @@ public class ContextHolderUtils {
 		HttpSession session = getRequest().getSession();
 		return session;
 	}
+	
+	/**
+	 * 功能：获取session id
+	 */
+	public static String getSessionId(){
+		return getSession() != null ? getSession().getId() : null;
+	}
 }

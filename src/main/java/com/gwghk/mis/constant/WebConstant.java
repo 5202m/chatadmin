@@ -1,5 +1,6 @@
 package com.gwghk.mis.constant;
 
+
 /**
  * 摘要： 常量类
  * @author Gavin
@@ -50,7 +51,6 @@ public class WebConstant {
 	 public final static String LOG_TYPE_CANCEL_APPROVE = "8"; //取消审批
 	 
 	 /**登录用户的session key*/
-	 public final static String SESSION_LOGIN_KEY = "SESSION_LOGIN_KEY";
 	 public final static String SESSION_LOGIN_FLAG_KEY = "SESSION_LOGIN_FLAG_KEY";
 	 
 	 /**菜单的session key*/

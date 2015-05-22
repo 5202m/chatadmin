@@ -107,8 +107,8 @@ public class ResourceUtil {
 	 * @return MngUser 当前登录用户对象
 	 */
 	public static BoUser getSessionUser() {
-		if(ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY)!=null){
-			return ClientManager.getInstance().getClient(WebConstant.SESSION_LOGIN_KEY).getUser();
+		if(ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId())!=null){
+			return ClientManager.getInstance().getClient(ContextHolderUtils.getSessionId()).getUser();
 		}
 		return null;
 	}
