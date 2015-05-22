@@ -121,7 +121,6 @@ public class LoginController extends BaseController{
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("userNo", userParam.getUserNo());
 		map.put("locale", ResourceUtil.getSessionLocale());
-		map.put("onlineCount", ContextHolderUtils.getSession().getServletContext().getAttribute("count").toString());
 		return new ModelAndView("main/main",map);
 	}
 	
