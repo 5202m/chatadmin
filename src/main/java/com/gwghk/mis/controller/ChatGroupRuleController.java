@@ -130,8 +130,8 @@ public class ChatGroupRuleController extends BaseController{
 	/**
 	 * 功能：聊天室规则管理-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/chatGroupRuleController/{chatGroupRuleId}/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(@PathVariable String chatGroupRuleId , ModelMap map) throws Exception {
     	ChatGroupRule chatGroupRule=chatGroupRuleService.getChatGroupRuleById(chatGroupRuleId);
     	setDictGroupRule(map);
@@ -144,7 +144,6 @@ public class ChatGroupRuleController extends BaseController{
    	 */
     @RequestMapping(value="/chatGroupRuleController/create",method=RequestMethod.POST)
    	@ResponseBody
-    @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,false);
     	AjaxJson j = new AjaxJson();
@@ -175,7 +174,6 @@ public class ChatGroupRuleController extends BaseController{
    	*/
     @RequestMapping(value="/chatGroupRuleController/update",method=RequestMethod.POST)
    	@ResponseBody
-    @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,true);
     	AjaxJson j = new AjaxJson();

@@ -100,8 +100,8 @@ public class AppController extends BaseController{
 	/**
 	 * 功能：应用管理-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/appController/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(HttpServletRequest request , ModelMap map) throws Exception {
     	String appId = request.getParameter("appId");
     	App app = appService.getByAppId(appId);

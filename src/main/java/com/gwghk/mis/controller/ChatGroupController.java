@@ -137,8 +137,8 @@ public class ChatGroupController extends BaseController{
 	/**
 	 * 功能：聊天室组别管理-修改
 	 */
-    @ActionVerification(key="edit")
     @RequestMapping(value="/chatGroupController/{chatGroupId}/edit", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
     public String edit(@PathVariable String chatGroupId , ModelMap map) throws Exception {
     	setCommonShow(map);
     	ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
