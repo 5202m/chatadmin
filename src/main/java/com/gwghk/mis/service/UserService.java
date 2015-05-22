@@ -199,6 +199,23 @@ public class UserService{
 	}
 	
 	/**
+	 * 功能：重置密码
+	 * @param userId 用户ID
+	 * @param pwd 新密码
+	 */
+    public ApiResult saveResetPwd(String userId,String newPwd){
+    	ApiResult result = new ApiResult();
+    	BoUser user = userDao.getByUserId(userId);
+    	if(user != null){
+    		user.setPassword(MD5.getMd5(WebConstant.MD5_KEY+newPwd));
+    		userDao.update(user);
+    		return result.setCode(ResultCode.OK);
+    	}else{
+    		return result.setCode(ResultCode.Error1010);
+    	}
+    }
+	
+	/**
 	 * 功能：保存修改的密码
 	 * @param userNo  用户no
 	 * @param oldPwd  旧密码

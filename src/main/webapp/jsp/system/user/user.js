@@ -182,7 +182,7 @@ var systemUser = {
 							if (d.success) {
 								$("#myWindow").dialog("close");
 								systemUser.refresh();
-								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("user.resetpwd.success"),'info');/**操作提示  重设密码成功,新的密码已经发到您的邮箱!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'重置密码成功！您的新密码是：'+$("#pwd").val(),'info');
 							}else{
 								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("user.resetpwd.fail"),'error');	/**操作提示  重设密码失败!*/
 							}

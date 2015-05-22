@@ -188,13 +188,24 @@ public class UserController extends BaseController{
   	*/
     @RequestMapping(value="/userController/saveResetPwd",method=RequestMethod.POST)
     @ResponseBody
-    public AjaxJson saveResetPwd(HttpServletRequest request,HttpServletResponse response){
-    	String id = request.getParameter("id");
-    	String newPwd = request.getParameter("newPwd");
-    	logger.info(">>method:saveResetPwd()|"+",id:"+id+",newPwd:"+newPwd);
+    public AjaxJson saveResetPwd(HttpServletRequest request){
+    	String id = request.getParameter("id"),newPwd = request.getParameter("newPwd");
     	AjaxJson j = new AjaxJson();
-      	j.setSuccess(true);
-  		j.setMsg("1");
+    	ApiResult result = userService.saveResetPwd(id,newPwd);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重置密码成功!";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:saveResetPwd()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重置密码失败!";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:saveResetPwd()|"+message+",ErrorMsg:"+result.toString());
+    	}
   		return j;
     }
     
