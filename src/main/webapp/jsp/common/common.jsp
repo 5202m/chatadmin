@@ -5,5 +5,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script type="text/javascript" charset="UTF-8">
    var basePath = "<%=request.getContextPath()%>";
+   var path = basePath;
 </script>
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/system/dictionary/dictionaryTempData.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script> --%>
