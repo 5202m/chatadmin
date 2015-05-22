@@ -28,7 +28,7 @@
       <div class="top_menu_left"></div>
       <div class="top_menu_bg">
         <div class="top_menu_user">
-          [ ${userNo} ],<spring:message code="main.head" /><!-- 您好!今天是 --><span id="yxui_main_today">&nbsp;</span>,<spring:message code="main.online" arguments="${onlineCount}"/>
+          [ ${userNo} ],<spring:message code="main.head" /><!-- 您好!今天是 --><span id="yxui_main_today">&nbsp;</span>/>
         </div>
         <div id="shortcut_menu">
           <ul>

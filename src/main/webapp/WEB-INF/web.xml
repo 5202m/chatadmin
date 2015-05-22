@@ -15,17 +15,22 @@
   </listener>
   
   <listener>
-    <listener-class>    
-            org.springframework.web.context.request.RequestContextListener    
-        </listener-class>
+      <listener-class>    
+           org.springframework.web.context.request.RequestContextListener    
+      </listener-class>
   </listener>
   
   <listener>
-    <listener-class>    
+      <listener-class>    
            com.gwghk.mis.listener.InitParamListener    
-    </listener-class>
+      </listener-class>
   </listener>
   
+  <!-- 在线人数监听器 -->
+ <!--  <listener>  
+  	  <listener-class>com.gwghk.mis.listener.CountLineListener</listener-class>   
+  </listener> -->
+
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>

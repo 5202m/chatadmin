@@ -4,7 +4,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
@@ -118,7 +121,7 @@ public class LoginController extends BaseController{
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("userNo", userParam.getUserNo());
 		map.put("locale", ResourceUtil.getSessionLocale());
-		map.put("onlineCount", "10");
+		map.put("onlineCount", ContextHolderUtils.getSession().getServletContext().getAttribute("count").toString());
 		return new ModelAndView("main/main",map);
 	}
 	
