@@ -130,6 +130,10 @@ public class UserService{
     		if(user==null){
     			return result.setCode(ResultCode.Error104);
     		}
+    		if(userDao.isExsitUserNo(userParam.getUserId(),userParam.getUserNo()) 
+    			  || userDao.isExsitPhone(userParam.getUserId(),userParam.getTelephone())){
+    			return result.setCode(ResultCode.Error102);
+    		}
     		BeanUtils.copyExceptNull(user, userParam);
     		if(boRole!=null){
     			user.setRole(boRole);

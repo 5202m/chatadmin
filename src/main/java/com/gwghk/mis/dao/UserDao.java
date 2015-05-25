@@ -68,6 +68,22 @@ public class UserDao extends MongoDBBaseDao{
 	}
 	
 	/**
+	 * 是否存在用户编号
+	 */
+	public boolean isExsitUserNo(String userId,String userNo) {
+		return this.findOne(BoUser.class,Query.query(
+			   new Criteria().andOperator(Criteria.where("userNo").is(userNo),Criteria.where("userId").ne(userId)))) != null;
+	}
+	
+	/**
+	 * 是否存在手机号
+	 */
+	public boolean isExsitPhone(String userId,String phone) {
+		return this.findOne(BoUser.class,Query.query(
+			   new Criteria().andOperator(Criteria.where("telephone").is(phone),Criteria.where("userId").ne(userId)))) != null;
+	}
+	
+	/**
 	 * 删除通过参数
 	 * @param map
 	 * @return
