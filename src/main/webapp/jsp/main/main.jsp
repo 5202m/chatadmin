@@ -28,16 +28,17 @@
       <div class="top_menu_left"></div>
       <div class="top_menu_bg">
         <div class="top_menu_user">
-          [ ${userNo} ],<spring:message code="main.head" /><!-- 您好!今天是 --><span id="yxui_main_today">&nbsp;</span>/>
+          [ ${userNo} ],<spring:message code="main.head" /><!-- 您好!今天是 --><span id="yxui_main_today">&nbsp;</span>
         </div>
         <div id="shortcut_menu">
           <ul>
             <li><a title="<spring:message code="main.homePage" />" href="http://www.24k.hk/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>
             <li><a title="<spring:message code="main.editPwd" />" href="#" class="button_short02" onFocus="this.blur()" onclick="updatePwd()"></a></li>
-            <li><a title="<spring:message code="main.feedback" />" href="#" class="button_short05" onFocus="this.blur()" onclick="feedbackOpen()"></a></li>
+            <%--  <li><a title="<spring:message code="main.feedback" />" href="#" class="button_short05" onFocus="this.blur()" onclick="feedbackOpen()"></a></li>
             <li><a title="<spring:message code="main.help" />" href="#" class="button_short04" onFocus="this.blur()" onclick="helpOpen()"></a></li>
             <li><a title="<spring:message code="main.version" />" href="#" class="button_short06" onFocus="this.blur()" onclick="versionOpen()"></a></li>
-            <li><a title="<spring:message code="main.loginout" />" href="#" class="button_short01" onFocus="this.blur()" onclick="loginOut()"></a></li>
+        	--%>
+        	<li><a title="<spring:message code="main.loginout" />" href="#" class="button_short01" onFocus="this.blur()" onclick="loginOut()"></a></li>
           </ul>
         </div>
       </div>
