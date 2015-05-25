@@ -136,7 +136,7 @@ public class UserService{
     		}
     		userDao.update(user);
     	}else{
-    		if(userDao.getByUserNo(userParam.getUserNo())!=null){
+    		if(userDao.getByUserNo(userParam.getUserNo())!=null || userDao.getByPhone(userParam.getTelephone())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
     		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword()));

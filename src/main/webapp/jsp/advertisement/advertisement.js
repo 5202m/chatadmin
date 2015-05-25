@@ -61,7 +61,7 @@ var advertisement = {
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
 			'uploader' : basePath+'/uploadController/uploadImage.do',
 			'onUploadSuccess' : function(file, data, response){
-				var d = $.parseJSON(data);
+				var d = eval("("+data+")");			//转换为json对象 
 				if(d.success){
 					alert(file.name + ' 上传成功！');
 					if(d.obj != null){

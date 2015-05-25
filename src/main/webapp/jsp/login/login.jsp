@@ -11,11 +11,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title><spring:message code="login.title" /></title>
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/base/css/login.css?timestamp=<%=(int)(Math.random() *100)%>" />
-<script type="text/javascript" charset="UTF-8">
-   var basePath = "<%=request.getContextPath()%>";
-</script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/login/login.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
 </head>
 <body style="text-align: center;">
    <div id="loading" style="width:120px;z-index:10000;position:absolute;margin-top:180px;left:52%;display:none;">
@@ -62,8 +57,14 @@
           </table>
         </div>
       </div>
+      <p class="gw_browser" style="color: red;"><spring:message code="login.broswer" /></p>
       <p class="gw_copyright">Copyright &copy; 2009-2015 <spring:message code="login.copyright" /></p>
     </div>
   </form>
+<script type="text/javascript" charset="UTF-8">
+    var basePath = "<%=request.getContextPath()%>";
+</script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/login/login.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
 </body>
 </html>

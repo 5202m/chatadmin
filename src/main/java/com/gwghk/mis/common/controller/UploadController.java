@@ -1,9 +1,8 @@
 package com.gwghk.mis.common.controller;
 
 import java.util.Iterator;
-
 import javax.servlet.http.HttpServletRequest;
-
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.UploadFileInfo;
@@ -43,51 +41,9 @@ public class UploadController extends BaseController{
 	 */
 	@RequestMapping(value="/uploadController/uploadImage", method=RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson	uploadImage(HttpServletRequest request) throws  Exception{
-		AjaxJson result = new AjaxJson();
-		String imageDir = request.getParameter("imageDir");
-		if(StringUtils.isBlank(imageDir)){//action字段为ueditor编辑器上传图片或视频默认字段
-			imageDir=request.getParameter("action");
-		}
-		FileDirectory imageDirectory=FileDirectory.getByCode(imageDir);
-		if(null  == imageDirectory ){
-			result.setSuccess(false);
-	        result.setMsg("目录不存在,请重新确认参数！");
-	        return result;
-		}
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        if(multipartResolver.isMultipart(request)) {  						// 检查form是否有enctype="multipart/form-data"
-            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;  
-            Iterator<String> iter = multiRequest.getFileNames();  
-            while (iter.hasNext()) {  
-                MultipartFile file = multiRequest.getFile(iter.next());     // 由CommonsMultipartFile继承而来,拥有上面的方法.
-                if (file != null) {
-                	 //设置上传图片的相关参数(上传图片、图片目录)
-                    UploadFileInfo fileInfo = new UploadFileInfo();
-                	fileInfo.setSrcFile(file);
-                	fileInfo.setSrcFileDirectory(imageDirectory.getCode());
-                    if(!validImage(file,result)){    //如果图片不符合规则，直接返回错误
-                    	return result;
-                    }
-                	ApiResult apiResult = ImageHelper.uploadImage(fileInfo);   //开始上传图片
-                	if(apiResult.isOk()){
-                		result.setSuccess(true);
-                		result.setObj(apiResult.getReturnObj()[0]);          //设置图片的相对地址
-                		result.setMsg("upload success!");
-                		return result;
-                	}else{
-                		result.setSuccess(false);
-            	        result.setMsg("图片上传出错！");
-            	        return result;
-                	}
-                }
-            }
-        }
-        result.setSuccess(true);
-		result.setMsg("upload success!");
-		return result;
+	public String  uploadImage(HttpServletRequest request) throws  Exception{
+		return JSON.toJSONString(this.uploadImg(request));
 	}
-	
 	
 	/**
 	 * 功能：上传文件
@@ -134,23 +90,6 @@ public class UploadController extends BaseController{
         result.setSuccess(true);
 		result.setMsg("upload success!");
 		return result;
-	}
-	
-	/**
-	 * 功能：验证图片
-	 */
-	private boolean validImage(MultipartFile file  ,AjaxJson result){
-		if(!ImageHelper.isPicture(file.getOriginalFilename())){
-			result.setSuccess(false);
- 	        result.setMsg("上传图片类型不对!");
- 	        return false;
-		}
-		if(file.getSize() > 10*1024*1024){		//最大上传10M
-			result.setSuccess(false);
- 	        result.setMsg("上传图片大小超出最大限制10M!");
- 	        return false;
-		}
-		return true;
 	}
 	
 	/**
@@ -227,7 +166,7 @@ public class UploadController extends BaseController{
 		AjaxJson json=null;
 		try {
 			if(action.equals(FileDirectory.pic.getCode())){//上传图片
-				json=uploadImage(request);
+				json = this.uploadImg(request);
 			}
 			if(action.equals(FileDirectory.video.getCode())){//上传文件
 				json=uploadFile(request);

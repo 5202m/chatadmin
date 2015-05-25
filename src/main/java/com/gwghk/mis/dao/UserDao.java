@@ -61,6 +61,13 @@ public class UserDao extends MongoDBBaseDao{
 	}
 	
 	/**
+	 * 通过手机编号找记录
+	 */
+	public BoUser getByPhone(String phone){
+		return this.findOne(BoUser.class,Query.query(Criteria.where("telephone").is(phone)));
+	}
+	
+	/**
 	 * 删除通过参数
 	 * @param map
 	 * @return
