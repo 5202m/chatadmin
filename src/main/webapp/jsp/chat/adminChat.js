@@ -27,7 +27,7 @@ var adminChat = {
 					p.panel({
 						title : groupName,
 						content:'<iframe src="' + $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
-								+ '" frameborder=0 height=100% width=100% scrolling=no></iframe>',
+								+ '&timestamp='+new Date()+'" frameborder=0 height=100% width=100% scrolling=no></iframe>',
 						height:500,
 						closable:true,
 						collapsible:true,
