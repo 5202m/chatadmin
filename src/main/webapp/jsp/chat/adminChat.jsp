@@ -28,12 +28,6 @@
 	 		</c:otherwise>
  		</c:choose>
 	</div>
-	<div region="center" border="false">
-		<div id="pp" style="position:relative">
-			<div style="width:30%;">
-			</div>
-			<div style="width:40%;">
-			</div>
-		</div>
+	<div id="pp" region="center" border="false">
 	</div>
 </div>

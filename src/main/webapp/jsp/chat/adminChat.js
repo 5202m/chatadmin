@@ -6,10 +6,6 @@
 var adminChat = {
 	pannelCount : 0,
 	init : function(){
-		$('#pp').portal({
-			border:false,
-			fit:true
-		});
 	},
 	/**
 	 * 功能：添加聊天室
@@ -23,25 +19,9 @@ var adminChat = {
 			success : function(data){
 				if(data.obj != null){
 					$('#'+groupId).linkbutton('disable');
-					var p = $('<div/>').appendTo('body');
-					p.panel({
-						title : groupName,
-						content:'<iframe src="' + $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
-								+ '&timestamp='+new Date()+'" frameborder=0 height=100% width=100% scrolling=no></iframe>',
-						height:500,
-						closable:true,
-						collapsible:true,
-						onClose : function(){
-							$('#'+groupId).linkbutton('enable');
-							adminChat.pannelCount --;
-						}
-					});
-					$('#pp').portal('add', {
-						panel : p,
-						columnIndex: adminChat.pannelCount%2
-					});
-					$('#pp').portal('resize');
-					adminChat.pannelCount ++;
+					var iframeSrc = $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
+								  + '&timestamp='+new Date();
+					$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:47%;height:80%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
 				}
 			}
 		})
