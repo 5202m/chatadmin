@@ -17,6 +17,7 @@
 	<p><img src="<%=request.getContextPath()%>/images/loading_2.gif" /></p>
   </div>
   <form id="loginForm" method="post">
+  	<input type="hidden" name="localSelect" value="zh_TW" />
     <div id="container">
       <div id="login_center">
         <div id="input_body">
@@ -28,13 +29,10 @@
               <td><input id="password" name="password" type="password"  class="login_input"/></td>
             </tr>
             <tr>
-              <td>
-              	  <select name="localSelect" id="localSelect" onchange="login.changeLocal(this.value);" class="gw_select">
-	                    <option value="zh_TW" <c:if test="${locale =='zh_TW'}">selected="true"</c:if> ><spring:message code="login.lang.tw" /><!-- 繁体 --></option>
-	                    <option value="zh_CN" <c:if test="${locale =='zh_CN'}">selected="true"</c:if> ><spring:message code="login.lang.zh" /><!-- 简体 --></option>
-	                    <option value="en_US" <c:if test="${locale =='en_US'}">selected="true"</c:if> ><spring:message code="login.lang.en" /><!-- 英文 --></option>
-	              </select>
-              </td>
+            	<td>
+            		<input type="text"  name="code" id="code" title="请输入验证码" class="login_input login_input-wid"/>
+            		<img src="<%=request.getContextPath()%>/captchaController/get.do" id="p_captcha_img" title="点击刷新" style="cursor: pointer;" onclick="login.refreshCaptcha();" width="148" height="30" class="yxmimg">
+            	</td>
             </tr>
             <tr>
               <td>

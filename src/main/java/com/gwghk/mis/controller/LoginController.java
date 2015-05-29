@@ -81,6 +81,13 @@ public class LoginController extends BaseController{
 	public AjaxJson checkLogin(BoUser mngUser, HttpServletRequest req){
 		logger.info(">>method:checkLogin()|"+mngUser.getUserNo()+" try to login！");
 		AjaxJson ajaxResult = new AjaxJson();
+		String captcha = req.getParameter("code");
+		Object sessionCaptcha = ContextHolderUtils.getSession().getAttribute("complexCaptcha");
+		if(StringUtils.isEmpty(captcha) || sessionCaptcha == null || !captcha.equalsIgnoreCase(sessionCaptcha.toString())){
+			ajaxResult.setMsg(ResourceBundleUtil.getByMessage("1017"));  //验证码不正确
+			ajaxResult.setSuccess(false);
+            return ajaxResult;
+		}
 		mngUser.setLoginIp(req.getRemoteAddr());
 		ApiResult result = userService.login(mngUser);
 		if(result != null && result.isOk()){

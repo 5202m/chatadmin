@@ -280,6 +280,13 @@
     		<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jmagick-6.4.0.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>simplecaptcha.sdk</groupId>
+			<artifactId>simplecaptcha</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+    		<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/simplecaptcha.jar</systemPath>
+		</dependency>
+		<dependency>
 	        <groupId>org.springframework.data</groupId>
 	        <artifactId>spring-data-mongodb</artifactId>
 	        <version>1.8.0.BUILD-SNAPSHOT</version>
