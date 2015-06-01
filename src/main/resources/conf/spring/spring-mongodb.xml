@@ -25,7 +25,7 @@
 	</bean>
     
     <!-- 自动扫描以下包的类 -->
-	<mongo:mapping-converter base-package="com.gwghk.cms.model" />
+	<mongo:mapping-converter base-package="com.gwghk.mis.model" />
 	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
 	
 	<!-- 配置mongodb映射类型 -->
