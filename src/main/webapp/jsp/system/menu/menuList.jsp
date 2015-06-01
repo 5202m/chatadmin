@@ -22,7 +22,7 @@
 			        <th width="15%"><spring:message code="menu.premenu" /><!-- 上级菜单 --><span class="red">*</span></th>
 			        <td width="35%" colspan="3">
 			        	<span id="parentMenuName"></span>
-			        	<input type="hidden" id="parentMenuId"/>
+			        	<input type="hidden" id="parentMenuId" name="parentMenuId"/>
 			         </td> 
 			      </tr>
 			      <tr>
