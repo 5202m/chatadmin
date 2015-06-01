@@ -129,7 +129,7 @@ public class MenuController extends BaseController{
    	*/
     @RequestMapping(value="/menuController/update",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson update(HttpServletRequest request,HttpServletResponse response,BoMenu menu){
+    public AjaxJson update(HttpServletRequest request,BoMenu menu){
     	AjaxJson j = new AjaxJson();
     	menu.setUpdateUser(userParam.getUserNo());
     	menu.setUpdateIp(IPUtil.getClientIP(request));
