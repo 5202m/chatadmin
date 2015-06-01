@@ -72,6 +72,7 @@
 						<value>index.do</value>
 						<value>login.do</value>
 						<value>logout.do</value>
+						<value>captchaController/get.do</value>
 						<value>loginController/checkLogin.do</value>
 					</list>
 				</property>
