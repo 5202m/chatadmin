@@ -39,7 +39,13 @@ public class ResourceUtil {
 	 * 功能： 获取项目classPath的绝对路径
 	 */
 	public static String getClassPath() {
-		String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
+		String path = null;
+		try {
+			path = Thread.currentThread().getContextClassLoader().getResource("").toURI().getPath();
+		}
+		catch (Exception e) {
+			path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		}
 		if("\\".equals(File.separator))  {   //windows
 		    return path.replaceFirst("file:/", "");
 		}else if("/".equals(File.separator))  {
