@@ -56,7 +56,7 @@ var adminChat = {
 			type : 'get',
 			success : function(data){
 				if(data.obj != null){
-					$('#'+groupId).linkbutton('disable');
+					$('#adminChat_div '+groupId).linkbutton('disable');
 					var iframeSrc = $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
 								  + '&timestamp='+new Date();
 					$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");

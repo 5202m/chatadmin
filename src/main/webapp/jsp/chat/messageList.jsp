@@ -45,7 +45,7 @@
           </td>
         </tr>
         <tr>
-          <th width="10%">状态</th>
+          <th width="10%">审核状态</th>
           <td width="40%">
 	          <select name="status" id="chatMessageStatusId"  style="width:160px;">
           		<option value="1">通过</option>
@@ -58,10 +58,18 @@
         </tr>
          <tr>
           <th width="10%">发布时间</th>
-          <td width="80%" colspan="8"> 
+          <td width="40%"> 
           	从&nbsp; <input name="publishStartDateStr" id="publishStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'publishEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
              &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="publishEndDateStr" id="publishEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'publishStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
 		  </td>
+		  <th width="10%">是否有效</th>
+          <td width="40%"> 
+            <select name="valid" style="width:160px;" id="chatMessageValidId">
+          		<option value="1">有效</option>
+          		<option value="0">无效</option>
+          		<option value="">所有</option>
+	        </select>
+          </td>
         </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;

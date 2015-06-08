@@ -44,10 +44,14 @@ public class ChatMessage extends ChatOnlineUser{
 	 */
 	private String approvalUserNo;
 	/**
-	 * 内容状态：0、等待审批，1、通过 ；2、拒绝
+	 * 审核状态：0、等待审批，1、通过 ；2、拒绝
 	 */
 	private Integer status;
 	
+	/**
+	 * 内容状态：0、无效，1、有效
+	 */
+	private Integer valid;
 	/**
 	 * 发布日期
 	 */
@@ -173,5 +177,14 @@ public class ChatMessage extends ChatOnlineUser{
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
+
+	public Integer getValid() {
+		return valid;
+	}
+
+	public void setValid(Integer valid) {
+		this.valid = valid;
+	}
+	
 	
 }

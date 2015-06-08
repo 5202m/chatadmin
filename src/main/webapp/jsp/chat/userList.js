@@ -44,13 +44,17 @@ var chatUser = {
 						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
 							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].onlineStatus);
 						}},
-						{title : '上线时间',field : 'onlineDateStr',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '上线时间',field : 'loginPlatform.chatUserGroup[0].onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var date=rowData.loginPlatform.chatUserGroup[0].onlineDate;
 							return  date? timeObjectUtil.formatterDateTime(date) : '';
 						}},
-						{title : '禁言时间段',field : 'gagDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup[0].gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
-							return  (row.gagStartDate && row.gagEndDate)? timeObjectUtil.formatterDateTime(row.gagStartDate)+" 到 "+timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
+							return  (row.gagStartDate)? timeObjectUtil.formatterDateTime(row.gagStartDate): '';
+						}},
+						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup[0].gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return  (row.gagEndDate)?timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
 						}}
 						
 			]],

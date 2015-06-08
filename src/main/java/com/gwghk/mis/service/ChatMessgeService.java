@@ -117,6 +117,9 @@ public class ChatMessgeService{
 					criteria.and("content.value").regex(StringUtil.toFuzzyMatch(model.getContent().getValue()));
 				}
 			}
+			if(model.getValid()!=null){
+				criteria.and("valid").is(model.getValid());
+			}
 			if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
 				criteria = criteria.and("createDate").gte(DateUtil.parseDateSecondFormat(model.getPublishStartDateStr()));
 			}

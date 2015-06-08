@@ -19,7 +19,7 @@ var chatMessage = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatMessageController/datagrid.do?groupId='+$("#chatMessageGroupId").val()+"&status="+$("#chatMessageStatusId").val(),
+			url : basePath+'/chatMessageController/datagrid.do?groupId='+$("#chatMessageGroupId").val()+"&status="+$("#chatMessageStatusId").val()+"&valid="+$("#chatMessageValidId").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            /*{title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		*//**操作*//*
@@ -40,7 +40,7 @@ var chatMessage = {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
 						{title : '用户来源',field : 'fromPlatform'},
-						{title : '状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {
+						{title : '审核状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.status;
 							if(type==1){
 								return "通过";
@@ -68,6 +68,15 @@ var chatMessage = {
 								return "图片";
 							}
 							return "";
+						}},
+						{title : '是否有效',field : 'validStr',formatter : function(value, rowData, rowIndex) {
+							var type=rowData.valid;
+							if(type==0){
+								return "无效";
+							}
+							else{
+								return "有效";
+							}
 						}},
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
 							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;

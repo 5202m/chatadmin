@@ -27,7 +27,7 @@ adminChat.pmApiUrl="${pmApiUrl}";
 	.date-down p{color:#e93030}
 	.date-box li p span{margin-left:5px;}
 </style>
-<div class="easyui-layout" data-options="fit:true">
+<div class="easyui-layout" data-options="fit:true" id="adminChat_div">
  	<div region="north" class="title" border="false" align="left" style="height:65px;">
  	    <div style="float:left;">
  		<input type="hidden" id="chatURL" value="${chatURL}"/>

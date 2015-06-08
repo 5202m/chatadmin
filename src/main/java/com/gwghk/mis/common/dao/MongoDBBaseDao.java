@@ -319,8 +319,13 @@ public class MongoDBBaseDao implements IBaseDao{
     	List<Order> orderList = new ArrayList<Order>();
 		HashMap<String, SortDirection> sortMap = dCriteria.getOrderbyMap();
 		if(sortMap != null){
+			String keyStr="";
 			for(Entry<String, SortDirection> entry : sortMap.entrySet()){
-				Order order = new Order(SortDirection.ASC.equals(entry.getValue()) ? Direction.ASC : Direction.DESC,entry.getKey());
+				keyStr=entry.getKey();
+				if(keyStr.contains("[0]")){//调整多级文档格式的字段
+					keyStr=keyStr.replaceAll("\\[0\\]", "");
+				}
+				Order order = new Order(SortDirection.ASC.equals(entry.getValue()) ? Direction.ASC : Direction.DESC,keyStr);
 				orderList.add(order);
 			}
 			query.with(new Sort(orderList));
