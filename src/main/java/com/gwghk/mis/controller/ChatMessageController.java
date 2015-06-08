@@ -54,7 +54,7 @@ public class ChatMessageController extends BaseController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(ChatMessageController.class);
 	@Autowired
-	private ChatMessgeService chatContentService;
+	private ChatMessgeService chatMessageService;
 	@Autowired
 	private ChatGroupService chatGroupService;
 	/**
@@ -82,7 +82,7 @@ public class ChatMessageController extends BaseController{
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage chatMessage){
 		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
 		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
-		 Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
+		 Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());
@@ -103,7 +103,7 @@ public class ChatMessageController extends BaseController{
 			dataGrid.setSort("id");
 			dataGrid.setOrder("desc");
 			chatMessage.getContent().setMsgType("text");  //默认只导出文本类型
-			Page<ChatMessage> page = chatContentService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
+			Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
 			List<ChatMessage>  chatMessageList = page.getCollection();
 			if(chatMessageList != null && chatMessageList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
@@ -139,6 +139,42 @@ public class ChatMessageController extends BaseController{
 		}
 	}
 	
+	/**
+  	* 功能：聊天室信息管理-删除
+  	*/
+    @RequestMapping(value="/chatMessageController/approvalMsg",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="approve_chat_pass")
+    public AjaxJson approve(HttpServletRequest request,HttpServletResponse response){
+    	BoUser boUser = ResourceUtil.getSessionUser();
+    	String publishTimeArr = request.getParameter("publishTimeArr"),
+    			        fUserIdArr=request.getParameter("fuIdArr"),
+    					status=request.getParameter("status"),
+						groupId=request.getParameter("groupId");
+    	AjaxJson j = new AjaxJson();
+    	if(StringUtils.isBlank(publishTimeArr)||StringUtils.isBlank(fUserIdArr)||StringUtils.isBlank(status)||StringUtils.isBlank(groupId)){
+    		j.setSuccess(false);
+    		j.setMsg("参数有误，请检查！");
+    		return j;
+    	}
+    	ApiResult result =chatMessageService.approvalMsg(boUser.getUserNo(),publishTimeArr,fUserIdArr,status,groupId);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 审核聊天室信息成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:batchDel()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 审核聊天室信息失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
+    	}
+  		return j;
+    }
+	
    /**
   	* 功能：聊天室信息管理-删除
   	*/
@@ -152,7 +188,7 @@ public class ChatMessageController extends BaseController{
     		delIds = request.getParameter("id");
     	}
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatContentService.deleteChatMessage(delIds.split(","));
+    	ApiResult result =chatMessageService.deleteChatMessage(delIds.split(","));
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室信息成功";

@@ -32,9 +32,7 @@ public class MenuDao extends MongoDBBaseDao{
 	 * 功能：根据code -->获取菜单对象
 	 */
 	public BoMenu getMenuByCode(String menuCode){
-		Query query = new Query();
-		query.addCriteria(Criteria.where("code").is(menuCode));
-		return this.findOne(BoMenu.class, query);
+		return this.findOne(BoMenu.class, Query.query(new Criteria().andOperator(Criteria.where("code").is(menuCode),Criteria.where("valid").is(1))));
 	}
 	
 	/**
@@ -159,7 +157,7 @@ public class MenuDao extends MongoDBBaseDao{
 	 * @return
 	 */
 	public BoMenu getByParentIdAndCode(String parentMenuId, String code) {
-		return this.findOne(BoMenu.class, Query.query(new Criteria().andOperator(Criteria.where("parentMenuId").is(parentMenuId),Criteria.where("code").is(code))));
+		return this.findOne(BoMenu.class, Query.query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("parentMenuId").is(parentMenuId),Criteria.where("code").is(code))));
 	}
 	
 }

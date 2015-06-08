@@ -1,5 +1,6 @@
 package com.gwghk.mis.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -135,7 +136,15 @@ public class RoleService{
     	if(selectGroupIdArr != null && selectGroupIdArr.length > 0){
     		List<ChatGroup> selectGroupList = chatGroupService.findGroupList(selectGroupIdArr);
     		BoRole role = roleDao.getByRoleId(roleId);
-    		role.setChatGroupList(selectGroupList);
+    		List<ChatGroup> selectGroupListTmp=new ArrayList<ChatGroup>();
+    		ChatGroup cgTmp=null;
+    	    for(ChatGroup cg:selectGroupList){
+    	    	cgTmp=new ChatGroup();
+    	    	cgTmp.setId(cg.getId());
+    	    	cgTmp.setName(cg.getName());
+    	    	selectGroupListTmp.add(cgTmp);
+    	    }
+    		role.setChatGroupList(selectGroupListTmp);
     		role.setUpdateDate(new Date());
     		roleDao.update(role);
     	}else{

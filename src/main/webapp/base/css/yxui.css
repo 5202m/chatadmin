@@ -1074,6 +1074,6 @@ color:#FF0000;
 .noValidAuthority{
 	display: block;
 }
-.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,setGagTime,.export{
+.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,.setGagTime,.export,.approve_chat_pass,.approve_chat_reject{
 	display: none;
 }

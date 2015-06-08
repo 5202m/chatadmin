@@ -49,11 +49,11 @@
       <!-- east -->
       <div data-options="region:'east',border:false" style='width:230px'>
         <div class="easyui-panel" data-options="fit:true,title:'已选择聊天室'">
-          <select class="rSelect" multiple="multiple" name="right" ondblclick="yxui.right2left(this)" style="margin:1px;width:98%;height:99%">
+          <%-- <select class="rSelect" multiple="multiple" name="right" ondblclick="yxui.right2left(this)" style="margin:1px;width:98%;height:99%">
           	 <c:forEach var="relationChatGroup" items="${relationChatGroupList}">
       			<option value="${relationChatGroup.id}">${relationChatGroup.name}</option>
       		</c:forEach> 
-          </select>
+          </select> --%>
         </div>
       </div>
     </div>

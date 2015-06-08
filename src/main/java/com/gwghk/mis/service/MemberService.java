@@ -145,8 +145,11 @@ public class MemberService{
 		ChatUserGroup userGroup=member.getLoginPlatform().getChatUserGroup().get(0);
 		if(userGroup != null){
 			Criteria criteria = new Criteria();
-			if(StringUtils.isNotBlank(userGroup.getUserId())){
-				criteria.and("loginPlatform.chatUserGroup.userId").regex(StringUtil.toFuzzyMatch(userGroup.getUserId()));
+			if(StringUtils.isNotBlank(userGroup.getAccountNo())){
+				criteria.and("loginPlatform.chatUserGroup.accountNo").regex(StringUtil.toFuzzyMatch(userGroup.getAccountNo()));
+			}
+			if(StringUtils.isNotBlank(member.getMobilePhone())){
+				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(member.getMobilePhone()));
 			}
 			if(StringUtils.isNotBlank(userGroup.getNickname())){
 				criteria.and("loginPlatform.chatUserGroup.nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));

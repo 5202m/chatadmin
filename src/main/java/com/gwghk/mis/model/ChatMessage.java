@@ -25,9 +25,28 @@ public class ChatMessage extends ChatOnlineUser{
 	private ChatContent content;
 	
 	/**
-	 * 内容状态：0 、禁用 ；1、启动
+	 * 手机号码
 	 */
-	private String status;
+	private String mobilePhone;
+	
+	/**
+	 * 用户账号
+	 */
+	private String accountNo;
+	
+	/**
+	 * 需要审核角色编号
+	 */
+	private String approvalRoleArr;
+	
+	/**
+	 * 审核人编号
+	 */
+	private String approvalUserNo;
+	/**
+	 * 内容状态：0、等待审批，1、通过 ；2、拒绝
+	 */
+	private Integer status;
 	
 	/**
 	 * 发布日期
@@ -59,11 +78,11 @@ public class ChatMessage extends ChatOnlineUser{
 		this.id = id;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
@@ -121,6 +140,38 @@ public class ChatMessage extends ChatOnlineUser{
 
 	public void setPublishEndDateStr(String publishEndDateStr) {
 		this.publishEndDateStr = publishEndDateStr;
+	}
+
+	public String getApprovalRoleArr() {
+		return approvalRoleArr;
+	}
+
+	public void setApprovalRoleArr(String approvalRoleArr) {
+		this.approvalRoleArr = approvalRoleArr;
+	}
+
+	public String getApprovalUserNo() {
+		return approvalUserNo;
+	}
+
+	public void setApprovalUserNo(String approvalUserNo) {
+		this.approvalUserNo = approvalUserNo;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
 	}
 	
 }

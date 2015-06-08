@@ -60,6 +60,7 @@ public class AdminChatController extends BaseController{
 				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
 				+ "&fromPlatform=pm_mis";
 		map.put("chatURL",chatUrl);
+		map.put("pmApiUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/get24kPrice");
 		return "chat/adminChat";
 	}
 	

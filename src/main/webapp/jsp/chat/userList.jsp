@@ -8,20 +8,14 @@
     <form class="yxForm" id="chatUser_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
+          <th width="10%">手机号码</th>
+          <td width="40%"><input type="text" name="mobilePhone"></td>
           <th width="10%">账号</th>
-          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].userId"></td>
-          <th width="10%">昵称</th>
-          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
+          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].accountNo"></td>
         </tr>
         <tr>
-          <th width="10%">在线状态</th>
-          <td width="40%">
-	          <select name="loginPlatform.chatUserGroup[0].onlineStatus" id="chatUserOnlineStatus" style="width:160px;">
-          		<option value="">--请选择--</option>
-          		<option value="1">在线</option>
-          		<option value="0">下线</option>
-	          </select>
-          </td>
+          <th width="10%">昵称</th>
+          <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
           <th width="10%">所属组别</th>
           <td width="40%">
 	          <select name="loginPlatform.chatUserGroup[0].id" id="chatUserGroupId" style="width:160px;">
@@ -32,8 +26,16 @@
           </td>
         </tr>
          <tr>
+         <th width="10%">在线状态</th>
+          <td width="40%">
+	          <select name="loginPlatform.chatUserGroup[0].onlineStatus" id="chatUserOnlineStatus" style="width:160px;">
+          		<option value="">--请选择--</option>
+          		<option value="1">在线</option>
+          		<option value="0">下线</option>
+	          </select>
+          </td>
           <th width="10%">上线时间</th>
-          <td width="80%" colspan="8"> 
+          <td width="40%"> 
           	从&nbsp; <input name="onlineStartDate" id="onlineStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'onlineEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
              &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="onlineEndDate" id="onlineEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'onlineStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
 		  </td>

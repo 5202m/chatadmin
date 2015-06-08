@@ -69,6 +69,17 @@ public class ChatMessgeService{
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
 
+    /**
+     * 审批内容
+     * @param publishTimeArr
+     * @param fUserIdArr
+     * @param status
+     * @param groupId
+     * @return
+     */
+    public ApiResult approvalMsg(String approvalUserNo,String publishTimeArr,String fUserIdArr,String status,String groupId){
+    	return chatApiService.approvalMsg(approvalUserNo,publishTimeArr,fUserIdArr,status,groupId);
+    }
 	/**
 	 * 分页查询内容
 	 * @param dCriteria
@@ -79,8 +90,14 @@ public class ChatMessgeService{
 		Criteria criteria=new Criteria();
 		ChatMessage model=dCriteria.getSearchModel();
 		if(model!=null){
-			if(StringUtils.isNotBlank(model.getUserId())){
-				criteria.and("userId").regex(StringUtil.toFuzzyMatch(model.getUserId()));
+			if(StringUtils.isNotBlank(model.getMobilePhone())){
+				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(model.getMobilePhone()));
+			}
+			if(StringUtils.isNotBlank(model.getAccountNo())){
+				criteria.and("accountNo").regex(StringUtil.toFuzzyMatch(model.getAccountNo()));
+			}
+			if(model.getStatus()!=null){
+				criteria.and("status").is(model.getStatus());
 			}
 			if(StringUtils.isNotBlank(model.getNickname())){
 				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
@@ -91,8 +108,14 @@ public class ChatMessgeService{
 			if(StringUtils.isNotBlank(model.getGroupId())){
 				criteria.and("groupId").is(model.getGroupId());
 			}
-			if(model.getContent()!=null && StringUtils.isNotBlank(model.getContent().getMsgType())){
-				criteria.and("content.msgType").is(model.getContent().getMsgType());
+			if(model.getContent()!=null){
+				if(StringUtils.isNotBlank(model.getContent().getMsgType())){
+					criteria.and("content.msgType").is(model.getContent().getMsgType());
+				}
+				if(StringUtils.isNotBlank(model.getContent().getValue())){
+					criteria.and("content.msgType").is("text");
+					criteria.and("content.value").regex(StringUtil.toFuzzyMatch(model.getContent().getValue()));
+				}
 			}
 			if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
 				criteria = criteria.and("createDate").gte(DateUtil.parseDateSecondFormat(model.getPublishStartDateStr()));
