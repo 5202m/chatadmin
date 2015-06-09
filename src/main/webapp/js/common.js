@@ -212,6 +212,9 @@ function formFieldsToJson(formIds,concatValArr) {
 		    }
 		 }).get().join(",");
 		area=$("textarea[name]", $(formId)).map(function () {
+			if(isValid(this.value) && this.value.indexOf("\"")!=-1 && this.value.indexOf("\\\"")==-1){
+				this.value=this.value.replace(/\"/g,"\\\"");
+			}
 		    return "\""+this.name+"\":\""+nullValToEmpty(this.value)+"\"";
 		 }).get().join(",");
 		select=$("select[name]", $(formId)).map(function () {

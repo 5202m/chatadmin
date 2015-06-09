@@ -96,7 +96,11 @@ public class ArticleService{
 		    	if(optional==null){
 		    		continue;
 		    	}
-		    	oldCategory=optional.get();
+		        try{
+		        	oldCategory=optional.get();
+		        }catch(Exception e){
+		        	continue;
+		        }
 		    	if(oldCategory!=null){
 		    		if(StringUtils.isNotBlank(oldCategory.getParentNamePath())){
 		    			row.setCategoryNamePath(StringUtil.concatStr(oldCategory.getParentNamePath(),",",oldCategory.getName()));
@@ -104,6 +108,7 @@ public class ArticleService{
 		    			row.setCategoryNamePath(oldCategory.getName());
 		    		}
 		    	}
+		        
 		    }
 	    }
 		return page;

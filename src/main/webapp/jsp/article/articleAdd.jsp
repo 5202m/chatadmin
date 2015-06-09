@@ -35,7 +35,8 @@
         </td>
         <th width="15%">应用平台<span class="red">*</span></th>
         <td width="35%">
-           <select class="easyui-combotree" style="width:180px;" name="platformStr" data-options="url:'<%=request.getContextPath()%>/articleController/getArticlePlatform.do',cascadeCheck:false" multiple></select>
+           <select class="easyui-combotree" style="width:180px;" name="platformStr" 
+		     data-options="url:'<%=request.getContextPath()%>/articleController/getArticlePlatform.do',cascadeCheck:false" multiple></select>
         </td>
       </tr>
       <tr>

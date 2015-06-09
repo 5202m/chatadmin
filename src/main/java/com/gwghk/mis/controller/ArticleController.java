@@ -214,6 +214,20 @@ public class ArticleController extends BaseController{
     }
     
     /**
+     * 检查输入参数
+     * @return
+     */
+    public AjaxJson checkSubmitParams(Article article){
+    	AjaxJson jx=new AjaxJson();
+    	if(StringUtils.isBlank(article.getCategoryId())||StringUtils.isBlank(article.getPlatform())||article.getPublishStartDate()==null
+    			||article.getPublishEndDate()==null){
+    		jx.setSuccess(false);
+	    	jx.setMsg("部分参数输入为空值，请检查！");
+	    	return jx;
+    	}
+    	return jx;
+    }
+    /**
    	 * 功能：文章管理-保存新增
    	 */
     @RequestMapping(value="/articleController/create",method=RequestMethod.POST)
@@ -222,23 +236,33 @@ public class ArticleController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,false);
-    	setCommonSave(request,article);
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =articleService.addArticle(article);
-    	if(result.isOk()){
-    		j.setSuccess(true);
-    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增文章："+article.getId();
-    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.info("<<method:create()|"+message);
-    	}else{
-    		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增文章："+article.getId()+" 失败";
-    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.error("<<method:create()|"+message+",ErrorMsg:"+result.toString());
-    	}
+    	try{
+    		setCommonSave(request,article);
+    		j=checkSubmitParams(article);
+    		if(!j.isSuccess()){
+    			return j;
+    		}
+        	ApiResult result =articleService.addArticle(article);
+        	if(result.isOk()){
+        		j.setSuccess(true);
+        		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增文章："+article.getId();
+        		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT
+        						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+        		logger.info("<<method:create()|"+message);
+        	}else{
+        		j.setSuccess(false);
+        		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+        		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增文章："+article.getId()+" 失败";
+        		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+        						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+        		logger.error("<<method:create()|"+message+",ErrorMsg:"+result.toString());
+        	}
+	    }catch(Exception e){
+	    	j.setSuccess(false);
+	    	j.setMsg("操作失败！");
+	    	logger.info("<--Exception:create()|"+e);
+		}
 		return j;
     }
     
@@ -269,22 +293,32 @@ public class ArticleController extends BaseController{
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,true);
-    	setCommonSave(request,article);
-    	ApiResult result =articleService.updateArticle(article);
     	AjaxJson j = new AjaxJson();
-    	if(result.isOk()){
-    		j.setSuccess(true);
-    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改文章："+article.getId();
-    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.info("<--method:update()|"+message);
-    	}else{
-    		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改文章："+article.getId()+" 失败";
-    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
-    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
+        try{
+	    	setCommonSave(request,article);
+	    	j=checkSubmitParams(article);
+    		if(!j.isSuccess()){
+    			return j;
+    		}
+	    	ApiResult result =articleService.updateArticle(article);
+	    	if(result.isOk()){
+	    		j.setSuccess(true);
+	    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改文章："+article.getId();
+	    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+	    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+	    		logger.info("<--method:update()|"+message);
+	    	}else{
+	    		j.setSuccess(false);
+	    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+	    		String message = " 文章: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改文章："+article.getId()+" 失败";
+	    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+	    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+	    		logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
+	    	}
+        }catch(Exception e){
+        	j.setSuccess(false);
+        	j.setMsg("操作失败！");
+        	logger.info("<--Exception:update()|"+e);
     	}
    		return j;
      }

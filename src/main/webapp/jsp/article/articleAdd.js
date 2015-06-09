@@ -58,10 +58,40 @@ var articleAdd = {
 		});
 	},
 	/**
+	 * 检查表单输入框
+	 */
+	checkForm:function(){
+	    var isPass=true;
+		$("#articleBaseInfoForm input,#articleBaseInfoForm select").each(function(){
+			if(isBlank($(this).val())){
+				if($(this).attr("name")=="categoryId"){
+				    alert("栏目不能为空！");
+				    isPass=false;
+				    return false;
+				}
+				if($(this).attr("name")=="publishStartDateStr"||$(this).attr("name")=="publishEndDateStr"){
+					alert("发布时间不能为空！");
+					isPass=false;
+					return false;
+				}
+				if($(this).attr("name")=="platformStr"){
+					alert("应用平台不能为空！");
+					isPass=false;
+					return false;
+				}
+			}
+		});
+		if(isPass && $("#articleBaseInfoForm input[type=checkbox]:checked").length==0){
+			alert("请选择语言！");
+			isPass=false;
+		}
+		return isPass;
+	},
+	/**
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
-		if($("#article_tab form[name=articleDetailForm]").form('validate') && $("#articleBaseInfoForm").form('validate')){
+		if(this.checkForm() && $("#articleDetailForm").form('validate')){
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
 			$.messager.progress();//提交时，加入进度框
