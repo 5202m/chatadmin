@@ -62,11 +62,11 @@
           	从&nbsp; <input name="publishStartDateStr" id="publishStartDate" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'publishEndDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
              &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="publishEndDateStr" id="publishEndDate" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'publishStartDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
 		  </td>
-		  <th width="10%">是否有效</th>
+		  <th width="10%">数据状态</th>
           <td width="40%"> 
             <select name="valid" style="width:160px;" id="chatMessageValidId">
-          		<option value="1">有效</option>
-          		<option value="0">无效</option>
+          		<option value="1">正常</option>
+          		<option value="0">删除</option>
           		<option value="">所有</option>
 	        </select>
           </td>

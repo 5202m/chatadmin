@@ -37,19 +37,12 @@ public class ChatMessgeService{
 	 */
 	public ApiResult deleteChatMessage(String[] ids) {
 		ApiResult api=new ApiResult();
-		ChatMessage content=null;
-		boolean isSuccess=false;
-		List<ChatMessage> list=chatMessageDao.getListByIds(ids, "publishTime","groupId");
-	    for(String id:ids){
-	    	content=new ChatMessage();
-	    	content.setId(id);
-	    	chatMessageDao.remove(content);
-	    	isSuccess=true;
-	    }
+		boolean isSuccess=chatMessageDao.deleteMessage(ids);
 	    if(isSuccess){
 	    	int size=0;
 	    	String groupId="";
 	    	ChatMessage row=null;
+	    	List<ChatMessage> list=chatMessageDao.getListByIds(ids, "publishTime","groupId");
 	    	if(list!=null && (size=list.size())>0){
 	    		StringBuffer buffer=new StringBuffer();
 	    		for(int i=0;i<size;i++){

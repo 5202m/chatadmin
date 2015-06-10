@@ -69,13 +69,13 @@ var chatMessage = {
 							}
 							return "";
 						}},
-						{title : '是否有效',field : 'validStr',formatter : function(value, rowData, rowIndex) {
+						{title : '数据状态',field : 'validStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.valid;
 							if(type==0){
-								return "无效";
+								return "删除";
 							}
 							else{
-								return "有效";
+								return "正常";
 							}
 						}},
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
