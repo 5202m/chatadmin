@@ -53,7 +53,7 @@
           		<option value="2">拒绝</option>
 	          </select>
           </td>
-          <th width="10%">内容</th>
+          <th width="10%">内容关键词</th>
           <td width="40%"><input type="text" name="content.value"/></td>
         </tr>
          <tr>
