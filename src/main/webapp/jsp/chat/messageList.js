@@ -33,13 +33,28 @@ var chatMessage = {
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							return rowData.nickname+"【"+rowData.userId+"】";
 						}},
+						{title : '信息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
+							var type=rowData.content.msgType;
+							if(type=='text'){
+								return "文本";
+							}
+							if(type=='img'){
+								return "图片";
+							}
+							return "";
+						}},
+						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
+							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
+						}},
+						{title : '发布时间',field : 'publishTimeStr',sortable : true,formatter : function(value, rowData, rowIndex) {
+							return rowData.publishTime ? timeObjectUtil.longMsTimeConvertToDateTime(Number(rowData.publishTime.replace(/_.+/,""))) : '';
+						}},
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageUserType",rowData.userType);
 						}},
 			            {title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
-						{title : '用户来源',field : 'fromPlatform'},
 						{title : '审核状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.status;
 							if(type==1){
@@ -56,19 +71,6 @@ var chatMessage = {
 						{title : '用户id',field : 'userId',hidden:true},
 						{title : '组',field : 'groupId',hidden:true},
 						{title : '状态隐藏字段',field : 'status',hidden:true},
-						{title : '发布时间',field : 'publishTimeStr',sortable : true,formatter : function(value, rowData, rowIndex) {
-							return rowData.publishTime ? timeObjectUtil.longMsTimeConvertToDateTime(Number(rowData.publishTime.replace(/_.+/,""))) : '';
-						}},
-						{title : '信息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
-							var type=rowData.content.msgType;
-							if(type=='text'){
-								return "文本";
-							}
-							if(type=='img'){
-								return "图片";
-							}
-							return "";
-						}},
 						{title : '数据状态',field : 'validStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.valid;
 							if(type==0){
@@ -77,9 +79,6 @@ var chatMessage = {
 							else{
 								return "正常";
 							}
-						}},
-						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
-							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
 						}}
 						
 			]],

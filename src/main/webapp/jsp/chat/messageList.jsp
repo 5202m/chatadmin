@@ -23,6 +23,7 @@
           		<option value="0">普通会员</option>
           		<option value="1">系统管理员</option>
           		<option value="2">分析师</option>
+          		<option value="3">客服</option>
 	          </select>
           </td>
         </tr>
