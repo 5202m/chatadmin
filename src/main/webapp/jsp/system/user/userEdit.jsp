@@ -29,7 +29,7 @@
 					      	<option value="${role.roleId}" selected="selected">${role.roleName}</option>
 					     </c:when> 
 					     <c:otherwise> 
-					      	<option value="${role.roleId}">${role.roleName}</option>
+					      	<option value="${role.roleId}">${role.roleName}【${role.remark}】</option>
 					     </c:otherwise> 
 				    </c:choose>
       			</c:forEach>		
