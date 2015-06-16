@@ -26,7 +26,7 @@
          		<c:forEach var="role" items="${roleList}">
          		   <c:choose>
 	      				 <c:when test="${role.roleId == mngUser.role.roleId}"> 
-					      	<option value="${role.roleId}" selected="selected">${role.roleName}</option>
+					      	<option value="${role.roleId}" selected="selected">${role.roleName}【${role.remark}】</option>
 					     </c:when> 
 					     <c:otherwise> 
 					      	<option value="${role.roleId}">${role.roleName}【${role.remark}】</option>
