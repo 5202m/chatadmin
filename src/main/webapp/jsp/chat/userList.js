@@ -91,6 +91,13 @@ var chatUser = {
 		$('#'+chatUser.gridId).datagrid('reload');
 	},
 	/**
+	 * 功能：导出记录
+	 */
+	exportRecord : function(){
+		var path = basePath+ '/chatUserController/exportRecord.do?'+$("#chatUser_queryForm").serialize();
+		window.location.href = path;
+	},
+	/**
 	 * 功能：设置禁言
 	 */
 	setUserGag : function(obj){

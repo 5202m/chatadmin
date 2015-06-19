@@ -1,5 +1,6 @@
 package com.gwghk.mis.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -34,9 +36,13 @@ import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.sdk.orm.DataRowSet;
+import com.sdk.orm.IRow;
+import com.sdk.poi.POIExcelBuilder;
 
 /**
  * 聊天室内容管理
@@ -145,5 +151,57 @@ public class ChatUserController extends BaseController{
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+apiResult.toString());
 		}
 		return j;
+	}
+	
+	
+	/**
+	 * 功能：导出聊天记录(以模板的方式导出)
+	 */
+	@RequestMapping(value = "/chatUserController/exportRecord", method = RequestMethod.GET)
+	@ActionVerification(key="export")
+	public void exportRecord(HttpServletRequest request, HttpServletResponse response,Member member){
+		try{
+			DataGrid dataGrid = new DataGrid();
+			dataGrid.setPage(0);
+			dataGrid.setRows(0);
+			dataGrid.setSort("mobilePhone");
+			dataGrid.setOrder("desc");
+			Date onlineStartDate=null,onlineEndDate=null;
+			String onlineStartDateStr=request.getParameter("onlineStartDate"),onlineEndDateStr=request.getParameter("onlineEndDate");
+			if(StringUtils.isNotBlank(onlineStartDateStr)){
+			   onlineStartDate=DateUtil.parseDateSecondFormat(onlineStartDateStr);
+			}
+			if(StringUtils.isNotBlank(onlineEndDateStr)){
+			   onlineEndDate=DateUtil.parseDateSecondFormat(onlineEndDateStr);
+			}
+			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_USER_RECORDS_TEMPLATE_PATH)));
+			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate);
+			List<Member>  memberList = page.getCollection();
+			ChatUserGroup userGroup=null;
+			if(memberList != null && memberList.size() > 0){
+				DataRowSet dataSet = new DataRowSet();
+				for(Member cm : memberList){
+					IRow row = dataSet.append();
+					userGroup=cm.getLoginPlatform().getChatUserGroup().get(0);
+					row.set("mobilePhone", cm.getMobilePhone());
+					row.set("accountNo", userGroup.getAccountNo());
+					row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
+					row.set("groupId", userGroup.getId());
+					row.set("onlineStatus",(userGroup.getOnlineStatus()==1?"在线":"下线"));
+					row.set("onlineDate", userGroup.getOnlineDate());
+					row.set("gagStartDate", userGroup.getGagStartDate());
+					row.set("gagEndDate", userGroup.getGagEndDate());
+					row.set("sendMsgCount", userGroup.getSendMsgCount());
+				}
+				builder.put("rowSet",dataSet);
+			}else{
+				builder.put("rowSet",new DataRowSet());
+			}
+			builder.parse();
+			ExcelUtil.wrapExcelExportResponse("成员记录", request, response);
+			builder.write(response.getOutputStream());
+		}catch(Exception e){
+			logger.error("<<method:exportRecord()|chat user export error!",e);
+		}
 	}
 }

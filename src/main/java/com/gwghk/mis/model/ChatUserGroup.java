@@ -1,6 +1,7 @@
 package com.gwghk.mis.model;
 
 import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -62,6 +63,11 @@ public class ChatUserGroup {
      * 禁言提示语
      */
 	private String gagTips; 
+	
+	/**
+	 * 发言条数
+	 */
+	private Integer sendMsgCount;
 
 	public String getId() {
 		return id;
@@ -142,4 +148,13 @@ public class ChatUserGroup {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	public Integer getSendMsgCount() {
+		return sendMsgCount;
+	}
+
+	public void setSendMsgCount(Integer sendMsgCount) {
+		this.sendMsgCount = sendMsgCount;
+	}
+
 }
