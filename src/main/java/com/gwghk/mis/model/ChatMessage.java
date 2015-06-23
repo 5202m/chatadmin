@@ -3,6 +3,7 @@ package com.gwghk.mis.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -27,11 +28,13 @@ public class ChatMessage extends ChatOnlineUser{
 	/**
 	 * 手机号码
 	 */
+	@Indexed
 	private String mobilePhone;
 	
 	/**
 	 * 用户账号
 	 */
+	@Indexed
 	private String accountNo;
 	
 	/**

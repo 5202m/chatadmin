@@ -2,6 +2,8 @@ package com.gwghk.mis.model;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 /**
  * 聊天室在线用户实体类
  * @author Alan.wu
@@ -17,6 +19,7 @@ public class ChatOnlineUser{
 	/**
 	 * 用户昵称
 	 */
+	@Indexed
 	protected String nickname;
 	
 	/**
@@ -28,11 +31,13 @@ public class ChatOnlineUser{
 	/**
 	 * 区分系统用户还是会员，0表示会员，1表示系统用户
 	 */
+	@Indexed
 	protected Integer userType;
 	
 	/**
 	 * 组别Id
 	 */
+	@Indexed
 	protected String groupId;
 	
 	/**
