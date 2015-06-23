@@ -96,6 +96,8 @@ public class ChatMessageController extends BaseController{
 	@ActionVerification(key="export")
 	public void exportRecord(HttpServletRequest request, HttpServletResponse response,ChatMessage chatMessage){
 		try{
+			chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
+			chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_RECORDS_TEMPLATE_PATH)));
 			DataGrid dataGrid = new DataGrid();
 			dataGrid.setPage(0);

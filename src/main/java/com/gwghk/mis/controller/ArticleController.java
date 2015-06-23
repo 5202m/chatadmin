@@ -261,7 +261,7 @@ public class ArticleController extends BaseController{
 	    }catch(Exception e){
 	    	j.setSuccess(false);
 	    	j.setMsg("操作失败！");
-	    	logger.info("<--Exception:create()|"+e);
+	    	logger.error("<--Exception:create()",e);
 		}
 		return j;
     }
@@ -277,6 +277,7 @@ public class ArticleController extends BaseController{
     	String publishEndDateStr=request.getParameter("publishEndDateStr");
     	article.setPublishStartDate(DateUtil.parseDateFormat(publishStartDateStr));
     	article.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
+    	System.out.println("test:"+JsonUtil.formatJsonStr(detaiInfo));
         List<ArticleDetail> detailList=JSON.parseArray(JsonUtil.formatJsonStr(detaiInfo), ArticleDetail.class);
         article.setDetailList(detailList);
         String[] platformArr=request.getParameterValues("platformStr");
@@ -318,7 +319,7 @@ public class ArticleController extends BaseController{
         }catch(Exception e){
         	j.setSuccess(false);
         	j.setMsg("操作失败！");
-        	logger.info("<--Exception:update()|"+e);
+        	logger.error("<--Exception:update()",e);
     	}
    		return j;
      }

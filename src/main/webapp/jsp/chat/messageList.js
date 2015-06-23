@@ -184,6 +184,18 @@ var chatMessage = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
+		var publishStartDate=$("#chatMessage_queryForm #publishStartDate").val();
+		var publishEndDate=$("#chatMessage_queryForm #publishEndDate").val();
+		if(isBlank(publishStartDate)||isBlank(publishEndDate)){
+			alert("请输入发布时间");
+			return;
+		}
+		var beginDate=new Date(publishStartDate),endDate=new Date(publishEndDate);
+		beginDate.setMonth(beginDate.getMonth()+1);
+		if(endDate>beginDate){
+			alert("目前导出数据暂支持发布时间段为一个月，请检查发布时间段！");
+			return;
+		}
 		var path = basePath+ '/chatMessageController/exportRecord.do?'+$("#chatMessage_queryForm").serialize();
 		window.location.href = path;
 	}
