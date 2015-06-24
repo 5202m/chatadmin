@@ -191,7 +191,7 @@ public class ChatUserController extends BaseController{
 					row.set("onlineDate", userGroup.getOnlineDate());
 					row.set("gagStartDate", userGroup.getGagStartDate());
 					row.set("gagEndDate", userGroup.getGagEndDate());
-					row.set("sendMsgCount", userGroup.getSendMsgCount());
+					row.set("sendMsgCount", userGroup.getSendMsgCount()==null?0:userGroup.getSendMsgCount());
 				}
 				builder.put("rowSet",dataSet);
 			}else{
