@@ -25,6 +25,13 @@ var main={
 									left : e.pageX,
 									top : e.pageY
 								}).data('tabTitle', title);
+					},
+					onClose:function(title){
+						if(title=="聊天室"){
+							if(adminChat!=null && adminChat.intervalId!=null){
+								 clearInterval(adminChat.intervalId);
+							}
+						}
 					}
 				});
 		/*
@@ -175,8 +182,8 @@ var main={
 							    	   $("[class~="+obj[i].code+"]","#"+node.id).show();
 							       }
 							    }
-							 }
-							});
+						   }
+						});
 					}
 				}
 			}
