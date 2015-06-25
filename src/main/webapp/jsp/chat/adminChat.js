@@ -6,9 +6,10 @@
 var adminChat = {
 	pannelCount : 0,
 	pmApiUrl:'',
+	intervalId:null,
 	init : function(){
 	  this.setPrice()
-	  setInterval("adminChat.setPrice()",5000);	//每间隔3秒刷新下报价信息
+	  this.intervalId=setInterval("adminChat.setPrice()",5000);	//每间隔3秒刷新下报价信息
 	},
 	 /**
      * 设置价格
@@ -59,10 +60,11 @@ var adminChat = {
 					$('#adminChat_div '+groupId).linkbutton('disable');
 					var iframeSrc = $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
 								  + '&timestamp='+new Date();
+					//window.open(iframeSrc,groupName,"location=no");
 					$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
 				}
 			}
-		})
+		});
 	}
 };
 
