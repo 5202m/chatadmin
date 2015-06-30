@@ -38,7 +38,7 @@
         </td>
         <th width="15%">应用平台<span class="red">*</span></th>
         <td width="35%">
-           <select class="easyui-combotree" style="width:180px;" name="platformStr" data-options="url:'<%=request.getContextPath()%>/articleController/getArticlePlatform.do?platform=${article.platform}',cascadeCheck:false" multiple></select>
+           <select class="easyui-combotree" style="width:180px;" name="platformStr" data-options="url:'<%=request.getContextPath()%>/commonController/getPlatformList.do?platform=${article.platform}',cascadeCheck:false" multiple></select>
         </td>
       </tr>
       <tr>
@@ -95,10 +95,6 @@
 			<th width="15%">SEO描述</th>
 	        <td width="85%"><textarea rows="2" cols="6" name="seoDescription" style="width:600px">${articleDetail.seoDescription}</textarea></td>
 	       </tr>
-	       <%-- <tr>
-			<th width="15%">链接地址</th>
-	        <td width="85%"><input type="text" name="linkUrl" value="${articleDetail.linkUrl}" style="width:600px"/></td>
-       	   </tr> --%>
 	    </table>
 	  </form>
 	</div>

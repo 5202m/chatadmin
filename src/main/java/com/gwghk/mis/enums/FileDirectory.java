@@ -6,13 +6,8 @@ package com.gwghk.mis.enums;
  * @date 2015-03-25
  */
 public enum FileDirectory{
-	logo("logo", "logo图片目录"),
-	member("member", "会员头像目录"),
-	article("article", "文章图片目录"),
-	advertisement("advertisement", "广告图片"),
 	pic("pic", "图片"),
 	video("video", "视频");
-	
 	private String code;
 	private String text;
 

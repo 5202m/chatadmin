@@ -430,6 +430,8 @@ var goldOfficeUtils = {
 						break;
 				}
 			},
+			'onSelect':config.onSelect,
+			'onDialogOpen':config.onDialogOpen,
             'onUploadStart': config.onUploadStart,
             'onUploadSuccess' : config.onUploadSuccess
         });

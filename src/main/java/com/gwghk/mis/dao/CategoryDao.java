@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
-import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.model.Category;
 import com.gwghk.mis.util.StringUtil;
 
@@ -45,7 +44,6 @@ public class CategoryDao extends MongoDBBaseDao{
 	 * 功能：新增栏目
 	 */
     public boolean addCategory(Category category){
-    	category.setId(this.getIncSeq(IdSeq.Category).toString());
     	category.setStatus(1);
 		this.add(category);
 		return true;
@@ -76,7 +74,7 @@ public class CategoryDao extends MongoDBBaseDao{
 			criteria.and("name").regex(StringUtil.toFuzzyMatch(name));
 		}
 		if(StringUtils.isNotBlank(code)){
-			criteria.and("code").regex(StringUtil.toFuzzyMatch(code));
+			criteria.and("id").regex(StringUtil.toFuzzyMatch(code));
 		}
 		if(StringUtils.isNotBlank(status)){
 			criteria.and("status").is(Integer.parseInt(status));

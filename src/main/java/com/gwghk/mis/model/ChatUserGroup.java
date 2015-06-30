@@ -3,7 +3,7 @@ package com.gwghk.mis.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  * 用户组对象
@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author Alan.wu
  * @date   2015年4月10日
  */
-@Document
 public class ChatUserGroup {
 	/**
 	 * 组id
@@ -27,6 +26,7 @@ public class ChatUserGroup {
 	/**
 	 * 在线状态(0为下线，1为在线）
 	 */
+	@Indexed
 	private Integer onlineStatus;
 	
 	/**
@@ -37,6 +37,7 @@ public class ChatUserGroup {
 	/**
 	 * 交易账户
 	 */
+	@Indexed
 	private String accountNo;
 	
 	/**
@@ -47,16 +48,19 @@ public class ChatUserGroup {
 	/**
 	 * 昵称
 	 */
+	@Indexed
 	private String nickname;
 	
 	/**
      * 禁言-开始时间
      */
+	@Indexed
 	private Date  gagStartDate;
 	
 	/**
      * 禁言-结束时间
      */
+	@Indexed
 	private Date  gagEndDate;
 	
 	/**

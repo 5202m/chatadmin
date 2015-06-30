@@ -3,11 +3,11 @@ package com.gwghk.mis.model;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
- * 摘要：文章详细信息实体对象
+ * 摘要：媒介详细信息实体对象
  * @author Alan.wu
  * @date   2015年3月16日
  */
-public class ArticleDetail{ 
+public class MediaDetail{ 
 	
 	/**
 	 * 语言(zh、tw、en)
@@ -54,7 +54,6 @@ public class ArticleDetail{
 	 * 链接地址
 	 */
 	private String linkUrl;
-	
 	
 	public String getLang() {
 		return lang;

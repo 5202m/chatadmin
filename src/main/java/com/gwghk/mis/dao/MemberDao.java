@@ -56,7 +56,7 @@ public class MemberDao extends MongoDBBaseDao{
 	 * 功能：删除会员
 	 */
 	public boolean deleteMember(Object[] MemberIds){
-		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("MemberId").in(MemberIds))
+		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("memberId").in(MemberIds))
 					   , Update.update("valid", 0), Member.class);
 		return wr!=null && wr.getN()>0;
 	}

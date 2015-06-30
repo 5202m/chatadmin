@@ -49,8 +49,8 @@ public class CategoryService{
 	public ApiResult saveCategory(String parentId,Category categoryParam, boolean isUpdate) {
 		Category category=null;
     	ApiResult result = new ApiResult();
+    	category=categoryDao.getById(categoryParam.getId());
     	if(isUpdate){
-    		category=categoryDao.getById(categoryParam.getId());
     		String name=category.getName();
            	BeanUtils.copyExceptNull(category, categoryParam);
            	setParent(parentId,category);
@@ -59,10 +59,10 @@ public class CategoryService{
         		categoryDao.updateParentNamePath(category.getId(),categoryParam.getName());
         	}
     	}else{
-    		/*if(categoryDao.getByCode(categoryParam.getCode())!=null){
-    			result.setMsg(ResultCode.Error100);
+    		if(category!=null){
+    			result.setMsg(ResultCode.Error102);
     			return result;
-    		}*/
+    		}
     		setParent(parentId,categoryParam);
     		categoryDao.addCategory(categoryParam);
     	}

@@ -3,7 +3,6 @@ package com.gwghk.mis.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
  * 摘要：栏目实体对象
@@ -11,7 +10,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * @date   2015年3月16日
  */
 public class Category extends BaseModel{ 
-	
+	/**
+	 * 栏目编号
+	 */
 	@Id
 	private String id;
 	
@@ -19,12 +20,6 @@ public class Category extends BaseModel{
 	 * 栏目名称
 	 */
 	private String name;
-	
-	/**
-	 * 栏目编号
-	 */
-	@Indexed
-	private String code;
 	
 	/**
      * 状态
@@ -66,14 +61,6 @@ public class Category extends BaseModel{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public Integer getStatus() {

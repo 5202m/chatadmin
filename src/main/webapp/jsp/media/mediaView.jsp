@@ -2,7 +2,7 @@
 <%@ include file="/jsp/common/common.jsp" %>
 <script type="text/javascript">
 function goBack(){
-  jumpRequestPage(basePath + '/articleController/index.do');
+  jumpRequestPage(basePath + '/mediaController/index.do');
 }
 </script>
 <!-- 文章基本信息 -->
@@ -20,18 +20,18 @@ function goBack(){
         <td width="35%"><span>${categoryTxt}</span></td>
         <th width="15%">发布时间</th>
         <td width="35%">
-                          从&nbsp;<span><fmt:formatDate value="${article.publishStartDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
-           <span>&nbsp;到<fmt:formatDate value="${article.publishEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span> 
+                          从&nbsp;<span><fmt:formatDate value="${media.publishStartDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+           <span>&nbsp;到<fmt:formatDate value="${media.publishEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span> 
         </td>
       </tr>
       <tr>
       	<th width="15%">状态</th>
         <td width="35%">
-         	<t:dictSelect id="articleStatus" field="status" isEdit="true" isDisabled="true" defaultVal="${article.status}" isShowPleaseSelected="false"  dataList="${dictMap[dictConstant.DICT_USE_STATUS]}"/>
+         	<t:dictSelect id="mediaStatus" field="status" isEdit="true" isDisabled="true" defaultVal="${media.status}" isShowPleaseSelected="false"  dataList="${dictMap[dictConstant.DICT_USE_STATUS]}"/>
         </td>
         <th width="15%">应用平台</th>
         <td width="35%">
-           <span>${articlePlatform}</span>
+           <span>${mediaPlatform}</span>
         </td>
       </tr>
       <tr>
@@ -39,7 +39,7 @@ function goBack(){
         <td width="85%" colspan="4">
           <c:forEach var="lang" items="${langMap}">
              <input type="checkbox" id="checkbox_lang_${lang.key}"  readonly="readonly"
-                    value="${lang.key}" <c:forEach var="articleDetail" items="${article.detailList}"><c:if test="${lang.key == articleDetail.lang}">checked="checked"</c:if></c:forEach>
+                    value="${lang.key}" <c:forEach var="mediaDetail" items="${media.detailList}"><c:if test="${lang.key == mediaDetail.lang}">checked="checked"</c:if></c:forEach>
                     style="margin-right:10px;" tv="${lang.value}"/>${lang.value}
           </c:forEach>
         </td>
@@ -47,38 +47,38 @@ function goBack(){
     </table>
 </div>
 <style type="text/css">
-#article_tab .tabs{
+#media_tab .tabs{
   margin-left:8px;
 }
 </style>
 <!-- 文章详细信息 -->
-<div id="article_tab" class="easyui-tabs" data-options="fit:true" style="height:700px;width:100%;">
-<c:forEach var="articleDetail" items="${article.detailList}">
-	<div  title="${langMap[articleDetail.lang]}" style="padding:0px;overflow-x:auto;height:700px;width:100%;">
+<div id="media_tab" class="easyui-tabs" data-options="fit:true" style="height:700px;width:100%;">
+<c:forEach var="mediaDetail" items="${media.detailList}">
+	<div  title="${langMap[mediaDetail.lang]}" style="padding:0px;overflow-x:auto;height:700px;width:100%;">
 	  <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
 	      <tr>
 	      	<th width="15%">标题</th>
-	        <td width="85%"><span>${articleDetail.title}</span>
+	        <td width="85%"><span>${mediaDetail.title}</span>
 		    </td>
 	      </tr>
 	      <tr>
-	        <th width="15%">内容</th>
+	        <th width="15%">简介</th>
 	        <td width="85%">
-	           <span>${articleDetail.content}</span>
+	           <span>${mediaDetail.remark}</span>
 	        </td>
 	      </tr>
 	      <tr>
 			<th width="15%">SEO标题</th>
-	        <td width="85%"><span>${articleDetail.seoTitle}</span></td>
+	        <td width="85%"><span>${mediaDetail.seoTitle}</span></td>
 	      </tr>
 	       <tr>
 			<th width="15%">SEO关键字(多个用逗号分隔)</th>
-	        <td width="85%"><span>${articleDetail.seoKeyword}</span></td>
+	        <td width="85%"><span>${mediaDetail.seoKeyword}</span></td>
 	      </tr>
 	       <tr>
 			<th width="15%">SEO描述</th>
 	        <td width="85%">
-	           <span> ${articleDetail.seoDescription}</span>
+	           <span> ${mediaDetail.seoDescription}</span>
 	        </td>
 	       </tr>
 	    </table>

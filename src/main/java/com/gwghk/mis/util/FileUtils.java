@@ -119,7 +119,7 @@ public class FileUtils {
 			file.mkdirs();
 		}
 		//重新命名新图片的名字(当前时间+随机8位数字+文件后缀名)
-		String destBaseName = DateUtil.toYyyymmddHhmmss() + StringUtil.random(8);
+		String destBaseName = DateUtil.toYyyymmddHhmmss() +"_"+ StringUtil.randomNum(8);
 		uploadFileInfo.setFileName(destBaseName);
 		uploadFileInfo.setFilePath(basePath);
 		uploadFileInfo.setFileAbsolutePath(realPath);

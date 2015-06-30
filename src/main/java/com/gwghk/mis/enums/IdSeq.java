@@ -19,7 +19,8 @@ public enum IdSeq {
     Category("",1),
     Article("",10000000),
     ChatGroupRule("CGR",1000),
-    TokenAccess("TA",1000000);
+    TokenAccess("TA",1000000),
+    Media("",10000000);
 	public static final char[] charArray = new char[] { 'A', 'B', 'C', 'D',
 		'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
 		'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };

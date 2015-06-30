@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
 <script type="text/javascript">
-var articlePlatformStr='${articlePlatformJson}';
+var mediaPlatformStr='${mediaPlatformJson}';
 </script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/article/article.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/media/media.js" charset="UTF-8"></script>
 <div class="easyui-layout" data-options="fit:true">
   <!-- notrh -->
    <div data-options="region:'north',border:false" style="height:140px;">
     <div class="easyui-panel" data-options="fit:true,title:'<spring:message code="common.searchCondition" />',border:false,iconCls:'pag-search'">
-    <form class="yxForm" id="article_queryForm">
+    <form class="yxForm" id="media_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">编号</th>
@@ -40,8 +40,8 @@ var articlePlatformStr='${articlePlatformJson}';
         </tr>
         <tr>
           	<td colspan="6" align="right">&nbsp;&nbsp;
-	        	<a href="#" class="easyui-linkbutton" id="article_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
-	        	&nbsp;&nbsp; <a href="#" class="easyui-linkbutton" id="article_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>
+	        	<a href="#" class="easyui-linkbutton" id="media_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
+	        	&nbsp;&nbsp; <a href="#" class="easyui-linkbutton" id="media_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>
         	</td>
         </tr>
       </table>
@@ -51,21 +51,21 @@ var articlePlatformStr='${articlePlatformJson}';
   
   <!-- datagrid -->
   <div data-options="region:'center',title:'<spring:message code="common.datalist" />',iconCls:'pag-list'">
-    <div id="article_datagrid" style="display:none"></div>
+    <div id="media_datagrid" style="display:none"></div>
   </div>
   
    <!-- datagrid-toolbar -->
-  <div id="article_datagrid_toolbar">
-    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="article.add();">新增<!-- 新增 --></a> 
-    <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="article.batchDel();">删除<!-- 删除 --></a>
-    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="article.refresh();">刷新<!-- 刷新 --></a> 
+  <div id="media_datagrid_toolbar">
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="media.add();">新增<!-- 新增 --></a> 
+    <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="media.batchDel();">删除<!-- 删除 --></a>
+    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="media.refresh();">刷新<!-- 刷新 --></a> 
   </div>
   
   <!-- datagrid-操作按钮 -->
-  <div id="article_datagrid_rowOperation">
-	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="article.edit(this.id)">修改<!-- 修改 --></a>
-	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="article.view(this.id)">查看<!-- 查看 --></a>
-	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="article.del(this.id)">删除<!-- 删除 --></a>
+  <div id="media_datagrid_rowOperation">
+	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="media.edit(this.id)">修改<!-- 修改 --></a>
+	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="media.view(this.id)">查看<!-- 查看 --></a>
+	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="media.del(this.id)">删除<!-- 删除 --></a>
   </div>
   
 </div>

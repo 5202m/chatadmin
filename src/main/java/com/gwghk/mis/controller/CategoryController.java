@@ -149,7 +149,7 @@ public class CategoryController extends BaseController{
     		logger.info("<<create()|"+message);
     	}else{
     		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		j.setMsg(result.getErrorMsg());
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增栏目："+category.getName()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<create()|"+message+",ErrorMsg:"+result.toString());

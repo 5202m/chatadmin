@@ -1,8 +1,11 @@
 package com.gwghk.mis.common.controller;
 
 import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
 import com.alibaba.fastjson.JSON;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -35,22 +39,42 @@ import com.gwghk.mis.util.ResourceUtil;
 @Scope("prototype")
 @Controller
 public class UploadController extends BaseController{
-	
-	/**
-	 * 功能：上传图片
-	 */
-	@RequestMapping(value="/uploadController/uploadImage", method=RequestMethod.POST)
-	@ResponseBody
-	public String  uploadImage(HttpServletRequest request) throws  Exception{
-		return JSON.toJSONString(this.uploadImg(request));
-	}
-	
+
 	/**
 	 * 功能：上传文件
 	 */
-	@RequestMapping(value="/uploadController/uploadFile", method=RequestMethod.POST)
+	@RequestMapping(value="/uploadController/upload", method=RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson	uploadFile(HttpServletRequest request) throws  Exception{
+	public String  upload(HttpServletRequest request) throws  Exception{
+		System.out.println("uploadImage->request:"+request.getParameter("fileDir"));
+		return JSON.toJSONString(this.uploadFile(request));
+	}
+	
+	/**
+	 * 功能：验证图片
+	 */
+	private   boolean  validImage(MultipartFile file  ,AjaxJson result){
+		if(!ImageHelper.isPicture(file.getOriginalFilename())){
+			result.setSuccess(false);
+ 	        result.setMsg("上传图片类型不对!");
+ 	        return false;
+		}
+		if(file.getSize() > 10*1024*1024){		//最大上传10M
+			result.setSuccess(false);
+ 	        result.setMsg("上传图片大小超出最大限制10M!");
+ 	        return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 上传文件通用方法
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	private AjaxJson uploadFile(HttpServletRequest request) throws  Exception{
+		System.out.println("uploadFile->request:"+request.getParameter("fileDir"));
 		AjaxJson result = new AjaxJson();
 		String fileDir = request.getParameter("fileDir");
 		if(StringUtils.isBlank(fileDir)){//action字段为ueditor编辑器上传视频默认字段
@@ -73,7 +97,15 @@ public class UploadController extends BaseController{
                     UploadFileInfo fileInfo = new UploadFileInfo();
                 	fileInfo.setSrcFile(file);
                 	fileInfo.setSrcFileDirectory(fileDirectory.getCode());
-                	ApiResult apiResult = FileUtils.uploadFile(fileInfo);   //开始上传文件
+                	ApiResult apiResult = null;
+                	if (fileDirectory.getCode().equals(FileDirectory.pic.getCode())) {
+                   	     if(!validImage(file,result)){    //如果图片不符合规则，直接返回错误
+                         	return result;
+                         }
+                     	 apiResult = ImageHelper.uploadImage(fileInfo); //开始上传图片
+                    }else{
+                    	apiResult = FileUtils.uploadFile(fileInfo);   //开始上传文件
+                    }
                 	if(apiResult.isOk()){
                 		result.setSuccess(true);
                 		result.setObj(apiResult.getReturnObj()[0]);//设置文件的相对地址
@@ -165,12 +197,7 @@ public class UploadController extends BaseController{
 		}
 		AjaxJson json=null;
 		try {
-			if(action.equals(FileDirectory.pic.getCode())){//上传图片
-				json = this.uploadImg(request);
-			}
-			if(action.equals(FileDirectory.video.getCode())){//上传文件
-				json=uploadFile(request);
-			}
+			json=uploadFile(request);
 			if(json!=null){
 				result.put("state", "SUCCESS");
 				System.out.println("url:"+json.getObj());

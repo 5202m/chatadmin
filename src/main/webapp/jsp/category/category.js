@@ -40,9 +40,9 @@ var category = {
 			    {title : 'id',field:'id',hidden : true},
 			    {title : 'parentPath',field:'parentPath',hidden : true},
 			    {title : 'parentId',field:'parentId',hidden : true},
-			    {title : '编号',field:'code'},
+			    {title : '编号',field:'id'},
 			    {title : '状态',field:'status',formatter:function(value, rowData, rowIndex) {
-					if (value == 0) {
+					if (value == 1) {
 						return '启用';
 					} else {
 						return '禁用';
@@ -93,7 +93,7 @@ var category = {
 								$("#myWindow").dialog("close");
 								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.addsuccess"),'info'); /**操作提示 新增成功!*/
 							}else{
-								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.addfail"),'error'); /**操作提示 新增失败!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),d.msg,'error'); /**操作提示 新增失败!*/
 							}
 						}
 					});
