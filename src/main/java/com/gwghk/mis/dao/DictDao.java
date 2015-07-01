@@ -135,16 +135,4 @@ public class DictDao extends MongoDBBaseDao{
 	public List<BoDict> getDictListByParentCodeArr(Object[] parentCodeArr){
 		return this.findList(BoDict.class, Query.query(Criteria.where("code").in(parentCodeArr)));
 	}
-	
-	
-
-
-	
-
-	
-
-	
-
-	
-
 }

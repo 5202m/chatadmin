@@ -40,7 +40,9 @@ var category = {
 			    {title : 'id',field:'id',hidden : true},
 			    {title : 'parentPath',field:'parentPath',hidden : true},
 			    {title : 'parentId',field:'parentId',hidden : true},
-			    {title : '编号',field:'id'},
+			    {title : '编号',field:'ids',formatter:function(value, rowData, rowIndex) {
+			    	return rowData.id;
+				}},
 			    {title : '状态',field:'status',formatter:function(value, rowData, rowIndex) {
 					if (value == 1) {
 						return '启用';

@@ -261,6 +261,17 @@ public class MongoDBBaseDao implements IBaseDao{
     }
     
     /**
+     * 功能：更新对象
+     * @param query
+     * @param update
+     * @param documentCls
+     */
+    @SuppressWarnings("hiding")
+    public <T> void update(Query query, Update update, Class<T> documentCls){
+        this.mongoTemplate.updateFirst(query, update, documentCls);
+    }
+    
+    /**
      * 功能：更新对象(如果传入的值为null,则删除该字段,否则更新改字段)
      */
     @SuppressWarnings("hiding")
@@ -275,10 +286,12 @@ public class MongoDBBaseDao implements IBaseDao{
     
     /**
      * 功能：构造更新的Update
+     * @param t
+     * @return
      */
     @SuppressWarnings("hiding")
-    private  <T> Update buildBaseUpdate(T t) {
-        Update update = new Update();
+    private <T> Update buildBaseUpdate(T t) {
+    	Update update = new Update();
         Field[] fields = t.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
@@ -335,6 +348,21 @@ public class MongoDBBaseDao implements IBaseDao{
     }
     
     /** 
+     * 功能：查询并分页 
+     * @param entityClass  对象类型 
+     * @param query  查询条件
+     * @param page  分页
+     */  
+    @SuppressWarnings("hiding")
+    public <T> List<T> findListInclude(Class<T> entityClass, Query query, DetachedCriteria<T> dCriteria, String ...includeFields) {
+    	org.springframework.data.mongodb.core.query.Field field = query.fields();
+    	for(String fieldKey:includeFields){
+    		 field.include(fieldKey);
+    	}
+    	return this.findList(entityClass, query, dCriteria);
+    }
+    
+    /** 
      * 功能：分页查询
      * @param entityClass  对象类型 
      * @param query  查询条件
@@ -362,6 +390,29 @@ public class MongoDBBaseDao implements IBaseDao{
     	org.springframework.data.mongodb.core.query.Field field=query.fields();
     	for(String fieldKey:includeFields){
     		 field.include(fieldKey);
+    	}
+    	page.setTotalSize(this.count(entityClass,query).intValue());
+    	page.addAll(this.findList(entityClass,query,dCriteria));
+        return page;  
+    }
+    /**
+     * 分页查询
+     * @param entityClass
+     * @param query
+     * @param dCriteria
+     * @param includeFields
+     * @param excludeFields
+     * @return
+     */
+    @SuppressWarnings("hiding")
+    public <T> Page<T> findPage(Class<T> entityClass, Query query, DetachedCriteria<T> dCriteria,String[] includeFields, String[] excludeFields) {  
+    	Page<T> page=new Page<T>();
+    	org.springframework.data.mongodb.core.query.Field field=query.fields();
+    	for(String fieldKey:includeFields){
+    		 field.include(fieldKey);
+    	}
+    	for(String fieldKey:excludeFields){
+    		field.exclude(fieldKey);
     	}
     	page.setTotalSize(this.count(entityClass,query).intValue());
     	page.addAll(this.findList(entityClass,query,dCriteria));

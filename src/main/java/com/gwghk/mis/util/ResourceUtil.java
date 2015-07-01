@@ -107,6 +107,20 @@ public class ResourceUtil {
 		requestPath = requestPath.substring(request.getContextPath().length() + 1); // 去掉项目路径
 		return requestPath;
 	}
+	
+	/**
+	 * 功能：获取页面完整的请求地址
+	 */
+	public static String getFullRequestPath(){
+		HttpServletRequest request = ContextHolderUtils.getRequest();
+		String fullPath = request.getScheme() + "://"           //协议
+				+ request.getServerName() 						//服务器地址
+                + ":"+ request.getServerPort()           		//端口号 
+                + request.getContextPath()      				//项目名称
+                + request.getServletPath()      				//请求页面或其他地址
+                + "?" + (request.getQueryString()); 		    //参数
+		return fullPath;
+	}
 
 	/**
 	 * 功能：获取当前登录用户对象

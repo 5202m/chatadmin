@@ -30,7 +30,7 @@
             </tr>
             <tr>
             	<td>
-            		<input type="text"  name="code" id="code" maxlength="4" title="请输入验证码" class="login_input login_input-wid"/>
+            		<input type="text"  name="code" id="code" title="请输入验证码" class="login_input login_input-wid"/>
             		<img src="<%=request.getContextPath()%>/captchaController/get.do" id="p_captcha_img" title="点击刷新" style="cursor: pointer;" onclick="login.refreshCaptcha();" width="148" height="30" class="yxmimg">
             	</td>
             </tr>

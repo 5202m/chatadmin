@@ -23,7 +23,7 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
-import com.gwghk.mis.model.DictionaryJsonParam;
+import com.gwghk.mis.model.TreeVo;
 import com.gwghk.mis.service.DictService;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.BrowserUtils;
@@ -62,13 +62,13 @@ public class DictionaryController extends BaseController{
 	public  String  treeGrid(HttpServletRequest request){
 		String code = request.getParameter("dictionaryCodeS");
 		String name = request.getParameter("dictionaryNameS");
-		List<DictionaryJsonParam>  typeDicList = null;
+		List<TreeVo>  typeDicList = null;
 		List<BoDict> typeList = dictService.getDictList(name,code);
 		if(typeList != null && typeList.size() > 0){
-			typeDicList = new ArrayList<DictionaryJsonParam>();
+			typeDicList = new ArrayList<TreeVo>();
 			String lang=ResourceUtil.getSessionLocale();
 			for(BoDict type  : typeList){
-				DictionaryJsonParam typeGroupDic = new  DictionaryJsonParam();
+				TreeVo typeGroupDic = new TreeVo();
 				typeGroupDic.setId(type.getId());
 				typeGroupDic.setParentCode(null);
 				typeGroupDic.setCode(type.getCode());
@@ -79,12 +79,12 @@ public class DictionaryController extends BaseController{
 				typeGroupDic.setState("closed");
 				typeGroupDic.setType("1");
 				typeGroupDic.setSort(type.getSort());
-				typeGroupDic.setChildren(new ArrayList<DictionaryJsonParam>());
+				typeGroupDic.setChildren(new ArrayList<TreeVo>());
 				typeDicList.add(typeGroupDic);
 			}
 			return JSONArray.fromObject(typeDicList).toString();
 		}
-		return JSONArray.fromObject(new ArrayList<DictionaryJsonParam>()).toString();
+		return JSONArray.fromObject(new ArrayList<TreeVo>()).toString();
 	}
 	
 	/**
@@ -93,15 +93,15 @@ public class DictionaryController extends BaseController{
 	@RequestMapping(value = "/dictionaryController/loadChildTreeGrid", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
 	@ResponseBody
 	public String loadChildTreeGrid(String typeGroupId){
-		List<DictionaryJsonParam> typeDicList = null;
+		List<TreeVo> typeDicList = null;
 		BoDict pDict = dictService.getDictByCode(typeGroupId,null);
 		if(pDict!=null){
 			List<BoDict> typeList = pDict.getChildren();
 			if(typeList != null && typeList.size() > 0){
 				String lang=ResourceUtil.getSessionLocale();
-				typeDicList = new ArrayList<DictionaryJsonParam>();
+				typeDicList = new ArrayList<TreeVo>();
 				for(BoDict type : typeList){
-					DictionaryJsonParam  typeDic = new  DictionaryJsonParam();
+					TreeVo  typeDic = new  TreeVo();
 					typeDic.setId(type.getId());
 					typeDic.setParentCode(pDict.getCode());
 					typeDic.setCode(type.getCode());
@@ -117,7 +117,7 @@ public class DictionaryController extends BaseController{
 			}
 			logger.debug(">>method:loadChildTreeGrid child menu list : "+JSONArray.fromObject(typeDicList).toString());
 		}
-		return pDict!=null&&typeDicList != null ? JSONArray.fromObject(typeDicList).toString() : JSONArray.fromObject(new ArrayList<DictionaryJsonParam>()).toString();
+		return pDict!=null&&typeDicList != null ? JSONArray.fromObject(typeDicList).toString() : JSONArray.fromObject(new ArrayList<TreeVo>()).toString();
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class DictionaryController extends BaseController{
    	 */
     @RequestMapping(value="/dictionaryController/create",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson create(HttpServletRequest request,DictionaryJsonParam dictionaryJsonParam){
+    public AjaxJson create(HttpServletRequest request,TreeVo dictionaryJsonParam){
     	BoDict dict=new BoDict();
         BeanUtils.copyExceptNull(dict, dictionaryJsonParam);
         dict.setCreateUser(userParam.getUserNo());
@@ -169,7 +169,7 @@ public class DictionaryController extends BaseController{
     	String id = request.getParameter("id");
     	String type=request.getParameter("type");
     	BoDict dictParam =null;
-    	DictionaryJsonParam dictionaryJsonParam = new DictionaryJsonParam();
+    	TreeVo dictionaryJsonParam = new TreeVo();
     	if("1".equals(type)){
     		dictParam =dictService.getDictById(id);
     	}else{

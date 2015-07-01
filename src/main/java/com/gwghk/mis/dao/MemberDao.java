@@ -1,10 +1,10 @@
 package com.gwghk.mis.dao;
 
+import java.util.List;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -41,7 +41,17 @@ public class MemberDao extends MongoDBBaseDao{
 		return this.findOne(Member.class,Query.query(
 				   new Criteria().andOperator(Criteria.where("mobilePhone").is(mobilePhone),Criteria.where("valid").is(1))));
 	}
-
+	
+	/**
+	 * 功能：获取后台会员(该会员只用于后台)
+	 */
+	public List<Member> getBackMember(){
+		return this.findList(Member.class, Query.query(
+			   new Criteria().andOperator(Criteria.where("loginPlatform.financePlatForm.isBack").is(1)
+			   ,Criteria.where("loginPlatform.financePlatForm.isDeleted").is(1)
+			   ,Criteria.where("valid").is(1))));
+	}
+	
 	/**
 	 * 功能：新增会员
 	 */
@@ -49,6 +59,21 @@ public class MemberDao extends MongoDBBaseDao{
     	Member.setMemberId(this.getNextSeqId(IdSeq.Member));
     	Member.setValid(1);
 		this.add(Member);
+		return true;
+	}
+	
+	/**
+	 * 保存:修改或者新增，如果memberId为null,为新增，否则为修改
+	 * @param member
+	 * @return
+	 */
+	public boolean save(Member member) {
+		if(member.getMemberId() == null){
+			member.setMemberId(this.getNextSeqId(IdSeq.Member));
+			this.add(member);
+		}else{
+			this.update(member);
+		}
 		return true;
 	}
     

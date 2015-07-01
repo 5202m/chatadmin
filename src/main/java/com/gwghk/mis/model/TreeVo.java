@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 摘要：数据字典树形对象
+ * 摘要：公共树形对象
  * @author Gavin
  * @date   2014-10-28
  */
-public class DictionaryJsonParam{
+public class TreeVo{
 
 	/**主键*/
 	private String  id;
@@ -38,7 +38,7 @@ public class DictionaryJsonParam{
 	private String type;
 	
 	/**子菜单*/
-	private List<DictionaryJsonParam>  children = new ArrayList<DictionaryJsonParam>();
+	private List<TreeVo>  children = new ArrayList<TreeVo>();
 
 	public String getId() {
 		return id;
@@ -80,11 +80,11 @@ public class DictionaryJsonParam{
 		this.type = type;
 	}
 
-	public List<DictionaryJsonParam> getChildren() {
+	public List<TreeVo> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<DictionaryJsonParam> children) {
+	public void setChildren(List<TreeVo> children) {
 		this.children = children;
 	}
 

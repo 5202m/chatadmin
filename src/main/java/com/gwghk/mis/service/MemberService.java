@@ -2,26 +2,20 @@ package com.gwghk.mis.service;
 
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.MemberDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatUserGroup;
-import com.gwghk.mis.model.FinanceApp;
-import com.gwghk.mis.model.LoginPlatform;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
-import com.gwghk.mis.util.MD5;
-import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -58,8 +52,8 @@ public class MemberService{
 	/**
 	 * 功能：根据Id-->获取会员
 	 */
-	public Member getByMemberId(String MemberId){
-		return memberDao.getByMemberId(MemberId);
+	public Member getByMemberId(String memberId){
+		return memberDao.getByMemberId(memberId);
 	}
 	
 	/**
@@ -68,6 +62,23 @@ public class MemberService{
 	public Member getByMobilePhone(String mobilePhone){
 		return memberDao.getByMemberMobilePhone(mobilePhone);
 	}
+	
+	/**
+	 * 保存:修改或者新增，如果memberId为null,为新增，否则为修改
+	 * @param member
+	 * @return
+	 */
+	public boolean save(Member member){
+		return memberDao.save(member);
+	}
+	
+	/**
+	 * 功能：获取后台会员
+	 */
+	public List<Member> getBackMember(){
+		return memberDao.getBackMember();
+	}
+	
 
 	/**
 	 * 功能：保存会员
@@ -82,11 +93,11 @@ public class MemberService{
     		if(memberDao.getByMemberMobilePhone(memberParam.getMobilePhone())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
-    		LoginPlatform lp=new LoginPlatform();
+    	/*	LoginPlatform lp=new LoginPlatform();
     		FinanceApp pmApp=new FinanceApp();
     		pmApp.setPwd(MD5.getMd5(PropertiesUtil.getInstance().getProperty("defaultPwd")));//密码默认设置123456
     		lp.setPmApp(pmApp);
-    		memberParam.setLoginPlatform(lp);
+    		memberParam.setLoginPlatform(lp);*/
     		memberDao.addMember(memberParam);	
     	}
     	return result.setCode(ResultCode.OK);
@@ -97,7 +108,7 @@ public class MemberService{
 	 */
 	public ApiResult resetPmAppPassword(Member memberParam){
 		Member member = memberDao.getByMemberId(memberParam.getMemberId());
-		member.getLoginPlatform().getPmApp().setPwd(MD5.getMd5(memberParam.getLoginPlatform().getPmApp().getPwd()));
+		//member.getLoginPlatform().getPmApp().setPwd(MD5.getMd5(memberParam.getLoginPlatform().getPmApp().getPwd()));
 		memberDao.update(member);
 		return new ApiResult().setCode(ResultCode.OK);
 	}

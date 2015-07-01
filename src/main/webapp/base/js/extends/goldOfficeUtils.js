@@ -31,7 +31,8 @@ var goldOfficeUtils = {
 			collapsible : false,
 			draggable : true,
 			resizable : true,
-			loadingMessage : '正在加载数据，请稍等片刻......'
+			loadingMessage : '正在加载数据，请稍等片刻......',
+			onLoad : $.noop
         },config);
 		dialogId = config.dialogId === undefined ? 'myWindow' : config.dialogId;
 		$('#'+dialogId).dialog({
@@ -52,6 +53,7 @@ var goldOfficeUtils = {
 			draggable : config.draggable,
 			resizable : config.resizable,
 			loadingMessage : config.loadingMessage,
+			onLoad : config.onLoad,
 			buttons : config.buttons === undefined ? [{
 				text : '关闭',
 				iconCls : "ope-close",
@@ -83,7 +85,8 @@ var goldOfficeUtils = {
 			collapsible : false,
 			draggable : true,
 			resizable : true,
-			loadingMessage : '正在加载数据，请稍等片刻......'
+			loadingMessage : '正在加载数据，请稍等片刻......',
+			onLoad : $.noop
         },config);
 		dialogId = config.dialogId === undefined || config.dialogId === ''? 'myWindow' : config.dialogId;
 		$('#'+dialogId).dialog({
@@ -104,6 +107,7 @@ var goldOfficeUtils = {
 			draggable : config.draggable,
 			resizable : config.resizable,
 			loadingMessage : config.loadingMessage,
+			onLoad : config.onLoad,
 			buttons	 : config.buttons === undefined ? [{
 				text : '提交',
 				iconCls : "ope-save",
@@ -216,7 +220,7 @@ var goldOfficeUtils = {
 					if(obj.width<eachColSize&&obj.width>30){
 						obj.width=eachColSize;	
 						obj.boxWidth=eachColSize-8;
-						$(".datagrid-header .datagrid-header-row td[field="+colName+"]",$(cgId).siblings()).width(obj.width);
+						$(".datagrid-header .datagrid-header-row td[field='"+colName+"']",$(cgId).siblings()).width(obj.width);
 					}
 				},
 				onLoadSuccess : config.onLoadSuccess === undefined ? function(data){ //默认去掉所有选中的项
@@ -430,8 +434,6 @@ var goldOfficeUtils = {
 						break;
 				}
 			},
-			'onSelect':config.onSelect,
-			'onDialogOpen':config.onDialogOpen,
             'onUploadStart': config.onUploadStart,
             'onUploadSuccess' : config.onUploadSuccess
         });

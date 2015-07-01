@@ -48,6 +48,12 @@ var timeObjectUtil = {
 	 * 格式化日期（不含时间）
 	 */
 	formatterDate : function(date) {
+		if(!date){
+			return "";
+		}
+		if(!(date instanceof Date)){
+	       date=new Date(date);
+	    }
 		var datetime = date.getFullYear()
 				+ "-"// "年"
 				+ ((date.getMonth() + 1) > 10 ? (date.getMonth() + 1) : "0"
@@ -71,6 +77,9 @@ var timeObjectUtil = {
 	 * 格式化去日期（含时间）
 	 */
 	formatterDateTime : function(date) {
+		if(!date){
+			return "";
+		}
 		if(!(date instanceof Date)){
 	       date=new Date(date);
 	    }

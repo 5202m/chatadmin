@@ -211,7 +211,7 @@ body {
 	padding-top: 5px;
 	padding-left: 5px;
 }
-/*----------闂備焦鎮堕崕杈ㄦ櫠閼恒儲娅犻柡宥庡幖缁�鍡樹繆閵堝懎顏ラ柨鐔告灮閹凤拷----------*/
+/*----------闂備焦鎮堕崕杈ㄦ櫠閼恒儲娅犻柡宥庡幖缁�鍡樹繆閵堝懎顏ラ柨鐔告灮閹凤�?----------*/
 .preview_picture ul {
 	width: 100%;
 	float: left;
@@ -376,7 +376,7 @@ table.tableForm_R th {
 	word-break: keep-all;
 	white-space: nowrap;
 }
-/*---------------闂備礁婀辩划顖炲礉濡ゅ懎桅婵﹩鍘鹃埞宥夋煃閳轰礁鏆曠紒鎲嬫嫹----------------*/
+/*---------------闂備礁婀辩划顖炲礉濡ゅ懎桅婵﹩鍘鹃埞宥夋煃閳轰礁鏆曠紒鎲嬫�?----------------*/
 #box {
 	position: absolute;
 	width: 360px;
@@ -432,7 +432,7 @@ h3 {
 	color: #555658;
 	line-height: 24px;
 }
-/*---------------婵犵數鍎戠紞锟芥い鏇嗗嫭鍙忛柣鎰摠閸庣喖鏌￠崘銊ワ拷褰掑汲閿燂拷----------------*/
+/*---------------婵犵數鍎戠紞锟芥い鏇嗗嫭鍙忛柣鎰摠閸庣喖鏌￠崘銊ワ拷褰掑汲閿燂�?----------------*/
 .item {
 	width: 200px;
 	float: left;
@@ -557,7 +557,7 @@ h3 {
 	background: url('icons/add_button.png') 0px -24px no-repeat;
 	display: block;
 }
-/*---------------闂備礁鎲＄敮鎺懳涘┑瀣ラ柨鐕傛嫹----------------*/
+/*---------------闂備礁鎲＄敮鎺懳涘┑瀣�?�ラ柨鐕傛嫹----------------*/
 #appPage ul {
 	width: 200px;
 	height: 25px;
@@ -1074,6 +1074,6 @@ color:#FF0000;
 .noValidAuthority{
 	display: block;
 }
-.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,.setGagTime,.export,.approve_chat_pass,.approve_chat_reject{
+.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,.setGagTime,.export,.redo,.undo,.recommand,.approve_chat_pass,.approve_chat_reject{
 	display: none;
 }

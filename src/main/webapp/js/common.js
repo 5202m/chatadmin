@@ -485,6 +485,49 @@ function  showCityListWithProvinceId(provinceVal,selectCityId){
 }
 
 /**
+ * 遍历树，将树的每一个节点作为参数传递给callback。
+ * @param tree，结构形如{attrA:valA... children:[{...}]}
+ * @param callback
+ */
+function visitTree(tree, callback){
+	if(tree instanceof Array){
+		var node = null;
+		for(var i = 0, lenI = tree.length; i < lenI; i++){
+			node = tree[i];
+			callback(node);
+			if(node.children){
+				visitTree(node.children, callback);
+			}
+		}
+	}else{
+		callback(tree);
+		if(tree.children){
+			visitTree(tree.children, callback);
+		}
+	}
+}
+
+/**
+ * 将数组转化为对象，比如[1,2,3]==>{'0':1,'1':2,'2':3}
+ * @param arr 待转化的数组对象
+ * @param parseCb 转化方法，如果没有该参数，则在转化的时候直接返回对象本身，否则将数组的元素作为参数，返回值赋值给对象属性值。
+ */
+function convertArr2Obj(arr, parseCb){
+	if(typeof parseCb !== "function"){
+		parseCb = function(obj){return obj};
+	}
+	if(arr instanceof Array){
+		var loc_obj = {};
+		for(var i = 0, lenI = arr.length; i < lenI; i++){
+			loc_obj[i + ""] = parseCb(arr[i]);
+		}
+		return loc_obj;
+	}else{
+		return arr;
+	}
+}
+
+/**
  * 格式url
  * 加入menuId参数
  * @param url
@@ -499,6 +542,35 @@ function formatUrl(url,params){
 		url+="&"+getParams(params);
 	}
 	return url;
+}
+
+/**
+ * 扩展easyui中不支持自属性对数据获取问题。
+ * 当如果需要对字段属性进一步处理的时候，需要将this对象传入。（注：在datagrid中，column.field不允许相同，所以that可以直接传入字段名）
+ * 示例1：{title : "用户名",field : 'loginPlatform.financePlatForm.nickName'， formatter:getValue4EasyUI},
+ * 示例2：{title : "用户名",field : 'loginPlatform.financePlatForm.nickName'， formatter:function(value, rowData, rowIndex){
+ * 		value = getValue4EasyUI(value, rowData, rowIndex, this);
+ * 		//value = getValue4EasyUI(value, rowData, rowIndex, 'loginPlatform.financePlatForm.nickName');
+ * 		//...
+ * 		return ...;
+ * }},
+ * @param value
+ * @param rowData
+ * @param rowIndex
+ * @param that 
+ */
+function getValue4EasyUI(value, rowData, rowIndex, that){
+	if(!that){
+		that = this;
+	}
+	var loc_field = typeof that === "string" ? that : that.field;
+	var value = null;
+	try{
+		value = eval("rowData['"+loc_field.replace(/\./g,"']['")+"']");
+	}catch(e){
+		value = "";
+	}
+	return value;
 }
 
 //语言类型
