@@ -113,7 +113,7 @@ public class MenuDao extends MongoDBBaseDao{
 	public List<BoMenu> getMenuByRoleId(String roleId) {
 		Query query = new Query();
 		query.with(new Sort(Direction.ASC,"sort","id"));
-		return this.findList(BoMenu.class,query.addCriteria(Criteria.where("roleList.roleId").is(roleId)));
+		return this.findList(BoMenu.class,query.addCriteria(new Criteria().andOperator(Criteria.where("roleList.roleId").is(roleId),Criteria.where("valid").is(1))));
 	}
 	
 	/**
