@@ -38,7 +38,7 @@ function goBack(){
         <th width="15%">语言</th>
         <td width="85%" colspan="4">
           <c:forEach var="lang" items="${langMap}">
-             <input type="checkbox" id="checkbox_lang_${lang.key}"  readonly="readonly"
+             <input type="checkbox" id="checkbox_lang_${lang.key}"  disabled="disabled"
                     value="${lang.key}" <c:forEach var="articleDetail" items="${article.detailList}"><c:if test="${lang.key == articleDetail.lang}">checked="checked"</c:if></c:forEach>
                     style="margin-right:10px;" tv="${lang.value}"/>${lang.value}
           </c:forEach>
