@@ -33,6 +33,7 @@ import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
+import com.gwghk.mis.model.ChatStudio;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -78,6 +79,17 @@ public class ChatGroupController extends BaseController{
 		logger.debug(">>start into chatGroupController.index() and url is /chatGroupController/index.do");
 		return "chat/groupList";
 	}
+	
+	/**
+	 * 功能：聊天室直播管理-首页
+	 */
+	@RequestMapping(value = "/chatGroupController/studio", method = RequestMethod.GET)
+	public  String  studio(HttpServletRequest request,ModelMap map){
+		setCommonShow(map);
+		logger.debug(">>start into chatGroupController.studio() and url is /chatGroupController/studio.do");
+		return "chat/studioList";
+	}
+
 
 	/**
 	 * 获取datagrid列表
@@ -153,7 +165,7 @@ public class ChatGroupController extends BaseController{
 		return "chat/groupSubmit";
     }
     
-    /**
+	  /**
    	 * 功能：聊天室组别管理-保存新增
    	 */
     @RequestMapping(value="/chatGroupController/create",method=RequestMethod.POST)
@@ -246,4 +258,120 @@ public class ChatGroupController extends BaseController{
   		return j;
     }
     
+    /**
+     * 设置直播通用参数
+     * @param request
+     * @param chatGroup
+     */
+    private void setCommonStudioParam(HttpServletRequest request,ChatStudio chatStudio){
+    	String[] clientGroupArr=request.getParameterValues("clientGroupStr");
+   		String[] talkStyleArr=request.getParameterValues("talkStyleStr");
+       	if(clientGroupArr!=null){
+       		chatStudio.setClientGroup(StringUtils.join(clientGroupArr, ","));
+       	}
+    	if(talkStyleArr!=null){
+    		chatStudio.setTalkStyle(StringUtils.join(talkStyleArr, ","));
+       	}
+    }
+    
+    
+    /**
+   	 * 聊天室直播管理获取datagrid列表
+   	 * @param request
+   	 * @param dataGrid  分页查询参数对象
+   	 * @param chatGroup   实体查询参数对象
+   	 * @return Map<String,Object> datagrid需要的数据
+   	 */
+   	@RequestMapping(value = "/chatGroupController/studioDataGrid", method = RequestMethod.GET)
+   	@ResponseBody
+   	public  Map<String,Object>  studioDataGrid(HttpServletRequest request, DataGrid dataGrid,ChatGroup chatGroup){
+   		 if(chatGroup.getChatStudio()==null){
+   			chatGroup.setChatStudio(new ChatStudio());
+   		 }
+   		 setCommonStudioParam(request,chatGroup.getChatStudio());
+   		 Page<ChatGroup> page = chatGroupService.getChatStudioPage(this.createDetachedCriteria(dataGrid, chatGroup));
+   		 List<ChatGroup> chatGroupList=page.getCollection();
+   		 chatGroupList.forEach(e->formatChatUrl(e));
+   		 Map<String, Object> result = new HashMap<String, Object>();
+   		 result.put("total",null == page ? 0  : page.getTotalSize());
+   	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : chatGroupList);
+   	     return result;
+   	}
+    
+	/**
+	 * 功能：聊天室直播管理-修改
+	 */
+    @RequestMapping(value="/chatGroupController/editStudio", method = RequestMethod.GET)
+    @ActionVerification(key="edit")
+    public String editStudio(HttpServletRequest request,ModelMap map) throws Exception {
+    	String chatGroupId=request.getParameter("chatGroupId");
+    	if(StringUtils.isNotBlank(chatGroupId)){
+    		ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
+        	map.addAttribute("chatStudio",chatGroup.getChatStudio());
+    	}
+    	map.addAttribute("chatGroupId",chatGroupId);
+    	map.put("chatGroupList",chatGroupService.getChatGroupList("id","name"));
+		return "chat/studioSubmit";
+    }
+    
+	
+  
+   /**
+   	* 功能：更新直播间
+   	*/
+    @RequestMapping(value="/chatGroupController/updateStudio",method=RequestMethod.POST)
+   	@ResponseBody
+    @ActionVerification(key="edit")
+    public AjaxJson updateStudio(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
+    	setBaseInfo(chatGroup,request,true);
+    	setCommonStudioParam(request,chatGroup.getChatStudio());
+    	AjaxJson j = new AjaxJson();
+    	ApiResult result =chatGroupService.updateStudio(chatGroup);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功编辑直播间："+chatGroup.getId();
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<--method:update()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 编辑直播间："+chatGroup.getId()+" 失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
+    	}
+   		return j;
+     }
+    
+   /**
+  	* 功能：聊天室组别管理-删除
+  	*/
+    @RequestMapping(value="/chatGroupController/delStudio",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="delete")
+    public AjaxJson delStudio(HttpServletRequest request,HttpServletResponse response){
+    	BoUser boUser = ResourceUtil.getSessionUser();
+    	String delIds = request.getParameter("ids");
+    	if(StringUtils.isBlank(delIds)){
+    		delIds = request.getParameter("id");
+    	}
+    	AjaxJson j = new AjaxJson();
+    	ApiResult result =chatGroupService.deleteStudio(delIds.split(","));
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除直播间成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:delStudio()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除直播间失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:delStudio()|"+message+",ErrorMsg:"+result.toString());
+    	}
+  		return j;
+    }
 }

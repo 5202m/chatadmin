@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,6 +47,59 @@ public class CommonController extends BaseController{
        		 tbean.setId(row.getCode());
        		 tbean.setText(row.getName());
        		 if(platform.contains(",".concat(row.getCode()).concat(","))){
+    			tbean.setChecked(true);
+    		 }
+       		 tbean.setParentId("");
+   			 treeList.add(tbean);
+       	}
+       	return JsonUtil.formatListToTreeJson(treeList,false);
+     }
+    
+    
+    /**
+   	 * 功能：客户组别
+   	 */
+    @RequestMapping(value = "/commonController/getClientGroupList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+   	@ResponseBody
+    public String getClientGroupList(HttpServletRequest request,ModelMap map) throws Exception {
+    	String clientGroup=request.getParameter("clientGroup");
+       	List<TreeBean> treeList=new ArrayList<TreeBean>();
+       	TreeBean tbean=null;
+       	String dictCode=DictConstant.getInstance().DICT_CHAT_CLIENT_GROUP;
+       	Map<String, List<BoDict>> dictMap=ResourceUtil.getDictListByLocale(new String[]{dictCode});
+       	List<BoDict> subList=dictMap.get(dictCode);
+       	clientGroup=StringUtils.isBlank(clientGroup)?"":(",".concat(clientGroup).concat(","));
+       	for(BoDict row:subList){
+       		 tbean=new TreeBean();
+       		 tbean.setId(row.getCode());
+       		 tbean.setText(row.getName());
+       		 if(clientGroup.contains(",".concat(row.getCode()).concat(","))){
+    			tbean.setChecked(true);
+    		 }
+       		 tbean.setParentId("");
+   			 treeList.add(tbean);
+       	}
+       	return JsonUtil.formatListToTreeJson(treeList,false);
+     }
+    
+    /**
+   	 * 功能：聊天方式
+   	 */
+    @RequestMapping(value = "/commonController/getTalkStyleList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+   	@ResponseBody
+    public String getTalkStyleList(HttpServletRequest request,ModelMap map) throws Exception {
+    	String talkStyle=request.getParameter("talkStyle");
+       	List<TreeBean> treeList=new ArrayList<TreeBean>();
+       	TreeBean tbean=null;
+       	String dictCode=DictConstant.getInstance().DICT_CHAT_TALK_STYLE;
+       	Map<String, List<BoDict>> dictMap=ResourceUtil.getDictListByLocale(new String[]{dictCode});
+       	List<BoDict> subList=dictMap.get(dictCode);
+       	talkStyle=StringUtils.isBlank(talkStyle)?"":(",".concat(talkStyle).concat(","));
+       	for(BoDict row:subList){
+       		 tbean=new TreeBean();
+       		 tbean.setId(row.getCode());
+       		 tbean.setText(row.getName());
+       		 if(talkStyle.contains(",".concat(row.getCode()).concat(","))){
     			tbean.setChecked(true);
     		 }
        		 tbean.setParentId("");

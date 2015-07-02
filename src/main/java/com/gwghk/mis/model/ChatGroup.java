@@ -45,6 +45,10 @@ public class ChatGroup extends BaseModel{
 	private Integer valid;
 	
 	/**
+	 * 直播实体
+	 */
+	private ChatStudio chatStudio;
+	/**
 	 * 聊天规则id(用于数据传输）
 	 */
 	private String chatRuleIds;
@@ -117,4 +121,13 @@ public class ChatGroup extends BaseModel{
 	public void setTokenAccessId(String tokenAccessId) {
 		this.tokenAccessId = tokenAccessId;
 	}
+
+	public ChatStudio getChatStudio() {
+		return chatStudio;
+	}
+
+	public void setChatStudio(ChatStudio chatStudio) {
+		this.chatStudio = chatStudio;
+	}
+	
 }
