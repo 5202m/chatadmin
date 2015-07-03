@@ -127,8 +127,13 @@ var media = {
 	 * 清空旧的参数
 	 */
 	clearQueryParams:function(queryParams){
-		$("#media_queryForm input[name],#media_queryForm select[name]").each(function(){
-			queryParams[this.name] = "";
+		$("#media_queryForm input[name],#media_queryForm select").each(function(){
+			if(isValid($(this).attr("name"))){
+				queryParams[this.name] = "";
+			}
+			if(isValid($(this).attr("comboname"))){
+				queryParams[$(this).attr("comboname")] = "";
+			}
 		});
 	},
 	/**

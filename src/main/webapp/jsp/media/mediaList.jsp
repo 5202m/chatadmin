@@ -3,7 +3,7 @@
 <script type="text/javascript">
 var mediaPlatformStr='${mediaPlatformJson}';
 </script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/media/media.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/media/mediaList.js" charset="UTF-8"></script>
 <div class="easyui-layout" data-options="fit:true">
   <!-- notrh -->
    <div data-options="region:'north',border:false" style="height:140px;">

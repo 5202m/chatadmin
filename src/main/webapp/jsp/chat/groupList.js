@@ -105,8 +105,13 @@ var chatGroup = {
 	 * 清空旧的参数
 	 */
 	clearQueryParams:function(queryParams){
-		$("#chatGroup_queryForm input[name],#chatGroup_queryForm select[name]").each(function(){
-			queryParams[this.name] = "";
+		$("#chatGroup_queryForm input[name],#chatGroup_queryForm select").each(function(){
+			if(isValid($(this).attr("name"))){
+				queryParams[this.name] = "";
+			}
+			if(isValid($(this).attr("comboname"))){
+				queryParams[$(this).attr("comboname")] = "";
+			}
 		});
 	},
 	/**
