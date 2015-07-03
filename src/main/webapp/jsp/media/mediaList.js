@@ -70,6 +70,7 @@ var media = {
 						{title : '发布结束时间',field : 'publishEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
+						{title : '序号',field : 'sequence',sortable : true},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}}

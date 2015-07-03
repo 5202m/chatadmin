@@ -61,7 +61,7 @@
       <tr>
       	<th width="15%">点击媒体链接的URL</th>
         <td width="35%" colspan="3">
-        	<input type="text" name="linkUrl" value="${media.linkUrl}" style="width: 800px;" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入链接URL'"/>
+        	<input type="text" name="linkUrl" value="${media.linkUrl}" style="width: 800px;"/>
         </td>
       </tr>
       <tr id="mediaImageRowTr" style="display:none;">
@@ -81,6 +81,12 @@
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedMediaImagePath')">预览</a>
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaImagePath','#cutedMediaImagePath','#saveMediaImagePath')">裁剪</a> 
             </div>
+        </td>
+      </tr>
+      <tr>
+      	<th width="15%">序号</th>
+        <td width="35%" colspan="3">
+        	<input type="text" name="sequence" value="${media.sequence}"/>
         </td>
       </tr>
       <tr>

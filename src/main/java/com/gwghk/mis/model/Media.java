@@ -71,6 +71,11 @@ public class Media extends BaseModel{
 	private Integer valid;
 	
 	/**
+	 * 序列
+	 */
+	private Integer sequence;
+	
+	/**
 	 * 栏目路径名(仅用于输出)
 	 */
 	private String categoryNamePath;
@@ -170,6 +175,12 @@ public class Media extends BaseModel{
 	public void setValid(Integer valid) {
 		this.valid = valid;
 	}
-	
-	
+
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
 }

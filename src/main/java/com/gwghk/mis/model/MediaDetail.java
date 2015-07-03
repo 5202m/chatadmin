@@ -21,11 +21,6 @@ public class MediaDetail{
 	private String title;
 	
 	/**
-     * 内容
-    */
-	private String content;
-	
-	/**
      * 图片
      */
 	private String pic;
@@ -69,14 +64,6 @@ public class MediaDetail{
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getPic() {

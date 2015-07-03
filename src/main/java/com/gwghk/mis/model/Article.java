@@ -56,6 +56,11 @@ public class Article extends BaseModel{
 	private List<ArticleDetail> detailList;
 	
 	/**
+	 * 是否删除/有效(1为有效，0为无效）
+	 */
+	private Integer valid;
+	
+	/**
 	 * 栏目路径名(仅用于输出)
 	 */
 	private String categoryNamePath;
@@ -131,5 +136,13 @@ public class Article extends BaseModel{
 	public void setCategoryNamePath(String categoryNamePath) {
 		this.categoryNamePath = categoryNamePath;
 	}
-	
+
+	public Integer getValid() {
+		return valid;
+	}
+
+	public void setValid(Integer valid) {
+		this.valid = valid;
+	}
+
 }

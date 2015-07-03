@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.gwghk.mis.authority.ActionVerification;
@@ -29,7 +26,6 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
-import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.Lang;

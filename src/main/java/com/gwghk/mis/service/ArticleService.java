@@ -45,6 +45,7 @@ public class ArticleService{
 		Article article=dCriteria.getSearchModel();
 		if(article!=null){
 			Criteria criteria=new Criteria();
+			criteria.and("valid").is(1);
 			String categoryId=article.getCategoryId();
 			if(StringUtils.isNotBlank(categoryId)){
 				List<Category> rowList=categoryDao.getChildrenByParentId(categoryId);
@@ -132,6 +133,7 @@ public class ArticleService{
 	public ApiResult addArticle(Article article) {
 		ApiResult result=new ApiResult();
 		try {
+			article.setValid(1);
 			articleDao.addArticle(article);
 		} catch (Exception e) {
 			return result.setCode(ResultCode.FAIL);
@@ -149,6 +151,7 @@ public class ArticleService{
 		Article article=articleDao.findById(Article.class, articleParam.getId());
 		BeanUtils.copyExceptNull(article, articleParam);
 		article.setDetailList(articleParam.getDetailList());
+		article.setValid(1);
 		articleDao.update(article);
 		return new ApiResult().setCode(ResultCode.OK);
 	}
@@ -159,7 +162,7 @@ public class ArticleService{
 	 * @return
 	 */
 	public ApiResult deleteArticle(String[] ids) {
-		return new ApiResult().setCode(articleDao.deleteArticle(ids)?ResultCode.OK:ResultCode.FAIL);
+		return new ApiResult().setCode(articleDao.softDelete(Article.class, ids)?ResultCode.OK:ResultCode.FAIL);
 	}
 	
 }

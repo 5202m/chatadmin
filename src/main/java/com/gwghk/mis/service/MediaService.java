@@ -44,6 +44,7 @@ public class MediaService{
 		if(media!=null){
 			Criteria criteria=new Criteria();
 			String categoryId=media.getCategoryId();
+			criteria.and("valid").is(1);
 			if(StringUtils.isNotBlank(categoryId)){
 				List<Category> rowList=categoryDao.getChildrenByParentId(categoryId);
 				if(rowList!=null && rowList.size()>0){
@@ -130,6 +131,7 @@ public class MediaService{
 	public ApiResult addMedia(Media media) {
 		ApiResult result=new ApiResult();
 		try {
+			media.setValid(1);
 			mediaDao.addMedia(media);
 		} catch (Exception e) {
 			return result.setCode(ResultCode.FAIL);
@@ -147,6 +149,7 @@ public class MediaService{
 		Media media=mediaDao.findById(Media.class, mediaParam.getId());
 		BeanUtils.copyExceptNull(media, mediaParam);
 		media.setDetailList(mediaParam.getDetailList());
+		media.setValid(1);
 		mediaDao.update(media);
 		return new ApiResult().setCode(ResultCode.OK);
 	}

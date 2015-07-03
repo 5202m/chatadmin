@@ -82,6 +82,12 @@
         </td>
       </tr>
       <tr>
+      	<th width="15%">序号</th>
+        <td width="35%" colspan="3">
+        	<input type="text" name="sequence" value="0"/>
+        </td>
+      </tr>
+      <tr>
         <th width="15%">语言：<span class="red">*</span></th>
         <td width="85%" colspan="4">
           <c:forEach var="lang" items="${langMap}">
