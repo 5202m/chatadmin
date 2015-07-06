@@ -85,4 +85,36 @@ public class MemberDao extends MongoDBBaseDao{
 					   , Update.update("valid", 0), Member.class);
 		return wr!=null && wr.getN()>0;
 	}
+	
+	
+    /**
+     * 更新用户设置，包括设置用户为价值用户或vip用户
+     * @param memberId
+     * @param groupId
+     * @param type 类型：1为价值用户，2为vip用户
+     * @param isTrue
+     * @return
+     */
+	public boolean updateUserSetting(String memberId,String groupId,String type,Boolean isTrue){
+		Update update=new Update();
+		if("1".equals(type)){
+			update.set("loginPlatform.chatUserGroup.$.valueUser", isTrue);
+		}
+		else if("2".equals(type)){
+			update.set("loginPlatform.chatUserGroup.$.vipUser", isTrue);
+		}else{
+			return false;
+		}
+		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.id").is(groupId))), update, Member.class);
+		return wr!=null && wr.getN()>0;
+	}
+	
+	
+	/**
+	 * 功能：通过id与memberId查询记录
+	 */
+	public Member getByIdAndGroupId(String memberId,String groupId){
+		return this.findOne(Member.class,Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),
+						   Criteria.where("valid").is(1),Criteria.where("loginPlatform.chatUserGroup.id").is(groupId))));
+	}
 }

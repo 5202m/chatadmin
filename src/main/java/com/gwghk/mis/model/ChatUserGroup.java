@@ -72,6 +72,16 @@ public class ChatUserGroup {
 	 * 发言条数
 	 */
 	private Integer sendMsgCount;
+	
+	/**
+	 * 是否价值用户
+	 */
+	private Boolean valueUser;
+	
+	/**
+	 * vip用户
+	 */
+	private Boolean vipUser;
 
 	public String getId() {
 		return id;
@@ -161,4 +171,20 @@ public class ChatUserGroup {
 		this.sendMsgCount = sendMsgCount;
 	}
 
+	public Boolean getValueUser() {
+		return valueUser;
+	}
+
+	public void setValueUser(Boolean valueUser) {
+		this.valueUser = valueUser;
+	}
+
+	public Boolean getVipUser() {
+		return vipUser;
+	}
+
+	public void setVipUser(Boolean vipUser) {
+		this.vipUser = vipUser;
+	}
+	
 }

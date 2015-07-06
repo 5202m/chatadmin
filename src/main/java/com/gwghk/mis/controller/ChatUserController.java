@@ -141,14 +141,63 @@ public class ChatUserController extends BaseController{
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.info("<<method:batchDel()|"+message);
+    		logger.info("<<method:setUserGag()|"+message);
 		}else{
 			j.setSuccess(false);
 			j.setMsg(ResourceBundleUtil.getByMessage(apiResult.getCode()));
-    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户禁言失败";
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
-    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+apiResult.toString());
+    		logger.error("<<method:setUserGag()|"+message+",ErrorMsg:"+apiResult.toString());
+		}
+		return j;
+	}
+	
+	/**
+	 * 功能：进入用户禁言页面
+	 */
+    @RequestMapping(value="/chatUserController/toUserSetting", method = RequestMethod.GET)
+    @ActionVerification(key="userSetting")
+    public String toUserSetting(HttpServletRequest request,ModelMap map) throws Exception {
+    	 String memberId = request.getParameter("memberId");
+    	 String groupId = request.getParameter("groupId");
+    	 String valueUser=request.getParameter("valueUser"),
+    			vipUser=request.getParameter("vipUser"),
+    			type=request.getParameter("type");
+ 		 map.put("memberId", memberId);
+    	 map.put("groupId", groupId);
+    	 map.put("valueUser", valueUser);
+    	 map.put("vipUser", vipUser);
+    	 map.put("type", type);
+    	 return "chat/userSetting";
+    }
+    
+    /**
+	 * 功能：设置用户禁言
+	 */
+	@RequestMapping(value="/chatUserController/userSetting",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="userSetting")
+    public AjaxJson userSetting(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String memberId = request.getParameter("memberId"),
+				groupId = request.getParameter("groupId"),
+				type=request.getParameter("type"),
+				value=request.getParameter("value");
+		ApiResult apiResult = memberService.saveUserSetting(memberId, groupId, type,Boolean.valueOf(value));
+		if(apiResult.isOk()){
+			j.setSuccess(true);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:userSetting()|"+message);
+		}else{
+			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(apiResult.getCode()));
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:userSetting()|"+message+",ErrorMsg:"+apiResult.toString());
 		}
 		return j;
 	}

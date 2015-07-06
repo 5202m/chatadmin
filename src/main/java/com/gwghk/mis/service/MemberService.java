@@ -145,6 +145,20 @@ public class MemberService{
 		return new ApiResult().setCode(ResultCode.OK);
 	}
 	
+	
+	/**
+	 * 设置用户为vip或价值用户
+	 * @param memberId
+	 * @param groupId
+	 * @param type
+	 * @param value
+	 * @return
+	 */
+	public ApiResult saveUserSetting(String memberId,String groupId,String type,boolean value){
+		boolean isOk=memberDao.updateUserSetting(memberId, groupId,type,value);
+		return new ApiResult().setCode(isOk?ResultCode.OK:ResultCode.FAIL);
+	}
+	
 	/**
 	 * 分页查询聊天室用户组信息
 	 * @param dCriteria
@@ -185,4 +199,6 @@ public class MemberService{
 		}
 		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone");
 	}
+	
+	
 }

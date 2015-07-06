@@ -25,7 +25,9 @@ var chatUser = {
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
 			            	$("#chatUser_datagrid_rowOperation a").each(function(){
 								$(this).attr("id",rowData.memberId);
-								$(this).attr("groupid",rowData.loginPlatform.chatUserGroup[0].id);
+								$(this).attr("groupId",rowData.loginPlatform.chatUserGroup[0].id);
+								$(this).attr("valueUser",rowData.loginPlatform.chatUserGroup[0].valueUser);
+								$(this).attr("vipUser",rowData.loginPlatform.chatUserGroup[0].vipUser);
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
@@ -44,17 +46,25 @@ var chatUser = {
 						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
 							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].onlineStatus);
 						}},
-						{title : '上线时间',field : 'loginPlatform.chatUserGroup[0].onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '上线时间',field : 'loginPlatform.chatUserGroup.onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var date=rowData.loginPlatform.chatUserGroup[0].onlineDate;
 							return  date? timeObjectUtil.formatterDateTime(date) : '';
 						}},
-						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup[0].gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup.gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return  (row.gagStartDate)? timeObjectUtil.formatterDateTime(row.gagStartDate): '';
 						}},
-						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup[0].gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup.gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return  (row.gagEndDate)?timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
+						}},
+						{title : '价值用户',field : 'loginPlatform.chatUserGroup.valueUser',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return row.valueUser?'是' : '否';
+						}},
+						{title : 'VIP用户',field : 'loginPlatform.chatUserGroup.vipUser',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return  row.vipUser?'是' : '否';
 						}}
 						
 			]],
@@ -98,11 +108,45 @@ var chatUser = {
 		window.location.href = path;
 	},
 	/**
+	 * 用户设置
+	 */
+	userSetting:function(_this){
+		$("#chatUser_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupId="
+				+$(_this).attr("groupId")+"&memberId="+$(_this).attr("id")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser"));
+		var submitUrl =  formatUrl(basePath + '/chatUserController/userSetting.do');
+		goldOfficeUtils.openEditorDialog({
+			title : '用户设置',
+			width : 300,
+			height : 120,
+			href : url,
+			iconCls : 'ope-redo',
+			handler : function(){    //提交时处理
+				if($("#userSettingForm").form('validate')){
+					goldOfficeUtils.ajaxSubmitForm({
+						url : submitUrl,
+						formId : 'userSettingForm',
+						onSuccess : function(data){   //提交成功后处理
+							var d = $.parseJSON(data);
+							if (d.success) {
+								$("#myWindow").dialog("close");
+								chatUser.refresh();
+								$.messager.alert($.i18n.prop("common.operate.tips"),'设置成功!','info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'设置失败','error');
+							}
+						}
+					});
+				}
+			}
+		});
+	},
+	/**
 	 * 功能：设置禁言
 	 */
 	setUserGag : function(obj){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+$(obj).attr("id")+"&groupId="+$(obj).attr("groupid"));
+		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+$(obj).attr("id")+"&groupId="+$(obj).attr("groupId"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '设置禁言',
