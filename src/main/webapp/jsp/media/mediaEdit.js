@@ -34,10 +34,8 @@ var mediaEdit = {
 		}
 		if(val=='advertisement'){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic'});
-			$('#mediaFileId').uploadify('settings','uploader',basePath+'/uploadController/uploadImage.do');
 		}else if(val.indexOf("video")!=-1){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'video'});
-			$('#mediaFileId').uploadify('settings','uploader',basePath+'/uploadController/uploadFile.do');
 		}
 		$('#mediaFileId').uploadify('upload', '*');
 	},
