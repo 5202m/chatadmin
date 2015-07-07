@@ -53,7 +53,7 @@ var mediaEdit = {
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传'+suffix+'格式文件',
 			'fileTypeExts' : suffix,
-			'uploader' : basePath+'/uploadController/uploadFile.do',
+			'uploader' : basePath+'/uploadController/upload.do',
 			'onUploadSuccess' : function(file, data, response){
 				var d = eval("("+data+")");			//转换为json对象 
 				if(d.success){
@@ -76,7 +76,7 @@ var mediaEdit = {
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
-			'uploader' : basePath+'/uploadController/uploadImage.do',
+			'uploader' : basePath+'/uploadController/upload.do',
 			'onUploadSuccess' : function(file, data, response){
 				var d = eval("("+data+")");			//转换为json对象 
 				if(d.success){
