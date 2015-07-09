@@ -65,6 +65,9 @@ public class ChatGroupService{
 	public ApiResult saveChatGroup(ChatGroup chatGroupParam, boolean isUpdate) {
 		ApiResult result=new ApiResult();
 		chatGroupParam.setValid(1);
+		if(StringUtils.isBlank(chatGroupParam.getId())){
+			return result.setCode(ResultCode.Error103);
+		}
 		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     	if(isUpdate){
     		if(group==null){

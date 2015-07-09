@@ -25,9 +25,12 @@ var chatUser = {
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
 			            	$("#chatUser_datagrid_rowOperation a").each(function(){
 								$(this).attr("id",rowData.memberId);
-								$(this).attr("groupId",rowData.loginPlatform.chatUserGroup[0].id);
-								$(this).attr("valueUser",rowData.loginPlatform.chatUserGroup[0].valueUser);
-								$(this).attr("vipUser",rowData.loginPlatform.chatUserGroup[0].vipUser);
+								var ug=rowData.loginPlatform.chatUserGroup[0];
+								$(this).attr("groupId",ug.id);
+								$(this).attr("valueUser",ug.valueUser);
+								$(this).attr("vipUser",ug.vipUser);
+								$(this).attr("valueUserRemark",ug.valueUserRemark||'');
+								$(this).attr("vipUserRemark",ug.vipUserRemark||'');
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
@@ -113,12 +116,13 @@ var chatUser = {
 	userSetting:function(_this){
 		$("#chatUser_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupId="
-				+$(_this).attr("groupId")+"&memberId="+$(_this).attr("id")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser"));
+				+$(_this).attr("groupId")+"&memberId="+$(_this).attr("id")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser")
+				+"&valueUserRemark="+$(_this).attr("valueUserRemark")+"&vipUserRemark="+$(_this).attr("vipUserRemark"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/userSetting.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '用户设置',
-			width : 300,
-			height : 120,
+			width : 350,
+			height : 140,
 			href : url,
 			iconCls : 'ope-redo',
 			handler : function(){    //提交时处理

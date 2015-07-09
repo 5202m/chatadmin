@@ -21,6 +21,10 @@
 		          <th width="30%">禁言提示语</th>
 		          <td width="70%"><input type="text" name="gagTips" value="${gagTips}" style="width:350px;" /></td>
 		      </tr>
+		      <tr>
+		          <th width="30%">备注</th>
+		          <td width="70%"><input type="text" name="gagRemark" value="${gagRemark}" style="width:350px;" /></td>
+		      </tr>
 	      </tbody>
     </table>
   </form>

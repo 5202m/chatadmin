@@ -1,10 +1,12 @@
 package com.gwghk.mis.dao;
 
 import java.util.List;
+
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -95,13 +97,15 @@ public class MemberDao extends MongoDBBaseDao{
      * @param isTrue
      * @return
      */
-	public boolean updateUserSetting(String memberId,String groupId,String type,Boolean isTrue){
+	public boolean updateUserSetting(String memberId,String groupId,String type,Boolean isTrue,String remark){
 		Update update=new Update();
 		if("1".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.valueUser", isTrue);
+			update.set("loginPlatform.chatUserGroup.$.valueUserRemark", remark);
 		}
 		else if("2".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.vipUser", isTrue);
+			update.set("loginPlatform.chatUserGroup.$.vipUserRemark", remark);
 		}else{
 			return false;
 		}

@@ -26,7 +26,7 @@ public class ChatStudio {
 	 * 小频道号
 	 */
 	private String minChannel;
-
+	
 	public String getClientGroup() {
 		return clientGroup;
 	}

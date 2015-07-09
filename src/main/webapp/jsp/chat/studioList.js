@@ -69,8 +69,12 @@ var chatStudio = {
 							}
 							return nameArr.join("，");
 						}},
-						{title : 'YY频道号',field : 'yyChannel'},
-						{title : '小频道号',field : 'minChannel'}
+						{title : 'YY频道号',field : 'yyChannel',formatter : function(value, rowData, rowIndex) {
+							return rowData.chatStudio.yyChannel;
+						}},
+						{title : '小频道号',field : 'minChannel',formatter : function(value, rowData, rowIndex) {
+							return rowData.chatStudio.minChannel;
+						}}
 						
 			]],
 			toolbar : '#chatStudio_datagrid_toolbar'

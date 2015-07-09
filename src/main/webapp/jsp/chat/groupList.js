@@ -59,6 +59,7 @@ var chatGroup = {
 							return result.join("，");
 						}},
 						{title : '聊天室路径',field : 'chatUrl'},
+						{title : '序号',field : 'sequence',sortable : true},
 						{title : '创建人',field : 'createUser'},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
@@ -127,6 +128,10 @@ var chatGroup = {
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
 				if($("#chatGroupSubmitForm").form('validate')){
+					if(isNaN($("#chatGroupSubmitForm input[name=sequence]").val())){
+						alert("排序：请输入数字！");
+						return;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -161,6 +166,10 @@ var chatGroup = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatGroupSubmitForm").form('validate')){
+					if(isNaN($("#chatGroupSubmitForm input[name=sequence]").val())){
+						alert("排序：请输入数字！");
+						return;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',

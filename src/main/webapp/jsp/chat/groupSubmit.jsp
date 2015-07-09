@@ -23,11 +23,11 @@
     	   <tr>
 	         <th width="15%">编号</th>
 	         <td width="35%">
-	              <input type="text" name="id" value="${chatGroup.id}"  <c:if test="${not empty chatGroup.id}">readonly="readonly"</c:if>/>
+	              <input type="text" name="id" value="${chatGroup.id}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入编号'" <c:if test="${not empty chatGroup.id}">readonly="readonly"</c:if>/>
 	         </td>
 	         <th width="15%">名称</th>
 	         <td width="35%">
-	              <input type="text" name="name" value="${chatGroup.name}"/>
+	              <input type="text" name="name" value="${chatGroup.name}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入名称'" />
 	         </td>
 	      </tr>
 	      <tr>
@@ -40,6 +40,12 @@
 	          <th width="15%">状态</th>
 	          <td width="80%" colspan="4">
 	             <t:dictSelect field="status" isEdit="true" isShowPleaseSelected="false" defaultVal="${chatGroup.status}" dataList="${statusList}"/>
+	          </td>
+	      </tr>
+	       <tr>
+	          <th width="15%">排序</th>
+	          <td width="80%" colspan="4">
+	              <input name="sequence" value="${chatGroup.sequence}" class="easyui-validatebox" data-options="required:true"/>
 	          </td>
 	      </tr>
     </table>

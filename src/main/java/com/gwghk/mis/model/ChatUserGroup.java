@@ -82,6 +82,21 @@ public class ChatUserGroup {
 	 * vip用户
 	 */
 	private Boolean vipUser;
+	
+	/**
+	 * 禁言备注
+	 */
+	private String gagRemark;
+	
+	/**
+	 * 价值用户备注
+	 */
+	private String vipUserRemark;
+	
+	/**
+	 * 价值用户备注
+	 */
+	private String valueUserRemark;
 
 	public String getId() {
 		return id;
@@ -186,5 +201,28 @@ public class ChatUserGroup {
 	public void setVipUser(Boolean vipUser) {
 		this.vipUser = vipUser;
 	}
-	
+
+	public String getGagRemark() {
+		return gagRemark;
+	}
+
+	public void setGagRemark(String gagRemark) {
+		this.gagRemark = gagRemark;
+	}
+
+	public String getVipUserRemark() {
+		return vipUserRemark;
+	}
+
+	public void setVipUserRemark(String vipUserRemark) {
+		this.vipUserRemark = vipUserRemark;
+	}
+
+	public String getValueUserRemark() {
+		return valueUserRemark;
+	}
+
+	public void setValueUserRemark(String valueUserRemark) {
+		this.valueUserRemark = valueUserRemark;
+	}
 }

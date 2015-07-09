@@ -128,7 +128,7 @@ public class MemberService{
 	/**
 	 * 功能：设置禁言
 	 */
-	public ApiResult saveUserGag(String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips){
+	public ApiResult saveUserGag(String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips,String remark){
 		Member member = memberDao.getByMemberId(memberId);
 		List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
 		if(userGroupList != null && userGroupList.size() > 0){
@@ -137,6 +137,7 @@ public class MemberService{
 					cg.setGagStartDate(DateUtil.parseDateSecondFormat(gagStartDateF));
 					cg.setGagEndDate(DateUtil.parseDateSecondFormat(gagEndDateE));
 					cg.setGagTips(gagTips);
+					cg.setGagRemark(remark);
 					break;
 				}
 			}
@@ -154,8 +155,8 @@ public class MemberService{
 	 * @param value
 	 * @return
 	 */
-	public ApiResult saveUserSetting(String memberId,String groupId,String type,boolean value){
-		boolean isOk=memberDao.updateUserSetting(memberId, groupId,type,value);
+	public ApiResult saveUserSetting(String memberId,String groupId,String type,boolean value,String remark){
+		boolean isOk=memberDao.updateUserSetting(memberId, groupId,type,value,remark);
 		return new ApiResult().setCode(isOk?ResultCode.OK:ResultCode.FAIL);
 	}
 	

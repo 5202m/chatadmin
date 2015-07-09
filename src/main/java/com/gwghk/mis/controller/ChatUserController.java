@@ -113,6 +113,8 @@ public class ChatUserController extends BaseController{
  					map.put("gagStartDate", cg.getGagStartDate());
  			    	map.put("gagEndDate", cg.getGagEndDate());
  			    	map.put("gagTips", cg.getGagTips());
+ 			    	map.put("gagTips", cg.getGagTips());
+ 			    	map.put("gagRemark", cg.getGagRemark());
  					break;
  				}
  			}
@@ -135,7 +137,8 @@ public class ChatUserController extends BaseController{
 		String gagStartDateF = request.getParameter("gagStartDateF");
 		String gagEndDate = request.getParameter("gagEndDateE");
 		String gagTips = request.getParameter("gagTips");
-		ApiResult apiResult = memberService.saveUserGag(memberId,groupId,gagStartDateF,gagEndDate,gagTips);
+		String remark = request.getParameter("gagRemark");
+		ApiResult apiResult = memberService.saveUserGag(memberId,groupId,gagStartDateF,gagEndDate,gagTips,remark);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
@@ -163,12 +166,16 @@ public class ChatUserController extends BaseController{
     	 String groupId = request.getParameter("groupId");
     	 String valueUser=request.getParameter("valueUser"),
     			vipUser=request.getParameter("vipUser"),
-    			type=request.getParameter("type");
+    			type=request.getParameter("type"),
+    	        valueUserRemark=request.getParameter("valueUserRemark"),
+    	        vipUserRemark=request.getParameter("vipUserRemark");
  		 map.put("memberId", memberId);
     	 map.put("groupId", groupId);
     	 map.put("valueUser", valueUser);
     	 map.put("vipUser", vipUser);
     	 map.put("type", type);
+    	 map.put("valueUserRemark", valueUserRemark);
+    	 map.put("vipUserRemark", vipUserRemark);
     	 return "chat/userSetting";
     }
     
@@ -183,8 +190,9 @@ public class ChatUserController extends BaseController{
 		String memberId = request.getParameter("memberId"),
 				groupId = request.getParameter("groupId"),
 				type=request.getParameter("type"),
-				value=request.getParameter("value");
-		ApiResult apiResult = memberService.saveUserSetting(memberId, groupId, type,Boolean.valueOf(value));
+				value=request.getParameter("value"),
+				remark=request.getParameter("remark");
+		ApiResult apiResult = memberService.saveUserSetting(memberId, groupId, type,Boolean.valueOf(value),remark);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户成功";

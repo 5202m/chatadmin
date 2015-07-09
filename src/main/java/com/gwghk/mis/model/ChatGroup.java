@@ -45,6 +45,11 @@ public class ChatGroup extends BaseModel{
 	private Integer valid;
 	
 	/**
+	 * 序列
+	 */
+	private Integer sequence;
+	
+	/**
 	 * 直播实体
 	 */
 	private ChatStudio chatStudio;
@@ -130,4 +135,11 @@ public class ChatGroup extends BaseModel{
 		this.chatStudio = chatStudio;
 	}
 	
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
 }
