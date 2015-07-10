@@ -26,11 +26,6 @@ public class DictConstant {
 	public  String DICT_CHAT_GROUP_RULE = "chat_group_rule";
 	
 	/**
-	 * 客户组别
-	 */
-	public  String DICT_CHAT_CLIENT_GROUP = "client_group";
-	
-	/**
 	 * 对话方式
 	 */
 	public  String DICT_CHAT_TALK_STYLE = "chat_talk_style";
@@ -57,14 +52,6 @@ public class DictConstant {
 
 	public void setDICT_CHAT_GROUP_RULE(String dICT_CHAT_GROUP_RULE) {
 		DICT_CHAT_GROUP_RULE = dICT_CHAT_GROUP_RULE;
-	}
-
-	public String getDICT_CHAT_CLIENT_GROUP() {
-		return DICT_CHAT_CLIENT_GROUP;
-	}
-
-	public void setDICT_CHAT_CLIENT_GROUP(String dICT_CHAT_CLIENT_GROUP) {
-		DICT_CHAT_CLIENT_GROUP = dICT_CHAT_CLIENT_GROUP;
 	}
 
 	public String getDICT_CHAT_TALK_STYLE() {

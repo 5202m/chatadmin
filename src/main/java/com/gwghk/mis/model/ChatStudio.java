@@ -8,7 +8,7 @@ package com.gwghk.mis.model;
  */
 public class ChatStudio {
 	/**
-	 * 客户组（对应数据字典的客户组,多个逗号分隔）
+	 * 客户组（对应的客户组,多个逗号分隔）
 	 */
 	private String clientGroup;
 	
@@ -58,4 +58,5 @@ public class ChatStudio {
 	public void setMinChannel(String minChannel) {
 		this.minChannel = minChannel;
 	}
+	
 }

@@ -18,7 +18,6 @@ import com.gwghk.mis.dao.ChatGroupRuleDao;
 import com.gwghk.mis.dao.RoleDao;
 import com.gwghk.mis.dao.TokenAccessDao;
 import com.gwghk.mis.enums.ResultCode;
-import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
@@ -121,7 +120,7 @@ public class ChatGroupService{
 	}
 	
 	/**
-	 * 删除规则
+	 * 删除组
 	 * @param ids
 	 * @return
 	 */
@@ -135,7 +134,7 @@ public class ChatGroupService{
 	}
 
 	/**
-	 * 分页查询规则
+	 * 分页查询
 	 * @param dCriteria
 	 * @return
 	 */
@@ -236,7 +235,7 @@ public class ChatGroupService{
 	 * @param chatGroupParam
 	 * @return
 	 */
-	public ApiResult updateStudio(ChatGroup chatGroupParam) {
+	public ApiResult saveStudio(ChatGroup chatGroupParam,boolean isUpdate) {
 		ApiResult result=new ApiResult();
 		if(StringUtils.isBlank(chatGroupParam.getId()) || chatGroupParam.getChatStudio()==null){
 			return result.setCode(ResultCode.Error103);
@@ -244,6 +243,9 @@ public class ChatGroupService{
 		ChatGroup group=getChatGroupById(chatGroupParam.getId());
 		ChatStudio studio=new ChatStudio();
 		if(group.getChatStudio()!=null){
+			if(!isUpdate){
+				return result.setCode(ResultCode.Error102);
+			}
 			studio=group.getChatStudio();
 			BeanUtils.copyExceptNull(studio, chatGroupParam.getChatStudio());
 		}else{

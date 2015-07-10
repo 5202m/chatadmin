@@ -34,6 +34,7 @@ import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
+import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -60,6 +61,9 @@ public class ChatGroupController extends BaseController{
 	@Autowired
 	private TokenAccessService tokenAccessService;
 	
+	@Autowired
+	private ChatClientGroupService clientGroupService;
+	
 	/**
 	 * 设置状态
 	 * @param map
@@ -79,17 +83,6 @@ public class ChatGroupController extends BaseController{
 		logger.debug(">>start into chatGroupController.index() and url is /chatGroupController/index.do");
 		return "chat/groupList";
 	}
-	
-	/**
-	 * 功能：聊天室直播管理-首页
-	 */
-	@RequestMapping(value = "/chatGroupController/studio", method = RequestMethod.GET)
-	public  String  studio(HttpServletRequest request,ModelMap map){
-		setCommonShow(map);
-		logger.debug(">>start into chatGroupController.studio() and url is /chatGroupController/studio.do");
-		return "chat/studioList";
-	}
-
 
 	/**
 	 * 获取datagrid列表
@@ -258,6 +251,15 @@ public class ChatGroupController extends BaseController{
   		return j;
     }
     
+	/**
+	 * 功能：聊天室直播管理-首页
+	 */
+	@RequestMapping(value = "/chatGroupController/studio", method = RequestMethod.GET)
+	public  String  studio(HttpServletRequest request,ModelMap map){
+		logger.debug(">>start into chatGroupController.studio() and url is /chatGroupController/studio.do");
+		return "chat/studioList";
+	}
+    
     /**
      * 设置直播通用参数
      * @param request
@@ -291,7 +293,6 @@ public class ChatGroupController extends BaseController{
    		 setCommonStudioParam(request,chatGroup.getChatStudio());
    		 Page<ChatGroup> page = chatGroupService.getChatStudioPage(this.createDetachedCriteria(dataGrid, chatGroup));
    		 List<ChatGroup> chatGroupList=page.getCollection();
-   		 chatGroupList.forEach(e->formatChatUrl(e));
    		 Map<String, Object> result = new HashMap<String, Object>();
    		 result.put("total",null == page ? 0  : page.getTotalSize());
    	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : chatGroupList);
@@ -305,28 +306,29 @@ public class ChatGroupController extends BaseController{
     @ActionVerification(key="edit")
     public String editStudio(HttpServletRequest request,ModelMap map) throws Exception {
     	String chatGroupId=request.getParameter("chatGroupId");
+    	map.addAttribute("chatGroupId",chatGroupId);
+    	List<ChatGroup> chatGroupList=chatGroupService.getChatGroupList("id","name","chatStudio.defClientGroup");
+    	map.put("chatGroupList",chatGroupList);
     	if(StringUtils.isNotBlank(chatGroupId)){
     		ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
         	map.addAttribute("chatStudio",chatGroup.getChatStudio());
     	}
-    	map.addAttribute("chatGroupId",chatGroupId);
-    	map.put("chatGroupList",chatGroupService.getChatGroupList("id","name"));
 		return "chat/studioSubmit";
     }
     
-	
-  
+
    /**
    	* 功能：更新直播间
    	*/
-    @RequestMapping(value="/chatGroupController/updateStudio",method=RequestMethod.POST)
+    @RequestMapping(value="/chatGroupController/saveStudio",method=RequestMethod.POST)
    	@ResponseBody
     @ActionVerification(key="edit")
-    public AjaxJson updateStudio(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
+    public AjaxJson saveStudio(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,true);
     	setCommonStudioParam(request,chatGroup.getChatStudio());
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatGroupService.updateStudio(chatGroup);
+    	boolean isUpdate=Boolean.valueOf(request.getParameter("isUpdate"));
+    	ApiResult result =chatGroupService.saveStudio(chatGroup,isUpdate);
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功编辑直播间："+chatGroup.getId();

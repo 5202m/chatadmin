@@ -16,7 +16,7 @@ var chatStudio = {
 	 * 初始化下拉框
 	 */
 	initCombox:function(){
-		chatStudio.cGroupComboxData=getJson(basePath +"/commonController/getClientGroupList.do");
+		chatStudio.cGroupComboxData=getJson(basePath +"/chatClientGroupController/getClientGroupList.do");
 		chatStudio.talkStyleComboxData=getJson(basePath +"/commonController/getTalkStyleList.do");
 		//设置下拉框
 		$("#chatClientGroupId").combotree({
@@ -121,10 +121,10 @@ var chatStudio = {
 	 */
 	add : function(){
 		var url = formatUrl(basePath + '/chatGroupController/editStudio.do');
-		var submitUrl =  formatUrl(basePath + '/chatGroupController/updateStudio.do');
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=false');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 220,
+			height : 240,
 			width:450,
 			href : url,
 			iconCls : 'pag-add',
@@ -156,10 +156,10 @@ var chatStudio = {
 	edit : function(recordId){
 		$("#system_user_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/chatGroupController/editStudio.do?chatGroupId='+recordId);
-		var submitUrl =  formatUrl(basePath + '/chatGroupController/updateStudio.do');
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=true');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 220,
+			height : 240,
 			width:450,
 			href : url,
 			iconCls : 'pag-edit',

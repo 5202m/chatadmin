@@ -3,7 +3,7 @@
 <script type="text/javascript">
 	//初始化
 	$(function() {
-		 getJson("<%=request.getContextPath()%>/commonController/getClientGroupList.do",null,function(data){
+		 getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",null,function(data){
 			var chatClientGroupIds=$("#chatClientGroupIds").attr("tId");
 			//设置内容规则的下拉框
 			for(var i in data){
@@ -44,26 +44,26 @@
 	      </tr>
 	      <tr>
 	          <th width="15%">客户组别</th>
-	          <td width="80%" colspan="6">
-	             <select class="easyui-combotree" style="width:250px;" name="clientGroupStr"  id="chatClientGroupIds" tId="${chatStudio.clientGroup}" data-options="cascadeCheck:false" multiple></select>
+	          <td width="80%">
+	             <select class="easyui-combotree"  style="width:250px;" name="clientGroupStr"  id="chatClientGroupIds" tId="${chatStudio.clientGroup}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入客户组别',cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
 	      <tr>
 	          <th width="15%">聊天方式</th>
 	          <td width="80%">
-	             <select class="easyui-combotree" style="width:250px;" name="talkStyleStr"  id="chatTalkStyleIds" tId="${chatStudio.talkStyle}" data-options="cascadeCheck:false" multiple></select>
+	             <select class="easyui-combotree" style="width:250px;" name="talkStyleStr"  id="chatTalkStyleIds" tId="${chatStudio.talkStyle}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入聊天方式',cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
 	      <tr>
 	         <th width="15%">YY频道号</th>
 	         <td width="80%">
-	              <input type="text" name="chatStudio.yyChannel" value="${chatStudio.yyChannel}" style="width:250px;"/>
+	              <input type="text" name="chatStudio.yyChannel" value="${chatStudio.yyChannel}" style="width:250px;" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入YY频道号'"/>
 	         </td>
 	      </tr>
 	       <tr>
 	          <th width="15%">小频道号</th>
 	         <td width="80%">
-	              <input type="text" name="chatStudio.minChannel" value="${chatStudio.minChannel}" style="width:250px;"/>
+	              <input type="text" name="chatStudio.minChannel" value="${chatStudio.minChannel}" style="width:250px;" />
 	         </td>
 	      </tr>
     </table>
