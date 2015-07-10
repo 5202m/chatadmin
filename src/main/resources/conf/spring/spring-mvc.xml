@@ -74,6 +74,7 @@
 						<value>logout.do</value>
 						<value>captchaController/get.do</value>
 						<value>loginController/checkLogin.do</value>
+						<value>sms/send.do</value>
 					</list>
 				</property>
 			</bean>
