@@ -221,4 +221,18 @@ public class StringUtil {
 		String str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz";	// 初始化种子
 		return RandomStringUtils.random(bit, str);
 	}
+	
+	/**
+	 * 功能：随即生成指定位数的含验证码字符串
+	 * @param bit 指定生成验证码位数(默认6位)
+	 * @return String  生成指定位数的字符串
+	 */
+	public static String randomNum(int bit) {
+		if(bit == 0){
+			bit = 6;
+		}
+		// 因为o和0,l和1很难区分,所以,去掉大小写的o和l
+		String str = "0123456789";	// 初始化种子
+		return RandomStringUtils.random(bit, str);
+	}
 }
