@@ -1,5 +1,7 @@
 package com.gwghk.cms.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.service.AttachmentService;
 import com.gwghk.mis.service.RoleService;
+import com.gwghk.mis.util.MD5;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -92,8 +95,14 @@ public class UserDaoTest extends SpringJunitTest {
 	@Test
 	public void addUser(){
 		System.out.println("d:\\ewrwer\tt.xt".replaceAll(".+\\.", ""));
-		/*DetachedCriteria<Attachment> detachedCriteria=new DetachedCriteria<>();
-		attachmentService.getAttachmentList(detachedCriteria);*/
+		System.out.println(MD5.getMd5("95HjbwtyzhkHDfg7L"+"1436343573192"));
+		try {
+			System.out.println("ddd:"+URLEncoder.encode("亿航线缆   大兵，^^","utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//c100fd62e03666d55c058c522d499b7f
 	}
 	
 	

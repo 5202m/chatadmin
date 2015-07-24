@@ -1,10 +1,13 @@
 package com.gwghk.mis.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 
 /** 聊天室客户组实体类
  * @author Alan.wu
  * @date   2015年7月10日
  */
+@Document
 public class ChatClientGroup extends BaseModel {
 	/**
 	 * 客户组id

@@ -4,6 +4,8 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/adminChat.js" charset="UTF-8"></script>
 <script type="text/javascript">
 adminChat.pmApiUrl="${pmApiUrl}";
+adminChat.chatUrl="${chatUrl}";
+adminChat.chatUrlParam="${chatUrlParam}";
 </script>
 <style type="text/css">
 	.title{
@@ -34,7 +36,7 @@ adminChat.pmApiUrl="${pmApiUrl}";
  		<c:choose>
  			<c:when test="${chatGroupList != null}">
 	 			<c:forEach items="${chatGroupList}" var="chatGroup">
-	 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false" id="${chatGroup.id}" onclick="adminChat.add('${chatGroup.id}','${chatGroup.name}');">进入聊天室${chatGroup.name}</a>
+	 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false" id="${chatGroup.id}" onclick="adminChat.add('${chatGroup.id}','${chatGroup.name}');">${chatGroup.name}</a>
 		 		</c:forEach>
 	 		</c:when>
 	 		<c:otherwise>

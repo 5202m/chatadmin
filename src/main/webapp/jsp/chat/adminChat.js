@@ -6,6 +6,12 @@
 var adminChat = {
 	pannelCount : 0,
 	pmApiUrl:'',
+	chatUrl:'',
+	chatUrlParam:'',
+	chatIndex:{//聊天室组默认访问路径
+	   wechat:'chat',
+	   studio:'studio'
+	},
 	intervalId:null,
 	init : function(){
 	  this.setPrice()
@@ -52,16 +58,31 @@ var adminChat = {
 	 * @param groupName	聊天室name
 	 */
 	add : function(groupId,groupName){
+		if($("#pp iframe").length>0){
+			return;
+		}
+		var tokenGroupId=groupId;
+		if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
+			tokenGroupId=adminChat.chatIndex.studio;
+		}
 		goldOfficeUtils.ajax({
-			url : basePath +'/adminChatController/getToken.do?groupId='+groupId,
+			url : basePath +'/adminChatController/getToken.do?groupId='+tokenGroupId,
 			type : 'get',
 			success : function(data){
 				if(data.obj != null){
 					$('#adminChat_div '+groupId).linkbutton('disable');
-					var iframeSrc = $("#chatURL").val()+'&groupId='+ groupId+"&token="+data.obj
+					var urlPath='';
+					if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
+						urlPath=adminChat.chatIndex.studio+"/admin";
+					}
+					if(groupId.indexOf("wechat")!=-1){
+						urlPath=adminChat.chatIndex.wechat;
+					}
+					var iframeSrc = adminChat.chatUrl+"/"+urlPath+"?"+adminChat.chatUrlParam+'&groupId='+ groupId+"&token="+data.obj
 								  + '&timestamp='+new Date();
-					//window.open(iframeSrc,groupName,"location=no");
-					$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
+					alert(iframeSrc);
+					window.open(iframeSrc,groupName,"location=no");
+					//$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
 				}
 			}
 		});

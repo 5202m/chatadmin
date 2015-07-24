@@ -111,7 +111,7 @@ public class ChatGroupController extends BaseController{
 	 * 格式聊天室路径
 	 */
 	private void formatChatUrl(ChatGroup row){
-		row.setChatUrl(String.format(PropertiesUtil.getInstance().getProperty("chatURL"), row.getId()));
+		//row.setChatUrl(String.format(PropertiesUtil.getInstance().getProperty("chatURL"), row.getId()));
 	}
 	
 	/**

@@ -54,12 +54,13 @@ public class AdminChatController extends BaseController{
 	public String index(ModelMap map){
 		BoRole boRole = roleService.getByRoleId(ResourceUtil.getSessionUser().getRole().getRoleId());
 		map.put("chatGroupList", boRole.getChatGroupList());
-		String chatUrl = PropertiesUtil.getInstance().getProperty("tokenChatURL");
-		chatUrl += "?userId="+userParam.getUserNo()
+		String chatUrl = PropertiesUtil.getInstance().getProperty("chatUrl");
+		String chatUrlParam = "userId="+userParam.getUserNo()
 				+ "&mobilePhone="+userParam.getTelephone()
 				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
 				+ "&fromPlatform=pm_mis";
-		map.put("chatURL",chatUrl);
+		map.put("chatUrl",chatUrl);
+		map.put("chatUrlParam",chatUrlParam);
 		map.put("pmApiUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/get24kPrice");
 		return "chat/adminChat";
 	}
@@ -90,5 +91,5 @@ public class AdminChatController extends BaseController{
 		}
 		result.setObj(token);
 		return result;
-	}
+	}  
 }
