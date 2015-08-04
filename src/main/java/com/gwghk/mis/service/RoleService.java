@@ -141,6 +141,7 @@ public class RoleService{
     	    for(ChatGroup cg:selectGroupList){
     	    	cgTmp=new ChatGroup();
     	    	cgTmp.setId(cg.getId());
+    	    	cgTmp.setGroupType(cg.getGroupType());
     	    	cgTmp.setName(cg.getName());
     	    	selectGroupListTmp.add(cgTmp);
     	    }

@@ -46,7 +46,6 @@ public class UploadController extends BaseController{
 	@RequestMapping(value="/uploadController/upload", method=RequestMethod.POST)
 	@ResponseBody
 	public String  upload(HttpServletRequest request) throws  Exception{
-		System.out.println("uploadImage->request:"+request.getParameter("fileDir"));
 		return JSON.toJSONString(this.uploadFile(request));
 	}
 	
@@ -108,7 +107,7 @@ public class UploadController extends BaseController{
                     }
                 	if(apiResult.isOk()){
                 		result.setSuccess(true);
-                		result.setObj(apiResult.getReturnObj()[0]);//设置文件的相对地址
+                		result.setObj(PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/"+apiResult.getReturnObj()[0]);//设置文件的相对地址
                 		result.setMsg("upload success!");
                 		return result;
                 	}else{

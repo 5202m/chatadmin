@@ -166,6 +166,26 @@ public class MenuService{
 		return api;
 	}
 	
+	 /**
+     * 新增或修改菜单
+     * @param menuParam
+     * @return
+     */
+	public ApiResult moveMenu(String targetParentId,String memuId) {
+		ApiResult api=new ApiResult();
+		if(StringUtils.isBlank(targetParentId)||StringUtils.isBlank(memuId)){
+			return api.setCode(ResultCode.Error103);
+		}
+		BoMenu boMenu=menuDao.getMenuById(memuId);
+		if(boMenu==null){
+			return api.setCode(ResultCode.Error103);
+		}
+		boMenu.setParentMenuId(targetParentId);
+		menuDao.update(boMenu);
+		api.setReturnObj(new Object[]{boMenu});
+		return api;
+	}
+	
     /**
      * 按条件查询菜单列表
      * @param hasFun

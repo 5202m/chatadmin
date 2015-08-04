@@ -25,10 +25,11 @@ public class DictConstant {
 	/**聊天室规则类别*/
 	public  String DICT_CHAT_GROUP_RULE = "chat_group_rule";
 	
-	/**
-	 * 对话方式
-	 */
+	/**对话方式*/
 	public  String DICT_CHAT_TALK_STYLE = "chat_talk_style";
+	
+	/**组类别*/
+	public  String DICT_CHAT_GROUP_TYPE = "chat_group_type";
 
 	public String getDICT_PLATFORM() {
 		return DICT_PLATFORM;
@@ -60,5 +61,15 @@ public class DictConstant {
 
 	public void setDICT_CHAT_TALK_STYLE(String dICT_CHAT_TALK_STYLE) {
 		DICT_CHAT_TALK_STYLE = dICT_CHAT_TALK_STYLE;
+	}
+
+	public String getDICT_CHAT_GROUP_TYPE() {
+		return DICT_CHAT_GROUP_TYPE;
+	}
+
+	public void setDICT_CHAT_GROUP_TYPE(String dICT_CHAT_GROUP_TYPE) {
+		DICT_CHAT_GROUP_TYPE = dICT_CHAT_GROUP_TYPE;
 	} 
+	
+	
 }

@@ -2,16 +2,19 @@ package com.gwghk.mis.service;
 
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.MemberDao;
 import com.gwghk.mis.enums.ResultCode;
+import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.util.BeanUtils;
@@ -128,22 +131,9 @@ public class MemberService{
 	/**
 	 * 功能：设置禁言
 	 */
-	public ApiResult saveUserGag(String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips,String remark){
-		Member member = memberDao.getByMemberId(memberId);
-		List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
-		if(userGroupList != null && userGroupList.size() > 0){
-			for(ChatUserGroup cg : userGroupList){
-				if(groupId.equals(cg.getId())){
-					cg.setGagStartDate(DateUtil.parseDateSecondFormat(gagStartDateF));
-					cg.setGagEndDate(DateUtil.parseDateSecondFormat(gagEndDateE));
-					cg.setGagTips(gagTips);
-					cg.setGagRemark(remark);
-					break;
-				}
-			}
-		}
-		memberDao.update(member);
-		return new ApiResult().setCode(ResultCode.OK);
+	public ApiResult saveUserGag(String groupType,String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips,String remark){
+		boolean isOk=memberDao.setUserGag(groupType,memberId, groupId, DateUtil.parseDateSecondFormat(gagStartDateF), DateUtil.parseDateSecondFormat(gagEndDateE), gagTips, remark);
+		return new ApiResult().setCode(isOk?ResultCode.OK:ResultCode.FAIL);
 	}
 	
 	
@@ -181,19 +171,27 @@ public class MemberService{
 				criteria.and("loginPlatform.chatUserGroup.nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));
 			}
 			if(StringUtils.isNotBlank(userGroup.getId())){
-				criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId());
-			}
-			if(userGroup.getOnlineStatus()!=null){
-				criteria.and("loginPlatform.chatUserGroup.onlineStatus").is(userGroup.getOnlineStatus());
-			}
-			if(onlineStartDate!=null){
-				criteria = criteria.and("loginPlatform.chatUserGroup.onlineDate").gte(onlineStartDate);
-			}
-			if(onlineEndDate != null){
-				if(onlineStartDate != null){
-					criteria.lte(onlineEndDate);
+				if(userGroup.getId().indexOf(",")!=-1){
+					criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId().split(",")[1]);
 				}else{
-					criteria.and("loginPlatform.chatUserGroup.onlineDate").lte(onlineEndDate);
+					criteria.and("loginPlatform.chatUserGroup.rooms.id").is(userGroup.getId());
+				}
+			}
+			List<ChatRoom> roomList=userGroup.getRooms();
+			if(roomList!=null){
+				ChatRoom room=roomList.get(0);
+				if(room.getOnlineStatus()!=null){
+					criteria.and("loginPlatform.chatUserGroup.rooms.onlineStatus").is(room.getOnlineStatus());
+				}
+				if(onlineStartDate!=null){
+					criteria = criteria.and("loginPlatform.chatUserGroup.rooms.onlineDate").gte(onlineStartDate);
+				}
+				if(onlineEndDate != null){
+					if(onlineStartDate != null){
+						criteria.lte(onlineEndDate);
+					}else{
+						criteria.and("loginPlatform.chatUserGroup.rooms.onlineDate").lte(onlineEndDate);
+					}
 				}
 			}
 			query.addCriteria(criteria);

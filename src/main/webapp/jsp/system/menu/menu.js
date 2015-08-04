@@ -180,13 +180,10 @@ var systemMenu = {
 						onSuccess : function(data){  //提交成功后处理
 							var d = $.parseJSON(data);
 							if(d.success){
-								var menuObj = d.obj;
-								if(menuObj != null){
-									systemMenu.menuId.tree('reload');
-									$("#menuDiv").hide();
-									$("#myWindow").dialog("close");
-									$.messager.alert($.i18n.prop("common.operate.tips"),'操作成功','info');
-								}
+								systemMenu.menuId.tree('reload');
+								$("#menuDiv").hide();
+								$("#myWindow").dialog("close");
+								$.messager.alert($.i18n.prop("common.operate.tips"),'操作成功','info');
 							}else{
 								$.messager.alert($.i18n.prop("common.operate.tips"),'操作失败','error');
 							}

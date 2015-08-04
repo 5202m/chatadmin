@@ -16,11 +16,15 @@
           <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="false"  dataList="${statusList}"/></td>
         </tr>
         <tr>
+          <th width="15%">房间类别</th>
+          <td width="35%">
+             <t:dictSelect  selectClass="width:170px;" id="chatGroupType" field="groupType" isEdit="false" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+          </td>
           <th width="15%">聊天规则</th>
-          <td width="80%" colspan="6">
+          <td width="35%" colspan="3">
              <select class="easyui-combotree" style="width:170px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
           </td>
-	      </tr>
+	   </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;
 			  <a href="#" class="easyui-linkbutton" id="chatGroup_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /></a> &nbsp;&nbsp; 

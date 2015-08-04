@@ -20,6 +20,12 @@
 <div style="padding:5px;overflow:hidden;">
   <form id="chatGroupSubmitForm" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+          <tr>
+	          <th width="15%">房间类别</th>
+	          <td width="80%" colspan="6">
+	             <t:dictSelect  selectClass="width:170px;" id="chatGroupType" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	          </td>
+          </tr>
     	   <tr>
 	         <th width="15%">编号</th>
 	         <td width="35%">
@@ -33,16 +39,14 @@
 	      <tr>
 	          <th width="15%">聊天规则</th>
 	          <td width="80%" colspan="6">
-	             <select class="easyui-combotree" style="width:455px;" name="chatRuleId"  id="chatSubmitRuleIds" tId="${chatGroup.chatRuleIds}" data-options="cascadeCheck:false" multiple></select>
+	             <select class="easyui-combotree" style="width:465px;" name="chatRuleId"  id="chatSubmitRuleIds" tId="${chatGroup.chatRuleIds}" data-options="cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
 	      <tr>
 	          <th width="15%">状态</th>
-	          <td width="80%" colspan="4">
+	          <td width="80%">
 	             <t:dictSelect field="status" isEdit="true" isShowPleaseSelected="false" defaultVal="${chatGroup.status}" dataList="${statusList}"/>
 	          </td>
-	      </tr>
-	       <tr>
 	          <th width="15%">排序</th>
 	          <td width="80%" colspan="4">
 	              <input name="sequence" value="${chatGroup.sequence}" class="easyui-validatebox" data-options="required:true"/>

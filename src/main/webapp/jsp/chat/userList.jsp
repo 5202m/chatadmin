@@ -20,7 +20,7 @@
           <td width="40%">
 	          <select name="loginPlatform.chatUserGroup[0].id" id="chatUserGroupId" style="width:160px;">
 	              <c:forEach var="row" items="${chatGroupList}">
-	                 <option value="${row.id}">${row.name}</option>
+	                 <option value="${row.id}<c:if test="${not empty row.groupType}">,${row.groupType}</c:if>">${row.name}</option>
 	              </c:forEach>
 	          </select>
           </td>

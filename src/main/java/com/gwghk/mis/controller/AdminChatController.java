@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gwghk.mis.common.model.AjaxJson;
+import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.TokenAccess;
 import com.gwghk.mis.service.RoleService;
@@ -62,6 +63,8 @@ public class AdminChatController extends BaseController{
 		map.put("chatUrl",chatUrl);
 		map.put("chatUrlParam",chatUrlParam);
 		map.put("pmApiUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/get24kPrice");
+		DictConstant dict=DictConstant.getInstance();
+		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
 		return "chat/adminChat";
 	}
 	

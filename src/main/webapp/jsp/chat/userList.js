@@ -26,7 +26,8 @@ var chatUser = {
 			            	$("#chatUser_datagrid_rowOperation a").each(function(){
 								$(this).attr("id",rowData.memberId);
 								var ug=rowData.loginPlatform.chatUserGroup[0];
-								$(this).attr("groupId",ug.id);
+								$(this).attr("groupType",ug.id);
+								$(this).attr("groupId",ug.rooms[0].id);
 								$(this).attr("valueUser",ug.valueUser);
 								$(this).attr("vipUser",ug.vipUser);
 								$(this).attr("valueUserRemark",ug.valueUserRemark||'');
@@ -42,23 +43,22 @@ var chatUser = {
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPlatform.chatUserGroup[0].nickname+"【"+rowData.loginPlatform.chatUserGroup[0].userId+"】";
 						}},
-						{title : '所属组Id',field : 'groupId',hidden:true},
-			            {title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
-							return chatUser.getComboxNameByCode("#chatUserGroupId",rowData.loginPlatform.chatUserGroup[0].id);
+			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
+							return chatUser.getComboxNameByCode("#chatUserGroupId",rowData.loginPlatform.chatUserGroup[0].rooms[0].id);
 						}},
 						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
-							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].onlineStatus);
+							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].rooms[0].onlineStatus);
 						}},
 						{title : '上线时间',field : 'loginPlatform.chatUserGroup.onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var date=rowData.loginPlatform.chatUserGroup[0].onlineDate;
+							var date=rowData.loginPlatform.chatUserGroup[0].rooms[0].onlineDate;
 							return  date? timeObjectUtil.formatterDateTime(date) : '';
 						}},
 						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup.gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var row=rowData.loginPlatform.chatUserGroup[0];
+							var row=rowData.loginPlatform.chatUserGroup[0].rooms[0];
 							return  (row.gagStartDate)? timeObjectUtil.formatterDateTime(row.gagStartDate): '';
 						}},
 						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup.gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var row=rowData.loginPlatform.chatUserGroup[0];
+							var row=rowData.loginPlatform.chatUserGroup[0].rooms[0];
 							return  (row.gagEndDate)?timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
 						}},
 						{title : '价值用户',field : 'loginPlatform.chatUserGroup.valueUser',sortable : true,formatter : function(value, rowData, rowIndex) {
@@ -115,7 +115,7 @@ var chatUser = {
 	 */
 	userSetting:function(_this){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupId="
+		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupType="+$(_this).attr("groupType")+"&groupId="
 				+$(_this).attr("groupId")+"&memberId="+$(_this).attr("id")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser")
 				+"&valueUserRemark="+$(_this).attr("valueUserRemark")+"&vipUserRemark="+$(_this).attr("vipUserRemark"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/userSetting.do');
@@ -150,7 +150,7 @@ var chatUser = {
 	 */
 	setUserGag : function(obj){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+$(obj).attr("id")+"&groupId="+$(obj).attr("groupId"));
+		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+$(obj).attr("id")+"&groupId="+$(obj).attr("groupId")+"&groupType="+$(obj).attr("groupType"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '设置禁言',

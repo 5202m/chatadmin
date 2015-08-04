@@ -30,21 +30,27 @@ adminChat.chatUrlParam="${chatUrlParam}";
 	.date-box li p span{margin-left:5px;}
 </style>
 <div class="easyui-layout" data-options="fit:true" id="adminChat_div">
- 	<div region="north" class="title" border="false" align="left" style="height:65px;">
- 	    <div style="float:left;">
- 		<input type="hidden" id="chatURL" value="${chatURL}"/>
- 		<c:choose>
- 			<c:when test="${chatGroupList != null}">
-	 			<c:forEach items="${chatGroupList}" var="chatGroup">
-	 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-add',disabled:false" id="${chatGroup.id}" onclick="adminChat.add('${chatGroup.id}','${chatGroup.name}');">${chatGroup.name}</a>
-		 		</c:forEach>
-	 		</c:when>
-	 		<c:otherwise>
-	 			<span class="red">没有聊天室权限</span>
-	 		</c:otherwise>
- 		</c:choose>
- 		</div>
- 		<div style="float:right;margin-top: -20px;">
+ 	<div region="north" class="title" border="false" align="left" style="height:120px;">
+		<div id="groupType_tab" class="easyui-tabs" data-options="fit:true" style="height:100px;margin-top:15px;">
+					<c:forEach var="groupTypeDetail" items="${groupTypeList}">
+						<div id="groupTypeDetail_${groupTypeDetail.code}" title="${groupTypeDetail.nameCN}" style="padding:0px;overflow-x:auto;height:100px;">
+					        <input type="hidden" id="chatURL" value="${chatURL}"/>
+					 		<c:choose>
+					 			<c:when test="${chatGroupList != null}">
+						 			<c:forEach items="${chatGroupList}" var="chatGroup">
+						 			    <c:if test="${groupTypeDetail.code==chatGroup.groupType}">
+						 			    	<a class="easyui-linkbutton" style="margin-right:20px;margin-top:10px;" data-options="plain:true,iconCls:'ope-add',disabled:false" id="${chatGroup.id}" onclick="adminChat.add('${chatGroup.id}','${chatGroup.name}');">${chatGroup.name}</a>
+						 			    </c:if>
+							 		</c:forEach>
+						 		</c:when>
+						 		<c:otherwise>
+						 			<span class="red">没有聊天室权限</span>
+						 		</c:otherwise>
+					 		</c:choose>     
+						</div>
+					</c:forEach>
+		</div>
+ 		<div style="top:0px;position:absolute;right:0;">
  		     <section class="date-box">
 		        <ul class="clearfix" id="product_price_ul">
 		            <li name="022">

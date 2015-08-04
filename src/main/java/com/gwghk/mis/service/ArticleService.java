@@ -40,7 +40,7 @@ public class ArticleService{
 	 * @param detachedCriteria
 	 * @return
 	 */
-	public Page<Article> getArticlePage(DetachedCriteria<Article> dCriteria) {
+	public Page<Article> getArticlePage(DetachedCriteria<Article> dCriteria,Object[] filterCategoryIdArr) {
 		Query query=new Query();
 		Article article=dCriteria.getSearchModel();
 		if(article!=null){
@@ -57,6 +57,9 @@ public class ArticleService{
 					ids.add(categoryId);
 					criteria.and("categoryId").in(ids.toArray());
 				}
+			}
+			if(filterCategoryIdArr!=null){
+				criteria.and("categoryId").nin(filterCategoryIdArr);
 			}
 			if(StringUtils.isNotBlank(article.getPlatform())){
 				criteria.and("platform").regex(article.getPlatform().replaceAll(",","|"));

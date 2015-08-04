@@ -41,6 +41,27 @@ public class Article extends BaseModel{
 	 * 文章种类
 	 */
 	private String type;
+	
+	/**
+	 * 媒体地址路径
+	 */
+	private String  mediaUrl;
+	
+	/**
+	 * 媒体图片（视频专用字段）
+	 */
+	private String mediaImgUrl;
+	
+	/**
+	 * 点击媒体链接的路径
+	 */
+	private String  linkUrl;
+	
+	/**
+	 * 序列
+	 */
+	private Integer sequence;
+
 	/**
 	 * 发布时间
 	 */
@@ -145,4 +166,35 @@ public class Article extends BaseModel{
 		this.valid = valid;
 	}
 
+	public String getMediaUrl() {
+		return mediaUrl;
+	}
+
+	public void setMediaUrl(String mediaUrl) {
+		this.mediaUrl = mediaUrl;
+	}
+
+	public String getMediaImgUrl() {
+		return mediaImgUrl;
+	}
+
+	public void setMediaImgUrl(String mediaImgUrl) {
+		this.mediaImgUrl = mediaImgUrl;
+	}
+
+	public String getLinkUrl() {
+		return linkUrl;
+	}
+
+	public void setLinkUrl(String linkUrl) {
+		this.linkUrl = linkUrl;
+	}
+
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
+	}
 }

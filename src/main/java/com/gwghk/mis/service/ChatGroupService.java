@@ -144,6 +144,9 @@ public class ChatGroupService{
 		criter.and("valid").is(1);
 		ChatGroup model=dCriteria.getSearchModel();
 		if(model!=null){
+			if(StringUtils.isNotBlank(model.getGroupType())){
+				criter.and("groupType").is(model.getGroupType());
+			}
 			if(StringUtils.isNotBlank(model.getId())){
 				criter.and("id").regex(StringUtil.toFuzzyMatch(model.getId()));
 			}
@@ -208,6 +211,7 @@ public class ChatGroupService{
 			DetachedCriteria<ChatGroup> dCriteria) {
 		Criteria criter=new Criteria();
 		criter.and("valid").is(1);
+		criter.and("groupType").is("studio");
 		criter.and("chatStudio").exists(true);
 		ChatGroup model=dCriteria.getSearchModel();
 		if(model!=null){

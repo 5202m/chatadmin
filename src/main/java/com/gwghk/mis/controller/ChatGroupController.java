@@ -27,10 +27,12 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
+import com.gwghk.mis.model.Category;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
@@ -40,9 +42,9 @@ import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
-import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.gwghk.mis.util.StringUtil;
 
 /**
  * 聊天室组别管理
@@ -64,14 +66,15 @@ public class ChatGroupController extends BaseController{
 	@Autowired
 	private ChatClientGroupService clientGroupService;
 	
+
 	/**
 	 * 设置状态
 	 * @param map
 	 */
 	private void setCommonShow(ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
-		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
-    	map.put("statusList", dictList);
+		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
+    	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 	}
 	
 	/**

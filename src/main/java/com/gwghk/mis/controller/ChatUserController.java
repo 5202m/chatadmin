@@ -29,7 +29,9 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
+import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.service.ChatGroupService;
@@ -40,6 +42,7 @@ import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.gwghk.mis.util.StringUtil;
 import com.sdk.orm.DataRowSet;
 import com.sdk.orm.IRow;
 import com.sdk.poi.POIExcelBuilder;
@@ -60,6 +63,29 @@ public class ChatUserController extends BaseController{
 	private ChatGroupService chatGroupService;
 
 	/**
+	 * 格式成树形列表
+	 * @param dictList
+	 * @return
+	 */
+	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
+    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
+    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
+    	ChatGroup tbean=null;
+    	for(BoDict dict:dictList){
+    		tbean=new ChatGroup();
+    		tbean.setId(dict.getCode());
+    		tbean.setName(dict.getNameCN());
+    		nodeList.add(tbean);
+    		for(ChatGroup group:groupList){
+    			if(group.getGroupType().equals(dict.getCode())){
+    				group.setName(StringUtil.fillChar('　', 1)+group.getName());
+    				nodeList.add(group);
+    			}
+    		}
+    	}
+    	return nodeList;
+	}
+	/**
 	 * 功能：聊天室内容管理-首页
 	 */
 	@RequestMapping(value = "/chatUserController/index", method = RequestMethod.GET)
@@ -67,7 +93,7 @@ public class ChatUserController extends BaseController{
 		DictConstant dict=DictConstant.getInstance();
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
-    	map.put("chatGroupList",chatGroupService.getChatGroupList("id","name"));
+    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
 		logger.debug(">>start into chatUserController.index() and url is /chatUserController/index.do");
 		return "chat/userList";
 	}
@@ -105,22 +131,29 @@ public class ChatUserController extends BaseController{
     public String toUserGag(HttpServletRequest request,ModelMap map) throws Exception {
     	 String memberId = request.getParameter("memberId");
     	 String groupId = request.getParameter("groupId");
+    	 String groupType = request.getParameter("groupType");
     	 Member member = memberService.getByMemberId(memberId);
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
  		 if(userGroupList != null && userGroupList.size() > 0){
  			for(ChatUserGroup cg : userGroupList){
- 				if(groupId.equals(cg.getId())){
- 					map.put("gagStartDate", cg.getGagStartDate());
- 			    	map.put("gagEndDate", cg.getGagEndDate());
- 			    	map.put("gagTips", cg.getGagTips());
- 			    	map.put("gagTips", cg.getGagTips());
- 			    	map.put("gagRemark", cg.getGagRemark());
+ 				if(groupType.equals(cg.getId())){
+ 					List<ChatRoom> roomList=cg.getRooms();
+ 					for(ChatRoom room:roomList){
+ 						if(room.getId().equals(groupId)){
+ 							map.put("gagStartDate", room.getGagStartDate());
+ 		 			    	map.put("gagEndDate", room.getGagEndDate());
+ 		 			    	map.put("gagTips", room.getGagTips());
+ 		 			    	map.put("gagTips", room.getGagTips());
+ 		 			    	map.put("gagRemark", room.getGagRemark());
+ 						}
+ 					}
  					break;
  				}
  			}
  		 }
  		 map.put("memberId", memberId);
     	 map.put("groupId", groupId);
+    	 map.put("groupType", groupType);
     	 return "chat/userGag";
     }
     
@@ -132,13 +165,14 @@ public class ChatUserController extends BaseController{
     @ActionVerification(key="setGagTime")
     public AjaxJson setUserGag(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
+		String groupType = request.getParameter("groupType");
 		String memberId = request.getParameter("memberId");
 		String groupId = request.getParameter("groupId");
 		String gagStartDateF = request.getParameter("gagStartDateF");
 		String gagEndDate = request.getParameter("gagEndDateE");
 		String gagTips = request.getParameter("gagTips");
 		String remark = request.getParameter("gagRemark");
-		ApiResult apiResult = memberService.saveUserGag(memberId,groupId,gagStartDateF,gagEndDate,gagTips,remark);
+		ApiResult apiResult = memberService.saveUserGag(groupType,memberId,groupId,gagStartDateF,gagEndDate,gagTips,remark);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
@@ -212,7 +246,7 @@ public class ChatUserController extends BaseController{
 	
 	
 	/**
-	 * 功能：导出聊天记录(以模板的方式导出)
+	 * 功能：导出成员记录(以模板的方式导出)
 	 */
 	@RequestMapping(value = "/chatUserController/exportRecord", method = RequestMethod.GET)
 	@ActionVerification(key="export")
@@ -244,11 +278,12 @@ public class ChatUserController extends BaseController{
 					row.set("accountNo", userGroup.getAccountNo());
 					row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
 					row.set("groupId", userGroup.getId());
-					row.set("onlineStatus",(userGroup.getOnlineStatus()==1?"在线":"下线"));
-					row.set("onlineDate", userGroup.getOnlineDate());
-					row.set("gagStartDate", userGroup.getGagStartDate());
-					row.set("gagEndDate", userGroup.getGagEndDate());
-					row.set("sendMsgCount", userGroup.getSendMsgCount()==null?0:userGroup.getSendMsgCount());
+					ChatRoom room=userGroup.getRooms().get(0);
+					row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
+					row.set("onlineDate", room.getOnlineDate());
+					row.set("gagStartDate", room.getGagStartDate());
+					row.set("gagEndDate", room.getGagEndDate());
+					row.set("sendMsgCount", room.getSendMsgCount()==null?0:room.getSendMsgCount());
 				}
 				builder.put("rowSet",dataSet);
 			}else{

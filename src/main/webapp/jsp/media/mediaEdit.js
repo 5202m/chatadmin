@@ -57,10 +57,10 @@ var mediaEdit = {
 				if(d.success){
 					alert(file.name + ' 上传成功！');
 					if(d.obj != null){
-						$("#currentMediaPath").val("/"+d.obj);
-						$("#sourceMediaPath").val("/"+d.obj);
-						$("#cutedMediaPath").val("/"+d.obj);
-						$("#saveMediaPath").val("/"+d.obj);
+						$("#currentMediaPath").val(d.obj);
+						$("#sourceMediaPath").val(d.obj);
+						$("#cutedMediaPath").val(d.obj);
+						$("#saveMediaPath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);
@@ -70,7 +70,7 @@ var mediaEdit = {
 		//媒体图片地址
 		goldOfficeUtils.uploadFile({
 			'fileId' : 'mediaImageId',
-			'formData' : {'imageDir' : 'advertisement'},
+			'formData' : {'imageDir' : 'pic'},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
@@ -80,10 +80,10 @@ var mediaEdit = {
 				if(d.success){
 					alert(file.name + ' 上传成功！');
 					if(d.obj != null){
-						$("#currentMediaImagePath").val("/"+d.obj);
-						$("#sourceMediaImagePath").val("/"+d.obj);
-						$("#cutedMediaImagePath").val("/"+d.obj);
-						$("#saveMediaImagePath").val("/"+d.obj);
+						$("#currentMediaImagePath").val(d.obj);
+						$("#sourceMediaImagePath").val(d.obj);
+						$("#cutedMediaImagePath").val(d.obj);
+						$("#saveMediaImagePath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);

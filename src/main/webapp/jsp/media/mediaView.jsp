@@ -64,7 +64,7 @@ function goBack(){
 	      <tr>
 	        <th width="15%">简介</th>
 	        <td width="85%">
-	           <span>${mediaDetail.remark}</span>
+	           <span>${mediaDetail.content}</span>
 	        </td>
 	      </tr>
 	      <tr>

@@ -1,5 +1,6 @@
 package com.gwghk.mis.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,6 +13,7 @@ import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.model.Member;
+import com.gwghk.mis.util.DateUtil;
 import com.mongodb.WriteResult;
 
 /**
@@ -113,6 +115,26 @@ public class MemberDao extends MongoDBBaseDao{
 		return wr!=null && wr.getN()>0;
 	}
 	
+	/**
+	 * 设置用户禁言
+	 * @param groupType
+	 * @param memberId
+	 * @param groupId
+	 * @param gagStartDate
+	 * @param gagEndDate
+	 * @param tip
+	 * @param remark
+	 * @return
+	 */
+	public boolean setUserGag(String groupType,String memberId,String groupId,Date gagStartDate,Date gagEndDate,String tip,String remark){
+		Update update=new Update();
+		update.set("loginPlatform.chatUserGroup.rooms.$.gagStartDate", gagStartDate);
+		update.set("loginPlatform.chatUserGroup.rooms.$.gagEndDate", gagEndDate);
+		update.set("loginPlatform.chatUserGroup.rooms.$.gagTips", tip);
+		update.set("loginPlatform.chatUserGroup.rooms.$.gagRemark", remark);
+		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.groupType").is(groupType),Criteria.where("loginPlatform.chatUserGroup.rooms.id").is(groupId))), update, Member.class);
+		return wr!=null && wr.getN()>0;
+	}
 	
 	/**
 	 * 功能：通过id与memberId查询记录

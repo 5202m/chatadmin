@@ -32,7 +32,7 @@ var chatGroup = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatGroupController/datagrid.do',
+			url : basePath+'/chatGroupController/datagrid.do?groupType='+$("#chatGroupType").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -45,8 +45,11 @@ var chatGroup = {
 							return rowData.id;
 						}},
 						{title : '名称',field : 'name'},
+						{title : '房间类别',field : 'groupTypeName',formatter : function(value, rowData, rowIndex) {
+							return chatGroup.getDictNameByCode("#chatGroupType",rowData.groupType);
+						}},
 						{title : '状态',field : 'statusName',formatter : function(value, rowData, rowIndex) {
-							return chatGroup.getStatusNameByCode(rowData.status);
+							return chatGroup.getDictNameByCode("#chatGroupStatus",rowData.status);
 						}},
 						{title : '聊天规则',field : 'chatRuleName',formatter : function(value, rowData, rowIndex) {
 							var chatRules=rowData.chatRules,result=[];
@@ -58,12 +61,11 @@ var chatGroup = {
 							}
 							return result.join("，");
 						}},
-						{title : '聊天室路径',field : 'chatUrl'},
 						{title : '序号',field : 'sequence',sortable : true},
-						{title : '创建人',field : 'createUser'},
+						/*{title : '创建人',field : 'createUser'},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
-						}},
+						}},*/
 						{title : '修改人',field : 'updateUser'},
 						{title : '修改时间',field : 'updateDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
@@ -74,10 +76,10 @@ var chatGroup = {
 		});
 	},
 	/**
-	 * 提取规则名称
+	 * 提取名称
 	 */
-	getStatusNameByCode:function(code){
-		return $("#chatGroupStatus").find("option[value='"+code+"']").text();
+	getDictNameByCode:function(id,code){
+		return $(id).find("option[value='"+code+"']").text();
 	},
 	setEvent:function(){
 		// 列表查询

@@ -1,6 +1,6 @@
 package com.gwghk.mis.model;
 
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -24,17 +24,6 @@ public class ChatUserGroup {
 	private String userId;
 		
 	/**
-	 * 在线状态(0为下线，1为在线）
-	 */
-	@Indexed
-	private Integer onlineStatus;
-	
-	/**
-	 * 上线时间
-	 */
-	private Date onlineDate;
-	
-	/**
 	 * 交易账户
 	 */
 	@Indexed
@@ -51,27 +40,6 @@ public class ChatUserGroup {
 	@Indexed
 	private String nickname;
 	
-	/**
-     * 禁言-开始时间
-     */
-	@Indexed
-	private Date  gagStartDate;
-	
-	/**
-     * 禁言-结束时间
-     */
-	@Indexed
-	private Date  gagEndDate;
-	
-	/**
-     * 禁言提示语
-     */
-	private String gagTips; 
-	
-	/**
-	 * 发言条数
-	 */
-	private Integer sendMsgCount;
 	
 	/**
 	 * 是否价值用户
@@ -84,11 +52,6 @@ public class ChatUserGroup {
 	private Boolean vipUser;
 	
 	/**
-	 * 禁言备注
-	 */
-	private String gagRemark;
-	
-	/**
 	 * 价值用户备注
 	 */
 	private String vipUserRemark;
@@ -97,6 +60,11 @@ public class ChatUserGroup {
 	 * 价值用户备注
 	 */
 	private String valueUserRemark;
+	
+	/**
+	 * 房间组
+	 */
+	private List<ChatRoom> rooms;
 
 	public String getId() {
 		return id;
@@ -104,22 +72,6 @@ public class ChatUserGroup {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Integer getOnlineStatus() {
-		return onlineStatus;
-	}
-
-	public void setOnlineStatus(Integer onlineStatus) {
-		this.onlineStatus = onlineStatus;
-	}
-
-	public Date getOnlineDate() {
-		return onlineDate;
-	}
-
-	public void setOnlineDate(Date onlineDate) {
-		this.onlineDate = onlineDate;
 	}
 
 	public String getAccountNo() {
@@ -146,44 +98,12 @@ public class ChatUserGroup {
 		this.nickname = nickname;
 	}
 
-	public Date getGagStartDate() {
-		return gagStartDate;
-	}
-
-	public void setGagStartDate(Date gagStartDate) {
-		this.gagStartDate = gagStartDate;
-	}
-
-	public Date getGagEndDate() {
-		return gagEndDate;
-	}
-
-	public void setGagEndDate(Date gagEndDate) {
-		this.gagEndDate = gagEndDate;
-	}
-
-	public String getGagTips() {
-		return gagTips;
-	}
-
-	public void setGagTips(String gagTips) {
-		this.gagTips = gagTips;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public Integer getSendMsgCount() {
-		return sendMsgCount;
-	}
-
-	public void setSendMsgCount(Integer sendMsgCount) {
-		this.sendMsgCount = sendMsgCount;
 	}
 
 	public Boolean getValueUser() {
@@ -202,14 +122,6 @@ public class ChatUserGroup {
 		this.vipUser = vipUser;
 	}
 
-	public String getGagRemark() {
-		return gagRemark;
-	}
-
-	public void setGagRemark(String gagRemark) {
-		this.gagRemark = gagRemark;
-	}
-
 	public String getVipUserRemark() {
 		return vipUserRemark;
 	}
@@ -225,4 +137,14 @@ public class ChatUserGroup {
 	public void setValueUserRemark(String valueUserRemark) {
 		this.valueUserRemark = valueUserRemark;
 	}
+
+	public List<ChatRoom> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<ChatRoom> rooms) {
+		this.rooms = rooms;
+	}
+	
+	
 }

@@ -30,6 +30,7 @@ import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
+import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatMessgeService;
@@ -39,6 +40,7 @@ import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.gwghk.mis.util.StringUtil;
 import com.sdk.orm.DataRowSet;
 import com.sdk.orm.IRow;
 import com.sdk.poi.POIExcelBuilder;
@@ -57,6 +59,30 @@ public class ChatMessageController extends BaseController{
 	private ChatMessgeService chatMessageService;
 	@Autowired
 	private ChatGroupService chatGroupService;
+	
+	/**
+	 * 格式成树形列表
+	 * @param dictList
+	 * @return
+	 */
+	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
+    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
+    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
+    	ChatGroup tbean=null;
+    	for(BoDict dict:dictList){
+    		tbean=new ChatGroup();
+    		tbean.setId(dict.getCode());
+    		tbean.setName(dict.getNameCN());
+    		nodeList.add(tbean);
+    		for(ChatGroup group:groupList){
+    			if(group.getGroupType().equals(dict.getCode())){
+    				group.setName(StringUtil.fillChar('　', 1)+group.getName());
+    				nodeList.add(group);
+    			}
+    		}
+    	}
+    	return nodeList;
+	}
 	/**
 	 * 功能：聊天室信息管理-首页
 	 */
@@ -65,7 +91,7 @@ public class ChatMessageController extends BaseController{
 		DictConstant dict=DictConstant.getInstance();
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
-    	map.put("chatGroupList",chatGroupService.getChatGroupList("id","name"));
+    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
 		logger.debug(">>start into chatMessageController.index() and url is /chatMessageController/index.do");
 		return "chat/messageList";
 	}

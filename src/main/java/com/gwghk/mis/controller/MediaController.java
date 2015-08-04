@@ -32,13 +32,13 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.Lang;
+import com.gwghk.mis.model.Article;
+import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.Category;
-import com.gwghk.mis.model.Media;
-import com.gwghk.mis.model.MediaDetail;
+import com.gwghk.mis.service.ArticleService;
 import com.gwghk.mis.service.CategoryService;
-import com.gwghk.mis.service.MediaService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
@@ -58,7 +58,7 @@ public class MediaController extends BaseController{
 	private static final Logger logger = LoggerFactory.getLogger(MediaController.class);
 	
 	@Autowired
-	private MediaService mediaService;
+	private ArticleService articleService;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -84,17 +84,17 @@ public class MediaController extends BaseController{
 	 */
 	@RequestMapping(value = "/mediaController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,Media media){
+	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,Article media){
 		 String publishStartDateStr=request.getParameter("publishStartDateStr");
     	 String publishEndDateStr=request.getParameter("publishEndDateStr");
     	 media.setPublishStartDate(DateUtil.parseDateFormat(publishStartDateStr));
     	 media.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
-    	 List<MediaDetail> detailList=new ArrayList<MediaDetail>();
-    	 MediaDetail detail=new MediaDetail();
+    	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
+    	 ArticleDetail detail=new ArticleDetail();
     	 detail.setTitle(request.getParameter("title"));
     	 detailList.add(detail);
     	 media.setDetailList(detailList);
-		 Page<Media> page = mediaService.getMediaPage(this.createDetachedCriteria(dataGrid, media));
+		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, media),new Object[]{"bulletin","bulletin_system","studio_plan"});
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());
@@ -133,7 +133,7 @@ public class MediaController extends BaseController{
     @ActionVerification(key="view")
     public String view(@PathVariable String mediaId , ModelMap map) throws Exception {
     	setCommonShowModel(map);
-    	Media media=mediaService.getMediaById(mediaId);
+    	Article media=articleService.getArticleById(mediaId);
     	setCategoryTxt(media.getCategoryId(),map);
     	//平台类型转成中文显示
     	List<BoDict> subList=ResourceUtil.getSubDictListByParentCode(DictConstant.getInstance().DICT_PLATFORM);
@@ -180,7 +180,7 @@ public class MediaController extends BaseController{
     @RequestMapping(value="/mediaController/{mediaId}/edit", method = RequestMethod.GET)
     public String edit(@PathVariable String mediaId, ModelMap map) throws Exception {
     	setCommonShowModel(map);
-    	Media media=mediaService.getMediaById(mediaId);
+    	Article media=articleService.getArticleById(mediaId);
     	map.addAttribute("media",media);
 		return "media/mediaEdit";
     }
@@ -189,7 +189,7 @@ public class MediaController extends BaseController{
      * 检查输入参数
      * @return
      */
-    public AjaxJson checkSubmitParams(Media media){
+    public AjaxJson checkSubmitParams(Article media){
     	AjaxJson jx=new AjaxJson();
     	if(StringUtils.isBlank(media.getCategoryId())||StringUtils.isBlank(media.getPlatform())||media.getPublishStartDate()==null
     			||media.getPublishEndDate()==null){
@@ -205,7 +205,7 @@ public class MediaController extends BaseController{
     @RequestMapping(value="/mediaController/create",method=RequestMethod.POST)
    	@ResponseBody
     @ActionVerification(key="add")
-    public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Media media){
+    public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Article media){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(media,request,false);
     	AjaxJson j = new AjaxJson();
@@ -215,7 +215,7 @@ public class MediaController extends BaseController{
     		if(!j.isSuccess()){
     			return j;
     		}
-        	ApiResult result =mediaService.addMedia(media);
+        	ApiResult result =articleService.addArticle(media);
         	if(result.isOk()){
         		j.setSuccess(true);
         		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增媒体："+media.getId();
@@ -243,14 +243,14 @@ public class MediaController extends BaseController{
      * @param request
      * @param media
      */
-    private void setCommonSave(HttpServletRequest request,Media media){
+    private void setCommonSave(HttpServletRequest request,Article media){
     	String detaiInfo= request.getParameter("detaiInfo");
     	String publishStartDateStr=request.getParameter("publishStartDateStr");
     	String publishEndDateStr=request.getParameter("publishEndDateStr");
     	media.setPublishStartDate(DateUtil.parseDateFormat(publishStartDateStr));
     	media.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
     	System.out.println("test:"+JsonUtil.formatJsonStr(detaiInfo));
-        List<MediaDetail> detailList=JSON.parseArray(JsonUtil.formatJsonStr(detaiInfo), MediaDetail.class);
+        List<ArticleDetail> detailList=JSON.parseArray(JsonUtil.formatJsonStr(detaiInfo), ArticleDetail.class);
         media.setDetailList(detailList);
         String[] platformArr=request.getParameterValues("platformStr");
         if(platformArr!=null){
@@ -263,7 +263,7 @@ public class MediaController extends BaseController{
     @RequestMapping(value="/mediaController/update",method=RequestMethod.POST)
    	@ResponseBody
     @ActionVerification(key="edit")
-    public AjaxJson update(HttpServletRequest request,HttpServletResponse response,Media media){
+    public AjaxJson update(HttpServletRequest request,HttpServletResponse response,Article media){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(media,request,true);
     	AjaxJson j = new AjaxJson();
@@ -273,7 +273,7 @@ public class MediaController extends BaseController{
     		if(!j.isSuccess()){
     			return j;
     		}
-	    	ApiResult result =mediaService.updateMedia(media);
+	    	ApiResult result =articleService.updateArticle(media);
 	    	if(result.isOk()){
 	    		j.setSuccess(true);
 	    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改媒体："+media.getId();
@@ -309,7 +309,7 @@ public class MediaController extends BaseController{
     	if(StringUtils.isBlank(delIds)){
     		delIds=request.getParameter("id");
     	}
-    	ApiResult result =mediaService.deleteMedia(delIds.contains(",")?delIds.split(","):new String[]{delIds});
+    	ApiResult result =articleService.deleteArticle(delIds.contains(",")?delIds.split(","):new String[]{delIds});
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除媒体成功";

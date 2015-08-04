@@ -190,7 +190,7 @@ public class MenuController extends BaseController{
     	AjaxJson j = new AjaxJson();
     	menu.setUpdateUser(userParam.getUserNo());
     	menu.setUpdateIp(IPUtil.getClientIP(request));
-    	ApiResult result = menuService.saveMenu(menu, true);
+    	ApiResult result = menuService.moveMenu(menu.getParentMenuId(),menu.getMenuId());
     	if(result != null && result.isOk()){
 	    	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功移动菜单";
 	    	logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE

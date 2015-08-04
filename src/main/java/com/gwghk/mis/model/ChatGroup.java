@@ -18,6 +18,11 @@ public class ChatGroup extends BaseModel{
 	 */
 	@Id
 	private String id;
+	
+	/**
+	 * 组类别
+	 */
+	private String groupType;
 		
 	/**
 	 * 组别名
@@ -141,5 +146,13 @@ public class ChatGroup extends BaseModel{
 
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
 	}
 }

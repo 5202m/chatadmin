@@ -9,7 +9,7 @@ var adminChat = {
 	chatUrl:'',
 	chatUrlParam:'',
 	chatIndex:{//聊天室组默认访问路径
-	   wechat:'chat',
+	   wechat:'wechat',
 	   studio:'studio'
 	},
 	intervalId:null,
@@ -75,12 +75,11 @@ var adminChat = {
 					if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
 						urlPath=adminChat.chatIndex.studio+"/admin";
 					}
-					if(groupId.indexOf("wechat")!=-1){
+					if(groupId.indexOf(adminChat.chatIndex.wechat)!=-1){
 						urlPath=adminChat.chatIndex.wechat;
 					}
 					var iframeSrc = adminChat.chatUrl+"/"+urlPath+"?"+adminChat.chatUrlParam+'&groupId='+ groupId+"&token="+data.obj
 								  + '&timestamp='+new Date();
-					alert(iframeSrc);
 					window.open(iframeSrc,groupName,"location=no");
 					//$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
 				}
