@@ -52,7 +52,7 @@ var chatMessage = {
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageUserType",rowData.userType);
 						}},
-			            {title : '所属组',field : 'groupName',formatter : function(value, rowData, rowIndex) {
+			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
 						}},
 						{title : '审核状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {

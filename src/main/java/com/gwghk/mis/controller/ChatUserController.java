@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -129,9 +130,9 @@ public class ChatUserController extends BaseController{
     @RequestMapping(value="/chatUserController/toUserGag", method = RequestMethod.GET)
     @ActionVerification(key="setGagTime")
     public String toUserGag(HttpServletRequest request,ModelMap map) throws Exception {
-    	 String memberId = request.getParameter("memberId");
-    	 String groupId = request.getParameter("groupId");
-    	 String groupType = request.getParameter("groupType");
+    	 String memberId = request.getParameter("memberId"),
+    			groupId = request.getParameter("groupId"),
+    			groupType = request.getParameter("groupType");
     	 Member member = memberService.getByMemberId(memberId);
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
  		 if(userGroupList != null && userGroupList.size() > 0){
@@ -196,15 +197,15 @@ public class ChatUserController extends BaseController{
     @RequestMapping(value="/chatUserController/toUserSetting", method = RequestMethod.GET)
     @ActionVerification(key="userSetting")
     public String toUserSetting(HttpServletRequest request,ModelMap map) throws Exception {
-    	 String memberId = request.getParameter("memberId");
-    	 String groupId = request.getParameter("groupId");
-    	 String valueUser=request.getParameter("valueUser"),
+    	 String memberId = request.getParameter("memberId"),
+    			groupType = request.getParameter("groupType"),
+    			valueUser=request.getParameter("valueUser"),
     			vipUser=request.getParameter("vipUser"),
     			type=request.getParameter("type"),
     	        valueUserRemark=request.getParameter("valueUserRemark"),
     	        vipUserRemark=request.getParameter("vipUserRemark");
  		 map.put("memberId", memberId);
-    	 map.put("groupId", groupId);
+    	 map.put("groupType", groupType);
     	 map.put("valueUser", valueUser);
     	 map.put("vipUser", vipUser);
     	 map.put("type", type);
@@ -222,11 +223,11 @@ public class ChatUserController extends BaseController{
     public AjaxJson userSetting(HttpServletRequest request){
 		AjaxJson j = new AjaxJson();
 		String memberId = request.getParameter("memberId"),
-				groupId = request.getParameter("groupId"),
+				groupType = request.getParameter("groupType"),
 				type=request.getParameter("type"),
 				value=request.getParameter("value"),
 				remark=request.getParameter("remark");
-		ApiResult apiResult = memberService.saveUserSetting(memberId, groupId, type,Boolean.valueOf(value),remark);
+		ApiResult apiResult = memberService.saveUserSetting(memberId, groupType, type,Boolean.valueOf(value),remark);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户成功";

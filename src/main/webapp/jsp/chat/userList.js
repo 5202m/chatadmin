@@ -10,6 +10,30 @@ var chatUser = {
 		this.setEvent();
 	},
 	/**
+	 * 格式成两行
+	 * @param val
+	 * @param hasBorder
+	 * @returns {String}
+	 */
+	formatTwoRow:function(val,hasBorder,addDom){
+		return '<span style="display:block;width:100%; margin:5px auto;padding-bottom:5px;'+(hasBorder?'border-bottom: 1px solid #D0D0D0;':'')+'">'+val+(addDom||'')+'</span>';
+	},
+	/**
+	 * 是否符合查询条件
+	 * @param rooms
+	 * @returns {Boolean}
+	 */
+	isSearchField:function(room){
+	   var isTrue=this.isGroupTypeSearch();
+	   if(isTrue){
+		   return isTrue;
+	   }
+	   return $("#chatUserGroupId").val()==room.id;
+	},
+	isGroupTypeSearch:function(){
+	  return $("#chatUserGroupId").val().indexOf(",")!=-1;
+	},
+	/**
 	 * 功能：dataGrid初始化
 	 */
 	initGrid : function(){
@@ -24,10 +48,10 @@ var chatUser = {
 			            {title : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
 			            	$("#chatUser_datagrid_rowOperation a").each(function(){
-								$(this).attr("id",rowData.memberId);
+								$(this).attr("memberId",rowData.memberId);
+								$(this).attr("mobilePhone",rowData.mobilePhone);
 								var ug=rowData.loginPlatform.chatUserGroup[0];
 								$(this).attr("groupType",ug.id);
-								$(this).attr("groupId",ug.rooms[0].id);
 								$(this).attr("valueUser",ug.valueUser);
 								$(this).attr("vipUser",ug.vipUser);
 								$(this).attr("valueUserRemark",ug.valueUserRemark||'');
@@ -43,24 +67,6 @@ var chatUser = {
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPlatform.chatUserGroup[0].nickname+"【"+rowData.loginPlatform.chatUserGroup[0].userId+"】";
 						}},
-			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
-							return chatUser.getComboxNameByCode("#chatUserGroupId",rowData.loginPlatform.chatUserGroup[0].rooms[0].id);
-						}},
-						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
-							return chatUser.getComboxNameByCode("#chatUserOnlineStatus",rowData.loginPlatform.chatUserGroup[0].rooms[0].onlineStatus);
-						}},
-						{title : '上线时间',field : 'loginPlatform.chatUserGroup.onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var date=rowData.loginPlatform.chatUserGroup[0].rooms[0].onlineDate;
-							return  date? timeObjectUtil.formatterDateTime(date) : '';
-						}},
-						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup.gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var row=rowData.loginPlatform.chatUserGroup[0].rooms[0];
-							return  (row.gagStartDate)? timeObjectUtil.formatterDateTime(row.gagStartDate): '';
-						}},
-						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup.gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var row=rowData.loginPlatform.chatUserGroup[0].rooms[0];
-							return  (row.gagEndDate)?timeObjectUtil.formatterDateTime(row.gagEndDate)  : '';
-						}},
 						{title : '价值用户',field : 'loginPlatform.chatUserGroup.valueUser',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return row.valueUser?'是' : '否';
@@ -68,6 +74,58 @@ var chatUser = {
 						{title : 'VIP用户',field : 'loginPlatform.chatUserGroup.vipUser',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return  row.vipUser?'是' : '否';
+						}},
+			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
+			            	var groupRow=rowData.loginPlatform.chatUserGroup[0],rooms=groupRow.rooms,tds="",sDom='',name='';
+			            	for(var i=0;i<rooms.length;i++){
+			            		name=$.trim(chatUser.getComboxNameByCode("#chatUserGroupId",rooms[i].id));
+					            sDom='<span class="ope-save" style="cursor:pointer;" onclick="chatUser.setUserGag(this)" mobilePhone="'+rowData.mobilePhone+'" groupName="'+name+'" memberId="'+rowData.memberId+'" groupType="'+groupRow.id+'" groupId="'+rooms[i].id+'">禁言</span>';
+					            if(!chatUser.isSearchField(rooms[i])){
+					            	continue;
+					            }
+					            tds+=chatUser.formatTwoRow(name,chatUser.isGroupTypeSearch() && i<rooms.length-1,sDom);
+			            	}
+							return tds;
+						}},
+						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+			            	for(var i=0;i<rooms.length;i++){
+			            		if(!chatUser.isSearchField(rooms[i])){
+						          continue;
+						        }
+			            		tds+=chatUser.formatTwoRow(chatUser.getComboxNameByCode("#chatUserOnlineStatus",rooms[i].onlineStatus),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            	}
+							return tds;
+						}},
+						{title : '上线时间',field : 'loginPlatform.chatUserGroup.onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+			            	for(var i=0;i<rooms.length;i++){
+			            		if(!chatUser.isSearchField(rooms[i])){
+							       continue;
+							    }
+			            		tds+=chatUser.formatTwoRow((rooms[i].onlineDate? timeObjectUtil.formatterDateTime(rooms[i].onlineDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            	}
+							return tds;
+						}},
+						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup.gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+			            	for(var i=0;i<rooms.length;i++){
+			            		if(!chatUser.isSearchField(rooms[i])){
+								  continue;
+								}
+			            		tds+=chatUser.formatTwoRow((rooms[i].gagStartDate? timeObjectUtil.formatterDateTime(rooms[i].gagStartDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            	}
+							return tds;
+						}},
+						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup.gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+			            	for(var i=0;i<rooms.length;i++){
+			            		if(!chatUser.isSearchField(rooms[i])){
+								   continue;
+								}
+			            		tds+=chatUser.formatTwoRow((rooms[i].gagEndDate? timeObjectUtil.formatterDateTime(rooms[i].gagEndDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            	}
+							return tds;
 						}}
 						
 			]],
@@ -115,8 +173,8 @@ var chatUser = {
 	 */
 	userSetting:function(_this){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupType="+$(_this).attr("groupType")+"&groupId="
-				+$(_this).attr("groupId")+"&memberId="+$(_this).attr("id")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser")
+		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupType="+$(_this).attr("groupType")
+				+"&memberId="+$(_this).attr("memberId")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser")
 				+"&valueUserRemark="+$(_this).attr("valueUserRemark")+"&vipUserRemark="+$(_this).attr("vipUserRemark"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/userSetting.do');
 		goldOfficeUtils.openEditorDialog({
@@ -150,10 +208,10 @@ var chatUser = {
 	 */
 	setUserGag : function(obj){
 		$("#chatUser_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+$(obj).attr("id")+"&groupId="+$(obj).attr("groupId")+"&groupType="+$(obj).attr("groupType"));
+		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+trimStrVal($(obj).attr("memberId"))+"&groupId="+trimStrVal($(obj).attr("groupId"))+"&groupType="+trimStrVal($(obj).attr("groupType")));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
 		goldOfficeUtils.openEditorDialog({
-			title : '设置禁言',
+			title : '设置禁言【用户：'+$(obj).attr("mobilePhone")+'；房间：'+($(obj).attr("groupName")||'所有')+'】',
 			width : 630,
 			height : 160,
 			href : url,

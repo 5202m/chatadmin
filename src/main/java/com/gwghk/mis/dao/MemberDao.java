@@ -3,6 +3,8 @@ package com.gwghk.mis.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -12,6 +14,8 @@ import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.enums.IdSeq;
+import com.gwghk.mis.model.ChatRoom;
+import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.util.DateUtil;
 import com.mongodb.WriteResult;
@@ -99,7 +103,7 @@ public class MemberDao extends MongoDBBaseDao{
      * @param isTrue
      * @return
      */
-	public boolean updateUserSetting(String memberId,String groupId,String type,Boolean isTrue,String remark){
+	public boolean updateUserSetting(String memberId,String groupType,String type,Boolean isTrue,String remark){
 		Update update=new Update();
 		if("1".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.valueUser", isTrue);
@@ -111,7 +115,7 @@ public class MemberDao extends MongoDBBaseDao{
 		}else{
 			return false;
 		}
-		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.id").is(groupId))), update, Member.class);
+		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.id").is(groupType))), update, Member.class);
 		return wr!=null && wr.getN()>0;
 	}
 	
@@ -127,13 +131,27 @@ public class MemberDao extends MongoDBBaseDao{
 	 * @return
 	 */
 	public boolean setUserGag(String groupType,String memberId,String groupId,Date gagStartDate,Date gagEndDate,String tip,String remark){
-		Update update=new Update();
-		update.set("loginPlatform.chatUserGroup.rooms.$.gagStartDate", gagStartDate);
-		update.set("loginPlatform.chatUserGroup.rooms.$.gagEndDate", gagEndDate);
-		update.set("loginPlatform.chatUserGroup.rooms.$.gagTips", tip);
-		update.set("loginPlatform.chatUserGroup.rooms.$.gagRemark", remark);
-		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.groupType").is(groupType),Criteria.where("loginPlatform.chatUserGroup.rooms.id").is(groupId))), update, Member.class);
-		return wr!=null && wr.getN()>0;
+		 Member member = this.getByMemberId(memberId);
+    	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
+ 		 if(userGroupList != null && userGroupList.size() > 0){
+ 			for(ChatUserGroup cg : userGroupList){
+ 				if(cg.getId().equals(groupType)){
+ 					List<ChatRoom> roomList=cg.getRooms();
+ 					for(ChatRoom room:roomList){
+ 						if(room.getId().equals(groupId)){
+ 							room.setGagStartDate(gagStartDate);
+							room.setGagEndDate(gagEndDate);
+							room.setGagTips(tip);
+		 			    	room.setGagRemark(remark);
+		 			    	break;
+ 						}
+ 					}
+ 					break;
+ 				}
+ 			}
+ 		 }
+ 		 this.update(member);
+ 		 return true;
 	}
 	
 	/**

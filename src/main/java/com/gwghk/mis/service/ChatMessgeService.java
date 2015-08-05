@@ -99,7 +99,11 @@ public class ChatMessgeService{
 				criteria.and("userType").is(model.getUserType());
 			}
 			if(StringUtils.isNotBlank(model.getGroupId())){
-				criteria.and("groupId").is(model.getGroupId());
+				if(model.getGroupId().indexOf(",")!=-1){
+					criteria.and("groupType").is(model.getGroupId().replace(",", ""));
+				}else{
+					criteria.and("groupId").is(model.getGroupId());
+				}
 			}
 			if(model.getContent()!=null){
 				if(StringUtils.isNotBlank(model.getContent().getMsgType())){

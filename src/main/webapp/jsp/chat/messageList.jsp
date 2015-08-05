@@ -28,11 +28,11 @@
           </td>
         </tr>
          <tr>
-          <th width="10%">所属组别</th>
+          <th width="10%">所属房间</th>
           <td width="40%">
 	          <select name="groupId" id="chatMessageGroupId" style="width:160px;">
 	              <c:forEach var="row" items="${chatGroupList}">
-	                 <option value="${row.id}">${row.name}</option>
+	                 <option value="${row.id}<c:if test="${empty row.groupType}">,</c:if>">${row.name}</option>
 	              </c:forEach>
 	          </select>
           </td>

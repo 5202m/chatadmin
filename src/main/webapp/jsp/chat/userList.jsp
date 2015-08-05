@@ -16,11 +16,11 @@
         <tr>
           <th width="10%">昵称</th>
           <td width="40%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
-          <th width="10%">所属组别</th>
+          <th width="10%">所属房间</th>
           <td width="40%">
 	          <select name="loginPlatform.chatUserGroup[0].id" id="chatUserGroupId" style="width:160px;">
 	              <c:forEach var="row" items="${chatGroupList}">
-	                 <option value="${row.id}<c:if test="${not empty row.groupType}">,${row.groupType}</c:if>">${row.name}</option>
+	                 <option value="${row.id}<c:if test="${empty row.groupType}">,</c:if>">${row.name}</option>
 	              </c:forEach>
 	          </select>
           </td>
@@ -63,7 +63,7 @@
   
   <!-- datagrid-操作按钮 -->
   <div id="chatUser_datagrid_rowOperation" style="display:none;">
-	  <a class="easyui-linkbutton setGagTime" data-options="plain:true,iconCls:'ope-save',disabled:false"  onclick="chatUser.setUserGag(this)">设置禁言</a>
+	  <!-- <a class="easyui-linkbutton setGagTime" data-options="plain:true,iconCls:'ope-save',disabled:false"  onclick="chatUser.setUserGag(this)">禁言</a> -->
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="1" onclick="chatUser.userSetting(this)">价值用户</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="2" onclick="chatUser.userSetting(this)">VIP用户</a>
   </div>

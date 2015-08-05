@@ -17,25 +17,27 @@ public class ChatMessage{
 	/**
 	 * 用户id
 	 */
-	protected String userId;
+	private String userId;
 	
 	/**
 	 * 用户昵称
 	 */
 	@Indexed
-	protected String nickname;
+	private String nickname;
 	
 	/**
 	 * 用户头像
 	 */
-	protected String avatar;
+	private String avatar;
 	
+	//房间大类组
+	private String groupType;
 	
 	/**
 	 * 区分系统用户还是会员，0表示会员，1表示系统用户
 	 */
 	@Indexed
-	protected Integer userType;
+	private Integer userType;
 	
 	/**
 	 * 组别Id
@@ -279,6 +281,14 @@ public class ChatMessage{
 
 	public void setValid(Integer valid) {
 		this.valid = valid;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
 	}
 	
 	

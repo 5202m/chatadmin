@@ -3,7 +3,7 @@
 <div style="padding:5px;overflow:hidden;width:300px;">
   <form id="userSettingForm" class="yxForm" method="post">
     <input type="hidden" name="memberId" value="${memberId}"/>
-    <input type="hidden" name="groupId" value="${groupId}"/>
+    <input type="hidden" name="groupType" value="${groupType}"/>
     <input type="hidden" name="type" value="${type}"/>
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
 	      <tbody>

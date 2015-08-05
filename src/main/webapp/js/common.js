@@ -573,6 +573,14 @@ function getValue4EasyUI(value, rowData, rowIndex, that){
 	return value;
 }
 
+/**
+ * 过滤空格
+ * @param val
+ */
+function trimStrVal(val){
+	return isBlank(val)?'':$.trim(val);
+}
+
 //语言类型
 var LOCALE_ZH_TW = "zh_TW";
 var LOCALE_ZH_CN = "zh_CN";

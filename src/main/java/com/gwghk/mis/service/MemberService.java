@@ -1,7 +1,9 @@
 package com.gwghk.mis.service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,7 +174,7 @@ public class MemberService{
 			}
 			if(StringUtils.isNotBlank(userGroup.getId())){
 				if(userGroup.getId().indexOf(",")!=-1){
-					criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId().split(",")[1]);
+					criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId().replace(",", ""));
 				}else{
 					criteria.and("loginPlatform.chatUserGroup.rooms.id").is(userGroup.getId());
 				}
@@ -198,6 +200,4 @@ public class MemberService{
 		}
 		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone");
 	}
-	
-	
 }
