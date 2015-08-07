@@ -65,6 +65,9 @@ var adminChat = {
 		if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
 			tokenGroupId=adminChat.chatIndex.studio;
 		}
+		if(groupId.indexOf(adminChat.chatIndex.wechat)!=-1){
+			tokenGroupId=adminChat.chatIndex.wechat;
+		}
 		goldOfficeUtils.ajax({
 			url : basePath +'/adminChatController/getToken.do?groupId='+tokenGroupId,
 			type : 'get',

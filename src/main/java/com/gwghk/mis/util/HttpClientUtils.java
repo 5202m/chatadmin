@@ -70,7 +70,9 @@ public class HttpClientUtils {
 		if(parameters != null){
 			for(String key : parameters.keySet() ){
 				String value = parameters.get(key);
-				postMethod.setParameter(key,value);
+				if(value!=null){
+					postMethod.setParameter(key,value);
+				}
 			}			
 		}
 		

@@ -84,10 +84,8 @@ public class TokenAccessController extends BaseController{
 	 */
     @RequestMapping(value="/tokenAccessController/edit", method = RequestMethod.GET)
     @ActionVerification(key="edit")
-    public String edit(HttpServletRequest request , ModelMap map) throws Exception {
-    	String tokenAccessId = request.getParameter("tokenAccessId");
-    	TokenAccess tokenAccess = tokenAccessService.getByTokenAccessId(tokenAccessId);
-    	map.addAttribute("tokenAccess",tokenAccess);
+    public String edit(HttpServletRequest request , ModelMap map,TokenAccess tokenAccess) throws Exception {
+    	map.addAttribute("tokenAccess",tokenAccessService.getById(tokenAccess.getTokenAccessId()));
 		return "tokenaccess/tokenaccessEdit";
     }
     
@@ -98,7 +96,8 @@ public class TokenAccessController extends BaseController{
    	@ResponseBody
     @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,TokenAccess tokenAccess){
-    	this.setBaseInfo(tokenAccess, request,false);
+    	tokenAccess.setCreateUser(userParam.getUserNo());
+    	tokenAccess.setCreateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();
     	ApiResult result = tokenAccessService.saveTokenAccess(tokenAccess,false);
     	if(result.isOk()){
@@ -127,7 +126,8 @@ public class TokenAccessController extends BaseController{
    	@ResponseBody
     @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,TokenAccess tokenAccess){
-    	this.setBaseInfo(tokenAccess, request,true);
+    	tokenAccess.setUpdateUser(userParam.getUserNo());
+    	tokenAccess.setUpdateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();
     	ApiResult result  = tokenAccessService.saveTokenAccess(tokenAccess, true);
     	if(result.isOk()){
@@ -158,7 +158,7 @@ public class TokenAccessController extends BaseController{
     public AjaxJson batchDel(HttpServletRequest request){
     	String delIds = request.getParameter("ids");
     	AjaxJson j = new AjaxJson();
-    	ApiResult result = tokenAccessService.deleteTokenAccess(delIds.contains(",")?delIds.split(","):new String[]{delIds});
+    	ApiResult result = tokenAccessService.deleteTokenAccess(delIds);
     	if(result.isOk()){
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除token成功";
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
@@ -185,7 +185,7 @@ public class TokenAccessController extends BaseController{
     public AjaxJson oneDel(HttpServletRequest request){
     	String delId = request.getParameter("id");
     	AjaxJson j = new AjaxJson();
-    	ApiResult result = tokenAccessService.deleteTokenAccess(new String[]{delId});
+    	ApiResult result = tokenAccessService.deleteTokenAccess(delId);
     	if(result.isOk()){
           	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除token成功";
           	logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL

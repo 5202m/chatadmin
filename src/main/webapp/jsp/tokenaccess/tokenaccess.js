@@ -15,8 +15,8 @@ var tokenaccess = {
 	initGrid : function(){
 		goldOfficeUtils.dataGrid({
 			gridId : tokenaccess.gridId,
-			idField : 'tokenaccessId',
-			sortName : 'tokenaccessId',
+			idField : 'tokenAccessId',
+			sortName : 'tokenAccessId',
 			sortOrder : 'desc',
 			singleSelect : false,
 			url : basePath+'/tokenAccessController/datagrid.do',

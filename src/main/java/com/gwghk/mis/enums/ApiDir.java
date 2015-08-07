@@ -6,7 +6,8 @@ package com.gwghk.mis.enums;
  * 2015年3月20日
  */
 public enum ApiDir{
-	app("app");
+	app("app"),
+	token("token");
 	private String value;
 
 	private ApiDir(String value) {

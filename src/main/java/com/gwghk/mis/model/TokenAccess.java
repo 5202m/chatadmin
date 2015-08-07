@@ -1,57 +1,109 @@
 package com.gwghk.mis.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * 摘要：token设置管理
  * @author Gavin.guo
  * @date   2015年5月11日
  */
-@Document
-public class TokenAccess extends BaseModel{
+public class TokenAccess{
 	
-	@Id
 	private String tokenAccessId;
 	
 	/**
 	 * token授权appId
 	 */
-	@Indexed
 	private String appId;
 	
 	/**
 	 * token授权appSecret
 	 */
-	@Indexed
 	private String appSecret;
 	
 	/**
 	 * 有效时间
 	 */
-	private Integer expires;
+	private String expires;
 	
 	/**
 	 * 平台
 	 */
-	@Indexed
 	private String platform;
 	
 	/**
      * 是否删除
      */
-	private Integer valid; 
+	private String valid; 
 	
 	/**
 	 * 启用状态
 	 */
-	private Integer status;
+	private String status;
 	
 	/**
 	 * 备注
 	 */
 	private String remark;
+	
+	private String createUser;
+
+	private String createIp;
+
+	private String createDate;
+
+	private String updateUser;
+
+	private String updateIp;
+
+	private String updateDate;
+
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getCreateIp() {
+		return createIp;
+	}
+
+	public void setCreateIp(String createIp) {
+		this.createIp = createIp;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateIp() {
+		return updateIp;
+	}
+
+	public void setUpdateIp(String updateIp) {
+		this.updateIp = updateIp;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
 
 	public String getTokenAccessId() {
 		return tokenAccessId;
@@ -77,19 +129,19 @@ public class TokenAccess extends BaseModel{
 		this.appSecret = appSecret;
 	}
 
-	public Integer getValid() {
+	public String getValid() {
 		return valid;
 	}
 
-	public void setValid(Integer valid) {
+	public void setValid(String valid) {
 		this.valid = valid;
 	}
 
-	public Integer getExpires() {
+	public String getExpires() {
 		return expires;
 	}
 
-	public void setExpires(Integer expires) {
+	public void setExpires(String expires) {
 		this.expires = expires;
 	}
 
@@ -109,11 +161,11 @@ public class TokenAccess extends BaseModel{
 		this.remark = remark;
 	}
 
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 }
