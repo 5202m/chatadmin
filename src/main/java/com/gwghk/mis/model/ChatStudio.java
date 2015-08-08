@@ -23,6 +23,11 @@ public class ChatStudio {
 	private String yyChannel;
 	
 	/**
+	 * 直播时间，保存格式{date:{begin:yyyy-MM-dd,end:yyyy-MM-dd},weekTime:[{week:0..6,time:[{begin:'HH:mm:ss',end:'HH:mm:ss'}]}]
+	 */
+	private String studioDate;
+	
+	/**
 	 * 小频道号
 	 */
 	private String minChannel;
@@ -58,5 +63,14 @@ public class ChatStudio {
 	public void setMinChannel(String minChannel) {
 		this.minChannel = minChannel;
 	}
+
+	public String getStudioDate() {
+		return studioDate;
+	}
+
+	public void setStudioDate(String studioDate) {
+		this.studioDate = studioDate;
+	}
+	
 	
 }
