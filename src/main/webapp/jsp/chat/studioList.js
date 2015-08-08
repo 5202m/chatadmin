@@ -124,8 +124,8 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=false');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 240,
-			width:450,
+			height : 400,
+			width:550,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理

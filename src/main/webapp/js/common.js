@@ -581,6 +581,17 @@ function trimStrVal(val){
 	return isBlank(val)?'':$.trim(val);
 }
 
+/**
+ * 对象数组排序
+ * @param key 对象的key值
+ * @param desc true 为降序，false升序
+ * @returns {Function}
+ */
+function arraySort(key,desc){
+    return function(a,b){
+        return desc? (a[key] < b[key]) : (a[key] > b[key]);
+    }
+}
 //语言类型
 var LOCALE_ZH_TW = "zh_TW";
 var LOCALE_ZH_CN = "zh_CN";

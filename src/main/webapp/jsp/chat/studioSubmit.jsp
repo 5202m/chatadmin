@@ -1,8 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/jsp/common/common.jsp"%>
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/dateTimeWeek.css" />
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/dateTimeWeek.js" charset="UTF-8"></script>
 <script type="text/javascript">
 	//初始化
 	$(function() {
+		/*  var dataTmp={date:{begin:'2002-11-23',end:'2004-12-21'},
+			     weekTime:[
+				             {week:1,time:{begin:'09:11:23',end:'13:11:14'}},
+		                     {week:1,time:{begin:'09:11:23',end:'13:11:14'}},
+		                     {week:2,time:{begin:'02:12:22',end:'13:11:14'}}
+	                      ]
+	   };
+		dataTmp.weekTime.sort(arraySort("week",false)); */
+		$("#studioTimeDiv").dateTimeWeek({data:null});
 		 getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",null,function(data){
 			var chatClientGroupIds=$("#chatClientGroupIds").attr("tId");
 			//设置内容规则的下拉框
@@ -64,6 +75,12 @@
 	          <th width="15%">小频道号</th>
 	         <td width="80%">
 	              <input type="text" name="chatStudio.minChannel" value="${chatStudio.minChannel}" style="width:250px;" />
+	         </td>
+	      </tr>
+	      <tr>
+	         <th width="15%">直播时间</th>
+	         <td width="80%">
+	            <div id="studioTimeDiv"></div>
 	         </td>
 	      </tr>
     </table>
