@@ -79,7 +79,6 @@ public class PmApiService{
          try {
 			String str=HttpClientUtils.httpGetString(formatUrl(ApiDir.token,"getTokenAccessList"),paramMap);
 			if(StringUtils.isNotBlank(str)){
-				System.out.println("str:"+str);
 				return JSONArray.parseArray(str, TokenAccess.class);
 			}else{
 				return null;
