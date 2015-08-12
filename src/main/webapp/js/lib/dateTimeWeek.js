@@ -1,6 +1,8 @@
 /**
- * 通用table插件
+ * 通用dateTimeWeek插件
+ * 调用方式：	$("#studioTimeDiv").dateTimeWeek({data:dataTmp});
  * create by alan.wu
+ * date:2015/08/12
  */
 (function($) {  
   //插件的定义  
@@ -44,23 +46,29 @@
 			    	  //设置数据
 			     	  if(this.data){
 				  	   	 var dateTimeWeekTime=this.data.weekTime,dateTimeRow=null;
-				  	   	 $(dateTimeWeekDom.id+"_start_date").val(this.data.date.begin);
-				  	   	 $(dateTimeWeekDom.id+"_end_date").val(this.data.date.end);
+				  	   	 $(dateTimeWeekDom.id+"_start_date").val(this.data.beginDate||"");
+				  	   	 $(dateTimeWeekDom.id+"_end_date").val(this.data.endDate||"");
+				  	   	 if(!dateTimeWeekTime){
+				  	   		return; 
+				  	   	 }
 				  	   	 for(var i=0;i<dateTimeWeekTime.length;i++){
 				  	   		 if(i>0){
 				  	   			 $(dateTimeWeekDom.id+" .date-time-week-each div[n=1] a[t=add]").click();
 				  	   		 }
 				  	   		 var dateTimeIndex=i+1,dateTimeRow=dateTimeWeekTime[i];
+				  	   		 if(!dateTimeRow){
+				  	   			 continue;
+				  	   		 }
 				  	   		 $(dateTimeWeekDom.id+" .date-time-week-each div[n="+dateTimeIndex+"] input,"+dateTimeWeekDom.id+" .date-time-week-each div[n="+dateTimeIndex+"] select").each(function(){
 				  	   			 if("week"==$(this).attr("name")){
 				  	   			    $(this).find("option[value="+dateTimeRow.week+"]").attr("selected",true); 
 				  	   			 }
 				  	   			 if(this.id){
 				  	   				if(this.id.indexOf("start_time")!=-1){
-				  	   					$(this).val(dateTimeRow.time.begin);
+				  	   					$(this).val(dateTimeRow.beginTime);
 				  	   				}
 				  	   				if(this.id.indexOf("end_time")!=-1){
-				  	   					$(this).val(dateTimeRow.time.end);
+				  	   					$(this).val(dateTimeRow.endTime);
 				  	   				}
 				  	   			 }
 				  	   		 });
@@ -103,11 +111,39 @@
 				}
 			};
 	   return this.each(function() {    
+		   $.fn.dateTimeWeek.defaults.id=this.id;
 		   dateTimeWeekDom.init(this.id, opts.data); 
 	   }); 
   }; 
     $.fn.dateTimeWeek.defaults = {
-	    data: null //数据
+	    data: null, //数据
+	    id:''
 	}; 
+    //排序方法
+    $.fn.dateTimeWeek.arraySort=function(key,desc){
+        return function(a,b){
+            return desc? (a[key] < b[key]) : (a[key] > b[key]);
+        }
+    };
+    //提供外部方法,提取数据
+    $.fn.dateTimeWeek.getData=function(){
+    	var id="#"+$.fn.dateTimeWeek.defaults.id,
+    	bDate=$.trim($(id+"_start_date").val()),
+    	eDate=$.trim($(id+"_end_date").val()),
+    	weekTimeArr=$(id+" .date-time-week-each div[n]").map(function(){
+    		var result={week:$(this).find("select[name=week]").val(),beginTime:$(this).find("input[id*=start_time]").val(),endTime:$(this).find("input[id*=end_time]").val()};
+    		if($.trim(result.week)=="" && $.trim(result.beginTime)=="" && $.trim(result.endTime)==""){
+    			return null;
+    		}else{
+    			return result;
+    		}
+    	}).get();
+    	if(weekTimeArr && weekTimeArr.length==0){
+    		weekTimeArr=null;
+    	}else{
+    		weekTimeArr.sort($.fn.dateTimeWeek.arraySort("week",false));
+    	}
+    	return {beginDate:bDate,endDate:eDate,weekTime:weekTimeArr};
+    }; 
 })(jQuery);
 

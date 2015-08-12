@@ -5,15 +5,15 @@
 <script type="text/javascript">
 	//初始化
 	$(function() {
-		/*  var dataTmp={date:{begin:'2002-11-23',end:'2004-12-21'},
+		var dataTmp={beginDate:'',endDate:'' ,
 			     weekTime:[
-				             {week:1,time:{begin:'09:11:23',end:'13:11:14'}},
-		                     {week:1,time:{begin:'09:11:23',end:'13:11:14'}},
-		                     {week:2,time:{begin:'02:12:22',end:'13:11:14'}}
+				             {week:"1",beginTime:'',endTime:'13:11:14'},
+				             {week:"3",beginTime:'09:12:23',endTime:'13:11:14'},
+				             {week:"2",beginTime:'09:15:23',endTime:'13:11:14'}
 	                      ]
-	   };
-		dataTmp.weekTime.sort(arraySort("week",false)); */
-		$("#studioTimeDiv").dateTimeWeek({data:null});
+	   }; 
+		 $("#studioTimeDiv").dateTimeWeek({data:dataTmp});
+		 console.log("studioTimeDiv:"+JSON.stringify($("#studioTimeDiv").dateTimeWeek.getData()));
 		 getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",null,function(data){
 			var chatClientGroupIds=$("#chatClientGroupIds").attr("tId");
 			//设置内容规则的下拉框
