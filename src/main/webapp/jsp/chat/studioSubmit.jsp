@@ -5,15 +5,9 @@
 <script type="text/javascript">
 	//初始化
 	$(function() {
-		var dataTmp={beginDate:'',endDate:'' ,
-			     weekTime:[
-				             {week:"1",beginTime:'',endTime:'13:11:14'},
-				             {week:"3",beginTime:'09:12:23',endTime:'13:11:14'},
-				             {week:"2",beginTime:'09:15:23',endTime:'13:11:14'}
-	                      ]
-	   }; 
-		 $("#studioTimeDiv").dateTimeWeek({data:dataTmp});
-		 console.log("studioTimeDiv:"+JSON.stringify($("#studioTimeDiv").dateTimeWeek.getData()));
+		 var studioDateTmp='${chatStudio.studioDate}';
+		 $("#studioDateDiv").dateTimeWeek({data:(isValid(studioDateTmp)?JSON.parse(studioDateTmp):null)});
+		 console.log("studioDateDiv:"+JSON.stringify($("#studioDateDiv").dateTimeWeek.getData()));
 		 getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",null,function(data){
 			var chatClientGroupIds=$("#chatClientGroupIds").attr("tId");
 			//设置内容规则的下拉框
@@ -80,7 +74,8 @@
 	      <tr>
 	         <th width="15%">直播时间</th>
 	         <td width="80%">
-	            <div id="studioTimeDiv"></div>
+	            <input type="hidden" name="chatStudio.studioDate"  id="chatStudio_studioDate" style="width:250px;" />
+	            <div id="studioDateDiv"></div>
 	         </td>
 	      </tr>
     </table>

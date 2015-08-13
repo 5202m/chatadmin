@@ -130,6 +130,7 @@ var chatStudio = {
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
 				if($("#chatStudioSubmitForm").form('validate')){
+					$("#chatStudio_studioDate").val(JSON.stringify($("#studioDateDiv").dateTimeWeek.getData()));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatStudioSubmitForm',
@@ -159,12 +160,13 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=true');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 240,
-			width:450,
+			height : 400,
+			width:550,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatStudioSubmitForm").form('validate')){
+					$("#chatStudio_studioDate").val(JSON.stringify($("#studioDateDiv").dateTimeWeek.getData()));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatStudioSubmitForm',

@@ -143,7 +143,11 @@
     	}else{
     		weekTimeArr.sort($.fn.dateTimeWeek.arraySort("week",false));
     	}
-    	return {beginDate:bDate,endDate:eDate,weekTime:weekTimeArr};
+    	if(bDate=="" && eDate=="" && !weekTimeArr){
+    		return "";
+    	}else{
+    		return {beginDate:bDate,endDate:eDate,weekTime:weekTimeArr};
+    	}
     }; 
 })(jQuery);
 
