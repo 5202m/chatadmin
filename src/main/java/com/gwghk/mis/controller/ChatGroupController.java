@@ -73,8 +73,10 @@ public class ChatGroupController extends BaseController{
 	 */
 	private void setCommonShow(ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
+		map.put("groupLevelList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_LEVEL));
 		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
     	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
+    	
 	}
 	
 	/**

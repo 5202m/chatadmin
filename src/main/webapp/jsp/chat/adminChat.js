@@ -82,7 +82,6 @@ var adminChat = {
 						urlPath=adminChat.chatIndex.wechat;
 					}
 					var iframeSrc = adminChat.chatUrl+"/"+urlPath+"?"+adminChat.chatUrlParam+'&groupId='+ groupId+"&token="+data.obj
-								  + '&timestamp='+new Date();
 					window.open(iframeSrc,groupName,"location=no");
 					//$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");
 				}

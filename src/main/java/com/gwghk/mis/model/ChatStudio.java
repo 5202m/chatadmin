@@ -32,6 +32,11 @@ public class ChatStudio {
 	 */
 	private String minChannel;
 	
+	/**
+	 * 备注
+	 */
+	private String remark;
+	
 	public String getClientGroup() {
 		return clientGroup;
 	}
@@ -71,6 +76,13 @@ public class ChatStudio {
 	public void setStudioDate(String studioDate) {
 		this.studioDate = studioDate;
 	}
-	
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	
 }

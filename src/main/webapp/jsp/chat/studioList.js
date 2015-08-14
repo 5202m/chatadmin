@@ -124,7 +124,7 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=false');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 400,
+			height : 430,
 			width:550,
 			href : url,
 			iconCls : 'pag-add',
@@ -160,7 +160,7 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=true');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 400,
+			height : 430,
 			width:550,
 			href : url,
 			iconCls : 'pag-edit',

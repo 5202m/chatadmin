@@ -55,6 +55,11 @@ public class ChatGroup extends BaseModel{
 	private Integer sequence;
 	
 	/**
+	 * 房间等级
+	 */
+	private Integer level;
+	
+	/**
 	 * 直播实体
 	 */
 	private ChatStudio chatStudio;
@@ -155,4 +160,14 @@ public class ChatGroup extends BaseModel{
 	public void setGroupType(String groupType) {
 		this.groupType = groupType;
 	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+	
+	
 }

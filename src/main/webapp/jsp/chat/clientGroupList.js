@@ -39,7 +39,8 @@ var chatClientGroup = {
 						}},
 						{title : '人数',field : 'clientNum',sortable: true},
 						{title : '排序号',field : 'sequence',sortable: true},
-						{title : '备注',field : 'remark'}
+						{title : '说明',field : 'remark'},
+						{title : '权限说明',field : 'authorityDes'}
 						
 			]],
 			toolbar : '#chatClientGroup_datagrid_toolbar'
@@ -79,7 +80,7 @@ var chatClientGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatClientGroupController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 220,
+			height : 240,
 			width:450,
 			href : url,
 			iconCls : 'pag-add',
@@ -118,7 +119,7 @@ var chatClientGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatClientGroupController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 220,
+			height : 240,
 			width:450,
 			href : url,
 			iconCls : 'pag-edit',

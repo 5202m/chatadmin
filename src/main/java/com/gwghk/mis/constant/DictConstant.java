@@ -30,6 +30,9 @@ public class DictConstant {
 	
 	/**组类别*/
 	public  String DICT_CHAT_GROUP_TYPE = "chat_group_type";
+	
+	/**房间等级*/
+	public  String DICT_CHAT_GROUP_LEVEL = "chat_group_level";
 
 	public String getDICT_PLATFORM() {
 		return DICT_PLATFORM;
@@ -69,7 +72,16 @@ public class DictConstant {
 
 	public void setDICT_CHAT_GROUP_TYPE(String dICT_CHAT_GROUP_TYPE) {
 		DICT_CHAT_GROUP_TYPE = dICT_CHAT_GROUP_TYPE;
+	}
+
+	public String getDICT_CHAT_GROUP_LEVEL() {
+		return DICT_CHAT_GROUP_LEVEL;
+	}
+
+	public void setDICT_CHAT_GROUP_LEVEL(String dICT_CHAT_GROUP_LEVEL) {
+		DICT_CHAT_GROUP_LEVEL = dICT_CHAT_GROUP_LEVEL;
 	} 
+	
 	
 	
 }

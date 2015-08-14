@@ -78,6 +78,12 @@
 	            <div id="studioDateDiv"></div>
 	         </td>
 	      </tr>
+	      <tr>
+	         <th width="15%">备注</th>
+	         <td width="80%">
+	            <input type="text" name="chatStudio.remark" value="${chatStudio.remark}" style="width:100%;"/>
+	         </td>
+	      </tr>
     </table>
   </form>
 </div>

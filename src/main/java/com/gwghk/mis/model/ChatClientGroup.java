@@ -36,6 +36,11 @@ public class ChatClientGroup extends BaseModel {
 	 * 备注
 	 */
 	private String remark;
+	
+	/**
+	 * 权限描述
+	 */
+	private String authorityDes;
 
 	/**
 	 * 是否有效
@@ -97,6 +102,13 @@ public class ChatClientGroup extends BaseModel {
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
-	
+
+	public String getAuthorityDes() {
+		return authorityDes;
+	}
+
+	public void setAuthorityDes(String authorityDes) {
+		this.authorityDes = authorityDes;
+	}
 	
 }

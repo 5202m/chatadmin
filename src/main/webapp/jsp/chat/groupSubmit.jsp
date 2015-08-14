@@ -22,8 +22,12 @@
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
           <tr>
 	          <th width="15%">房间类别</th>
-	          <td width="80%" colspan="6">
+	          <td width="35%">
 	             <t:dictSelect  selectClass="width:170px;" id="chatGroupType" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	          </td>
+	          <th width="15%">房间等级</th>
+	          <td width="35%">
+	             <t:dictSelect  selectClass="width:170px;" id="chatGroupLevel" defaultVal="${chatGroup.level}" field="level" isEdit="true" isShowPleaseSelected="false"  dataList="${groupLevelList}"/>
 	          </td>
           </tr>
     	   <tr>

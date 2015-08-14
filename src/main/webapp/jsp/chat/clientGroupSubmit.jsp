@@ -33,9 +33,15 @@
 		     </td>
 	       </tr>
 	         <tr>
-	         <th width="15%">备注</th>
+	         <th width="15%">说明</th>
 	          <td width="85%">
-	             <input type="text" name="remark" value="${clientGroup.remark}" style="width:300px;" />
+	             <input type="text" name="remark" value="${clientGroup.remark}" style="width:100%;" />
+	          </td>
+	      </tr>
+	      <tr>
+	         <th width="15%">权限描述</th>
+	          <td width="85%">
+	             <input type="text" name="authorityDes" value="${clientGroup.authorityDes}" style="width:100%;" />
 	          </td>
 	      </tr>
     </table>
