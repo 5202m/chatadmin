@@ -97,7 +97,7 @@ var systemUser = {
 		var submitUrl =  formatUrl(basePath + '/userController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 280,
+			height : 470,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -130,7 +130,7 @@ var systemUser = {
 		var submitUrl =  formatUrl(basePath + '/userController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 280,
+			height : 470,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理

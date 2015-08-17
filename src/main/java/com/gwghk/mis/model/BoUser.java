@@ -82,11 +82,21 @@ public class BoUser extends BaseModel{
 
 	private BoRole role;
 
+	private String avatar;
 	/**
 	 * 用户名或用户号，用于权限类别中用户的查询
 	 */
     private String userNoOrName;
     
+    
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	public String getUserNoOrName() {
 		return userNoOrName;
 	}

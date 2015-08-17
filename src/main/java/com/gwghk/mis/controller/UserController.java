@@ -32,6 +32,7 @@ import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -90,6 +91,7 @@ public class UserController extends BaseController{
     @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
     	map.addAttribute("roleList",roleService.getRoleList());
+    	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     	return "system/user/userAdd";
     }
     
@@ -100,6 +102,7 @@ public class UserController extends BaseController{
     @ActionVerification(key="view")
     public String view(@PathVariable String userId , ModelMap map) throws Exception {
     	BoUser user=userService.getUserById(userId);
+    	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     	map.addAttribute("mngUser",user);
 		return "system/user/userView";
     }
@@ -113,6 +116,7 @@ public class UserController extends BaseController{
     	BoUser user=userService.getUserById(userId);
     	map.addAttribute("mngUser",user);
 		map.addAttribute("roleList",roleService.getRoleList());
+		map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
 		return "system/user/userEdit";
     }
     
