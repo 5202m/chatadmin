@@ -36,6 +36,8 @@ var mediaAdd = {
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic'});
 		}else if(val.indexOf("video")!=-1){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'video'});
+		}else if(val == "download"){
+			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'attach'});
 		}
 		$('#mediaFileId').uploadify('upload', '*');
 	},
@@ -50,7 +52,7 @@ var mediaAdd = {
 			'formData' : {'fileDir' : ''},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传'+suffix+'格式文件',
-			'fileTypeExts' : suffix,
+			'fileTypeExts' : "*",
 			'uploader' : basePath+'/uploadController/upload.do',
 			'onUploadSuccess' : function(file, data, response){
 				var d = eval("("+data+")");			//转换为json对象 
