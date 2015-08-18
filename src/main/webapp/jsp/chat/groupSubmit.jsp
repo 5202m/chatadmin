@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/jsp/common/common.jsp"%>
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/dateTimeWeek.css" />
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/dateTimeWeek.js" charset="UTF-8"></script>
 <script type="text/javascript">
 	//初始化
 	$(function() {
+		 var openDateTmp='${chatGroup.openDate}';
+		 $("#chatGroup_openDate_div").dateTimeWeek({data:(isValid(openDateTmp)?JSON.parse(openDateTmp):null)});
 		 getJson("<%=request.getContextPath()%>/chatGroupRuleController/getGroupRuleCombox.do",null,function(data){
 			var contentRuleIds=$("#chatSubmitRuleIds").attr("tId");
 			//设置内容规则的下拉框
@@ -42,7 +46,7 @@
 	      </tr>
 	      <tr>
 	          <th width="15%">聊天规则</th>
-	          <td width="80%" colspan="6">
+	          <td width="80%" colspan="3">
 	             <select class="easyui-combotree" style="width:465px;" name="chatRuleId"  id="chatSubmitRuleIds" tId="${chatGroup.chatRuleIds}" data-options="cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
@@ -52,9 +56,16 @@
 	             <t:dictSelect field="status" isEdit="true" isShowPleaseSelected="false" defaultVal="${chatGroup.status}" dataList="${statusList}"/>
 	          </td>
 	          <th width="15%">排序</th>
-	          <td width="80%" colspan="4">
+	          <td width="80%">
 	              <input name="sequence" value="${chatGroup.sequence}" class="easyui-validatebox" data-options="required:true"/>
 	          </td>
+	      </tr>
+	      <tr>
+	         <th>直播时间</th>
+	         <td colspan="3">
+	            <input type="text" name="openDate"  id="chatGroup_openDate"/>
+	            <div id="chatGroup_openDate_div"></div>
+	         </td>
 	      </tr>
     </table>
   </form>

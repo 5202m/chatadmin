@@ -73,6 +73,11 @@ public class ChatGroup extends BaseModel{
 	 */
 	private String chatUrl;
 	
+	/**
+	 * 开放时间，保存格式{date:{begin:yyyy-MM-dd,end:yyyy-MM-dd},weekTime:[{week:0..6,time:[{begin:'HH:mm:ss',end:'HH:mm:ss'}]}]
+	 */
+	private String openDate;
+	
 	public String getStatus() {
 		return status;
 	}
@@ -127,6 +132,14 @@ public class ChatGroup extends BaseModel{
 
 	public void setChatUrl(String chatUrl) {
 		this.chatUrl = chatUrl;
+	}
+	
+	public String getOpenDate() {
+		return openDate;
+	}
+
+	public void setOpenDate(String openDate) {
+		this.openDate = openDate;
 	}
 
 	public String getTokenAccessId() {

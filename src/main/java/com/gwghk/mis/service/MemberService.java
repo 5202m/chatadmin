@@ -179,6 +179,12 @@ public class MemberService{
 					criteria.and("loginPlatform.chatUserGroup.rooms.id").is(userGroup.getId());
 				}
 			}
+			if(userGroup.getValueUser() != null){
+				criteria.and("loginPlatform.chatUserGroup.valueUser").is(userGroup.getValueUser());
+			}
+			if(userGroup.getVipUser() != null){
+				criteria.and("loginPlatform.chatUserGroup.vipUser").is(userGroup.getVipUser());
+			}
 			List<ChatRoom> roomList=userGroup.getRooms();
 			if(roomList!=null){
 				ChatRoom room=roomList.get(0);

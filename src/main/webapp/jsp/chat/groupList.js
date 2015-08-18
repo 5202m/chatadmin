@@ -125,7 +125,7 @@ var chatGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 190,
+			height : 375,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -134,6 +134,7 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
+					$("#chatGroup_openDate").val(JSON.stringify($("#chatGroup_openDate_div").dateTimeWeek.getData()));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -163,7 +164,7 @@ var chatGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 190,
+			height : 375,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
@@ -172,6 +173,7 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
+					$("#chatGroup_openDate").val(JSON.stringify($("#chatGroup_openDate_div").dateTimeWeek.getData()));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',

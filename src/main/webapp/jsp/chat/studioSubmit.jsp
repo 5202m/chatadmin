@@ -7,7 +7,6 @@
 	$(function() {
 		 var studioDateTmp='${chatStudio.studioDate}';
 		 $("#studioDateDiv").dateTimeWeek({data:(isValid(studioDateTmp)?JSON.parse(studioDateTmp):null)});
-		 console.log("studioDateDiv:"+JSON.stringify($("#studioDateDiv").dateTimeWeek.getData()));
 		 getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",null,function(data){
 			var chatClientGroupIds=$("#chatClientGroupIds").attr("tId");
 			//设置内容规则的下拉框
