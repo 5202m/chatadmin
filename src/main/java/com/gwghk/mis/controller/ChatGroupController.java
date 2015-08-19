@@ -27,24 +27,23 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
-import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoDict;
+import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.Category;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
+import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.TokenAccessService;
+import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
-import com.gwghk.mis.util.StringUtil;
 
 /**
  * 聊天室组别管理
@@ -65,6 +64,12 @@ public class ChatGroupController extends BaseController{
 	
 	@Autowired
 	private ChatClientGroupService clientGroupService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 
 	/**
@@ -141,6 +146,8 @@ public class ChatGroupController extends BaseController{
     	setCommonShow(map);
     	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
+    	//分析师列表
+    	map.addAttribute("analystList", new ArrayList<BoUser>());
     	return "chat/groupSubmit";
     }
     
@@ -159,7 +166,22 @@ public class ChatGroupController extends BaseController{
     		}
     		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
+    	//分析师列表
+    	List<BoRole> loc_roles = roleService.getRoleListByChatGroup(chatGroup.getId());
+    	
+    	List<BoUser> loc_users = null;
+    	if(loc_roles == null || loc_roles.isEmpty()){
+    		loc_users = new ArrayList<BoUser>();
+    	}else{
+    		List<String> loc_roleIds = new ArrayList<String>();
+    		for (BoRole role : loc_roles) {
+    			loc_roleIds.add(role.getRoleId());
+			}
+    		loc_users = userService.getUserListByRoles(loc_roleIds);
+    	}
+    	
     	map.addAttribute("chatGroup",chatGroup);
+    	map.addAttribute("analystList", loc_users);
 		return "chat/groupSubmit";
     }
     

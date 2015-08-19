@@ -51,12 +51,27 @@
 	          </td>
 	      </tr>
 	      <tr>
-	          <th width="15%">状态</th>
-	          <td width="80%">
+	          <th>最大人数</th>
+	          <td>
+	             <input type="number" name="maxCount" value="${chatGroup.maxCount}" class="easyui-validatebox" data-options="required:true"/>
+	          </td>
+	          <th>默认分析师</th>
+	          <td>
+	          	<select name="defaultAnalyst" id="groupSubmit_analystList" style="width:170px;">
+	          	  <option value="">--请选择--</option>
+	              <c:forEach var="row" items="${analystList}">
+	                 <option value="${row.userId}" <c:if test="${row.userId == chatGroup.defaultAnalyst}">selected="selected"</c:if>>${row.userName}</option>
+	              </c:forEach>
+	            </select>
+	          </td>
+	      </tr>
+	      <tr>
+	          <th>状态</th>
+	          <td>
 	             <t:dictSelect field="status" isEdit="true" isShowPleaseSelected="false" defaultVal="${chatGroup.status}" dataList="${statusList}"/>
 	          </td>
-	          <th width="15%">排序</th>
-	          <td width="80%">
+	          <th>排序</th>
+	          <td>
 	              <input name="sequence" value="${chatGroup.sequence}" class="easyui-validatebox" data-options="required:true"/>
 	          </td>
 	      </tr>

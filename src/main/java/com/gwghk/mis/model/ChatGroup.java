@@ -78,6 +78,12 @@ public class ChatGroup extends BaseModel{
 	 */
 	private String openDate;
 	
+	/** 房间最大人数 */
+	private Integer maxCount;
+	
+	/** 默认分析师（用户Id） */
+	private String defaultAnalyst;
+	
 	public String getStatus() {
 		return status;
 	}
@@ -140,6 +146,22 @@ public class ChatGroup extends BaseModel{
 
 	public void setOpenDate(String openDate) {
 		this.openDate = openDate;
+	}
+	
+	public Integer getMaxCount() {
+		return maxCount;
+	}
+
+	public void setMaxCount(Integer maxCount) {
+		this.maxCount = maxCount;
+	}
+
+	public String getDefaultAnalyst() {
+		return defaultAnalyst;
+	}
+
+	public void setDefaultAnalyst(String defaultAnalyst) {
+		this.defaultAnalyst = defaultAnalyst;
 	}
 
 	public String getTokenAccessId() {

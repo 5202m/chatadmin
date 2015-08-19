@@ -165,4 +165,15 @@ public class RoleService{
 		return roleDao.getRoleList();
 	}
 	
+	/**
+	 * 提取聊天室关联的角色列表
+	 * @param groupId
+	 * @return
+	 */
+	public List<BoRole> getRoleListByChatGroup(String groupId) {
+		Query query=new Query();
+		Criteria criteria = Criteria.where("valid").is(1);
+		criteria.and("chatGroupList._id").is(groupId);
+		return roleDao.findList(BoRole.class, query);
+	}
 }

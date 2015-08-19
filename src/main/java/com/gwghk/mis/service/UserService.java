@@ -108,6 +108,22 @@ public class UserService{
 	}
 	
 	/**
+	 * 按照角色列表获取角色
+	 * @param roleIds
+	 * @return
+	 */
+	public List<BoUser> getUserListByRoles(List<String> roleIds){
+		Query query=new Query();
+		Criteria criteria = Criteria.where("valid").is(1);
+		if(roleIds != null && roleIds.isEmpty() == false){
+			criteria.and("role._id").in(roleIds);
+		}
+		query.addCriteria(criteria);
+		
+		return userDao.getUserList(query);
+	}
+	
+	/**
 	 * 新增用户信息
 	 * @param userParam
 	 * @param boolean isUpdate 是否更新，true为更新，false为插入

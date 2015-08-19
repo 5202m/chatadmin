@@ -61,6 +61,7 @@ var chatGroup = {
 							}
 							return result.join("，");
 						}},
+						{title : '最大人数',field : 'maxCount'},
 						{title : '序号',field : 'sequence',sortable : true},
 						/*{title : '创建人',field : 'createUser'},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
@@ -125,7 +126,7 @@ var chatGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 375,
+			height : 420,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -164,7 +165,7 @@ var chatGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 375,
+			height : 420,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
