@@ -171,9 +171,9 @@ public class RoleService{
 	 * @return
 	 */
 	public List<BoRole> getRoleListByChatGroup(String groupId) {
-		Query query=new Query();
 		Criteria criteria = Criteria.where("valid").is(1);
 		criteria.and("chatGroupList._id").is(groupId);
+		Query query=new Query(criteria);
 		return roleDao.findList(BoRole.class, query);
 	}
 }

@@ -17,6 +17,7 @@ import com.gwghk.mis.dao.ChatGroupDao;
 import com.gwghk.mis.dao.ChatGroupRuleDao;
 import com.gwghk.mis.dao.RoleDao;
 import com.gwghk.mis.enums.ResultCode;
+import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
@@ -40,6 +41,9 @@ public class ChatGroupService{
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 通过id找对应记录
@@ -62,12 +66,30 @@ public class ChatGroupService{
 		if(StringUtils.isBlank(chatGroupParam.getId())){
 			return result.setCode(ResultCode.Error103);
 		}
+		//默认分析师
+		BoUser analyst = null;
+		if(chatGroupParam.getDefaultAnalyst() != null){
+			String analystId = chatGroupParam.getDefaultAnalyst().getUserId();
+			if(StringUtils.isNotBlank(analystId)){
+				BoUser analystTmp = userService.getUserById(analystId);
+				if(analystTmp != null){
+					analyst = new BoUser();
+					analyst.setUserId(analystTmp.getUserId());
+					analyst.setUserNo(analystTmp.getUserNo());
+					analyst.setUserName(analystTmp.getUserName());
+					analyst.setPosition(analystTmp.getPosition());
+					analyst.setAvatar(analystTmp.getAvatar());
+				}
+			}
+		}
+		chatGroupParam.setDefaultAnalyst(analyst);
 		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     	if(isUpdate){
     		if(group==null){
     			return result.setCode(ResultCode.Error104);
     		}
     		BeanUtils.copyExceptNull(group, chatGroupParam);
+    		group.setDefaultAnalyst(analyst);
     		setGroupRule(group);
     		roleDao.updateRoleChatGroup(group);
     		chatGroupDao.update(group);

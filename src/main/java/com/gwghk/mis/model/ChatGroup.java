@@ -81,8 +81,8 @@ public class ChatGroup extends BaseModel{
 	/** 房间最大人数 */
 	private Integer maxCount;
 	
-	/** 默认分析师（用户Id） */
-	private String defaultAnalyst;
+	/** 默认分析师（用户信息） */
+	private BoUser defaultAnalyst;
 	
 	public String getStatus() {
 		return status;
@@ -156,11 +156,11 @@ public class ChatGroup extends BaseModel{
 		this.maxCount = maxCount;
 	}
 
-	public String getDefaultAnalyst() {
+	public BoUser getDefaultAnalyst() {
 		return defaultAnalyst;
 	}
 
-	public void setDefaultAnalyst(String defaultAnalyst) {
+	public void setDefaultAnalyst(BoUser defaultAnalyst) {
 		this.defaultAnalyst = defaultAnalyst;
 	}
 

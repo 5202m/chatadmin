@@ -57,10 +57,10 @@
 	          </td>
 	          <th>默认分析师</th>
 	          <td>
-	          	<select name="defaultAnalyst" id="groupSubmit_analystList" style="width:170px;">
+	          	<select name="defaultAnalyst.userId" id="groupSubmit_analystList" style="width:170px;">
 	          	  <option value="">--请选择--</option>
 	              <c:forEach var="row" items="${analystList}">
-	                 <option value="${row.userId}" <c:if test="${row.userId == chatGroup.defaultAnalyst}">selected="selected"</c:if>>${row.userName}</option>
+	                 <option value="${row.userId}" <c:if test="${chatGroup.defaultAnalyst != null && row.userId == chatGroup.defaultAnalyst.userId}">selected="selected"</c:if>>${row.userName}</option>
 	              </c:forEach>
 	            </select>
 	          </td>
