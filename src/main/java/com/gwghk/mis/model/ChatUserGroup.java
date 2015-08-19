@@ -30,6 +30,11 @@ public class ChatUserGroup {
 	private String accountNo;
 	
 	/**
+	 * 用户组别
+	 */
+	private String clientGroup;
+	
+	/**
 	 * 头像
 	 */
 	private String avatar;
@@ -80,6 +85,14 @@ public class ChatUserGroup {
 
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
+	}
+	
+	public String getClientGroup() {
+		return clientGroup;
+	}
+
+	public void setClientGroup(String clientGroup) {
+		this.clientGroup = clientGroup;
 	}
 
 	public String getAvatar() {

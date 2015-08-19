@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -35,6 +34,7 @@ import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
+import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -62,6 +62,8 @@ public class ChatUserController extends BaseController{
 	private MemberService memberService;
 	@Autowired
 	private ChatGroupService chatGroupService;
+	@Autowired
+	private ChatClientGroupService chatClientGroupService;
 
 	/**
 	 * 格式成树形列表
@@ -92,6 +94,7 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList());
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));

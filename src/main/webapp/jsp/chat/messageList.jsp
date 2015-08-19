@@ -18,9 +18,14 @@
           <td width="40%"><input type="text" name="accountNo"/></td>
           <th width="10%">用户类型</th>
           <td width="40%">
-	          <select name="userType" id="chatMessageUserType" style="width:160px;">
+	          <select name="clientGroup" id="chatMessageUserType" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="0">普通会员</option>
+          		<c:forEach var="row" items="${clientGroupList}">
+              		<c:if test="${row.id != 'visitor' }">
+              			<option value="${row.id}">&nbsp;&nbsp;&nbsp;&nbsp;${row.name}</option>
+              		</c:if>
+              	</c:forEach>
           		<option value="1">系统管理员</option>
           		<option value="2">分析师</option>
           		<option value="3">客服</option>

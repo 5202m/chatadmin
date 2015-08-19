@@ -45,6 +45,11 @@ public class ChatMessage{
 	protected String groupId;
 	
 	/**
+	 * 客户组别
+	 */
+	private String clientGroup;
+	
+	/**
 	 * 上线时间
 	 */
 	private Date onlineDate;
@@ -152,6 +157,14 @@ public class ChatMessage{
 
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	
+	public String getClientGroup() {
+		return clientGroup;
+	}
+
+	public void setClientGroup(String clientGroup) {
+		this.clientGroup = clientGroup;
 	}
 
 	public Date getOnlineDate() {

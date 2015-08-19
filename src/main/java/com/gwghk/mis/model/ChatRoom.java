@@ -28,6 +28,11 @@ public class ChatRoom {
 	 * 上线时间
 	 */
 	private Date onlineDate;
+	
+	/**
+     * 禁言状态
+     */
+	private Boolean gagStatus; 
 
 	/**
      * 禁言-开始时间
@@ -81,6 +86,13 @@ public class ChatRoom {
 		this.onlineDate = onlineDate;
 	}
 
+	public Boolean getGagStatus() {
+		return gagStatus;
+	}
+
+	public void setGagStatus(Boolean gagStatus) {
+		this.gagStatus = gagStatus;
+	}
 
 	public Date getGagStartDate() {
 		return gagStartDate;

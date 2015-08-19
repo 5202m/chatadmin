@@ -71,9 +71,11 @@ var chatUser = {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return row.valueUser?'是' : '否';
 						}},
-						{title : 'VIP用户',field : 'loginPlatform.chatUserGroup.vipUser',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '用户级别',field : 'loginPlatform.chatUserGroup.vipUser',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
-							return  row.vipUser?'是' : '否';
+							//微解盘没有用户组别，用户级别为真实用户
+							var id = row.vipUser ? 'vip' : (!row.clientGroup ? "real" : row.clientGroup);
+							return name=$.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id));
 						}},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 			            	var groupRow=rowData.loginPlatform.chatUserGroup[0],rooms=groupRow.rooms,tds="",sDom='',name='';
@@ -154,6 +156,19 @@ var chatUser = {
 		$("#chatUser_queryForm_reset").on("click",function(){
 			$("#chatUser_queryForm")[0].reset();
 		});
+		
+		/**
+		 * 微信组用户级别查询条件不可操作。
+		 */
+		$("#chatUserGroupId").bind("change", function(){
+			var isWeichat = $(this).val().indexOf("wechat") !== -1;
+			if(isWeichat){
+				$("#userList_clientGroup").val("");
+			}
+			$("#userList_clientGroup").prop("disabled", isWeichat)
+			
+		});
+		$("#chatUserGroupId").trigger("change");
 	},
 	/**
 	 * 功能：刷新

@@ -32,6 +32,7 @@ import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatMessgeService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -59,6 +60,8 @@ public class ChatMessageController extends BaseController{
 	private ChatMessgeService chatMessageService;
 	@Autowired
 	private ChatGroupService chatGroupService;
+	@Autowired
+	private ChatClientGroupService chatClientGroupService;
 	
 	/**
 	 * 格式成树形列表
@@ -92,6 +95,7 @@ public class ChatMessageController extends BaseController{
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList());
 		logger.debug(">>start into chatMessageController.index() and url is /chatMessageController/index.do");
 		return "chat/messageList";
 	}

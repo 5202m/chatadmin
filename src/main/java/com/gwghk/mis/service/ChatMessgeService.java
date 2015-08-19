@@ -1,6 +1,7 @@
 package com.gwghk.mis.service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,8 +96,12 @@ public class ChatMessgeService{
 			if(StringUtils.isNotBlank(model.getNickname())){
 				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
 			}
-			if(model.getUserType()!=null){
-				criteria.and("userType").is(model.getUserType());
+			if(StringUtils.isNotBlank(model.getClientGroup())){
+				if(Pattern.compile("\\d{1}").matcher(model.getClientGroup()).matches()){
+					criteria.and("userType").is(Integer.parseInt(model.getClientGroup()));
+				}else{
+					criteria.and("clientGroup").is(model.getClientGroup());
+				}
 			}
 			if(StringUtils.isNotBlank(model.getGroupId())){
 				if(model.getGroupId().indexOf(",")!=-1){

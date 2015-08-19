@@ -1,9 +1,7 @@
 package com.gwghk.mis.service;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,44 +161,86 @@ public class MemberService{
 		ChatUserGroup userGroup=member.getLoginPlatform().getChatUserGroup().get(0);
 		if(userGroup != null){
 			Criteria criteria = new Criteria();
-			if(StringUtils.isNotBlank(userGroup.getAccountNo())){
-				criteria.and("loginPlatform.chatUserGroup.accountNo").regex(StringUtil.toFuzzyMatch(userGroup.getAccountNo()));
-			}
+			Criteria userGroupCriteria = new Criteria();
+			Criteria roomCriteria = new Criteria();
+			boolean userGroupFlag = false;
+			boolean roomFlag = false;
 			if(StringUtils.isNotBlank(member.getMobilePhone())){
 				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(member.getMobilePhone()));
 			}
+			
+			if(StringUtils.isNotBlank(userGroup.getAccountNo())){
+				userGroupCriteria.and("accountNo").regex(StringUtil.toFuzzyMatch(userGroup.getAccountNo()));
+				userGroupFlag = true;
+			}
 			if(StringUtils.isNotBlank(userGroup.getNickname())){
-				criteria.and("loginPlatform.chatUserGroup.nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));
+				userGroupCriteria.and("nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));
+				userGroupFlag = true;
 			}
 			if(StringUtils.isNotBlank(userGroup.getId())){
 				if(userGroup.getId().indexOf(",")!=-1){
-					criteria.and("loginPlatform.chatUserGroup.id").is(userGroup.getId().replace(",", ""));
+					userGroupCriteria.and("id").is(userGroup.getId().replace(",", ""));
+					userGroupFlag = true;
 				}else{
-					criteria.and("loginPlatform.chatUserGroup.rooms.id").is(userGroup.getId());
+					roomCriteria.and("id").is(userGroup.getId());
+					roomFlag = true;
 				}
 			}
 			if(userGroup.getValueUser() != null){
-				criteria.and("loginPlatform.chatUserGroup.valueUser").is(userGroup.getValueUser());
+				userGroupCriteria.and("valueUser").is(userGroup.getValueUser());
+				userGroupFlag = true;
 			}
-			if(userGroup.getVipUser() != null){
-				criteria.and("loginPlatform.chatUserGroup.vipUser").is(userGroup.getVipUser());
+			if(StringUtils.isNotBlank(userGroup.getClientGroup())){
+				if("vip".equals(userGroup.getClientGroup())){
+					userGroupCriteria.and("vipUser").is(true);
+					userGroupFlag = true;
+				}else{
+					userGroupCriteria.and("vipUser").is(false);
+					userGroupCriteria.and("clientGroup").is(userGroup.getClientGroup());
+					userGroupFlag = true;
+				}
 			}
 			List<ChatRoom> roomList=userGroup.getRooms();
 			if(roomList!=null){
 				ChatRoom room=roomList.get(0);
 				if(room.getOnlineStatus()!=null){
-					criteria.and("loginPlatform.chatUserGroup.rooms.onlineStatus").is(room.getOnlineStatus());
+					roomCriteria.and("onlineStatus").is(room.getOnlineStatus());
+					roomFlag = true;
 				}
 				if(onlineStartDate!=null){
-					criteria = criteria.and("loginPlatform.chatUserGroup.rooms.onlineDate").gte(onlineStartDate);
+					roomCriteria.and("onlineDate").gte(onlineStartDate);
+					roomFlag = true;
 				}
 				if(onlineEndDate != null){
 					if(onlineStartDate != null){
-						criteria.lte(onlineEndDate);
+						roomCriteria.lte(onlineEndDate);
+						roomFlag = true;
 					}else{
-						criteria.and("loginPlatform.chatUserGroup.rooms.onlineDate").lte(onlineEndDate);
+						roomCriteria.and("onlineDate").lte(onlineEndDate);
+						roomFlag = true;
 					}
 				}
+				if(room.getGagStatus() != null){
+					if(room.getGagStatus()){
+						roomCriteria.orOperator(Criteria.where("gagStartDate").ne(null), 
+								Criteria.where("gagEndDate").ne(null));
+						roomFlag = true;
+					}else{
+						roomCriteria.orOperator(Criteria.where("gagStartDate").exists(false), 
+								Criteria.where("gagStartDate").ne(null),
+								Criteria.where("gagEndDate").exists(false),
+								Criteria.where("gagEndDate").ne(null));
+						roomFlag = true;
+					}
+				}
+			}
+
+			if(roomFlag){
+				userGroupCriteria.and("rooms").elemMatch(roomCriteria);
+				userGroupFlag = true;
+			}
+			if(userGroupFlag){
+				criteria.and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
 			}
 			query.addCriteria(criteria);
 		}

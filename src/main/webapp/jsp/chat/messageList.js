@@ -50,10 +50,14 @@ var chatMessage = {
 							return rowData.publishTime ? timeObjectUtil.longMsTimeConvertToDateTime(Number(rowData.publishTime.replace(/_.+/,""))) : '';
 						}},
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
-							return chatMessage.getComboxNameByCode("#chatMessageUserType",rowData.userType);
+							var loc_val = rowData.userType;
+							if(loc_val === 0){
+								loc_val = !rowData.clientGroup ? 'real' : rowData.clientGroup;
+							}
+							return $.trim(chatMessage.getComboxNameByCode("#chatMessageUserType",loc_val));
 						}},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
-							return chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId);
+							return $.trim(chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId));
 						}},
 						{title : '审核状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.status;

@@ -39,7 +39,7 @@
 		  </td>
         </tr>
         <tr>
-          <th>是否价值用户</th>
+          <th>价值用户</th>
           <td>
 	          <select name="loginPlatform.chatUserGroup[0].valueUser" style="width:160px;">
           		<option value="">--请选择--</option>
@@ -47,9 +47,20 @@
           		<option value="0">否</option>
 	          </select>
           </td>
-          <th>是否VIP用户</th>
-          <td colspan="3">
-	          <select name="loginPlatform.chatUserGroup[0].vipUser" style="width:160px;">
+          <th>用户级别</th>
+          <td>
+	          <select name="loginPlatform.chatUserGroup[0].clientGroup" id="userList_clientGroup" style="width:160px;">
+          		<option value="">--请选择--</option>
+              	<c:forEach var="row" items="${clientGroupList}">
+              		<c:if test="${row.id != 'visitor' }">
+              			<option value="${row.id}">${row.name}</option>
+              		</c:if>
+              	</c:forEach>
+	          </select>
+          </td>
+          <th>是否禁言</th>
+          <td>
+	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="1">是</option>
           		<option value="0">否</option>
