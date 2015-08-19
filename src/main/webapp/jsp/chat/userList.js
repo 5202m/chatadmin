@@ -219,6 +219,30 @@ var chatUser = {
 		});
 	},
 	/**
+	 * 用户解除绑定
+	 * @param _this
+	 */
+	userUnbind : function(_this){
+		$("#chatUser_datagrid").datagrid('unselectAll');
+		goldOfficeUtils.ajax({
+			url : formatUrl(basePath + '/chatUserController/userSetting.do'),
+			data : {
+				groupType : $(_this).attr("groupType"),
+				memberId : $(_this).attr("memberId"),
+				type : "unbind"
+			},
+			success: function(data) {
+				if (data.success) {
+					$("#chatUser_datagrid").datagrid('unselectAll');
+					chatUser.refresh();
+					$.messager.alert($.i18n.prop("common.operate.tips"),'解绑成功!','info');
+				}else{
+					$.messager.alert($.i18n.prop("common.operate.tips"),'解绑失败!','error');
+				}
+			}
+		});
+	},
+	/**
 	 * 功能：设置禁言
 	 */
 	setUserGag : function(obj){

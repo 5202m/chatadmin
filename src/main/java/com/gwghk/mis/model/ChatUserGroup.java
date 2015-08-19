@@ -1,5 +1,6 @@
 package com.gwghk.mis.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -65,6 +66,9 @@ public class ChatUserGroup {
 	 * 价值用户备注
 	 */
 	private String valueUserRemark;
+	
+	/**注册时间*/
+	private Date createDate;
 	
 	/**
 	 * 房间组
@@ -149,6 +153,14 @@ public class ChatUserGroup {
 
 	public void setValueUserRemark(String valueUserRemark) {
 		this.valueUserRemark = valueUserRemark;
+	}
+	
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public List<ChatRoom> getRooms() {

@@ -3,8 +3,6 @@ package com.gwghk.mis.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -17,7 +15,6 @@ import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
-import com.gwghk.mis.util.DateUtil;
 import com.mongodb.WriteResult;
 
 /**
@@ -96,10 +93,10 @@ public class MemberDao extends MongoDBBaseDao{
 	
 	
     /**
-     * 更新用户设置，包括设置用户为价值用户或vip用户
+     * 更新用户设置，包括设置用户为价值用户或vip用户, 用户解绑
      * @param memberId
      * @param groupId
-     * @param type 类型：1为价值用户，2为vip用户
+     * @param type 类型：1为价值用户，2为vip用户, unbind为用户解绑
      * @param isTrue
      * @return
      */
@@ -112,6 +109,10 @@ public class MemberDao extends MongoDBBaseDao{
 		else if("2".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.vipUser", isTrue);
 			update.set("loginPlatform.chatUserGroup.$.vipUserRemark", remark);
+		}else if("unbind".equals(type)){
+			ChatUserGroup chatUserGroup = new ChatUserGroup();
+			chatUserGroup.setId(groupType);
+			update.pull("loginPlatform.chatUserGroup", chatUserGroup);
 		}else{
 			return false;
 		}

@@ -91,6 +91,7 @@
   <!-- datagrid-操作按钮 -->
   <div id="chatUser_datagrid_rowOperation" style="display:none;">
 	  <!-- <a class="easyui-linkbutton setGagTime" data-options="plain:true,iconCls:'ope-save',disabled:false"  onclick="chatUser.setUserGag(this)">禁言</a> -->
+      <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" onclick="chatUser.userUnbind(this)">解除绑定</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="1" onclick="chatUser.userSetting(this)">价值用户</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="2" onclick="chatUser.userSetting(this)">VIP用户</a>
   </div>

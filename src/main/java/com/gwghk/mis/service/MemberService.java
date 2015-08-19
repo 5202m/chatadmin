@@ -138,7 +138,7 @@ public class MemberService{
 	
 	
 	/**
-	 * 设置用户为vip或价值用户
+	 * 设置用户为vip或价值用户、用户解绑
 	 * @param memberId
 	 * @param groupId
 	 * @param type
