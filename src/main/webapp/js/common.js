@@ -636,11 +636,11 @@ function formatDateWeekTime(openDate){
             for(var i in weekTime){
                 row=weekTime[i];
                 if(isValid(row.beginTime)){
-                    dateStr+=' '+getHHMMSS(row.beginTime);
+                    dateStr+=' ' + row.beginTime ;
                 }
                 if(isValid(row.endTime)){
                     if(row.endTime!=row.beginTime) {
-                        dateStr += "-" + getHHMMSS(row.endTime);
+                        dateStr += "-" + row.endTime ;
                     }
                 }
             }

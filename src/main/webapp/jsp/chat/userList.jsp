@@ -60,7 +60,7 @@
           </td>
           <th>是否禁言</th>
           <td>
-	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" style="width:160px;">
+	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="1">是</option>
           		<option value="0">否</option>

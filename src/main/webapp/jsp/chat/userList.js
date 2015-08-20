@@ -24,11 +24,21 @@ var chatUser = {
 	 * @returns {Boolean}
 	 */
 	isSearchField:function(room){
-	   var isTrue=this.isGroupTypeSearch();
-	   if(isTrue){
-		   return isTrue;
+		//是否符合分组
+	   var result=this.isGroupTypeSearch();
+	   if(!result){
+		   result = $("#chatUserGroupId").val()==room.id;
 	   }
-	   return $("#chatUserGroupId").val()==room.id;
+	   //是否符合禁言状态
+	   if(result){
+		   var gagStatus = $("#chatUser_gagStatus").val();
+		   if(gagStatus == "0"){
+			   result = !room.gagDate || room.gagDate == "\"\"";
+		   }else if(gagStatus == "1"){
+			   result = room.gagDate && room.gagDate != "\"\"";
+		   }
+	   }
+	   return result;
 	},
 	isGroupTypeSearch:function(){
 	  return $("#chatUserGroupId").val().indexOf(",")!=-1;
@@ -108,7 +118,17 @@ var chatUser = {
 			            		tds+=chatUser.formatTwoRow((rooms[i].onlineDate? timeObjectUtil.formatterDateTime(rooms[i].onlineDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
 			            	}
 							return tds;
-						}}						
+						}},
+						{title : '禁言时间',field : 'loginPlatform.chatUserGroup.gagDate',formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+			            	for(var i=0, lenI = rooms ? rooms.length : 0;i<lenI;i++){
+			            		if(!chatUser.isSearchField(rooms[i])){
+							       continue;
+							    }
+			            		tds+=chatUser.formatTwoRow((rooms[i].gagDate? formatDateWeekTime(rooms[i].gagDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            	}
+							return tds;
+						}}					
 			]],
 			toolbar : '#chatUser_datagrid_toolbar'
 		});
