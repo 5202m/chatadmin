@@ -86,7 +86,7 @@ var articleEdit = {
 					return false;
 				}
 				if($(this).attr("name")=="platformStr"){
-					alert("应用平台不能为空！");
+					alert("应用位置不能为空！");
 					isPass=false;
 					return false;
 				}

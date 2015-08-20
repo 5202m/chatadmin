@@ -35,16 +35,9 @@ public class ChatRoom {
 	private Boolean gagStatus; 
 
 	/**
-     * 禁言-开始时间
+     * 禁言，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
      */
-	@Indexed
-	private Date  gagStartDate;
-	
-	/**
-     * 禁言-结束时间
-     */
-	@Indexed
-	private Date  gagEndDate;
+	private String gagDate;
 	
 	/**
      * 禁言提示语
@@ -94,20 +87,12 @@ public class ChatRoom {
 		this.gagStatus = gagStatus;
 	}
 
-	public Date getGagStartDate() {
-		return gagStartDate;
+	public String getGagDate() {
+		return gagDate;
 	}
 
-	public void setGagStartDate(Date gagStartDate) {
-		this.gagStartDate = gagStartDate;
-	}
-
-	public Date getGagEndDate() {
-		return gagEndDate;
-	}
-
-	public void setGagEndDate(Date gagEndDate) {
-		this.gagEndDate = gagEndDate;
+	public void setGagDate(String gagDate) {
+		this.gagDate = gagDate;
 	}
 
 	public String getGagTips() {

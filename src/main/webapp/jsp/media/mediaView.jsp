@@ -29,7 +29,7 @@ function goBack(){
         <td width="35%">
          	<t:dictSelect id="mediaStatus" field="status" isEdit="true" isDisabled="true" defaultVal="${media.status}" isShowPleaseSelected="false"  dataList="${dictMap[dictConstant.DICT_USE_STATUS]}"/>
         </td>
-        <th width="15%">应用平台</th>
+        <th width="15%">应用位置</th>
         <td width="35%">
            <span>${mediaPlatform}</span>
         </td>

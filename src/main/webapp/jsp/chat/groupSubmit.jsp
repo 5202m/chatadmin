@@ -76,9 +76,9 @@
 	          </td>
 	      </tr>
 	      <tr>
-	         <th>直播时间</th>
+	         <th>开发时间</th>
 	         <td colspan="3">
-	            <input type="text" name="openDate"  id="chatGroup_openDate"/>
+	            <input type="hidden" name="openDate"  id="chatGroup_openDate"/>
 	            <div id="chatGroup_openDate_div"></div>
 	         </td>
 	      </tr>

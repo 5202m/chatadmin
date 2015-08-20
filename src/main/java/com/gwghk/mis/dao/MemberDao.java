@@ -1,6 +1,5 @@
 package com.gwghk.mis.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -125,13 +124,12 @@ public class MemberDao extends MongoDBBaseDao{
 	 * @param groupType
 	 * @param memberId
 	 * @param groupId
-	 * @param gagStartDate
-	 * @param gagEndDate
+	 * @param gagDate
 	 * @param tip
 	 * @param remark
 	 * @return
 	 */
-	public boolean setUserGag(String groupType,String memberId,String groupId,Date gagStartDate,Date gagEndDate,String tip,String remark){
+	public boolean setUserGag(String groupType,String memberId,String groupId,String gagDate,String tip,String remark){
 		 Member member = this.getByMemberId(memberId);
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
  		 if(userGroupList != null && userGroupList.size() > 0){
@@ -140,8 +138,7 @@ public class MemberDao extends MongoDBBaseDao{
  					List<ChatRoom> roomList=cg.getRooms();
  					for(ChatRoom room:roomList){
  						if(room.getId().equals(groupId)){
- 							room.setGagStartDate(gagStartDate);
-							room.setGagEndDate(gagEndDate);
+ 							room.setGagDate(gagDate);
 							room.setGagTips(tip);
 		 			    	room.setGagRemark(remark);
 		 			    	break;

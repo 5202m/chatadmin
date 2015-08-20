@@ -54,8 +54,6 @@ public class ChatGroupRuleService{
     	if(isUpdate){
     		ChatGroupRule rule = getChatGroupRuleById(chatGroupRuleParam.getId());
     		BeanUtils.copyExceptNull(rule, chatGroupRuleParam);
-    		rule.setPeriodStartDate(chatGroupRuleParam.getPeriodStartDate());
-    		rule.setPeriodEndDate(chatGroupRuleParam.getPeriodEndDate());
     		chatGroupRuleDao.update(rule);
      		chatGroupDao.updateGroupRule(rule);//更新组别关联的规则
     	}else{

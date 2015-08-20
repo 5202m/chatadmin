@@ -18,7 +18,6 @@ import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.util.BeanUtils;
-import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -131,8 +130,8 @@ public class MemberService{
 	/**
 	 * 功能：设置禁言
 	 */
-	public ApiResult saveUserGag(String groupType,String memberId,String groupId,String gagStartDateF,String gagEndDateE,String gagTips,String remark){
-		boolean isOk=memberDao.setUserGag(groupType,memberId, groupId, DateUtil.parseDateSecondFormat(gagStartDateF), DateUtil.parseDateSecondFormat(gagEndDateE), gagTips, remark);
+	public ApiResult saveUserGag(String groupType,String memberId,String groupId,String gagDate,String gagTips,String remark){
+		boolean isOk=memberDao.setUserGag(groupType,memberId, groupId, gagDate, gagTips, remark);
 		return new ApiResult().setCode(isOk?ResultCode.OK:ResultCode.FAIL);
 	}
 	
@@ -222,14 +221,10 @@ public class MemberService{
 				}
 				if(room.getGagStatus() != null){
 					if(room.getGagStatus()){
-						roomCriteria.orOperator(Criteria.where("gagStartDate").ne(null), 
-								Criteria.where("gagEndDate").ne(null));
+						roomCriteria.and("gagDate").nin(new Object[]{null, "", "\"\""});
 						roomFlag = true;
 					}else{
-						roomCriteria.orOperator(Criteria.where("gagStartDate").exists(false), 
-								Criteria.where("gagStartDate").ne(null),
-								Criteria.where("gagEndDate").exists(false),
-								Criteria.where("gagEndDate").ne(null));
+						roomCriteria.and("gagDate").in(new Object[]{null, "", "\"\""});
 						roomFlag = true;
 					}
 				}

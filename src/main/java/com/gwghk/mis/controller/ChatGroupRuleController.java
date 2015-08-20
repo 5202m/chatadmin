@@ -147,10 +147,6 @@ public class ChatGroupRuleController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,false);
     	AjaxJson j = new AjaxJson();
-    	String periodStartDateStr=request.getParameter("periodStartDateStr");
-    	String periodEndDateStr=request.getParameter("periodEndDateStr");
-    	chatGroupRule.setPeriodStartDate(DateUtil.parseDateFormat(periodStartDateStr));
-    	chatGroupRule.setPeriodEndDate(DateUtil.parseDateFormat(periodEndDateStr));
     	ApiResult result =chatGroupRuleService.saveChatGroupRule(chatGroupRule, false);
     	if(result.isOk()){
     		j.setSuccess(true);
@@ -177,10 +173,6 @@ public class ChatGroupRuleController extends BaseController{
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,true);
     	AjaxJson j = new AjaxJson();
-    	String periodStartDateStr=request.getParameter("periodStartDateStr");
-    	String periodEndDateStr=request.getParameter("periodEndDateStr");
-    	chatGroupRule.setPeriodStartDate(DateUtil.parseDateFormat(periodStartDateStr));
-    	chatGroupRule.setPeriodEndDate(DateUtil.parseDateFormat(periodEndDateStr));
     	ApiResult result =chatGroupRuleService.saveChatGroupRule(chatGroupRule, true);
     	if(result.isOk()){
     		j.setSuccess(true);

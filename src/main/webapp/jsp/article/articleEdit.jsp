@@ -36,7 +36,7 @@
         <td width="35%">
          	<t:dictSelect id="articleStatus" field="status" isEdit="true" defaultVal="${article.status}" isShowPleaseSelected="false"  dataList="${dictMap[dictConstant.DICT_USE_STATUS]}"/>
         </td>
-        <th width="15%">应用平台<span class="red">*</span></th>
+        <th width="15%">应用位置<span class="red">*</span></th>
         <td width="35%">
            <select class="easyui-combotree" style="width:180px;" name="platformStr" data-options="url:'<%=request.getContextPath()%>/commonController/getPlatformList.do?platform=${article.platform}',cascadeCheck:false" multiple></select>
         </td>

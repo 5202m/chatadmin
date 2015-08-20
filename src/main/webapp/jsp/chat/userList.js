@@ -108,28 +108,7 @@ var chatUser = {
 			            		tds+=chatUser.formatTwoRow((rooms[i].onlineDate? timeObjectUtil.formatterDateTime(rooms[i].onlineDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
 			            	}
 							return tds;
-						}},
-						{title : '禁言开始时间',field : 'loginPlatform.chatUserGroup.gagStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
-			            	for(var i=0;i<rooms.length;i++){
-			            		if(!chatUser.isSearchField(rooms[i])){
-								  continue;
-								}
-			            		tds+=chatUser.formatTwoRow((rooms[i].gagStartDate? timeObjectUtil.formatterDateTime(rooms[i].gagStartDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
-			            	}
-							return tds;
-						}},
-						{title : '禁言结束时间',field : 'loginPlatform.chatUserGroup.gagEndDate',sortable : true,formatter : function(value, rowData, rowIndex) {
-							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
-			            	for(var i=0;i<rooms.length;i++){
-			            		if(!chatUser.isSearchField(rooms[i])){
-								   continue;
-								}
-			            		tds+=chatUser.formatTwoRow((rooms[i].gagEndDate? timeObjectUtil.formatterDateTime(rooms[i].gagEndDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
-			            	}
-							return tds;
-						}}
-						
+						}}						
 			]],
 			toolbar : '#chatUser_datagrid_toolbar'
 		});
@@ -251,12 +230,13 @@ var chatUser = {
 		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '设置禁言【用户：'+$(obj).attr("mobilePhone")+'；房间：'+($(obj).attr("groupName")||'所有')+'】',
-			width : 630,
-			height : 160,
+			width : 672,
+			height : 326,
 			href : url,
 			iconCls : 'ope-redo',
 			handler : function(){    //提交时处理
 				if($("#userGagForm").form('validate')){
+					$("#userGag_gagDate").val(JSON.stringify($("#userGag_gagDate_div").dateTimeWeek.getData()));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'userGagForm',

@@ -144,8 +144,7 @@ public class ChatUserController extends BaseController{
  					List<ChatRoom> roomList=cg.getRooms();
  					for(ChatRoom room:roomList){
  						if(room.getId().equals(groupId)){
- 							map.put("gagStartDate", room.getGagStartDate());
- 		 			    	map.put("gagEndDate", room.getGagEndDate());
+ 							map.put("gagDate", room.getGagDate());
  		 			    	map.put("gagTips", room.getGagTips());
  		 			    	map.put("gagTips", room.getGagTips());
  		 			    	map.put("gagRemark", room.getGagRemark());
@@ -172,11 +171,10 @@ public class ChatUserController extends BaseController{
 		String groupType = request.getParameter("groupType");
 		String memberId = request.getParameter("memberId");
 		String groupId = request.getParameter("groupId");
-		String gagStartDateF = request.getParameter("gagStartDateF");
-		String gagEndDate = request.getParameter("gagEndDateE");
+		String gagDate = request.getParameter("gagDate");
 		String gagTips = request.getParameter("gagTips");
 		String remark = request.getParameter("gagRemark");
-		ApiResult apiResult = memberService.saveUserGag(groupType,memberId,groupId,gagStartDateF,gagEndDate,gagTips,remark);
+		ApiResult apiResult = memberService.saveUserGag(groupType,memberId,groupId,gagDate,gagTips,remark);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户禁言成功";
@@ -285,8 +283,7 @@ public class ChatUserController extends BaseController{
 					ChatRoom room=userGroup.getRooms().get(0);
 					row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
 					row.set("onlineDate", room.getOnlineDate());
-					row.set("gagStartDate", room.getGagStartDate());
-					row.set("gagEndDate", room.getGagEndDate());
+					row.set("gagDate", room.getGagDate());
 					row.set("sendMsgCount", room.getSendMsgCount()==null?0:room.getSendMsgCount());
 				}
 				builder.put("rowSet",dataSet);

@@ -1,7 +1,5 @@
 package com.gwghk.mis.model;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -41,14 +39,9 @@ public class ChatGroupRule extends BaseModel{
 	private String afterRuleVal;
 	
 	/**
-     * 时间段（开始时间）
+     * 生效时间，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
      */
-	private Date  periodStartDate;
-	
-	/**
-     * 时间段（结束时间）
-     */
-	private Date  periodEndDate;
+	private String periodDate;
 	
 	/**
      * 执行规则后的提示语
@@ -109,20 +102,12 @@ public class ChatGroupRule extends BaseModel{
 		this.valid = valid;
 	}
 
-	public Date getPeriodStartDate() {
-		return periodStartDate;
+	public String getPeriodDate() {
+		return periodDate;
 	}
 
-	public void setPeriodStartDate(Date periodStartDate) {
-		this.periodStartDate = periodStartDate;
-	}
-
-	public Date getPeriodEndDate() {
-		return periodEndDate;
-	}
-
-	public void setPeriodEndDate(Date periodEndDate) {
-		this.periodEndDate = periodEndDate;
+	public void setPeriodDate(String periodDate) {
+		this.periodDate = periodDate;
 	}
 
 	public String getAfterRuleTips() {
