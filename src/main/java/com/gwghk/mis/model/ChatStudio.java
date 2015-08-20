@@ -23,7 +23,7 @@ public class ChatStudio {
 	private String yyChannel;
 	
 	/**
-	 * 直播时间，保存格式{date:{begin:yyyy-MM-dd,end:yyyy-MM-dd},weekTime:[{week:0..6,time:[{begin:'HH:mm:ss',end:'HH:mm:ss'}]}]
+	 * 直播时间，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
 	 */
 	private String studioDate;
 	

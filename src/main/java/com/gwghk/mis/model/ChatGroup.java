@@ -74,7 +74,7 @@ public class ChatGroup extends BaseModel{
 	private String chatUrl;
 	
 	/**
-	 * 开放时间，保存格式{date:{begin:yyyy-MM-dd,end:yyyy-MM-dd},weekTime:[{week:0..6,time:[{begin:'HH:mm:ss',end:'HH:mm:ss'}]}]
+	 * 开放时间，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
 	 */
 	private String openDate;
 	
