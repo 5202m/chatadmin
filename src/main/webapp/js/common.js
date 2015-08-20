@@ -582,6 +582,41 @@ function trimStrVal(val){
 }
 
 /**
+ * 格式dateWeekTime 日期
+ * @param openDate
+ * @returns {String}
+ */
+function formatDateWeekTime(openDate){
+    var dateStr='';
+    if(common.isValid(openDate)){
+        openDate=JSON.parse(openDate);
+        if(common.isValid(openDate.beginDate)){
+            dateStr=common.formatterDate(openDate.beginDate,'.');
+        }
+        if(common.isValid(openDate.endDate)){
+            if(openDate.endDate!=openDate.beginDate) {
+                dateStr += "-" + common.formatterDate(openDate.endDate, '.');
+            }
+        }
+        var weekTime=openDate.weekTime;
+        if(common.isValid(weekTime)){
+            var row=null;
+            for(var i in weekTime){
+                row=weekTime[i];
+                if(common.isValid(row.beginTime)){
+                    dateStr+=' '+common.getHHMMSS(row.beginTime);
+                }
+                if(common.isValid(row.endTime)){
+                    if(row.endTime!=row.beginTime) {
+                        dateStr += "-" + common.getHHMMSS(row.endTime);
+                    }
+                }
+            }
+        }
+    }
+    return dateStr;
+}
+/**
  * 对象数组排序
  * @param key 对象的key值
  * @param desc true 为降序，false升序
