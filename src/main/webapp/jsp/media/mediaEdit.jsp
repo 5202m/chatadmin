@@ -54,7 +54,7 @@
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:mediaEdit.upload();">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#mediaFileId').uploadify('cancel', '*');">停止上传</a> 
                 <a t="viewImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedMediaPath')">预览</a>
-                <a t="cutImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaPath','#cutedMediaPath','#saveMediaPath')">裁剪</a> 
+                <a t="cutImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaPath','#cutedMediaPath','cut','#saveMediaPath')">裁剪</a> 
             </div>
         </td>
       </tr>
@@ -79,7 +79,7 @@
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#mediaImageId').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#mediaImageId').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedMediaImagePath')">预览</a>
-                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaImagePath','#cutedMediaImagePath','#saveMediaImagePath')">裁剪</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaImagePath','#cutedMediaImagePath','cut','#saveMediaImagePath')">裁剪</a> 
             </div>
         </td>
       </tr>
