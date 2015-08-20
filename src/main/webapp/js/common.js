@@ -620,10 +620,10 @@ function getHHMMSS(date){
  */
 function formatDateWeekTime(openDate){
     var dateStr='';
-    if(common.isValid(openDate)){
+    if(isValid(openDate)){
         openDate=JSON.parse(openDate);
         if(isValid(openDate.beginDate)){
-            dateStr=common.formatterDate(openDate.beginDate,'.');
+            dateStr=formatterDate(openDate.beginDate,'.');
         }
         if(isValid(openDate.endDate)){
             if(openDate.endDate!=openDate.beginDate) {
