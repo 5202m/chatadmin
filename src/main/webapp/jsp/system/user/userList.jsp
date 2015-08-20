@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/system/user/user.js" charset="UTF-8"></script>
+<div id="editWindow" class="easyui-dialog" closed="true"></div>
 <div class="easyui-layout" data-options="fit:true">
   <!-- notrh -->
    <div data-options="region:'north',border:false" style="height:120px;">

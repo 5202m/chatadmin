@@ -44,4 +44,16 @@ public enum FileDirectory{
 		}
 		return null;
 	}
+	
+	/**
+	 * 判断code是否包含当前枚举
+	 */
+	public static boolean startsWith(String code){
+		for(FileDirectory dir : FileDirectory.values()) {
+			if(code.startsWith(dir.getCode())){
+				return true;
+			}
+		}
+		return false;
+	}
 }

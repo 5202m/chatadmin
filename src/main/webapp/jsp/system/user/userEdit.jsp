@@ -20,7 +20,7 @@ $(function() {
 	//图片地址
 	goldOfficeUtils.uploadFile({
 		'fileId' : 'avatarId',
-		'formData' : {'imageDir' : 'pic/header/chat'},
+		'formData' : {'fileDir' : 'pic/header/chat'},
 		'fileSizeLimit' : 10*1024*1024,
 		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
@@ -34,7 +34,6 @@ $(function() {
 					$("#sourceAvatarPath").val(d.obj);
 					$("#cutedAvatarPath").val(d.obj);
 					$("#saveAvatarPath").val(d.obj);
-					$("#avatarTxtId").val(d.obj);
 				}
 			}else{
 				alert(file.name + d.msg);
@@ -42,9 +41,9 @@ $(function() {
 		}
 	});
 	$("#user_header_default div input[name=defaultHeader]").click(function(){
-		$("#avatarTxtId").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
+		$("#saveAvatarPath").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
 	});
-	var avatarSrc=$("#avatarTxtId").val();
+	var avatarSrc=$("#saveAvatarPath").val();
 	if(isValid(avatarSrc)){
 		$("#user_header_default div img").each(function(){
 			if(this.src==avatarSrc){
@@ -52,6 +51,30 @@ $(function() {
 			}
 		});
 	}
+	
+	//简介图片
+	goldOfficeUtils.uploadFile({
+		'fileId' : 'introductionImgFile',
+		'formData' : {'fileDir' : 'pic'},
+		'fileSizeLimit' : 10*1024*1024,
+		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
+		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
+		'uploader' : basePath+'/uploadController/upload.do',
+		'onUploadSuccess' : function(file, data, response){
+			var d = eval("("+data+")");			//转换为json对象 
+			if(d.success){
+				alert(file.name + ' 上传成功！');
+				if(d.obj != null){
+					$("#introductionImgPath").val(d.obj);
+					$("#introductionImgPathSrc").val(d.obj);
+					$("#introductionImgPathCut").val(d.obj);
+					$("#introductionImgPathSave").val(d.obj);
+				}
+			}else{
+				alert(file.name + d.msg);
+			}
+		}
+	});
 });
 </script>
 
@@ -108,7 +131,6 @@ $(function() {
         <th width="15%">头像</th>
         <td width="35%" colspan="3">
           <div id="user_header_tab" class="easyui-tabs" data-options="fit:true" style="height:180px;width:300px;margin-top:2px;">
-               <input  type="hidden" name="avatar" id="avatarTxtId" value="${mngUser.avatar}"/>
 			   <div id="user_header_default" title="选择默认" style="padding:0px;height:180px;" class="header_default">
 			     <div style="margin-top:15px;">
 			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin1.png"   t="1"/>
@@ -128,14 +150,14 @@ $(function() {
 			     </div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
-			        <div>图片路径：<input type="text" id="currentAvatarPath" name="avatarUpload" style="width:350px;margin-top:5px;"/>
+			        <div>图片路径：<input type="text" id="currentAvatarPath" value="${mngUser.avatar}" style="width:350px;margin-top:5px;"/>
 			        	<input type="file"  id="avatarId" style="width:155px">
 			        	<!-- 原图片路径 -->
-			        	<input type="hidden" id="sourceAvatarPath"/>
+			        	<input type="hidden" id="sourceAvatarPath" value="${mngUser.avatar}"/>
 			        	<!-- 裁剪后图片的路径 -->
-			        	<input type="hidden" id="cutedAvatarPath"/>
+			        	<input type="hidden" id="cutedAvatarPath" value="${mngUser.avatar}"/>
 			        	<!-- 表单提交时保存到数据库的字段-->
-			        	<input type="hidden"  id="saveAvatarPath"/>
+			        	<input type="hidden" name="avatar" id="saveAvatarPath" value="${mngUser.avatar}"/>
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#avatarId').uploadify('upload', '*');">上传文件</a> 
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#avatarId').uploadify('cancel', '*');">停止上传</a> 
 		                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedAvatarPath')">预览</a>
@@ -146,8 +168,26 @@ $(function() {
         </td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.postion.discri" /><!-- 职位描述 --></th>
-        <td width="35%" colspan="3"><textarea name="remark" id="remark"  rows="5" cols="76">${mngUser.remark}</textarea></td>
+        <th>简介</th>
+        <td colspan="3"><textarea name="introduction" rows="5" cols="76">${mngUser.introduction}</textarea></td>
+      </tr>
+      <tr>
+        <th>简介图片</th>
+        <td colspan="3">
+        	<div>图片路径：<input type="text" id="introductionImgPath" value="${mngUser.introductionImg}" style="width:350px;margin-top:5px;"/>
+	        	<input type="file"  id="introductionImgFile" style="width:155px">
+	        	<!-- 原图片路径 -->
+	        	<input type="hidden" id="introductionImgPathSrc" value="${mngUser.introductionImg}"/>
+	        	<!-- 裁剪后图片的路径 -->
+	        	<input type="hidden" id="introductionImgPathCut" value="${mngUser.introductionImg}"/>
+	        	<!-- 表单提交时保存到数据库的字段-->
+	        	<input type="hidden" name="introductionImg" id="introductionImgPathSave" value="${mngUser.introductionImg}"/>
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('upload', '*');">上传文件</a> 
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('cancel', '*');">停止上传</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#introductionImgPathCut')">预览</a>
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#introductionImgPathSrc','#introductionImgPathCut','#introductionImgPathSave')">裁剪</a> 
+            </div>
+        </td>
       </tr>
     </table>
     <input type="hidden" name="userId" value="${mngUser.userId}"/>

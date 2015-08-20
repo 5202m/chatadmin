@@ -76,8 +76,18 @@ public class BoUser extends BaseModel{
 	private Integer status;
 
 	/**
-     * 备注
+     * 简介
      */
+	private String introduction;
+	
+	/**
+	 * 简介图片
+	 */
+	private String introductionImg;
+	
+	/**
+	 * 备注
+	 */
 	private String remark;
 
 	private BoRole role;
@@ -199,6 +209,22 @@ public class BoUser extends BaseModel{
 
 	public void setStatus (Integer status) { 
 		this.status = status;
+	}
+	
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public String getIntroductionImg() {
+		return introductionImg;
+	}
+
+	public void setIntroductionImg(String introductionImg) {
+		this.introductionImg = introductionImg;
 	}
 
 	public String getRemark () { 

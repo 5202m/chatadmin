@@ -32,7 +32,7 @@
         <td width="35%" colspan="3"><span>${mngUser.position}</span></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.postion.discri" /><!-- 职位描述 --></th>
+        <th width="15%">备注</th>
         <td width="35%" colspan="3"><span>${mngUser.remark}</span></td>
       </tr>
     </table>

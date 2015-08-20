@@ -84,7 +84,7 @@ var systemUser = {
 		var url = formatUrl(basePath + '/userController/'+recordId+'/view.do');
 		goldOfficeUtils.openSimpleDialog({
 			title : $.i18n.prop("common.operatetitle.view"),       /**查看记录*/
-			height : 240 ,
+			height : 300 ,
 			href : url ,
 			iconCls : 'pag-view'
 		});
@@ -96,8 +96,9 @@ var systemUser = {
 		var url = formatUrl(basePath + '/userController/add.do');
 		var submitUrl =  formatUrl(basePath + '/userController/create.do');
 		goldOfficeUtils.openEditorDialog({
+			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 470,
+			height : 540,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -108,7 +109,7 @@ var systemUser = {
 						onSuccess : function(data){  //提交成功后处理
 							var d = $.parseJSON(data);
 							if(d.success) {
-								$("#myWindow").dialog("close");
+								$("#editWindow").dialog("close");
 								systemUser.refresh();
 								$.messager.alert($.i18n.prop("common.operate.tips"),'新增用户成功！密码为：'+$("#pwd").val(),'info');
 							}else{
@@ -129,8 +130,9 @@ var systemUser = {
 		var url = formatUrl(basePath + '/userController/'+recordId+'/edit.do');
 		var submitUrl =  formatUrl(basePath + '/userController/update.do');
 		goldOfficeUtils.openEditorDialog({
+			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 470,
+			height : 540,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
@@ -141,7 +143,7 @@ var systemUser = {
 						onSuccess : function(data){   //提交成功后处理
 							var d = $.parseJSON(data);
 							if (d.success) {
-								$("#myWindow").dialog("close");
+								$("#editWindow").dialog("close");
 								systemUser.refresh();
 								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.editsuccess"),'info');/**操作提示  修改成功!*/
 							}else{

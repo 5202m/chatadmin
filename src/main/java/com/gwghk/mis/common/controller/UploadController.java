@@ -46,6 +46,7 @@ public class UploadController extends BaseController{
 	@RequestMapping(value="/uploadController/upload", method=RequestMethod.POST)
 	@ResponseBody
 	public String  upload(HttpServletRequest request) throws  Exception{
+		System.out.println("uploadImage->request:"+request.getParameter("fileDir"));
 		return JSON.toJSONString(this.uploadFile(request));
 	}
 	
@@ -76,11 +77,10 @@ public class UploadController extends BaseController{
 		System.out.println("uploadFile->request:"+request.getParameter("fileDir"));
 		AjaxJson result = new AjaxJson();
 		String fileDir = request.getParameter("fileDir");
-		if(StringUtils.isBlank(fileDir)){//action字段为ueditor编辑器上传视频默认字段
+		if(StringUtils.isBlank(fileDir)){					//action字段为ueditor编辑器上传视频默认字段
 			fileDir=request.getParameter("action");
 		}
-		FileDirectory fileDirectory=FileDirectory.getByCode(fileDir);
-		if(null  == fileDirectory ){
+		if(!FileDirectory.startsWith(fileDir)){
 			result.setSuccess(false);
 	        result.setMsg("目录不存在,请重新确认参数！");
 	        return result;
@@ -95,13 +95,13 @@ public class UploadController extends BaseController{
                 	 //设置上传文件的相关参数(上传文件、文件目录)
                     UploadFileInfo fileInfo = new UploadFileInfo();
                 	fileInfo.setSrcFile(file);
-                	fileInfo.setSrcFileDirectory(fileDirectory.getCode());
+                	fileInfo.setSrcFileDirectory(fileDir);
                 	ApiResult apiResult = null;
-                	if (fileDirectory.getCode().equals(FileDirectory.pic.getCode())) {
-                   	     if(!validImage(file,result)){    //如果图片不符合规则，直接返回错误
+                	if(fileDir.startsWith(FileDirectory.pic.getCode())) {
+                		if(!validImage(file,result)){    //如果图片不符合规则，直接返回错误
                          	return result;
-                         }
-                     	 apiResult = ImageHelper.uploadImage(fileInfo); //开始上传图片
+                        }
+                     	apiResult = ImageHelper.uploadImage(fileInfo); //开始上传图片
                     }else{
                     	apiResult = FileUtils.uploadFile(fileInfo);   //开始上传文件
                     }
@@ -129,9 +129,7 @@ public class UploadController extends BaseController{
 	@RequestMapping(value = "/uploadController/viewImage", method = RequestMethod.GET)
 	public  String  viewImage(HttpServletRequest request,ModelMap map){
 		String imagePathPar=request.getParameter("imagePath");
-		if(StringUtils.isNotBlank(imagePathPar) && !imagePathPar.startsWith("/"))
-			imagePathPar="/"+imagePathPar;
-		map.addAttribute("imagePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain")+imagePathPar);   //查看图片路径
+		map.addAttribute("imagePath",imagePathPar);   //查看图片路径
 		return "common/imageView";
 	}
 	
@@ -144,7 +142,7 @@ public class UploadController extends BaseController{
 						  : Integer.parseInt(request.getParameter("fixedWith"));
 		Integer fixedHeight = (null == request.getParameter("fixedHeight")) ?  0         //裁剪时固定的宽度，如果为0，表示不限制
 						    : Integer.parseInt(request.getParameter("fixedHeight"));
-		map.addAttribute("sourceImagePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/"+request.getParameter("sourceImagePath"));   	 //剪切图片路径
+		map.addAttribute("sourceImagePath",request.getParameter("sourceImagePath"));   	 //剪切图片路径
 		map.addAttribute("fixedWith",fixedWith);   	 	 			 
 		map.addAttribute("fixedHeight",fixedHeight);     			 					 //裁剪时是否固定高度，如果为null，表示不限制
 		return "common/imageCut";
@@ -166,7 +164,8 @@ public class UploadController extends BaseController{
 		String cutedImagePath = FileUtils.getPrefix(sourceImagePath)+"_"+cutedImageSuffix  	//裁剪后图片的路径(包含图片名)
 							  +"."+FileUtils.getExtend(sourceImagePath);
 		FileUtils.delete(cutedImagePath);    								//先删除之前裁剪过的裁剪，然后再进行裁剪
-		boolean flag = ImageHelper.cut(ResourceUtil.getPmFilesPath()+"/"+sourceImagePath,ResourceUtil.getPmFilesPath()+"/"+cutedImagePath
+		
+		boolean flag = ImageHelper.cut(this.getLocFilePath(sourceImagePath),this.getLocFilePath(cutedImagePath)
 				     , Integer.valueOf(x1), Integer.valueOf(y1), Integer.valueOf(w), Integer.valueOf(h));
 		if(flag){
 			result.setSuccess(true);
@@ -179,6 +178,21 @@ public class UploadController extends BaseController{
 		return result;
 	}
 	
+	/**
+	 * 获取文件本地路径
+	 * @param srcFilePath
+	 * @return
+	 */
+	private String getLocFilePath(String srcFilePath){
+		String fileRootPath = ResourceUtil.getPmFilesPath();
+		String pmfilesDomain = PropertiesUtil.getInstance().getProperty("pmfilesDomain");
+		if(StringUtils.isBlank(srcFilePath)){
+			return fileRootPath;
+		}else if (srcFilePath.startsWith(pmfilesDomain)) {
+			return fileRootPath + srcFilePath.substring(pmfilesDomain.length());
+		}
+		return srcFilePath;
+	}
 	
 	/***
 	 * 编辑器图片或文件上传统一入口

@@ -28,12 +28,16 @@
         </td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.position" /><!-- 职位 --></th>
-        <td width="35%" colspan="3"><span>${mngUser.position}</span></td>
+        <th><spring:message code="user.position" /><!-- 职位 --></th>
+        <td colspan="3"><span>${mngUser.position}</span></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.postion.discri" /><!-- 职位描述 --></th>
-        <td width="35%" colspan="3"><span>${mngUser.remark}</span></td>
+        <th>头像</th>
+        <td colspan="3"><img src="${mngUser.avatar}"/></td>
+      </tr>
+      <tr>
+        <th>简介</th>
+        <td colspan="3"><span>${mngUser.introduction}</span></td>
       </tr>
     </table>
 </div>
