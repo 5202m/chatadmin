@@ -55,6 +55,10 @@ public class ArticleDetail{
 	 */
 	private String linkUrl;
 	
+	/**
+	 * 标签
+	 */
+	private String tag;
 	
 	public String getLang() {
 		return lang;
@@ -127,4 +131,14 @@ public class ArticleDetail{
 	public void setLinkUrl(String linkUrl) {
 		this.linkUrl = linkUrl;
 	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+	
+	
 }

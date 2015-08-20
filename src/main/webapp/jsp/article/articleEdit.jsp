@@ -42,6 +42,12 @@
         </td>
       </tr>
       <tr>
+      	<th width="15%">序号</th>
+        <td width="35%" colspan="3">
+        	<input type="text" name="sequence" value="${article.sequence}"/>
+        </td>
+      </tr>
+      <tr>
         <th width="15%">语言：<span class="red">*</span></th>
         <td width="85%" colspan="4">
           <c:forEach var="lang" items="${langMap}">
@@ -83,6 +89,10 @@
 			<th width="15%">简介</th>
         	<td width="85%"><textarea rows="2" cols="6" name="remark" style="width:600px">${articleDetail.remark}</textarea></td>
            </tr>
+           <tr>
+			<th width="15%">标签</th>
+	        <td width="85%"><input type="text" name="tag" value="${articleDetail.tag}" style="width:600px"/></td>
+	       </tr>
 	       <tr>
 			<th width="15%">SEO标题</th>
 	        <td width="85%"><input type="text" name="seoTitle" style="width:600px" value="${articleDetail.seoTitle}"/></td>
