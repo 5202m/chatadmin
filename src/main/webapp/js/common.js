@@ -582,6 +582,38 @@ function trimStrVal(val){
 }
 
 /**
+ * 格式化去日期（含时间）
+ */
+function formatterDate (date,splitChar) {
+    if(!splitChar){
+        splitChar='-';
+    }
+    if(!(date instanceof Date)){
+        date=new Date(date);
+    }
+    var datetime = date.getFullYear()
+        + splitChar// "年"
+        + ((date.getMonth() + 1) >=10 ? (date.getMonth() + 1) : "0"
+        + (date.getMonth() + 1))
+        + splitChar// "月"
+        + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate());
+    return datetime;
+}
+/**
+ * 提取时分秒
+ */
+function getHHMMSS(date){
+    if(!(date instanceof Date)){
+        date=new Date(date);
+    }
+    var datetime = (date.getHours() < 10 ? "0" + date.getHours() : date.getHours())
+        + ":"
+        + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
+        + ":"
+        + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds());
+    return datetime;
+}
+/**
  * 格式dateWeekTime 日期
  * @param openDate
  * @returns {String}
@@ -590,25 +622,25 @@ function formatDateWeekTime(openDate){
     var dateStr='';
     if(common.isValid(openDate)){
         openDate=JSON.parse(openDate);
-        if(common.isValid(openDate.beginDate)){
+        if(isValid(openDate.beginDate)){
             dateStr=common.formatterDate(openDate.beginDate,'.');
         }
-        if(common.isValid(openDate.endDate)){
+        if(isValid(openDate.endDate)){
             if(openDate.endDate!=openDate.beginDate) {
-                dateStr += "-" + common.formatterDate(openDate.endDate, '.');
+                dateStr += "-" + formatterDate(openDate.endDate, '.');
             }
         }
         var weekTime=openDate.weekTime;
-        if(common.isValid(weekTime)){
+        if(isValid(weekTime)){
             var row=null;
             for(var i in weekTime){
                 row=weekTime[i];
-                if(common.isValid(row.beginTime)){
-                    dateStr+=' '+common.getHHMMSS(row.beginTime);
+                if(isValid(row.beginTime)){
+                    dateStr+=' '+getHHMMSS(row.beginTime);
                 }
-                if(common.isValid(row.endTime)){
+                if(isValid(row.endTime)){
                     if(row.endTime!=row.beginTime) {
-                        dateStr += "-" + common.getHHMMSS(row.endTime);
+                        dateStr += "-" + getHHMMSS(row.endTime);
                     }
                 }
             }
