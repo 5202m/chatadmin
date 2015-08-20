@@ -635,8 +635,12 @@ function formatDateWeekTime(openDate){
             var row=null;
             for(var i in weekTime){
                 row=weekTime[i];
+            	dateStr+=' ';
+            	if(isValid(row.week)){
+            		dateStr+="[" + row.week + "]";
+            	}
                 if(isValid(row.beginTime)){
-                    dateStr+=' ' + row.beginTime ;
+                    dateStr+=row.beginTime ;
                 }
                 if(isValid(row.endTime)){
                     if(row.endTime!=row.beginTime) {

@@ -283,7 +283,7 @@ public class ChatUserController extends BaseController{
 					ChatRoom room=userGroup.getRooms().get(0);
 					row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
 					row.set("onlineDate", room.getOnlineDate());
-					row.set("gagDate", room.getGagDate());
+					row.set("gagDate", DateUtil.formatDateWeekTime(room.getGagDate()));
 					row.set("sendMsgCount", room.getSendMsgCount()==null?0:room.getSendMsgCount());
 				}
 				builder.put("rowSet",dataSet);

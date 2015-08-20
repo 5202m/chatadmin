@@ -6,9 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 public class DateUtil {
 	public final static String FORMAT_YYYYDDMMHHMMSS="YYYY/MM/dd HH:mm:ss";
@@ -1659,6 +1664,61 @@ public class DateUtil {
 	}
 	
 	public static void main(String args[]) {
-		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
+//		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
+		System.out.println(DateUtil.formatDateWeekTime("{\"beginDate\":\"2015-08-12\",\"endDate\":\"2015-08-24\",\"weekTime\":[{\"week\":\"5\",\"beginTime\":\"11:18:00\",\"endTime\":\"11:19:00\"}]}"));
 	}
+	
+	
+	/**
+	 * 格式dateWeekTime 日期
+	 * @param dateWeekTime
+	 * @return
+	 */
+	public static String formatDateWeekTime(String dateWeekTime){
+		StringBuffer loc_result = new StringBuffer();
+		if(StringUtils.isBlank(dateWeekTime)){
+			return "";
+		}else{
+			dateWeekTime = dateWeekTime.trim();
+			JSONObject dateWeekTimeJSON = (JSONObject)JSON.parse(dateWeekTime);
+			String datestartTmp = dateWeekTimeJSON.getString("beginDate");
+			if (StringUtils.isNotBlank(datestartTmp)) {
+				loc_result.append(datestartTmp.replaceAll("-", "."));
+			}
+			String dateEndTmp = dateWeekTimeJSON.getString("endDate");
+			if (StringUtils.isNotBlank(dateEndTmp) && dateEndTmp.equals(datestartTmp) == false) {
+				loc_result.append("-");
+				loc_result.append(dateEndTmp.replaceAll("-", "."));
+			}
+			if(dateWeekTimeJSON.containsKey("weekTime")){
+				JSONArray timeArrTmp = dateWeekTimeJSON.getJSONArray("weekTime");
+				Iterator<Object> timeArrIterator = timeArrTmp.iterator();
+				JSONObject timpTmp = null;
+				String timeStartTmp = null;
+				String timeWeekTmp = null;
+				String timeEndTmp = null;
+				while (timeArrIterator.hasNext()) {
+					timpTmp = (JSONObject)timeArrIterator.next();
+
+					loc_result.append(" ");
+					timeWeekTmp = timpTmp.getString("week");
+					if (StringUtils.isNotBlank(timeWeekTmp)) {
+						loc_result.append("[");
+						loc_result.append(timeWeekTmp);
+						loc_result.append("]");
+					}
+					timeStartTmp = timpTmp.getString("beginTime");
+					if (StringUtils.isNotBlank(timeStartTmp)) {
+						loc_result.append(timeStartTmp);
+					}
+					timeEndTmp = timpTmp.getString("endTime");
+					if (StringUtils.isNotBlank(timeEndTmp) && timeEndTmp.equals(timeStartTmp) == false) {
+						loc_result.append("-");
+						loc_result.append(timeEndTmp);
+					}
+				}
+			}
+		}
+		return loc_result.toString();
+	};
 }
