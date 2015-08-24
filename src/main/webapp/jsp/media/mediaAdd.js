@@ -174,7 +174,7 @@ var mediaAdd = {
 			var serializeFormData = $("#mediaBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#media_tab form[name=mediaDetailForm]"));
 			$.messager.progress();//提交时，加入进度框
-			var submitInfo = serializeFormData+"&detaiInfo="+detaiInfo;
+			var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 			getJson(formatUrl(basePath + '/mediaController/create.do'),submitInfo,function(data){
 				$.messager.progress('close');
 				if(data.success){
