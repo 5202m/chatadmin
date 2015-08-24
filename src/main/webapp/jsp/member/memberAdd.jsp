@@ -36,14 +36,13 @@
         <th width="15%">头像<span class="red">*</span></th>
         <td width="35%" colspan="3">
             <div>
-	        	&nbsp;图片路径：&nbsp;
+	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentImageFilePath" name="avatar" disabled="disabled" style="margin-bottom: 5px;width:300px;"/>
 	        	<input type="file"  id="avatarImageId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceImagePath"/>
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="cutedImagePath"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="text" id="currentImageFilePath" name="avatar" disabled="disabled" style="margin-bottom: 5px;width:300px;"/>
 	       		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#avatarImageId').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#avatarImageId').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedImagePath')">预览</a>

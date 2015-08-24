@@ -148,14 +148,13 @@ $(function() {
 			     </div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
-			        <div>图片路径：
+			        <div>图片路径：<input type="text" name="avatar" id="currentAvatarPath" value="${mngUser.avatar}" style="width:350px;margin-top:5px;"/>
 			        	<input type="file"  id="avatarId" style="width:155px">
 			        	<!-- 原图片路径 -->
 			        	<input type="hidden" id="sourceAvatarPath" value="${mngUser.avatar}"/>
 			        	<!-- 裁剪后图片的路径 -->
 			        	<input type="hidden" id="cutedAvatarPath" value="${mngUser.avatar}"/>
 			        	<!-- 表单提交时保存到数据库的字段-->
-			        	<input type="text" name="avatar" id="currentAvatarPath" value="${mngUser.avatar}" style="width:350px;margin-top:5px;"/>
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#avatarId').uploadify('upload', '*');">上传文件</a> 
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#avatarId').uploadify('cancel', '*');">停止上传</a> 
 		                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedAvatarPath')">预览</a>
@@ -172,14 +171,13 @@ $(function() {
       <tr>
         <th>简介图片</th>
         <td colspan="3">
-        	<div>图片路径：
+        	<div>图片路径：<input type="text" id="introductionImgPath" name="introductionImg" value="${mngUser.introductionImg}" style="width:350px;margin-top:5px;"/>
 	        	<input type="file"  id="introductionImgFile" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="introductionImgPathSrc" value="${mngUser.introductionImg}"/>
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="introductionImgPathCut" value="${mngUser.introductionImg}"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="text" id="introductionImgPath" name="introductionImg" value="${mngUser.introductionImg}" style="width:350px;margin-top:5px;"/>
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#introductionImgPathCut')">预览</a>
