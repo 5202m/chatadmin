@@ -62,7 +62,6 @@ var mediaEdit = {
 						$("#currentMediaPath").val(d.obj);
 						$("#sourceMediaPath").val(d.obj);
 						$("#cutedMediaPath").val(d.obj);
-						$("#saveMediaPath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);
@@ -85,7 +84,6 @@ var mediaEdit = {
 						$("#currentMediaImagePath").val(d.obj);
 						$("#sourceMediaImagePath").val(d.obj);
 						$("#cutedMediaImagePath").val(d.obj);
-						$("#saveMediaImagePath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);

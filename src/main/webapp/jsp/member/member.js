@@ -76,7 +76,6 @@ var member = {
 						$("#currentImageFilePath").val("/"+d.obj);
 						$("#sourceImagePath").val("/"+d.obj);
 						$("#cutedImagePath").val("/"+d.obj);
-						$("#saveImagePath").val("/"+d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);

@@ -89,10 +89,9 @@ var app = {
 				if(d.success){
 					alert(file.name + ' 上传成功！');
 					if(d.obj != null){
-						$("#currentImageFilePath").val("/"+d.obj);
-						$("#sourceImagePath").val("/"+d.obj);
-						$("#cutedImagePath").val("/"+d.obj);
-						$("#saveImagePath").val("/"+d.obj);
+						$("#currentImageFilePath").val(d.obj);
+						$("#sourceImagePath").val(d.obj);
+						$("#cutedImagePath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);

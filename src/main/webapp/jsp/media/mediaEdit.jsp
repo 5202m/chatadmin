@@ -43,18 +43,18 @@
         <th width="15%">上传媒体（图片/视频/音频）<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<div id="media_div">
-	        	&nbsp;媒体路径：&nbsp;<input type="text" id="currentMediaPath" value="${media.mediaUrl}" style="margin-bottom: 5px;width:450px;"/>
+	        	&nbsp;媒体路径：&nbsp;
 	        	<input type="file"  id="mediaFileId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceMediaPath" value="${media.mediaUrl}"/>
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="cutedMediaPath" value="${media.mediaUrl}"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="hidden" id="saveMediaPath" value="${media.mediaUrl}" name="mediaUrl"/>
+	        	<input type="text" id="currentMediaPath" name="mediaUrl" value="${media.mediaUrl}" style="margin-bottom: 5px;width:450px;"/>
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:mediaEdit.upload();">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#mediaFileId').uploadify('cancel', '*');">停止上传</a> 
                 <a t="viewImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedMediaPath')">预览</a>
-                <a t="cutImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaPath','#cutedMediaPath','cut','#saveMediaPath')">裁剪</a> 
+                <a t="cutImage" class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaPath','#cutedMediaPath','cut','#currentMediaPath')">裁剪</a> 
             </div>
         </td>
       </tr>
@@ -68,18 +68,18 @@
       	<th width="15%">媒体图片地址<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<div>
-	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentMediaImagePath" value="${media.mediaImgUrl}" style="margin-bottom: 5px;width:450px;"/>
+	        	&nbsp;图片路径：&nbsp;
 	        	<input type="file"  id="mediaImageId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceMediaImagePath" value="${media.mediaImgUrl}" />
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="cutedMediaImagePath" value="${media.mediaImgUrl}" />
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="hidden" id="saveMediaImagePath" name="mediaImgUrl" value="${media.mediaImgUrl}"/>
+	        	<input type="text" id="currentMediaImagePath" name="mediaImgUrl" value="${media.mediaImgUrl}" style="margin-bottom: 5px;width:450px;"/>
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#mediaImageId').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#mediaImageId').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedMediaImagePath')">预览</a>
-                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaImagePath','#cutedMediaImagePath','cut','#saveMediaImagePath')">裁剪</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceMediaImagePath','#cutedMediaImagePath','cut','#currentMediaImagePath')">裁剪</a> 
             </div>
         </td>
       </tr>

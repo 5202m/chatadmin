@@ -33,7 +33,6 @@ $(function() {
 					$("#currentAvatarPath").val(d.obj);
 					$("#sourceAvatarPath").val(d.obj);
 					$("#cutedAvatarPath").val(d.obj);
-					$("#saveAvatarPath").val(d.obj);
 				}
 			}else{
 				alert(file.name + d.msg);
@@ -41,7 +40,7 @@ $(function() {
 		}
 	});
 	$("#user_header_default div input[name=defaultHeader]").click(function(){
-		$("#saveAvatarPath").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
+		$("#currentAvatarPath").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
 	});
 	
 	//简介图片
@@ -60,7 +59,6 @@ $(function() {
 					$("#introductionImgPath").val(d.obj);
 					$("#introductionImgPathSrc").val(d.obj);
 					$("#introductionImgPathCut").val(d.obj);
-					$("#introductionImgPathSave").val(d.obj);
 				}
 			}else{
 				alert(file.name + d.msg);
@@ -143,18 +141,18 @@ $(function() {
 			     </div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
-			        <div>图片路径：<input type="text" id="currentAvatarPath" name="avatarUpload" style="width:350px;margin-top:5px;"/>
+			        <div>图片路径：
 			        	<input type="file"  id="avatarId" style="width:155px">
 			        	<!-- 原图片路径 -->
 			        	<input type="hidden" id="sourceAvatarPath"/>
 			        	<!-- 裁剪后图片的路径 -->
 			        	<input type="hidden" id="cutedAvatarPath"/>
 			        	<!-- 表单提交时保存到数据库的字段-->
-			        	<input type="hidden"  id="saveAvatarPath" name="avatar"/>
+			        	<input type="text" id="currentAvatarPath" name="avatar" style="width:350px;margin-top:5px;"/>
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#avatarId').uploadify('upload', '*');">上传文件</a> 
 			        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#avatarId').uploadify('cancel', '*');">停止上传</a> 
 		                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#cutedAvatarPath')">预览</a>
-		                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceAvatarPath','#cutedAvatarPath','cut','#saveAvatarPath')">裁剪</a> 
+		                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#sourceAvatarPath','#cutedAvatarPath','cut','#currentAvatarPath')">裁剪</a> 
 		            </div>
 			  </div>
 		 </div>
@@ -167,18 +165,18 @@ $(function() {
       <tr>
         <th>简介图片</th>
         <td colspan="3">
-        	<div>图片路径：<input type="text" id="introductionImgPath" name="introductionImgUpload" style="width:350px;margin-top:5px;"/>
+        	<div>图片路径：
 	        	<input type="file"  id="introductionImgFile" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="introductionImgPathSrc"/>
 	        	<!-- 裁剪后图片的路径 -->
 	        	<input type="hidden" id="introductionImgPathCut"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
-	        	<input type="hidden" name="introductionImg" id="introductionImgPathSave" value="${mngUser.introductionImg}" />
+	        	<input type="text" id="introductionImgPath" name="introductionImg" style="width:350px;margin-top:5px;"/>
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#introductionImgFile').uploadify('cancel', '*');">停止上传</a> 
                 <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#introductionImgPathCut')">预览</a>
-                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#introductionImgPathSrc','#introductionImgPathCut','cut','#introductionImgPathSave')">裁剪</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#introductionImgPathSrc','#introductionImgPathCut','cut','#introductionImgPath')">裁剪</a> 
             </div>
         </td>
       </tr>
