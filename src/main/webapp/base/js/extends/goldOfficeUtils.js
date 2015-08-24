@@ -58,7 +58,7 @@ var goldOfficeUtils = {
 				text : '关闭',
 				iconCls : "ope-close",
 				handler : function() {
-					$('#'+dialogId).dialog("close");
+					$(this).parents(".easyui-dialog:first").dialog("close");
 				}
 			}] : config.buttons
 		});
@@ -116,7 +116,7 @@ var goldOfficeUtils = {
 				text : '关闭',
 				iconCls : "ope-close",
 				handler : function() {
-					$('#'+dialogId).dialog("close");
+					$(this).parents(".easyui-dialog:first").dialog("close");
 				}
 			}] : config.buttons
 		});
