@@ -95,7 +95,7 @@ var articleAdd = {
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
 			$.messager.progress();//提交时，加入进度框
-			var submitInfo = serializeFormData+"&detaiInfo="+detaiInfo;
+			var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 			getJson(formatUrl(basePath + '/articleController/create.do'),submitInfo,function(data){
 				$.messager.progress('close');
 				if(data.success){
