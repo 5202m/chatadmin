@@ -110,7 +110,7 @@ public class UserDao extends MongoDBBaseDao{
 	 * @return
 	 */
 	public List<BoUser>  getRelationList(String roleId){
-		return this.findList(BoUser.class,Query.query(Criteria.where("boRole.roleId").is(roleId)));
+		return this.findList(BoUser.class,Query.query(Criteria.where("role.roleId").is(roleId)));
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class UserDao extends MongoDBBaseDao{
 	 * @return
 	 */
 	public List<BoUser>  getUnRelationList(){
-		return this.findList(BoUser.class,Query.query(Criteria.where("boRole").exists(false)));
+		return this.findList(BoUser.class,Query.query(Criteria.where("role").exists(false)));
 	}
 	
 	/**
