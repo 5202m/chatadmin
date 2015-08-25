@@ -94,7 +94,7 @@ public class MediaController extends BaseController{
     	 detail.setTitle(request.getParameter("title"));
     	 detailList.add(detail);
     	 media.setDetailList(detailList);
-		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, media),new Object[]{"bulletin","bulletin_system","studio_plan"});
+		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, media), 2);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());

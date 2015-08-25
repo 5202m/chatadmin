@@ -21,14 +21,17 @@ import com.gwghk.mis.util.StringUtil;
  */
 @Repository
 public class CategoryDao extends MongoDBBaseDao{
-    
 	/**
 	 * 查询栏目数据
 	 * @param query
 	 * @return
 	 */
-	public List<Category> getList(Query query){
-		return this.findList(Category.class,query);
+	public List<Category> getListByType(Integer type){
+		Criteria criteria = Criteria.where("status").is(1);
+		if(type != null){
+			criteria.and("type").is(type);
+		}
+		return this.findList(Category.class, new Query(criteria));
 	}
 	
 	/**

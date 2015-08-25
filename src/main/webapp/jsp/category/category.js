@@ -43,6 +43,15 @@ var category = {
 			    {title : '编号',field:'ids',formatter:function(value, rowData, rowIndex) {
 			    	return rowData.id;
 				}},
+			    {title : '类型',field:'type',formatter:function(value, rowData, rowIndex) {
+					if (value == 1) {
+						return '文章';
+					}else if (value == 2) {
+						return '媒体';
+					} else {
+						return '其他';
+					}
+				}},
 			    {title : '状态',field:'status',formatter:function(value, rowData, rowIndex) {
 					if (value == 1) {
 						return '启用';
@@ -132,6 +141,7 @@ var category = {
 										name: d.obj.name,
 										code: d.obj.code,
 										status: d.obj.status,
+										type: d.obj.type,
 										sort: d.obj.sort
 									}
 								});

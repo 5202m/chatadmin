@@ -26,18 +26,18 @@ public class CategoryService{
 	
 	public List<Category> getCategoryList(String name,String code,String status) {
 		if(StringUtils.isBlank(name) && StringUtils.isBlank(code)&& StringUtils.isBlank(status)){
-			return categoryDao.getList(null);
+			return categoryDao.getListByType(null);
 		}else{
 			return categoryDao.getListByNameAndCode(name,code,status);
 		}
 	}
 	
 	/**
-	 * 提取栏目列表
+	 * 提取指定类型的栏目列表
 	 * @return
 	 */
-	public List<Category> getCategoryList() {
-		return categoryDao.getList(null);
+	public List<Category> getCategoryList(Integer type) {
+		return categoryDao.getListByType(type);
 	}
 
 	/**

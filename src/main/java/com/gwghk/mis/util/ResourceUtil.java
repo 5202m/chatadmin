@@ -235,13 +235,16 @@ public class ResourceUtil {
 		String locale = getSessionLocale();
 		List<BoDict> subDictList=null;
 		String str=","+StringUtils.join(parentCodeArr, ",")+",";
-		List<BoDict> newDictList=dictList.stream().filter(e->str.contains(",".concat(e.getCode()).concat(","))).collect(Collectors.toList());
-		for(BoDict row:newDictList){
-			subDictList=row.getChildren();
-			if(subDictList!=null){
-				subDictList.forEach(e ->getDictName(e,locale));
+		List<BoDict> newDictList=null;
+		if (dictList != null) {
+			newDictList=dictList.stream().filter(e->str.contains(",".concat(e.getCode()).concat(","))).collect(Collectors.toList());
+			for(BoDict row:newDictList){
+				subDictList=row.getChildren();
+				if(subDictList!=null){
+					subDictList.forEach(e ->getDictName(e,locale));
+				}
+				dictMap.put(row.getCode(),subDictList);
 			}
-    		dictMap.put(row.getCode(),subDictList);
 		}
 		return dictMap;
 	}

@@ -40,27 +40,29 @@ public class ArticleService{
 	 * @param detachedCriteria
 	 * @return
 	 */
-	public Page<Article> getArticlePage(DetachedCriteria<Article> dCriteria,Object[] filterCategoryIdArr) {
+	public Page<Article> getArticlePage(DetachedCriteria<Article> dCriteria, Integer type) {
 		Query query=new Query();
 		Article article=dCriteria.getSearchModel();
 		if(article!=null){
 			Criteria criteria=new Criteria();
 			criteria.and("valid").is(1);
 			String categoryId=article.getCategoryId();
+			//栏目筛选
+			List<Category> rowList = null;
+			ArrayList<String> ids=new ArrayList<String>();
 			if(StringUtils.isNotBlank(categoryId)){
-				List<Category> rowList=categoryDao.getChildrenByParentId(categoryId);
-				if(rowList!=null && rowList.size()>0){
-					ArrayList<String> ids=new ArrayList<String>();
-					for(Category row:rowList){
-						ids.add(row.getId());
-					}
-					ids.add(categoryId);
-					criteria.and("categoryId").in(ids.toArray());
+				rowList=categoryDao.getChildrenByParentId(categoryId);
+				ids.add(categoryId);
+			}else{
+				rowList=categoryDao.getListByType(type);
+			}
+			if(rowList!=null && rowList.size()>0){
+				for(Category row:rowList){
+					ids.add(row.getId());
 				}
+				criteria.and("categoryId").in(ids.toArray());
 			}
-			if(filterCategoryIdArr!=null){
-				criteria.and("categoryId").nin(filterCategoryIdArr);
-			}
+			
 			if(StringUtils.isNotBlank(article.getPlatform())){
 				criteria.and("platform").regex(article.getPlatform().replaceAll(",","|"));
 			}

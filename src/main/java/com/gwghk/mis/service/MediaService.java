@@ -3,11 +3,13 @@ package com.gwghk.mis.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -45,17 +47,22 @@ public class MediaService{
 			Criteria criteria=new Criteria();
 			String categoryId=media.getCategoryId();
 			criteria.and("valid").is(1);
+			//栏目筛选
+			List<Category> rowList = null;
+			ArrayList<String> ids=new ArrayList<String>();
 			if(StringUtils.isNotBlank(categoryId)){
-				List<Category> rowList=categoryDao.getChildrenByParentId(categoryId);
-				if(rowList!=null && rowList.size()>0){
-					ArrayList<String> ids=new ArrayList<String>();
-					for(Category row:rowList){
-						ids.add(row.getId());
-					}
-					ids.add(categoryId);
-					criteria.and("categoryId").in(ids.toArray());
-				}
+				rowList=categoryDao.getChildrenByParentId(categoryId);
+				ids.add(categoryId);
+			}else{
+				rowList=categoryDao.getListByType(2);
 			}
+			if(rowList!=null && rowList.size()>0){
+				for(Category row:rowList){
+					ids.add(row.getId());
+				}
+				criteria.and("categoryId").in(ids.toArray());
+			}
+			
 			if(StringUtils.isNotBlank(media.getPlatform())){
 				criteria.and("platform").regex(media.getPlatform().replaceAll(",","|"));
 			}

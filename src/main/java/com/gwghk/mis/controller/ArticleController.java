@@ -94,7 +94,7 @@ public class ArticleController extends BaseController{
     	 detail.setTitle(request.getParameter("title"));
     	 detailList.add(detail);
     	 article.setDetailList(detailList);
-		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, article),new Object[]{"advertisement","sysPicture","teach_video","download"});
+		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, article), 1);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());

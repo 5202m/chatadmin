@@ -139,6 +139,13 @@ public class UserService{
     		roleId=boRole.getRoleId();
     		if(StringUtils.isNotBlank(roleId)){
     			boRole=roleDao.getByRoleId(roleId);
+    			BoRole newBoRole = new BoRole();
+    			if(boRole != null){
+    				newBoRole.setRoleId(boRole.getRoleId());
+    				newBoRole.setRoleNo(boRole.getRoleNo());
+    				newBoRole.setRoleName(boRole.getRoleName());
+    				boRole = newBoRole;
+    			}
         	}
     	}
     	if(isUpdate){

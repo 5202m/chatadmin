@@ -18,7 +18,7 @@
      <tr>
         <th width="15%">栏目<span class="red">*</span></th>
         <td width="35%">
-          <input name="categoryId" class="easyui-combotree" style="width:160px;" data-options="url:'<%=request.getContextPath()%>/categoryController/getCategoryTree.do',valueField:'id',textField:'text'"/>
+          <input name="categoryId" class="easyui-combotree" style="width:160px;" data-options="url:'<%=request.getContextPath()%>/categoryController/getCategoryTree.do?type=2',valueField:'id',textField:'text'"/>
 		</td>
         <th width="15%">发布时间<span class="red">*</span></th>
         <td width="35%">

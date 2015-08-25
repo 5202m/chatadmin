@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,8 +115,8 @@ public class CategoryController extends BaseController{
 	 */
     @RequestMapping(value = "/categoryController/getCategoryTree", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
 	@ResponseBody
-    public String getCategoryTree(HttpServletRequest request,ModelMap map) throws Exception {
-    	List<Category> typeList = categoryService.getCategoryList();
+    public String getCategoryTree(HttpServletRequest request,@Param("type")Integer type) throws Exception {
+    	List<Category> typeList = categoryService.getCategoryList(type);
     	List<TreeBean> treeList=new ArrayList<TreeBean>();
     	TreeBean tbean=null;
     	for(Category row:typeList){

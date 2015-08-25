@@ -20,15 +20,25 @@
 		          	    data-options="required:true,missingMessage:'栏目名称不能为空'"/></td>
 	      </tr>
 	      <tr>
-	      	 <th width="15%">状态： </th>
-	      	 <td width="35%">
-	      	      <select name="status">
-	      	 	  	 <option value="1" <c:if test="${category.status == 1}">selected="selected"</c:if> >启用</option>
-         			 <option value="0" <c:if test="${category.status == 0}">selected="selected"</c:if> >禁用</option>
+	          <th>类型：</th>
+	          <td>
+	      	      <select name="type">
+	      	 	  	 <option value="0">请选择</option>
+	      	 	  	 <option value="1" <c:if test="${category.type == 1}">selected="selected"</c:if> >文章</option>
+         			 <option value="2" <c:if test="${category.type == 2}">selected="selected"</c:if> >媒体</option>
 	      	      </select>
 	      	  </td>
-		     <th width="15%">排序：</th>
-	      	 <td width="35%"><input type="text" name="sort" value="${category.sort}"/></td>
+	      	  <th>状态： </th>
+	      	  <td>
+	      	      <select name="status">
+	      	 	  	 <option value="1" <c:if test="${category.status == 1}">selected="selected"</c:if> >启用</option>
+	        			 <option value="0" <c:if test="${category.status == 0}">selected="selected"</c:if> >禁用</option>
+	      	      </select>
+	      	  </td>
+	      </tr>
+	      <tr>
+		     <th >排序：</th>
+	      	 <td colspan="3"><input type="text" name="sort" value="${category.sort}"/></td>
 	      </tr>
     </table>
   </form>

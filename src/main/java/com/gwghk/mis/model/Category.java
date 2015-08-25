@@ -31,6 +31,11 @@ public class Category extends BaseModel{
 	 */
 	private Integer sort;
 	
+	/**
+	 * 类型:1-文章 2-媒体
+	 */
+	private Integer type;
+	
 	private String parentId;
 	/**
 	 * 父类id路径,依次逗号分隔
@@ -77,6 +82,14 @@ public class Category extends BaseModel{
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+	
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 
 	public String getParentId() {
