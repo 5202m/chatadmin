@@ -99,7 +99,7 @@ var systemUser = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			width : 800,
-			height : 540,
+			height : 600,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -134,7 +134,7 @@ var systemUser = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			width : 800,
-			height : 540,
+			height : 600,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理

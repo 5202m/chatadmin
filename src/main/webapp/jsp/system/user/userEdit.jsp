@@ -4,14 +4,14 @@
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/uploadify/jquery.uploadify.min.js"></script>
 <style type="text/css">
    .header_default div label{
-      margin-right: 28px;
-      margin-left: 30px;
-      width: 50px;
+      margin-right: 20px;
+      margin-left: 20px;
+      width: 33px;
    }
    .header_default div img{
       margin-right:10px;
       margin-left: 10px;
-      width: 50px;
+      width: 33px;
    }
 </style>
 <script type="text/javascript">
