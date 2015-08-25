@@ -98,6 +98,7 @@ var systemUser = {
 		goldOfficeUtils.openEditorDialog({
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
+			width : 800,
 			height : 540,
 			href : url,
 			iconCls : 'pag-add',
@@ -132,6 +133,7 @@ var systemUser = {
 		goldOfficeUtils.openEditorDialog({
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
+			width : 800,
 			height : 540,
 			href : url,
 			iconCls : 'pag-edit',

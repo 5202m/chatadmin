@@ -130,6 +130,8 @@ $(function() {
 			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst2.png" t="4"/>
 			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst3.png" t="5"/>
 			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst4.png" t="6"/>
+			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst5.png" t="7"/>
+			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst6.png" t="8"/>
 			     </div>
 			      <div>
 			       <label><input type="radio" name="defaultHeader" t="1"/></label>
@@ -138,6 +140,8 @@ $(function() {
 			       <label><input type="radio" name="defaultHeader" t="4"/></label>
 			       <label><input type="radio" name="defaultHeader" t="5"/></label>
 			       <label><input type="radio" name="defaultHeader" t="6"/></label>
+			       <label><input type="radio" name="defaultHeader" t="7"/></label>
+			       <label><input type="radio" name="defaultHeader" t="8"/></label>
 			     </div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
