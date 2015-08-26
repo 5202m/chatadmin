@@ -16,7 +16,7 @@ var chatUser = {
 	 * @returns {String}
 	 */
 	formatTwoRow:function(val,hasBorder,addDom){
-		return '<span style="display:block;width:100%; margin:5px auto;padding-bottom:5px;'+(hasBorder?'border-bottom: 1px solid #D0D0D0;':'')+'">'+val+(addDom||'')+'</span>';
+		return '<span style="display:block;width:100%; margin:5px auto;padding-bottom:5px;'+(hasBorder?'border-bottom: 1px solid #D0D0D0;':'')+'">'+val+(addDom||'&nbsp;')+'</span>';
 	},
 	/**
 	 * 是否符合查询条件
