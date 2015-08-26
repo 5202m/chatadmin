@@ -23,6 +23,11 @@ public class ChatUserGroup {
 	 * 用户id
 	 */
 	private String userId;
+	
+	/**
+	 * 密码
+	 */
+	private String pwd;
 		
 	/**
 	 * 交易账户
@@ -121,6 +126,14 @@ public class ChatUserGroup {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
 	public Boolean getValueUser() {
