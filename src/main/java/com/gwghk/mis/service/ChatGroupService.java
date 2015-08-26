@@ -166,7 +166,7 @@ public class ChatGroupService{
 			if(StringUtils.isNotBlank(model.getChatRuleIds())){
 				criter.and("chatRules.id").regex(model.getChatRuleIds().replaceAll(",","|"));;
 			}
-			if(StringUtils.isNotBlank(model.getStatus())){
+			if(model.getStatus()!=null){
 				criter.and("status").is(model.getStatus());
 			}
 		}

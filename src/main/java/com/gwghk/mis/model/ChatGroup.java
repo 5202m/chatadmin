@@ -32,7 +32,7 @@ public class ChatGroup extends BaseModel{
 	/**
 	 * 内容状态：0 、禁用 ；1、启动
 	 */
-	private String status;
+	private Integer status;
 
 	/**
 	 * 聊天规则
@@ -84,11 +84,11 @@ public class ChatGroup extends BaseModel{
 	/** 默认分析师（用户信息） */
 	private BoUser defaultAnalyst;
 	
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
