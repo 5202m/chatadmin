@@ -34,7 +34,7 @@
           </td>
         </tr>
         <tr>
-          	<td colspan="6" align="right">&nbsp;&nbsp;
+          	<td colspan="4" align="right">&nbsp;&nbsp;
 	        	<a href="#" class="easyui-linkbutton" id="system_user_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
 	        	&nbsp;&nbsp; <a href="#" class="easyui-linkbutton" id="system_user_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>
         	</td>
