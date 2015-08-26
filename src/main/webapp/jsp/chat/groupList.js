@@ -32,7 +32,7 @@ var chatGroup = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatGroupController/datagrid.do?groupType='+$("#chatGroupType").val(),
+			url : basePath+'/chatGroupController/datagrid.do?status=' + $("#chatGroupStatus").val() + '&groupType='+$("#chatGroupType").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
