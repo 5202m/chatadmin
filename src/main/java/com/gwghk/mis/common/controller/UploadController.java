@@ -214,7 +214,7 @@ public class UploadController extends BaseController{
 			if(json!=null){
 				result.put("state", "SUCCESS");
 				System.out.println("url:"+json.getObj());
-				result.put("url",PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/"+json.getObj());
+				result.put("url",json.getObj());
 			}
 		} catch (Exception e) {
 			result.put("state", "FAIL");
