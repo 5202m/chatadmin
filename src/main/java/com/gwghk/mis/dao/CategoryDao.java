@@ -111,7 +111,7 @@ public class CategoryDao extends MongoDBBaseDao{
 	 * @param name
 	 */
 	public void updateParentNamePath(String id, String name) {
-		List<Category> list=getChildrenByParentId(id);
+		List<Category> list=getChildrenByParentId(id, null);
 		String idPath="",namePath="";
 		for(Category row:list){
 			idPath=row.getParentIdPath();
@@ -131,8 +131,13 @@ public class CategoryDao extends MongoDBBaseDao{
 	 * @param categoryId
 	 * @return
 	 */
-	public List<Category> getChildrenByParentId(String parentId) {
-		return this.findList(Category.class,Query.query(Criteria.where("parentIdPath").regex(parentId)));
+	public List<Category> getChildrenByParentId(String parentId, Integer type) {
+		Criteria criteria = Criteria.where("status").is(1);
+		if(type != null){
+			criteria.and("type").is(type);
+		}
+		criteria.and("parentIdPath").regex(parentId);
+		return this.findList(Category.class,Query.query(criteria));
 	}
 	
 }

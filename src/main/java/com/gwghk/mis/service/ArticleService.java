@@ -51,7 +51,7 @@ public class ArticleService{
 			List<Category> rowList = null;
 			ArrayList<String> ids=new ArrayList<String>();
 			if(StringUtils.isNotBlank(categoryId)){
-				rowList=categoryDao.getChildrenByParentId(categoryId);
+				rowList=categoryDao.getChildrenByParentId(categoryId, 1);
 				ids.add(categoryId);
 			}else{
 				rowList=categoryDao.getListByType(type);
