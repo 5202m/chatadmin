@@ -32,12 +32,15 @@ var mediaAdd = {
 			alert("请选择栏目！");
 			return;
 		}
-		if(val=='advertisement'){
+		if(val=='advertisement' || val=='sysPicture'){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic'});
-		}else if(val.indexOf("video")!=-1){
+		}else if(val.indexOf("video")!=-1 || val.indexOf("audio")!=-1){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'video'});
 		}else if(val == "download"){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'attach'});
+		}else{
+			alert("栏目：" + val + "对应的上传目录不存在！");
+			return ;
 		}
 		$('#mediaFileId').uploadify('upload', '*');
 	},
