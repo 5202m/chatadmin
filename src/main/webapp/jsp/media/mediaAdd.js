@@ -72,7 +72,7 @@ var mediaAdd = {
 		//媒体图片地址
 		goldOfficeUtils.uploadFile({
 			'fileId' : 'mediaImageId',
-			'formData' : {'imageDir' : 'pic'},
+			'formData' : {'fileDir' : 'pic'},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
