@@ -60,6 +60,8 @@ public class ArticleService{
 				for(Category row:rowList){
 					ids.add(row.getId());
 				}
+			}
+			if(ids.isEmpty() == false){
 				criteria.and("categoryId").in(ids.toArray());
 			}
 			
