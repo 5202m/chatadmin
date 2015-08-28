@@ -22,7 +22,7 @@
 	      <tr>
 	          <th>类型：</th>
 	          <td>
-	      	      <select name="type">
+	      	      <select name="type" id="category_type">
 	      	 	  	 <option value="0">请选择</option>
 	      	 	  	 <option value="1" <c:if test="${category.type == 1}">selected="selected"</c:if> >文章</option>
          			 <option value="2" <c:if test="${category.type == 2}">selected="selected"</c:if> >媒体</option>

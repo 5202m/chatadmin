@@ -173,7 +173,7 @@ var mediaEdit = {
 	 * 功能：修改时保存
 	 */
 	onSaveEdit : function(){
-		if(this.checkForm() && $("#media_tab form[name=mediaDetailForm]").form('validate')){
+		if(this.checkForm() && $("#mediaBaseInfoForm").form('validate') && $("#media_tab form[name=mediaDetailForm]").form('validate')){
 			var serializeFormData = $("#mediaBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#media_tab form[name=mediaDetailForm]"));
 			$.messager.progress();//提交时，加入进度框

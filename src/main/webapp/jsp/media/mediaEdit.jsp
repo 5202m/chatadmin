@@ -43,7 +43,8 @@
         <th width="15%">上传媒体（图片/视频/音频）<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<div id="media_div">
-	        	&nbsp;媒体路径：&nbsp;<input type="text" id="currentMediaPath" name="mediaUrl" value="${media.mediaUrl}" style="margin-bottom: 5px;width:450px;"/>
+	        	&nbsp;媒体路径：&nbsp;<input type="text" id="currentMediaPath" name="mediaUrl" value="${media.mediaUrl}" style="margin-bottom: 5px;width:450px;" class="easyui-validatebox"
+	        				data-options="required:true,validType:'url',missingMessage:'请填入一个有效的URL'"/>
 	        	<input type="file"  id="mediaFileId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceMediaPath" value="${media.mediaUrl}"/>
@@ -60,14 +61,15 @@
       <tr>
       	<th width="15%">点击媒体链接的URL</th>
         <td width="35%" colspan="3">
-        	<input type="text" name="linkUrl" value="${media.linkUrl}" style="width: 800px;"/>
+        	<input type="text" name="linkUrl" value="${media.linkUrl}" style="width: 800px;" class="easyui-validatebox" data-options="validType:'url',missingMessage:'请填入一个有效的URL'"/>
         </td>
       </tr>
       <tr id="mediaImageRowTr" style="display:none;">
       	<th width="15%">媒体图片地址<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<div>
-	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentMediaImagePath" name="mediaImgUrl" value="${media.mediaImgUrl}" style="margin-bottom: 5px;width:450px;"/>
+	        	&nbsp;图片路径：&nbsp;<input type="text" id="currentMediaImagePath" name="mediaImgUrl" value="${media.mediaImgUrl}" style="margin-bottom: 5px;width:450px;" class="easyui-validatebox"
+	        			data-options="validType:'url',missingMessage:'请填入一个有效的URL'"/>
 	        	<input type="file"  id="mediaImageId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceMediaImagePath" value="${media.mediaImgUrl}" />

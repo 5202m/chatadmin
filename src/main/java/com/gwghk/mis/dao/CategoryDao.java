@@ -29,7 +29,7 @@ public class CategoryDao extends MongoDBBaseDao{
 	public List<Category> getListByType(Integer type){
 		Criteria criteria = Criteria.where("status").is(1);
 		if(type != null){
-			criteria.and("type").is(type);
+			criteria.and("type").in(new Object[]{type, 0});
 		}
 		return this.findList(Category.class, new Query(criteria));
 	}

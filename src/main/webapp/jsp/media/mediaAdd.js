@@ -170,7 +170,7 @@ var mediaAdd = {
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
-		if(this.checkForm() && $("#mediaDetailForm").form('validate')){
+		if(this.checkForm() && $("#mediaDetailForm").form('validate') && $("#media_tab form[name=mediaDetailForm]").form('validate')){
 			var serializeFormData = $("#mediaBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#media_tab form[name=mediaDetailForm]"));
 			$.messager.progress();//提交时，加入进度框

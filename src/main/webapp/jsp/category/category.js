@@ -49,7 +49,7 @@ var category = {
 					}else if (value == 2) {
 						return '媒体';
 					} else {
-						return '其他';
+						return '';
 					}
 				}},
 			    {title : '状态',field:'status',formatter:function(value, rowData, rowIndex) {
@@ -92,6 +92,8 @@ var category = {
 			height : 200,
 			href : url,
 			iconCls : 'pag-add',
+			onLoad : function(){
+			},
 			handler : function(){   //提交时处理
 				if($("#categoryViewForm").form('validate')){
 					goldOfficeUtils.ajaxSubmitForm({
