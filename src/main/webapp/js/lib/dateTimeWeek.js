@@ -144,9 +144,9 @@
     		weekTimeArr.sort($.fn.dateTimeWeek.arraySort("week",false));
     	}
     	if(bDate=="" && eDate=="" && !weekTimeArr){
-    		return "";
+    		return '';
     	}else{
-    		return {beginDate:bDate,endDate:eDate,weekTime:weekTimeArr};
+    		return JSON.stringify({beginDate:bDate,endDate:eDate,weekTime:weekTimeArr});
     	}
     }; 
 })(jQuery);

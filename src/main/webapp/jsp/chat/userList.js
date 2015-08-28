@@ -256,7 +256,7 @@ var chatUser = {
 			iconCls : 'ope-redo',
 			handler : function(){    //提交时处理
 				if($("#userGagForm").form('validate')){
-					$("#userGag_gagDate").val(JSON.stringify($("#userGag_gagDate_div").dateTimeWeek.getData()));
+					$("#userGag_gagDate").val($("#userGag_gagDate_div").dateTimeWeek.getData());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'userGagForm',
