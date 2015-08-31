@@ -653,6 +653,52 @@ function formatDateWeekTime(openDate){
     return dateStr;
 }
 /**
+ * 检查当前日期是否符合日期插件数据
+ * @param dateTime
+ * @param nullResult 空值结果
+ *          1）对于禁言设置，空值表示没有设置禁言，即当前时间不包含在其中。传值false
+ *          2）对于聊天规则设置，空值表示永久生效，即当前时间包含在其中。传值true
+ */
+function dateTimeWeekCheck(dateTime, nullResult){
+    if(isBlank(dateTime)){
+        return !!nullResult;
+    }
+    if(!$.isPlainObject(dateTime)){
+        dateTime=JSON.parse(dateTime);
+    }
+    var currDate=new Date(),isPass=false, currDateStr = formatterDate(currDate);
+    isPass=isBlank(dateTime.beginDate)||currDateStr>=dateTime.beginDate;
+    if(isPass){
+        isPass=isBlank(dateTime.endDate)||currDateStr<=dateTime.endDate;
+    }
+    if(!isPass){
+        return false;
+    }
+    var weekTime=dateTime.weekTime;
+    if(isBlank(weekTime)){
+        return isPass;
+    }
+    var row=null,currTime=null,weekTimePass=false;
+    for(var i in weekTime){
+        row=weekTime[i];
+        if(isValid(row.week) && currDate.getDay()!=parseInt(row.week)){
+            continue;
+        }
+        if(isBlank(row.beginTime) && isBlank(row.beginTime)){
+            return true;
+        }
+        currTime=getHHMMSS(currDate);
+        weekTimePass=isBlank(row.beginTime)||currTime>=row.beginTime;
+        if(weekTimePass){
+            weekTimePass=isBlank(row.endTime)||currTime<=row.endTime;
+        }
+        if(weekTimePass){
+           break;
+        }
+    }
+    return weekTimePass;
+};
+/**
  * 对象数组排序
  * @param key 对象的key值
  * @param desc true 为降序，false升序

@@ -13,10 +13,12 @@ var chatUser = {
 	 * 格式成两行
 	 * @param val
 	 * @param hasBorder
+	 * @param addDom
+	 * @param style
 	 * @returns {String}
 	 */
-	formatTwoRow:function(val,hasBorder,addDom){
-		return '<span style="display:block;width:100%; margin:5px auto;padding-bottom:5px;'+(hasBorder?'border-bottom: 1px solid #D0D0D0;':'')+'">'+val+(addDom||'&nbsp;')+'</span>';
+	formatTwoRow:function(val,hasBorder,addDom,addstyle){
+		return '<span style="display:block;width:100%; margin:5px auto;padding-bottom:5px;'+ (!addstyle ? "" : addstyle) +(hasBorder?'border-bottom: 1px solid #D0D0D0;':'')+'">'+(val||'&nbsp;')+addDom+'</span>';
 	},
 	/**
 	 * 是否符合查询条件
@@ -95,7 +97,7 @@ var chatUser = {
 					            if(!chatUser.isSearchField(rooms[i])){
 					            	continue;
 					            }
-					            tds+=chatUser.formatTwoRow(name,chatUser.isGroupTypeSearch() && i<rooms.length-1,sDom);
+					            tds+=chatUser.formatTwoRow(name,chatUser.isGroupTypeSearch() && i<rooms.length-1,sDom, '');
 			            	}
 							return tds;
 						}},
@@ -105,7 +107,7 @@ var chatUser = {
 			            		if(!chatUser.isSearchField(rooms[i])){
 						          continue;
 						        }
-			            		tds+=chatUser.formatTwoRow(chatUser.getComboxNameByCode("#chatUserOnlineStatus",rooms[i].onlineStatus),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            		tds+=chatUser.formatTwoRow(chatUser.getComboxNameByCode("#chatUserOnlineStatus",rooms[i].onlineStatus),chatUser.isGroupTypeSearch() && i<rooms.length-1, '', '');
 			            	}
 							return tds;
 						}},
@@ -115,17 +117,18 @@ var chatUser = {
 			            		if(!chatUser.isSearchField(rooms[i])){
 							       continue;
 							    }
-			            		tds+=chatUser.formatTwoRow((rooms[i].onlineDate? timeObjectUtil.formatterDateTime(rooms[i].onlineDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            		tds+=chatUser.formatTwoRow((rooms[i].onlineDate? timeObjectUtil.formatterDateTime(rooms[i].onlineDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1, '', '');
 			            	}
 							return tds;
 						}},
-						{title : '禁言时间',field : 'loginPlatform.chatUserGroup.gagDate',formatter : function(value, rowData, rowIndex) {
-							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="";
+						{title : '禁言时间(红色当前生效)',field : 'loginPlatform.chatUserGroup.gagDate',formatter : function(value, rowData, rowIndex) {
+							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="",addStyle = "";
 			            	for(var i=0, lenI = rooms ? rooms.length : 0;i<lenI;i++){
 			            		if(!chatUser.isSearchField(rooms[i])){
 							       continue;
 							    }
-			            		tds+=chatUser.formatTwoRow((rooms[i].gagDate? formatDateWeekTime(rooms[i].gagDate) : ''),chatUser.isGroupTypeSearch() && i<rooms.length-1);
+			            		addStyle = dateTimeWeekCheck(rooms[i].gagDate, false) ? "color:red;" : ""
+			            		tds+=chatUser.formatTwoRow((rooms[i].gagDate? formatDateWeekTime(rooms[i].gagDate) : ''), chatUser.isGroupTypeSearch() && i<rooms.length-1, '', addStyle);
 			            	}
 							return tds;
 						}}					
