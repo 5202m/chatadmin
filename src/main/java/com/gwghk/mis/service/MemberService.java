@@ -162,24 +162,20 @@ public class MemberService{
 			Criteria criteria = new Criteria();
 			Criteria userGroupCriteria = new Criteria();
 			Criteria roomCriteria = new Criteria();
-			boolean userGroupFlag = false;
 			boolean roomFlag = false;
 			if(StringUtils.isNotBlank(member.getMobilePhone())){
 				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(member.getMobilePhone()));
 			}
-			
+
 			if(StringUtils.isNotBlank(userGroup.getAccountNo())){
 				userGroupCriteria.and("accountNo").regex(StringUtil.toFuzzyMatch(userGroup.getAccountNo()));
-				userGroupFlag = true;
 			}
 			if(StringUtils.isNotBlank(userGroup.getNickname())){
 				userGroupCriteria.and("nickname").regex(StringUtil.toFuzzyMatch(userGroup.getNickname()));
-				userGroupFlag = true;
 			}
 			if(StringUtils.isNotBlank(userGroup.getId())){
 				if(userGroup.getId().indexOf(",")!=-1){
 					userGroupCriteria.and("id").is(userGroup.getId().replace(",", ""));
-					userGroupFlag = true;
 				}else{
 					roomCriteria.and("id").is(userGroup.getId());
 					roomFlag = true;
@@ -187,16 +183,13 @@ public class MemberService{
 			}
 			if(userGroup.getValueUser() != null){
 				userGroupCriteria.and("valueUser").is(userGroup.getValueUser());
-				userGroupFlag = true;
 			}
 			if(StringUtils.isNotBlank(userGroup.getClientGroup())){
 				if("vip".equals(userGroup.getClientGroup())){
 					userGroupCriteria.and("vipUser").is(true);
-					userGroupFlag = true;
 				}else{
 					userGroupCriteria.and("vipUser").is(false);
 					userGroupCriteria.and("clientGroup").is(userGroup.getClientGroup());
-					userGroupFlag = true;
 				}
 			}
 			List<ChatRoom> roomList=userGroup.getRooms();
@@ -232,11 +225,9 @@ public class MemberService{
 
 			if(roomFlag){
 				userGroupCriteria.and("rooms").elemMatch(roomCriteria);
-				userGroupFlag = true;
 			}
-			if(userGroupFlag){
-				criteria.and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
-			}
+			userGroupCriteria.and("userType").is(0);
+			criteria.and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
 			query.addCriteria(criteria);
 		}
 		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone");

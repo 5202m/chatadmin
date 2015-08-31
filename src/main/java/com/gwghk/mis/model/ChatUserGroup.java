@@ -63,6 +63,11 @@ public class ChatUserGroup {
 	private Boolean vipUser;
 	
 	/**
+	 * 用户类型 0--普通用户、1-管理员、2-分析师、3-客服
+	 */
+	private Integer userType;
+	
+	/**
 	 * 价值用户备注
 	 */
 	private String vipUserRemark;
@@ -150,6 +155,14 @@ public class ChatUserGroup {
 
 	public void setVipUser(Boolean vipUser) {
 		this.vipUser = vipUser;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 
 	public String getVipUserRemark() {

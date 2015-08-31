@@ -33,9 +33,9 @@ var chatUser = {
 	   if(result){
 		   var gagStatus = $("#chatUser_gagStatus").val();
 		   if(gagStatus == "0"){
-			   result = !room.gagDate || room.gagDate == "\"\"";
+			   result = !room.gagDate;
 		   }else if(gagStatus == "1"){
-			   result = room.gagDate && room.gagDate != "\"\"";
+			   result = room.gagDate;
 		   }
 	   }
 	   return result;
