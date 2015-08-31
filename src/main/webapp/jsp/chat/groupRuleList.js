@@ -117,7 +117,7 @@ var chatGroupRule = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatGroupRuleSubmitForm").form('validate')){
-					$("#chatGroupRule_periodDate").val(JSON.stringify($("#chatGroupRule_periodDate_div").dateTimeWeek.getData()));
+					$("#chatGroupRule_periodDate").val($("#chatGroupRule_periodDate_div").dateTimeWeek.getData());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupRuleSubmitForm',

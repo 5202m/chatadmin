@@ -166,7 +166,7 @@ var chatStudio = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatStudioSubmitForm").form('validate')){
-					$("#chatStudio_studioDate").val(JSON.stringify($("#studioDateDiv").dateTimeWeek.getData()));
+					$("#chatStudio_studioDate").val($("#studioDateDiv").dateTimeWeek.getData());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatStudioSubmitForm',
