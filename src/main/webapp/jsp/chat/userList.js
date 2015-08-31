@@ -222,22 +222,26 @@ var chatUser = {
 	 * @param _this
 	 */
 	userUnbind : function(_this){
-		$("#chatUser_datagrid").datagrid('unselectAll');
-		goldOfficeUtils.ajax({
-			url : formatUrl(basePath + '/chatUserController/userSetting.do'),
-			data : {
-				groupType : $(_this).attr("groupType"),
-				memberId : $(_this).attr("memberId"),
-				type : "unbind"
-			},
-			success: function(data) {
-				if (data.success) {
-					$("#chatUser_datagrid").datagrid('unselectAll');
-					chatUser.refresh();
-					$.messager.alert($.i18n.prop("common.operate.tips"),'解绑成功!','info');
-				}else{
-					$.messager.alert($.i18n.prop("common.operate.tips"),'解绑失败!','error');
-				}
+		$.messager.confirm("操作提示", "确定解除绑定？解除绑定后，客户需要重新注册才能登录。", function(r) {
+			if(r){
+				$("#chatUser_datagrid").datagrid('unselectAll');
+				goldOfficeUtils.ajax({
+					url : formatUrl(basePath + '/chatUserController/userSetting.do'),
+					data : {
+						groupType : $(_this).attr("groupType"),
+						memberId : $(_this).attr("memberId"),
+						type : "unbind"
+					},
+					success: function(data) {
+						if (data.success) {
+							$("#chatUser_datagrid").datagrid('unselectAll');
+							chatUser.refresh();
+							$.messager.alert($.i18n.prop("common.operate.tips"),'解绑成功!','info');
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'解绑失败!','error');
+						}
+					}
+				});
 			}
 		});
 	},
