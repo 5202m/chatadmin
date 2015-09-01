@@ -40,7 +40,7 @@ public class ChatApiService{
 			String str=HttpClientUtils.httpPostString(formatUrl("removeMsg"),paramMap);
 			if(StringUtils.isNotBlank(str)){
 				JSONObject obj=JSON.parseObject(str);
-				return obj.getBoolean("isOk");
+				return obj.getBoolean("isOK");
 			}else{
 				return false;
 			}
@@ -65,7 +65,7 @@ public class ChatApiService{
 			String str=HttpClientUtils.httpPostString(formatUrl("approvalMsg"),paramMap);
 			if(StringUtils.isNotBlank(str)){
 				JSONObject obj=JSON.parseObject(str);
-				return api.setCode(obj.getBoolean("isOk")?ResultCode.OK:ResultCode.FAIL).setErrorMsg(obj.getString("error"));
+				return api.setCode(obj.getBoolean("isOK")?ResultCode.OK:ResultCode.FAIL).setErrorMsg(obj.getString("error"));
 			}else{
 				return api.setCode(ResultCode.FAIL);
 			}
