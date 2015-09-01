@@ -53,7 +53,7 @@ var mediaAdd = {
 		goldOfficeUtils.uploadFile({
 			'fileId' : 'mediaFileId',
 			'formData' : {'fileDir' : ''},
-			'fileSizeLimit' : 10*1024*1024,
+			'fileSizeLimit' : 300*1024*1024,
 			'fileTypeDesc': '只能上传'+suffix+'格式文件',
 			'fileTypeExts' : "*",
 			'uploader' : basePath+'/uploadController/upload.do',
