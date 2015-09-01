@@ -49,8 +49,8 @@
 	
 	<!-- 上传 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!--1024*10000即10000k-->
-        <property name="maxUploadSize" value="100000000"/>
+		<!--约300M-->
+        <property name="maxUploadSize" value="300000000"/>
     </bean>
 	
 	<!-- 异常处理类 -->
