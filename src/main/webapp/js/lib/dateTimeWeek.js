@@ -28,7 +28,7 @@
 			     		  if(lastN>1){
 			     			 lastDom.find("a[t=add]").hide();
 			     		  }
-			     		  lastHtml=lastHtml.replace(/(time_week_start_time|time_week_end_time)_\d/g,'$1_'+n);
+			     		  lastHtml=lastHtml.replace(/(start_time|end_time)_\d/g,'$1_'+n);
 			     		  $(dateTimeWeekDom.id+" .date-time-week-each").append('<div n="'+n+'">'+lastHtml+'</div>');
 			     		  var notFirstDom=$(dateTimeWeekDom.id+" .date-time-week-each div[n!=1]");
 			     		  notFirstDom.find("a[t=remove]").show();
