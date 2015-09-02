@@ -9,11 +9,11 @@
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">手机号码</th>
-          <td width="23%"><input type="text" name="mobilePhone"></td>
+          <td width="21%"><input type="text" name="mobilePhone"></td>
           <th width="10%">账号</th>
-          <td width="23%"><input type="text" name="loginPlatform.chatUserGroup[0].accountNo"></td>
+          <td width="21%"><input type="text" name="loginPlatform.chatUserGroup[0].accountNo"></td>
           <th width="10%">昵称</th>
-          <td width="24%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
+          <td width="28%"><input type="text" name="loginPlatform.chatUserGroup[0].nickname"></td>
         </tr>
         <tr>
           <th>所属房间</th>
