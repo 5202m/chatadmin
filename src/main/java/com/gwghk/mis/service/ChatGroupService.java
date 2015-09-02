@@ -111,6 +111,8 @@ public class ChatGroupService{
 		if(StringUtils.isNotBlank(group.getChatRuleIds())){
 			List<ChatGroupRule> ruleList=chatGroupRuleDao.getByIdArr(group.getChatRuleIds().split(","));
 			group.setChatRules(ruleList);
+		}else{
+			group.setChatRules(new ArrayList<ChatGroupRule>());
 		}
 		//不保存id
 		group.setChatRuleIds(null);
