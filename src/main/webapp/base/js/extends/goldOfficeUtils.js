@@ -32,7 +32,8 @@ var goldOfficeUtils = {
 			draggable : true,
 			resizable : true,
 			loadingMessage : '正在加载数据，请稍等片刻......',
-			onLoad : $.noop
+			onLoad : $.noop,
+			onOpen : $.noop
         },config);
 		dialogId = config.dialogId === undefined ? 'myWindow' : config.dialogId;
 		$('#'+dialogId).dialog({
@@ -54,6 +55,7 @@ var goldOfficeUtils = {
 			resizable : config.resizable,
 			loadingMessage : config.loadingMessage,
 			onLoad : config.onLoad,
+			onOpen : config.onOpen,
 			buttons : config.buttons === undefined ? [{
 				text : '关闭',
 				iconCls : "ope-close",
@@ -86,7 +88,8 @@ var goldOfficeUtils = {
 			draggable : true,
 			resizable : true,
 			loadingMessage : '正在加载数据，请稍等片刻......',
-			onLoad : $.noop
+			onLoad : $.noop,
+			onOpen : $.noop
         },config);
 		dialogId = config.dialogId === undefined || config.dialogId === ''? 'myWindow' : config.dialogId;
 		$('#'+dialogId).dialog({
@@ -108,6 +111,7 @@ var goldOfficeUtils = {
 			resizable : config.resizable,
 			loadingMessage : config.loadingMessage,
 			onLoad : config.onLoad,
+			onOpen : config.onOpen,
 			buttons	 : config.buttons === undefined ? [{
 				text : '提交',
 				iconCls : "ope-save",
