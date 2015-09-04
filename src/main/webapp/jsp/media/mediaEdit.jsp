@@ -146,7 +146,7 @@
 	      </tr>
 	       <tr>
 			<th width="15%">简介</th>
-        	<td width="85%"><textarea rows="2" cols="6" name="content" style="width:600px">${mediaDetail.remark}</textarea></td>
+        	<td width="85%"><textarea rows="2" cols="6" name="content" style="width:600px">${mediaDetail.content}</textarea></td>
            </tr>
            <tr>
 			<th width="15%">标签</th>
