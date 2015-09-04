@@ -104,6 +104,13 @@ var chatGroup = {
 		$("#chatGroup_queryForm_reset").on("click",function(){
 			$("#chatGroup_queryForm")[0].reset();
 		});
+		
+		$.fn.validatebox.defaults.rules['idString'] = { // 判断编号
+			validator : function(value) {
+				return /^\w+$/.test(value);
+			},
+			message : "编号只能由字母、数字和下划线组成。"
+		};
 	},
 	/**
 	 * 清空旧的参数
