@@ -111,15 +111,6 @@
 					vid: <input type="text" pName="vid">
 				</td>
 			</tr>
-			<tr>
-				<th>
-					<input type="radio" name="addMediaUrlName" id="addMediaUrlsina" value="">
-					<label for="addMediaUrlsina">新浪</label>
-				</th>
-				<td>
-					vid: <input type="text" pName="vid">
-				</td>
-			</tr>
 		</table>
 	</form>
 </div>

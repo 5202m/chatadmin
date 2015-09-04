@@ -28,7 +28,7 @@ var mediaAdd = {
 			goldOfficeUtils.openSimpleDialog({
 				dialogId : "addMediaUrl",
 				title : '设置链接',
-				height:140,
+				height:110,
 				onOpen : function(){
 					var loc_url = loc_targetDom.val();
 					if(loc_url){
@@ -47,26 +47,34 @@ var mediaAdd = {
 					}
 				},
 				buttons	 : [{
+					text : '清空',
+					iconCls : "ope-close",
+					handler : function() {
+						$("#addMediaUrl form")[0].reset();
+					}
+				},{
 					text : '确定',
 					iconCls : "ope-save",
 					handler : function(){
 						var loc_checkTr = $("#addMediaUrl input:checked").parents("tr:first");
-						var loc_url = loc_checkTr.find("input:radio").val();
-						var loc_params = "";
-						loc_checkTr.find("input:not(:radio)").each(function(){
-							loc_params += "&" + $(this).attr("pName") + "=" + $(this).val();
-						})
-						if(loc_params !== ""){
-							loc_url = loc_url + "?" + loc_params.substring(1);
+						var loc_url = "";
+						if(loc_checkTr.size() > 0){
+							loc_url += loc_checkTr.find("input:radio").val();
+							var loc_params = "";
+							loc_checkTr.find("input:not(:radio)").each(function(){
+								if($(this).attr("pName") === "vid" && !$(this).val()){
+									loc_url = "";
+									return false;
+								}
+								loc_params += "&" + $(this).attr("pName") + "=" + $(this).val();
+							})
+							if(loc_params !== ""){
+								loc_url = loc_url + "?" + loc_params.substring(1);
+							}
 						}
 						loc_targetDom.val(loc_url);
-						$("#addMediaUrl").dialog("close");
-					}
-				},{
-					text : '重置',
-					iconCls : "ope-close",
-					handler : function() {
 						$("#addMediaUrl form")[0].reset();
+						$("#addMediaUrl").dialog("close");
 					}
 				},{
 					text : '关闭',
