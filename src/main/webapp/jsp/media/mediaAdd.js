@@ -22,6 +22,61 @@ var mediaAdd = {
 				}
 			}
 		});
+		
+		$("#addMediaUrlHander").bind("click", function(){
+			var loc_targetDom = $("#currentMediaPath");
+			goldOfficeUtils.openSimpleDialog({
+				dialogId : "addMediaUrl",
+				title : '设置链接',
+				onOpen : function(){
+					var loc_url = loc_targetDom.val();
+					if(loc_url){
+						$("#addMediaUrl input:radio").each(function(){
+							if(loc_url.startsWith($(this).val())){
+								$(this).prop("checked", true);
+								var loc_params = loc_url.substring(loc_url.indexOf("?") + 1).split("&");
+								var loc_eqIndex = -1, loc_trDom = $(this).parents("tr:first");
+								for(var i = 0, lenI = !loc_params ? 0 :loc_params.length; i < lenI; i++){
+									loc_eqIndex = loc_params[i].indexOf("=");
+									loc_trDom.find("input[pName='" + loc_params[i].substring(0, loc_eqIndex) + "']").val(loc_params[i].substring(loc_eqIndex+1));
+								}
+								return false;
+							}
+						});
+					}
+				},
+				buttons	 : [{
+					text : '确定',
+					iconCls : "ope-save",
+					handler : function(){
+						var loc_checkTr = $("#addMediaUrl input:checked").parents("tr:first");
+						var loc_url = loc_checkTr.find("input:radio").val();
+						var loc_params = "";
+						loc_checkTr.find("input:not(:radio)").each(function(){
+							loc_params += "&" + $(this).attr("pName") + "=" + $(this).val();
+						})
+						if(loc_params !== ""){
+							loc_url = loc_url + "?" + loc_params.substring(1);
+						}
+						loc_targetDom.val(loc_url);
+						$("#addMediaUrl").dialog("close");
+					}
+				},{
+					text : '重置',
+					iconCls : "ope-close",
+					handler : function() {
+						$("#addMediaUrl form")[0].reset();
+					}
+				},{
+					text : '关闭',
+					iconCls : "ope-close",
+					handler : function() {
+						$("#addMediaUrl form")[0].reset();
+						$("#addMediaUrl").dialog("close");
+					}
+				}]
+			});
+		});
 	},
 	/**
 	 * 上传文件

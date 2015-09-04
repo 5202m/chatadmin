@@ -45,6 +45,7 @@
         	<div id="media_div">
 	        	&nbsp;媒体路径：&nbsp;<input type="text" id="currentMediaPath" name="mediaUrl" value="${media.mediaUrl}" style="margin-bottom: 5px;width:450px;" class="easyui-validatebox"
 	        				data-options="required:true,validType:'url',missingMessage:'请填入一个有效的URL'"/>
+	        				<input type="button" value="设置链接" id="addMediaUrlHander">
 	        	<input type="file"  id="mediaFileId" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="sourceMediaPath" value="${media.mediaUrl}"/>
@@ -101,6 +102,30 @@
      </tr>
     </table>
   </form>
+</div>
+<div id="addMediaUrl" class="easyui-dialog" closed="true">
+<form>
+	<table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+		<tr>
+			<th>
+				<input type="radio" name="addMediaUrlName" id="addMediaUrlTecent" value="http://v.qq.com/iframe/player.html">
+				<label for="addMediaUrlTecent">腾讯</label>
+			</th>
+			<td>
+				vid: <input type="text" pName="vid">
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="radio" name="addMediaUrlName" id="addMediaUrlsina" value="">
+				<label for="addMediaUrlsina">新浪</label>
+			</th>
+			<td>
+				vid: <input type="text" pName="vid">
+			</td>
+		</tr>
+	</table>
+</form>
 </div>
 <style type="text/css">
 #media_tab .tabs{
