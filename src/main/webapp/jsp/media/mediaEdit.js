@@ -29,6 +29,7 @@ var mediaEdit = {
 			goldOfficeUtils.openSimpleDialog({
 				dialogId : "addMediaUrl",
 				title : '设置链接',
+				height:140,
 				onOpen : function(){
 					var loc_url = loc_targetDom.val();
 					if(loc_url){
