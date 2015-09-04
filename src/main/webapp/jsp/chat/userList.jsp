@@ -3,7 +3,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/userList.js" charset="UTF-8"></script>
 <div class="easyui-layout" data-options="fit:true">
   <!-- notrh -->
-   <div data-options="region:'north',border:false" style="height:140px;">
+   <div data-options="region:'north',border:false" style="height:170px;">
     <div class="easyui-panel" data-options="fit:true,title:'<spring:message code="common.searchCondition" />',border:false,iconCls:'pag-search'">
     <form class="yxForm" id="chatUser_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
@@ -58,8 +58,15 @@
               	</c:forEach>
 	          </select>
           </td>
+          <th>注册时间</th>
+          <td> 
+          	从&nbsp; <input name="userCreateDateStart" id="userCreateDateStart" class="Wdate"  onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'userCreateDateEnd\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+             &nbsp;&nbsp;&nbsp;&nbsp; 到&nbsp;<input name="userCreateDateEnd" id="userCreateDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'userCreateDateStart\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px" />
+		  </td>
+        </tr>
+        <tr>
           <th>是否禁言</th>
-          <td>
+          <td colspan="5">
 	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="1">是</option>

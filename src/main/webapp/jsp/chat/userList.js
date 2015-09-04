@@ -89,6 +89,10 @@ var chatUser = {
 							var id = row.vipUser ? 'vip' : (!row.clientGroup ? "real" : row.clientGroup);
 							return name=$.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id));
 						}},
+						{title : '注册时间',field : 'loginPlatform.chatUserGroup.createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return timeObjectUtil.formatterDateTime(row.createDate);
+						}},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 			            	var groupRow=rowData.loginPlatform.chatUserGroup[0],rooms=groupRow.rooms,tds="",sDom='',name='';
 			            	for(var i=0;i<rooms.length;i++){

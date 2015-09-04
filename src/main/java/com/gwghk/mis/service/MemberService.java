@@ -152,9 +152,13 @@ public class MemberService{
 	/**
 	 * 分页查询聊天室用户组信息
 	 * @param dCriteria
+	 * @param onlineStartDate
+	 * @param onlineEndDate
+	 * @param createDateStart
+	 * @param createDateEnd
 	 * @return
 	 */
-	public Page<Member> getChatUserPage(DetachedCriteria<Member> dCriteria,Date onlineStartDate,Date onlineEndDate) {
+	public Page<Member> getChatUserPage(DetachedCriteria<Member> dCriteria,Date onlineStartDate,Date onlineEndDate,Date createDateStart,Date createDateEnd) {
 		Member member = dCriteria.getSearchModel();
 		Query query=new Query();
 		ChatUserGroup userGroup=member.getLoginPlatform().getChatUserGroup().get(0);
@@ -166,7 +170,18 @@ public class MemberService{
 			if(StringUtils.isNotBlank(member.getMobilePhone())){
 				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(member.getMobilePhone()));
 			}
-
+			
+			if(createDateStart!=null){
+				userGroupCriteria = userGroupCriteria.and("createDate").gte(createDateStart);
+			}
+			if(createDateEnd != null){
+				if(createDateStart != null){
+					userGroupCriteria.lte(createDateEnd);
+				}else{
+					userGroupCriteria.and("createDate").lte(createDateEnd);
+				}
+			}
+			
 			if(StringUtils.isNotBlank(userGroup.getAccountNo())){
 				userGroupCriteria.and("accountNo").regex(StringUtil.toFuzzyMatch(userGroup.getAccountNo()));
 			}
@@ -200,7 +215,7 @@ public class MemberService{
 					roomFlag = true;
 				}
 				if(onlineStartDate!=null){
-					roomCriteria.and("onlineDate").gte(onlineStartDate);
+					roomCriteria = roomCriteria.and("onlineDate").gte(onlineStartDate);
 					roomFlag = true;
 				}
 				if(onlineEndDate != null){
@@ -214,10 +229,10 @@ public class MemberService{
 				}
 				if(room.getGagStatus() != null){
 					if(room.getGagStatus()){
-						roomCriteria.and("gagDate").nin(new Object[]{null, "", "\"\""});
+						roomCriteria.and("gagDate").nin(new Object[]{null, ""});
 						roomFlag = true;
 					}else{
-						roomCriteria.and("gagDate").in(new Object[]{null, "", "\"\""});
+						roomCriteria.and("gagDate").in(new Object[]{null, ""});
 						roomFlag = true;
 					}
 				}

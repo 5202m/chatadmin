@@ -120,7 +120,15 @@ public class ChatUserController extends BaseController{
 		 if(StringUtils.isNotBlank(onlineEndDateStr)){
 			 onlineEndDate=DateUtil.parseDateSecondFormat(onlineEndDateStr);
 		 }
-		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate);
+		 Date createDateStart=null,createDateEnd=null;
+		 String createDateStartStr=request.getParameter("userCreateDateStart"),createDateEndStr=request.getParameter("userCreateDateEnd");
+		 if(StringUtils.isNotBlank(createDateStartStr)){
+			 createDateStart=DateUtil.parseDateSecondFormat(createDateStartStr);
+		 }
+		 if(StringUtils.isNotBlank(createDateEndStr)){
+			 createDateEnd=DateUtil.parseDateSecondFormat(createDateEndStr);
+		 }
+		 Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatMessage>() : page.getCollection());
@@ -267,8 +275,16 @@ public class ChatUserController extends BaseController{
 			if(StringUtils.isNotBlank(onlineEndDateStr)){
 			   onlineEndDate=DateUtil.parseDateSecondFormat(onlineEndDateStr);
 			}
+			Date createDateStart=null,createDateEnd=null;
+			 String createDateStartStr=request.getParameter("userCreateDateStart"),createDateEndStr=request.getParameter("userCreateDateEnd");
+			 if(StringUtils.isNotBlank(createDateStartStr)){
+				 createDateStart=DateUtil.parseDateSecondFormat(createDateStartStr);
+			 }
+			 if(StringUtils.isNotBlank(createDateEndStr)){
+				 createDateEnd=DateUtil.parseDateSecondFormat(createDateEndStr);
+			 }
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_USER_RECORDS_TEMPLATE_PATH)));
-			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate);
+			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 			List<Member>  memberList = page.getCollection();
 			ChatUserGroup userGroup=null;
 			if(memberList != null && memberList.size() > 0){
@@ -280,6 +296,7 @@ public class ChatUserController extends BaseController{
 					row.set("accountNo", userGroup.getAccountNo());
 					row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
 					row.set("groupId", userGroup.getId());
+					row.set("createDate", userGroup.getCreateDate());
 					ChatRoom room=userGroup.getRooms().get(0);
 					row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
 					row.set("onlineDate", room.getOnlineDate());
