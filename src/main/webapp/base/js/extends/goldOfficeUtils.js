@@ -417,7 +417,7 @@ var goldOfficeUtils = {
             'formData': config.formData == undefined ? {} :config.formData,			                //传递自己的数据
             'width' : config.width === undefined ? 120 : config.width,                                                                
             'height' : config.height === undefined ? 30 : config.height,                  
-            'swf' : path+'/base/js/uploadify/uploadify.swf',
+            'swf' : basePath+'/base/js/uploadify/uploadify.swf',
             'uploader' : config.uploader === undefined ? '' : config.uploader,              		//上传文件触发的url
             'auto' : config.auto === undefined ? false : config.auto,                           	//文件选择完成后，是否自动上传
             'fileObjName' : config.fileObjName === undefined ? 'file' : config.auto ,           	//后台接收方法的参数                                                         
