@@ -80,24 +80,24 @@ $(function() {
 		          	    data-options="required:true,missingMessage:'<spring:message code="user.valid.name" />'"/></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.pass" /><!-- 密码 --><span class="red">*</span></th>
-        <td width="35%"><input type="password" name="password" id="pwd" class="easyui-validatebox"
+        <th><spring:message code="user.pass" /><!-- 密码 --><span class="red">*</span></th>
+        <td><input type="password" name="password" id="pwd" class="easyui-validatebox"
         				data-options="required:true,missingMessage:'<spring:message code="user.valid.pass" />'"/></td>
-        <th width="15%"><spring:message code="user.confirmpass" /><!-- 确认密码 --><span class="red">*</span></th>
-        <td width="35%"><input type="password"  id="confirmPwd" class="easyui-validatebox" 
+        <th><spring:message code="user.confirmpass" /><!-- 确认密码 --><span class="red">*</span></th>
+        <td><input type="password"  id="confirmPwd" class="easyui-validatebox" 
         				data-options="required:true,validType:'same[\'pwd\']',missingMessage:'<spring:message code="user.valid.confirmpass" />'"/></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.phone" /><!-- 手机号 --><span class="red">*</span></th>
-        <td width="35%"><input type="text" name="telephone" id="telephone" class="easyui-validatebox" 
+        <th><spring:message code="user.phone" /><!-- 手机号 --><span class="red">*</span></th>
+        <td><input type="text" name="telephone" id="telephone" class="easyui-validatebox" 
         				data-options="required:true,validType:'mobile',missingMessage:'<spring:message code="user.valid.phone" />'"/></td>
-        <th width="15%"><spring:message code="user.email" /><!-- Email --></th>
-        <td width="35%"><input type="text" name="email" id="email" class="easyui-validatebox" 
+        <th><spring:message code="user.email" /><!-- Email --></th>
+        <td><input type="text" name="email" id="email" class="easyui-validatebox" 
         				data-options="required:true,validType:'email',missingMessage:'<spring:message code="user.valid.email" />'"/></td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
-        <td width="35%">
+        <th><spring:message code="user.role" /><!-- 所属角色 --></th>
+        <td>
          	<select id="roleId" name="role.roleId" style="width: 155px;">
          		<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
          		<c:forEach var="role" items="${roleList}">
@@ -105,8 +105,8 @@ $(function() {
       			</c:forEach>   		
          	</select>
         </td>
-        <th width="15%"><spring:message code="common.status" /><!-- 状态 --></th>
-        <td width="35%">
+        <th><spring:message code="common.status" /><!-- 状态 --></th>
+        <td>
         	<select id="status" name="status" style="width: 155px;">
          		<option value="0"><spring:message code="common.enabled" /><!-- 启用 --></option>
          		<option value="1"><spring:message code="common.disabled" /><!-- 禁用 --></option>
@@ -114,13 +114,13 @@ $(function() {
         </td>
       </tr>
       <tr>
-        <th width="15%"><spring:message code="user.position" /><!-- 职位 --><span class="red">*</span></th>
-        <td width="35%" colspan="3"><input type="text" name="position" id="position" class="easyui-validatebox" 
+        <th><spring:message code="user.position" /><!-- 职位 --><span class="red">*</span></th>
+        <td colspan="3"><input type="text" name="position" id="position" class="easyui-validatebox" 
         		data-options="required:true,missingMessage:'<spring:message code="user.valid.position" />'"/></td>
       </tr>
       <tr>
-        <th width="15%">头像</th>
-        <td width="35%" colspan="3">
+        <th>头像</th>
+        <td colspan="3">
           <div id="user_header_tab" class="easyui-tabs" data-options="fit:true" style="height:180px;width:300px;margin-top:2px;">
 			   <div id="user_header_default" title="选择默认" style="padding:0px;height:180px;" class="header_default">
 			     <div style="margin-top:15px;">
@@ -163,7 +163,7 @@ $(function() {
       </tr>
       <tr>
         <th>简介</th>
-        <td colspan="3"><textarea name="introduction" rows="5" cols="760"></textarea></td>
+        <td colspan="3"><textarea name="introduction" rows="5" cols="76"></textarea></td>
       </tr>
       <tr>
         <th>简介图片</th>
