@@ -35,9 +35,10 @@
 	          </td>
           </tr>
     	   <tr>
-	         <th width="15%">编号</th>
+	         <th width="15%">编号(系统自动生成)</th>
 	         <td width="35%">
-	              <input type="text" name="id" value="${chatGroup.id}" class="easyui-validatebox" data-options="required:true, validType:'idString', missingMessage:'请输入编号'" <c:if test="${not empty chatGroup.id}">readonly="readonly"</c:if>/>
+	              <input type="hidden" name="id" value="${chatGroup.id}"/>
+	              <input type="text" value="${chatGroup.id}" disabled="disabled"/>
 	         </td>
 	         <th width="15%">名称</th>
 	         <td width="35%">

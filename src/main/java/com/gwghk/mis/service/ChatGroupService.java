@@ -16,6 +16,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatGroupDao;
 import com.gwghk.mis.dao.ChatGroupRuleDao;
 import com.gwghk.mis.dao.RoleDao;
+import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
@@ -63,28 +64,28 @@ public class ChatGroupService{
 	public ApiResult saveChatGroup(ChatGroup chatGroupParam, boolean isUpdate) {
 		ApiResult result=new ApiResult();
 		chatGroupParam.setValid(1);
-		if(StringUtils.isBlank(chatGroupParam.getId())){
-			return result.setCode(ResultCode.Error103);
-		}
-		//默认分析师
-		BoUser analyst = null;
-		if(chatGroupParam.getDefaultAnalyst() != null){
-			String analystId = chatGroupParam.getDefaultAnalyst().getUserId();
-			if(StringUtils.isNotBlank(analystId)){
-				BoUser analystTmp = userService.getUserById(analystId);
-				if(analystTmp != null){
-					analyst = new BoUser();
-					analyst.setUserId(analystTmp.getUserId());
-					analyst.setUserNo(analystTmp.getUserNo());
-					analyst.setUserName(analystTmp.getUserName());
-					analyst.setPosition(analystTmp.getPosition());
-					analyst.setAvatar(analystTmp.getAvatar());
-				}
-			}
-		}
-		chatGroupParam.setDefaultAnalyst(analyst);
-		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     	if(isUpdate){
+    		if(StringUtils.isBlank(chatGroupParam.getId())){
+    			return result.setCode(ResultCode.Error103);
+    		}
+    		//默认分析师
+    		BoUser analyst = null;
+    		if(chatGroupParam.getDefaultAnalyst() != null){
+    			String analystId = chatGroupParam.getDefaultAnalyst().getUserId();
+    			if(StringUtils.isNotBlank(analystId)){
+    				BoUser analystTmp = userService.getUserById(analystId);
+    				if(analystTmp != null){
+    					analyst = new BoUser();
+    					analyst.setUserId(analystTmp.getUserId());
+    					analyst.setUserNo(analystTmp.getUserNo());
+    					analyst.setUserName(analystTmp.getUserName());
+    					analyst.setPosition(analystTmp.getPosition());
+    					analyst.setAvatar(analystTmp.getAvatar());
+    				}
+    			}
+    		}
+    		chatGroupParam.setDefaultAnalyst(analyst);
+    		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     		if(group==null){
     			return result.setCode(ResultCode.Error104);
     		}
@@ -94,10 +95,11 @@ public class ChatGroupService{
     		roleDao.updateRoleChatGroup(group);
     		chatGroupDao.update(group);
     	}else{
-    		if(group!=null){
-    			return result.setCode(ResultCode.Error102);
+    		if(StringUtils.isNotBlank(chatGroupParam.getId())){
+    			return result.setCode(ResultCode.Error103);
     		}
     		setGroupRule(chatGroupParam);
+    		chatGroupParam.setId(chatGroupParam.getGroupType()+"_"+chatGroupDao.getIncSeq(IdSeq.ChatGroup));
     		chatGroupDao.add(chatGroupParam);	
     	}
     	return result.setCode(ResultCode.OK);

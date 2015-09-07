@@ -28,7 +28,8 @@ public enum IdSeq {
     FinancePosition("FP",1000000),
     FinanceTradeRecord("FTR",1000000),
     FinanceQuotaRecord("FQR",1000000),
-    Media("",10000000);
+    Media("",10000000),
+    ChatGroup("",1);
 	public static final char[] charArray = new char[] { 'A', 'B', 'C', 'D',
 		'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
 		'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
