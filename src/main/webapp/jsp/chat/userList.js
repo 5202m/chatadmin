@@ -31,6 +31,13 @@ var chatUser = {
 	   if(!result){
 		   result = $("#chatUserGroupId").val()==room.id;
 	   }
+	   //是否符合在线状态
+	   if(result){
+		   var onlineStatus = $("#chatUserOnlineStatus").val();
+		   if(onlineStatus === "0" || onlineStatus === "1"){
+			   result = room.onlineStatus == onlineStatus;
+		   }
+	   }
 	   //是否符合禁言状态
 	   if(result){
 		   var gagStatus = $("#chatUser_gagStatus").val();
