@@ -10,7 +10,14 @@
         <div class="easyui-panel" data-options="fit:true,title:'未选择聊天室'" >
           <select id="unRelationChatGroupList" multiple="multiple" name="left" ondblclick="yxui.left2right(this)" style="margin:1px;width:98%;height:99%">
             <c:forEach var="unRelationChatGroup" items="${unRelationChatGroupList}">
-      			<option value="${unRelationChatGroup.id}">${unRelationChatGroup.name}</option>
+      			<option value="${unRelationChatGroup.id}">
+      				${unRelationChatGroup.name}
+      				<c:forEach var="currGroupType" items="${groupTypeList}">
+      					<c:if test="${currGroupType.code == unRelationChatGroup.groupType}">
+      						【${currGroupType.nameCN }】
+      					</c:if>
+      				</c:forEach>
+      			</option>
       		</c:forEach> 
           </select>
         </div>
@@ -51,7 +58,14 @@
         <div class="easyui-panel" data-options="fit:true,title:'已选择聊天室'">
           <select class="rSelect" multiple="multiple" name="right" ondblclick="yxui.right2left(this)" style="margin:1px;width:98%;height:99%">
           	 <c:forEach var="relationChatGroup" items="${relationChatGroupList}">
-      			<option value="${relationChatGroup.id}">${relationChatGroup.name}</option>
+      			<option value="${relationChatGroup.id}">
+      				${relationChatGroup.name}
+      				<c:forEach var="currGroupType" items="${groupTypeList}">
+      					<c:if test="${currGroupType.code == relationChatGroup.groupType}">
+      						【${currGroupType.nameCN }】
+      					</c:if>
+      				</c:forEach>
+      			</option>
       		</c:forEach> 
           </select>
         </div>

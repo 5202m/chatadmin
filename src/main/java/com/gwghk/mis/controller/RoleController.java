@@ -25,6 +25,7 @@ import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
@@ -223,10 +224,12 @@ public class RoleController extends BaseController{
     @RequestMapping(value="/roleController/assignChatGroup", method = RequestMethod.GET)  
     @ActionVerification(key="assignChatGroup")
     public String assignChatGroup(HttpServletRequest request,ModelMap map) throws Exception {
+    	DictConstant dict=DictConstant.getInstance();
     	String roleId = request.getParameter("roleId");
       	Map<String,Object> dataMap = roleService.getRoleChatGroupRelation(roleId);
       	map.addAttribute("relationChatGroupList",dataMap.get("relationChatGroupList"));
       	map.addAttribute("unRelationChatGroupList",dataMap.get("unRelationChatGroupList"));
+		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
       	map.addAttribute("roleId",roleId);
       	return "system/role/selectChatGroupList";
     } 
