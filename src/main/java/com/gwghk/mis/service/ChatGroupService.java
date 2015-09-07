@@ -23,6 +23,7 @@ import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
 import com.gwghk.mis.model.ChatStudio;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 import com.mongodb.WriteResult;
 
@@ -45,6 +46,9 @@ public class ChatGroupService{
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private ChatApiService chatApiService;
 
 	/**
 	 * 通过id找对应记录
@@ -88,6 +92,11 @@ public class ChatGroupService{
     		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     		if(group==null){
     			return result.setCode(ResultCode.Error104);
+    		}
+    		//有效-->无效、在开放时间-->不在开放时间的情况，需要通知API leaveRoom
+    		if((new Integer(1).equals(group.getStatus()) && new Integer(0).equals(chatGroupParam.getStatus()))
+    				|| (DateUtil.dateTimeWeekCheck(group.getOpenDate(), true) && DateUtil.dateTimeWeekCheck(chatGroupParam.getOpenDate(), true) == false)){
+    			chatApiService.leaveRoom(chatGroupParam.getId());
     		}
     		BeanUtils.copyExceptNull(group, chatGroupParam);
     		group.setDefaultAnalyst(analyst);
@@ -143,6 +152,15 @@ public class ChatGroupService{
     	boolean isSuccess = chatGroupDao.softDelete(ChatGroup.class,ids);
     	if(isSuccess){
     		roleDao.deleteRoleChatGroup(ids);
+    		
+    		StringBuffer groupId = new StringBuffer();
+    		for(int i = 0, lenI = ids == null ? 0 : ids.length; i < lenI; i++){
+    			groupId.append(",");
+    			groupId.append(ids[i]);
+    		}
+    		if (groupId.length() > 0) {
+    			chatApiService.leaveRoom(groupId.substring(1));
+			}
     	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}

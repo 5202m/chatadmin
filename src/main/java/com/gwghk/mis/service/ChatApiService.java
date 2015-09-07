@@ -73,4 +73,26 @@ public class ChatApiService{
 			return api.setCode(ResultCode.FAIL).setErrorMsg(e.getMessage());
 		}
     }
+    
+    /**
+     * 离开房间
+     * @param groupId 房间ID,如果存在多个，中间用逗号分隔
+     * @return
+     */
+    public ApiResult leaveRoom(String groupId){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	paramMap.put("groupId", groupId);
+    	ApiResult api=new ApiResult();
+    	try {
+    		String str=HttpClientUtils.httpPostString(formatUrl("leaveRoom"),paramMap);
+    		if(StringUtils.isNotBlank(str)){
+    			JSONObject obj=JSON.parseObject(str);
+    			return api.setCode(obj.getBoolean("isOK")?ResultCode.OK:ResultCode.FAIL).setErrorMsg(obj.getString("error"));
+    		}else{
+    			return api.setCode(ResultCode.FAIL);
+    		}
+    	} catch (Exception e) {
+    		return api.setCode(ResultCode.FAIL).setErrorMsg(e.getMessage());
+    	}
+    }
 } 

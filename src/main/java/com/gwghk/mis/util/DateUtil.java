@@ -1662,13 +1662,7 @@ public class DateUtil {
             return 3;
         }
 	}
-	
-	public static void main(String args[]) {
-//		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
-		System.out.println(DateUtil.formatDateWeekTime("{\"beginDate\":\"2015-08-12\",\"endDate\":\"2015-08-24\",\"weekTime\":[{\"week\":\"5\",\"beginTime\":\"11:18:00\",\"endTime\":\"11:19:00\"}]}"));
-	}
-	
-	
+
 	/**
 	 * 格式dateWeekTime 日期
 	 * @param dateWeekTime
@@ -1721,4 +1715,67 @@ public class DateUtil {
 		}
 		return loc_result.toString();
 	};
+	
+	/**
+     * 检查当前日期是否符合日期插件数据
+     * @param dateTime
+     * @param nullResult 空值结果
+     *          1）对于禁言设置，空值表示没有设置禁言，即当前时间不包含在其中。传值false
+     *          2）对于聊天规则设置，空值表示永久生效，即当前时间包含在其中。传值true
+     */
+	public static boolean dateTimeWeekCheck(String dateWeekTime, boolean nullResult){
+		if(StringUtils.isBlank(dateWeekTime)){
+			return nullResult;
+		}
+		dateWeekTime = dateWeekTime.trim();
+		JSONObject dateWeekTimeJSON = (JSONObject)JSON.parse(dateWeekTime);
+		String dateStartTmp = dateWeekTimeJSON.getString("beginDate");
+		String dateEndTmp = dateWeekTimeJSON.getString("endDate");
+		Calendar currCalendar = Calendar.getInstance();
+		boolean isPass = false;
+		String currDateStr = DateUtil.getDateDayFormat(currCalendar);
+		isPass=StringUtils.isBlank(dateStartTmp) || currDateStr.compareTo(dateStartTmp) >= 0;
+		if(isPass){
+            isPass=StringUtils.isBlank(dateEndTmp) || currDateStr.compareTo(dateEndTmp) <= 0;
+        }
+        
+		//日期校验通过，则校验时间
+        if(isPass && dateWeekTimeJSON.containsKey("weekTime")){
+			JSONArray timeArrTmp = dateWeekTimeJSON.getJSONArray("weekTime");
+			if(timeArrTmp.isEmpty()){
+				return isPass;
+			}
+			Iterator<Object> timeArrIterator = timeArrTmp.iterator();
+			JSONObject timpTmp = null;
+			String timeStartTmp = null;
+			String timeWeekTmp = null;
+			String timeEndTmp = null;
+			boolean weekTimePass=false;
+			String currWeekStr = String.valueOf(currCalendar.get(Calendar.DAY_OF_WEEK) - 1);
+			String currTimeStr = DateUtil.getDateFormat(currCalendar, "HH:mm:ss");
+			while (timeArrIterator.hasNext()) {
+				timpTmp = (JSONObject)timeArrIterator.next();
+				timeWeekTmp = timpTmp.getString("week");
+				if (StringUtils.isNotBlank(timeWeekTmp) && timeWeekTmp.equals(currWeekStr) == false) {
+					continue;
+				}
+				timeStartTmp = timpTmp.getString("beginTime");
+				timeEndTmp = timpTmp.getString("endTime");
+				weekTimePass = (StringUtils.isBlank(timeStartTmp) || currTimeStr.compareTo(timeStartTmp) >= 0);
+				if(weekTimePass){
+	                weekTimePass=StringUtils.isBlank(timeEndTmp) || currTimeStr.compareTo(timeEndTmp) <= 0;
+	            }
+				if(weekTimePass){
+	               break;
+	            }
+			}
+			return weekTimePass;
+		}
+        return isPass;
+    };
+    
+    public static void main(String[] args) {
+//		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
+//    	System.out.println(DateUtil.formatDateWeekTime("{\"beginDate\":\"2015-08-12\",\"endDate\":\"2015-08-24\",\"weekTime\":[{\"week\":\"5\",\"beginTime\":\"11:18:00\",\"endTime\":\"11:19:00\"}]}"));
+	}
 }
