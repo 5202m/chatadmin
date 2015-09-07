@@ -152,15 +152,7 @@ public class ChatGroupService{
     	boolean isSuccess = chatGroupDao.softDelete(ChatGroup.class,ids);
     	if(isSuccess){
     		roleDao.deleteRoleChatGroup(ids);
-    		
-    		StringBuffer groupId = new StringBuffer();
-    		for(int i = 0, lenI = ids == null ? 0 : ids.length; i < lenI; i++){
-    			groupId.append(",");
-    			groupId.append(ids[i]);
-    		}
-    		if (groupId.length() > 0) {
-    			chatApiService.leaveRoom(groupId.substring(1));
-			}
+    		chatApiService.leaveRoom(StringUtils.join(ids, ","));
     	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
