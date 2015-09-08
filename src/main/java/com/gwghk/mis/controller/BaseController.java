@@ -1,7 +1,6 @@
 package com.gwghk.mis.controller;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,16 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.gwghk.mis.common.model.AjaxJson;
-import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.DetachedCriteria;
-import com.gwghk.mis.common.model.UploadFileInfo;
-import com.gwghk.mis.enums.FileDirectory;
 import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.BaseModel;
 import com.gwghk.mis.model.BoMenu;
@@ -28,7 +20,6 @@ import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.MenuResult;
 import com.gwghk.mis.service.LogService;
 import com.gwghk.mis.util.IPUtil;
-import com.gwghk.mis.util.ImageHelper;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**

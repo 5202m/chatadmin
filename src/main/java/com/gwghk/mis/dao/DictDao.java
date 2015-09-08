@@ -1,8 +1,10 @@
 package com.gwghk.mis.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -102,7 +104,13 @@ public class DictDao extends MongoDBBaseDao{
 	 * 功能：根据父code、子code -->获取数据字典对象
 	 */
 	public BoDict getByCodeAndChildCode(String code,String childrenCode){
-		Criteria criteria=new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("code").is(code),Criteria.where("children.code").is(childrenCode));
+		Criteria criteria = Criteria.where("valid").is(1);
+		if(StringUtils.isNotBlank(code)){
+			criteria.and("code").is(code);
+		}
+		if(StringUtils.isNotBlank(childrenCode)){
+			criteria.and("children.code").is(code);
+		}
 		return this.findOne(BoDict.class, Query.query(criteria));
 	}
 	
@@ -116,9 +124,32 @@ public class DictDao extends MongoDBBaseDao{
 	/**
 	 * 功能：根据code和name-->获取数据字典列表
 	 */
-	public List<BoDict> getDictListByNameOrCode(String name,String code){
-		Criteria criteria=new Criteria().orOperator(Criteria.where("valid").is(1),Criteria.where("children.name").is(StringUtil.toFuzzyMatch(name)),
-				Criteria.where("children.code").regex(StringUtil.toFuzzyMatch(code)));
+	public List<BoDict> getDictListByNameOrCode(String name,String code, String status){
+		List<Criteria> criteriaTmps = new ArrayList<Criteria>();
+		criteriaTmps.add(Criteria.where("valid").is(1));
+		if(StringUtils.isNotBlank(name)){
+			criteriaTmps.add(new Criteria().orOperator(
+						Criteria.where("nameCN").regex(StringUtil.toFuzzyMatch(name)),
+						Criteria.where("children.nameCN").regex(StringUtil.toFuzzyMatch(name)),
+						Criteria.where("nameTW").regex(StringUtil.toFuzzyMatch(name)),
+						Criteria.where("children.nameTW").regex(StringUtil.toFuzzyMatch(name)),
+						Criteria.where("nameEN").regex(StringUtil.toFuzzyMatch(name)),
+						Criteria.where("children.nameEN").regex(StringUtil.toFuzzyMatch(name))
+					));
+		}
+		if(StringUtils.isNotBlank(code)){
+			criteriaTmps.add(new Criteria().orOperator(
+						Criteria.where("code").regex(StringUtil.toFuzzyMatch(code)),
+						Criteria.where("children.code").regex(StringUtil.toFuzzyMatch(code))
+					));
+		}
+		if(StringUtils.isNotBlank(status)){
+			criteriaTmps.add(new Criteria().orOperator(
+						Criteria.where("status").is(Integer.parseInt(status)),
+						Criteria.where("children.status").is(Integer.parseInt(status))
+					));
+		}
+		Criteria criteria = new Criteria().andOperator(criteriaTmps.toArray(new Criteria[0]));
 		return this.findList(BoDict.class, Query.query(criteria));
 	}
 

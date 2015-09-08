@@ -23,6 +23,11 @@ public class BoDict extends BaseModel{
 	 * 是否有效，默认有效
 	 */
 	private Integer valid;
+	
+	/**
+     * 状态
+     */
+	private Integer status;
 
 	/**
 	 * 简体名称
@@ -125,5 +130,18 @@ public class BoDict extends BaseModel{
 	public void setChildren(List<BoDict> children) {
 		this.children = children;
 	}
-	
+
+	/**
+	 * @return the status
+	 */
+	public Integer getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }

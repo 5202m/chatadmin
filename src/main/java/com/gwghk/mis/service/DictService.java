@@ -1,5 +1,6 @@
 package com.gwghk.mis.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,11 +121,11 @@ public class DictService{
 	/**
 	 * 功能：根据名称、code --> 获取字典列表
 	 */
-	public List<BoDict> getDictList(String name,String code){
-		if(StringUtils.isBlank(name) && StringUtils.isBlank(code)){
+	public List<BoDict> getDictList(String name,String code, String status){
+		if(StringUtils.isBlank(name) && StringUtils.isBlank(code) && StringUtils.isBlank(status)){
 			return dictDao.getDictList();
 		}else{
-			return dictDao.getDictListByNameOrCode(name,code);
+			return dictDao.getDictListByNameOrCode(name,code,status);
 		}
 	}
 	/**
@@ -162,11 +163,28 @@ public class DictService{
 	}
 
 	/**
-	 * 查询页面
+	 * 查询字典列表，并过滤禁用的字典。
 	 * @param detachedCriteria
 	 * @return
 	 */
 	public List<BoDict> getDictList(DetachedCriteria<BoDict> dCriteria) {
-		return dictDao.findList(BoDict.class, Query.query(Criteria.where("valid").is(1)), dCriteria);
+		List<BoDict> dictList = dictDao.findList(BoDict.class, Query.query(Criteria.where("valid").is(1).and("status").is(1)), dCriteria);
+		List<BoDict> dictChildrenTmp = null;
+		List<BoDict> dictChildren = null;
+		if(dictList != null){
+			for (BoDict dict : dictList) {
+				dictChildrenTmp = dict.getChildren();
+				dictChildren = new ArrayList<BoDict>();
+				if(dictChildrenTmp != null){
+					for (BoDict dictChild : dictChildrenTmp) {
+						if(new Integer(1).equals(dictChild.getStatus())){
+							dictChildren.add(dictChild);
+						}
+					}
+				}
+				dict.setChildren(dictChildren);
+			}
+		}
+		return dictList;
 	}
 }

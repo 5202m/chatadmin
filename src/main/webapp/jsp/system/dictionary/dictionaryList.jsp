@@ -12,6 +12,10 @@
           <td width="23%"><input type="text"  id="dictionaryCodeS" style="width:160px"/></td>
           <th width="10%"><spring:message code="dictionary.name" /><!-- 字典名称 --></th>
           <td width="23%"><input type="text"  id="dictionaryNameS" style="width:160px"/></td>
+          <th width="10%">字典状态</th>
+          <td width="24%">
+          	<t:dictSelect id="dictionaryStatusS" field="dictionaryStatusS" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/>
+          </td>
         </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;

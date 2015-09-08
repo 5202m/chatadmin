@@ -37,6 +37,11 @@ public class TreeVo{
 	/**菜单类型： 分数字字典 1、数据字典分类2 两种  */
 	private String type;
 	
+	/**
+     * 状态
+     */
+	private Integer status;
+	
 	/**子菜单*/
 	private List<TreeVo>  children = new ArrayList<TreeVo>();
 
@@ -127,5 +132,18 @@ public class TreeVo{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	/**
+	 * @return the status
+	 */
+	public Integer getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }

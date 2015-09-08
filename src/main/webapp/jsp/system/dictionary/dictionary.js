@@ -38,8 +38,15 @@ var systemDictionary = {
 			    {title : 'parentCode',field:'parentCode',hidden : true},
 			    {title : 'nameCN',field:'nameCN',hidden : true},
 			    {title : 'nameTW',field:'nameTW',hidden : true},
-			    {title : 'nameEN',field:'nameEN',hidden : true},   
-			    {title : $.i18n.prop("dictionary.name"),field:'name',width:250},         			/**字典名称*/
+			    {title : 'nameEN',field:'nameEN',hidden : true},
+			    {title : $.i18n.prop("dictionary.name"),field:'name',width:70},         			/**字典名称*/
+			    {title : '状态',field:'status',width:30,formatter:function(value, rowData, rowIndex) {
+			    	if (value == 1) {
+			    		return '启用';
+			    	} else {
+			    		return '禁用';
+			    	}
+			    }},
 			    {title : 'type',field:'type',width:100,hidden : true}
 			]],
 			// 此方法主要用于异步处理
@@ -48,7 +55,7 @@ var systemDictionary = {
 					$(this).treegrid('options').url = basePath+'/dictionaryController/loadChildTreeGrid.do?typeGroupId='+row.code;
 				} else {
 					$(this).treegrid('options').url = basePath+'/dictionaryController/treeGrid.do?dictionaryCodeS='
-													+$("#dictionaryCodeS").val()+"&dictionaryNameS="+$("#dictionaryNameS").val();
+													+$("#dictionaryCodeS").val()+"&dictionaryNameS="+$("#dictionaryNameS").val()+"&dictionaryStatusS="+$("#dictionaryStatusS").val();
 				}
 			},
 			toolbar : '#system_dictionary_datagrid_toolbar'
@@ -58,7 +65,7 @@ var systemDictionary = {
 		$("#system_dictionary_queryForm_search").on("click",function(){
 			$('#'+systemDictionary.gridId).treegrid({
 				url : basePath+'/dictionaryController/treeGrid.do?dictionaryCodeS='+$("#dictionaryCodeS").val()
-					          +"&dictionaryNameS="+$("#dictionaryNameS").val(),
+					          +"&dictionaryNameS="+$("#dictionaryNameS").val()+"&dictionaryStatusS="+$("#dictionaryStatusS").val(),
 				method : 'post'
 			});
 		});
@@ -97,7 +104,7 @@ var systemDictionary = {
 		var submitUrl =  basePath + '/dictionaryController/create.do';
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 180,
+			height : 200,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -151,7 +158,7 @@ var systemDictionary = {
 		var submitUrl =  basePath + '/dictionaryController/update.do';
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),	 /**修改记录*/
-			height : 180,
+			height : 200,
 			href : encodeURI(url),
 			iconCls : 'pag-edit',
 			handler : function(){   //提交时处理
@@ -166,6 +173,7 @@ var systemDictionary = {
 									id: d.obj.id,
 									row: {
 										name: systemDictionary.formatName(d.obj),
+										status: d.obj.status,
 										nameCN: d.obj.nameCN,
 										nameTW: d.obj.nameTW,
 										nameEN: d.obj.nameEN

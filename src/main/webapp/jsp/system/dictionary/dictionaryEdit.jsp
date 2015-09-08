@@ -30,6 +30,15 @@
 	      	  <td width="35%" colspan="3"><input type="text" name="sort" id="sort" value="${dictionaryJsonParam.sort}" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'<spring:message code="menu.valid.order" />'"/>&nbsp;&nbsp;<span class="red">(相对于同一个父节点下的顺序)</span></td>
 	      </tr>
+	      <tr>
+	          <th>状态： </th>
+	      	  <td colspan="3">
+	      	      <select name="status">
+	      	 	  	 <option value="1" <c:if test="${dictionaryJsonParam.status == 1}">selected="selected"</c:if> >启用</option>
+	        		 <option value="0" <c:if test="${dictionaryJsonParam.status != 1}">selected="selected"</c:if> >禁用</option>
+	      	      </select>
+	      	  </td>
+	      </tr>
     </table>
     <input type="hidden" name="type"  value="${dictionaryJsonParam.type}"/>
     <input type="hidden" name="id"  value="${dictionaryJsonParam.id}"/>

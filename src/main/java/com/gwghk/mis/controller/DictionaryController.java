@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
+import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.TreeVo;
@@ -48,7 +49,9 @@ public class DictionaryController extends BaseController{
 	 * 功能：数据字典管理-首页
 	 */
 	@RequestMapping(value = "/dictionaryController/index", method = RequestMethod.GET)
-	public  String  index(){
+	public  String  index(ModelMap map){
+		DictConstant dict=DictConstant.getInstance();
+    	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 		logger.debug(">>start into dictionaryController.index()...");
 		return "system/dictionary/dictionaryList";
 	}
@@ -62,8 +65,9 @@ public class DictionaryController extends BaseController{
 	public  String  treeGrid(HttpServletRequest request){
 		String code = request.getParameter("dictionaryCodeS");
 		String name = request.getParameter("dictionaryNameS");
+		String status = request.getParameter("dictionaryStatusS");
 		List<TreeVo>  typeDicList = null;
-		List<BoDict> typeList = dictService.getDictList(name,code);
+		List<BoDict> typeList = dictService.getDictList(name,code,status);
 		if(typeList != null && typeList.size() > 0){
 			typeDicList = new ArrayList<TreeVo>();
 			String lang=ResourceUtil.getSessionLocale();
@@ -80,6 +84,7 @@ public class DictionaryController extends BaseController{
 				typeGroupDic.setType("1");
 				typeGroupDic.setSort(type.getSort());
 				typeGroupDic.setChildren(new ArrayList<TreeVo>());
+				typeGroupDic.setStatus(type.getStatus());
 				typeDicList.add(typeGroupDic);
 			}
 			return JSONArray.fromObject(typeDicList).toString();
@@ -112,6 +117,7 @@ public class DictionaryController extends BaseController{
 					typeDic.setState("colse");
 					typeDic.setType("2");
 					typeDic.setSort(type.getSort());
+					typeDic.setStatus(type.getStatus());
 					typeDicList.add(typeDic);
 				}
 			}
