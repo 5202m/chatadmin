@@ -40,7 +40,7 @@ public class InitParamListener implements ServletContextListener{
         } catch (Exception e) { 
         	logger.error("<<load properties file error.",e);
         }  
-		logger.warn(">>start init system pm_ams......");
+		logger.warn(">>start init system pm_mis......");
 	}
 	
 	public void contextDestroyed(ServletContextEvent arg0) {
