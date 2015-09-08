@@ -13,7 +13,7 @@
           <th width="10%">名称</th>
           <td width="20%"><input type="text" name="name" /></td>
           <th width="10%">状态</th>
-          <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="false"  dataList="${statusList}"/></td>
+          <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/></td>
         </tr>
         <tr>
           <th width="15%">房间类别</th>
@@ -22,7 +22,7 @@
           </td>
           <th width="15%">聊天规则</th>
           <td width="35%" colspan="3">
-             <select class="easyui-combotree" style="width:170px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
+             <select class="easyui-combotree" style="width:400px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
           </td>
 	   </tr>
         <tr>

@@ -102,13 +102,19 @@ public class ChatGroupRuleController extends BaseController{
     @RequestMapping(value = "/chatGroupRuleController/getGroupRuleCombox", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
    	@ResponseBody
     public String getGroupRuleCombox(HttpServletRequest request,ModelMap map) throws Exception {
+		DictConstant dict=DictConstant.getInstance();
+		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_RULE);
+		Map<String, BoDict> chatGroupRuleType = new HashMap<String, BoDict>();
+		for (BoDict boDict : dictList) {
+			chatGroupRuleType.put(boDict.getCode(), boDict);
+		}
        	List<TreeBean> treeList=new ArrayList<TreeBean>();
        	TreeBean tbean=null;
-       	List<ChatGroupRule> list=chatGroupRuleService.getChatGroupRuleList("id","name");
+       	List<ChatGroupRule> list=chatGroupRuleService.getChatGroupRuleList("id","name","type");
        	for(ChatGroupRule row:list){
        		 tbean=new TreeBean();
        		 tbean.setId(row.getId());
-       		 tbean.setText(row.getName());
+       		 tbean.setText(row.getName() + "【" + chatGroupRuleType.get(row.getType()).getNameCN() + "】");
        		 tbean.setParentId("");
    			 treeList.add(tbean);
        	}

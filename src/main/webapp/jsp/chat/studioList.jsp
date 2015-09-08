@@ -9,18 +9,20 @@
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">编号</th>
-          <td width="40%"><input type="text" name="id" /></td>
+          <td width="23%"><input type="text" name="id" /></td>
           <th width="10%">名称</th>
-          <td width="40%"><input type="text" name="name" /></td>
+          <td width="23%"><input type="text" name="name" /></td>
+          <th width="10%">状态</th>
+          <td width="20%"><t:dictSelect id="studioStatus" field="status" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/></td>
         </tr>
         <tr>
-          <th width="10%">客户组别</th>
-          <td width="40%">
+          <th>客户组别</th>
+          <td>
               <select class="easyui-combotree" id="chatClientGroupId" name="clientGroupStr" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	          </select>
           </td>
-          <th width="10%">聊天方式</th>
-          <td width="40%">
+          <th>聊天方式</th>
+          <td colspan="3">
              <select class="easyui-combotree" id="chatTalkStyleId" name="talkStyleStr" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	         </select>
           </td>

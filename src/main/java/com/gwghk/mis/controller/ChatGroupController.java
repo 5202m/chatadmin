@@ -162,7 +162,7 @@ public class ChatGroupController extends BaseController{
     	if(chatGroup!=null && chatGroup.getChatRules()!=null){
     		ArrayList<String> list=new ArrayList<String>();
     		for(ChatGroupRule row:chatGroup.getChatRules()){
-    			list.add(row.getId());
+				list.add(row.getId());
     		}
     		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
@@ -175,9 +175,15 @@ public class ChatGroupController extends BaseController{
     	}else{
     		List<String> loc_roleIds = new ArrayList<String>();
     		for (BoRole role : loc_roles) {
-    			loc_roleIds.add(role.getRoleId());
+    			if(role.getRoleNo().startsWith("analyst")){
+    				loc_roleIds.add(role.getRoleId());
+    			}
 			}
-    		loc_users = userService.getUserListByRoles(loc_roleIds);
+    		if(loc_roleIds.isEmpty()){
+    			loc_users = new ArrayList<BoUser>();
+    		}else{
+    			loc_users = userService.getUserListByRoles(loc_roleIds);
+    		}
     	}
     	
     	map.addAttribute("chatGroup",chatGroup);
@@ -284,6 +290,8 @@ public class ChatGroupController extends BaseController{
 	@RequestMapping(value = "/chatGroupController/studio", method = RequestMethod.GET)
 	public  String  studio(HttpServletRequest request,ModelMap map){
 		logger.debug(">>start into chatGroupController.studio() and url is /chatGroupController/studio.do");
+		DictConstant dict=DictConstant.getInstance();
+    	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 		return "chat/studioList";
 	}
     

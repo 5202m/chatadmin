@@ -246,6 +246,9 @@ public class ChatGroupService{
 			if(StringUtils.isNotBlank(model.getName())){
 				criter.and("name").regex(StringUtil.toFuzzyMatch(model.getName()));
 			}
+			if(model.getStatus() != null){
+				criter.and("status").is(model.getStatus());
+			}
 			if(studio!=null){
 				if(StringUtils.isNotBlank(studio.getClientGroup())){
 					criter.and("chatStudio.clientGroup").regex(studio.getClientGroup().replaceAll(",","|"));

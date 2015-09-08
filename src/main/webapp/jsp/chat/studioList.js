@@ -49,6 +49,9 @@ var chatStudio = {
 							return rowData.id;
 						}},
 						{title : '名称',field : 'name'},
+						{title : '状态',field : 'status',formatter : function(value, rowData, rowIndex) {
+							return chatGroup.getDictNameByCode("#chatGroupStatus",value);
+						}},
 						{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
 							var nameArr=[],valTmp=rowData.chatStudio.clientGroup,tmpData=null;
 							for(var i in chatStudio.cGroupComboxData){
