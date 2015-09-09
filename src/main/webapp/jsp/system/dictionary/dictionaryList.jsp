@@ -14,7 +14,11 @@
           <td width="23%"><input type="text"  id="dictionaryNameS" style="width:160px"/></td>
           <th width="10%">字典状态</th>
           <td width="24%">
-          	<t:dictSelect id="dictionaryStatusS" field="dictionaryStatusS" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/>
+      	      <select name="dictionaryStatusS" id="dictionaryStatusS">
+      	      	 <option value="">---请选择---</option>
+      	 	  	 <option value="1">启用</option>
+        		 <option value="0">禁用</option>
+      	      </select>
           </td>
         </tr>
         <tr>

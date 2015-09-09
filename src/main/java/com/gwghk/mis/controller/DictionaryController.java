@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
-import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.TreeVo;
@@ -50,8 +49,6 @@ public class DictionaryController extends BaseController{
 	 */
 	@RequestMapping(value = "/dictionaryController/index", method = RequestMethod.GET)
 	public  String  index(ModelMap map){
-		DictConstant dict=DictConstant.getInstance();
-    	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 		logger.debug(">>start into dictionaryController.index()...");
 		return "system/dictionary/dictionaryList";
 	}
