@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -220,10 +223,12 @@ public class ChatGroupService{
 	 * @return
 	 */
 	public List<ChatGroup> getChatGroupList(String...selectField) {
+		Query query = Query.query(Criteria.where("valid").is(1).and("status").is(1));
+		query.with(new Sort(new Order(Direction.ASC, "groupType"), new Order(Direction.ASC, "level")));
 		if(selectField!=null){
-			return chatGroupDao.findListInclude(ChatGroup.class, Query.query(Criteria.where("valid").is(1)),selectField);
+			return chatGroupDao.findListInclude(ChatGroup.class, query,selectField);
 		}
-		return chatGroupDao.findList(ChatGroup.class, Query.query(Criteria.where("valid").is(1)));
+		return chatGroupDao.findList(ChatGroup.class, query);
 	}
 
 	/**

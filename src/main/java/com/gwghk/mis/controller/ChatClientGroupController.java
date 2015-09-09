@@ -27,6 +27,7 @@ import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.common.model.TreeBean;
+import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatClientGroup;
@@ -60,7 +61,9 @@ public class ChatClientGroupController extends BaseController{
 	 * @param map
 	 */
 	private void setCommonShow(ModelMap map){
-    	map.put("chatGroupList", chatGroupService.getChatGroupList("id","name"));
+    	DictConstant dict=DictConstant.getInstance();
+    	map.put("chatGroupList", chatGroupService.getChatGroupList("id","name", "groupType"));
+		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
 	}
 	
 	   /**

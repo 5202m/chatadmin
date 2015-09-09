@@ -17,7 +17,14 @@
              <select name="defChatGroupId" id="chatGroupId" style="width:250px;">
 	              <option value="">--请选择--</option>
 	              <c:forEach var="row" items="${chatGroupList}">
-	                 <option value="${row.id}">${row.name}</option>
+	                 <option value="${row.id}">
+	                 	 ${row.name}
+	      				 <c:forEach var="currGroupType" items="${groupTypeList}">
+	      					<c:if test="${currGroupType.code == row.groupType}">
+	      						【${currGroupType.nameCN }】
+	      					</c:if>
+	      				 </c:forEach>
+	                 </option>
 	              </c:forEach>
 	         </select>
           </td>
