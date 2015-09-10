@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/base/js/uploadify/css/uploadify.css" type="text/css">
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/uploadify/jquery.uploadify.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/member/memberAdd.js" type="text/css" ></script>
 <div style="padding:5px;overflow:hidden;">
   <form id="memberAddForm" class="yxForm" method="post">
