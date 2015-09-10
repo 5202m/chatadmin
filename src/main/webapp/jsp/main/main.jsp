@@ -5,7 +5,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title><spring:message code="login.title" /></title>
 <%
@@ -20,6 +19,8 @@
 <link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/css/baseIcons.css" />
 <!-- portal -->
 <link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui-portal/portal.css" />
+<!-- uploadify -->
+<link rel="stylesheet" href="<%=contextPath%>/base/js/uploadify/css/uploadify.css" type="text/css">
 </head>
 <body class="easyui-layout">
   <!-- north -->
@@ -99,6 +100,9 @@
 <script type="text/javascript" src="<%=contextPath%>/js/lib/jquery.i18n.properties-1.0.9.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/js/common.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<%=contextPath%>/jsp/main/main.js" charset="UTF-8"></script>
+<!-- uploadify -->
+<script type="text/javascript" src="<%=contextPath%>/base/js/uploadify/jquery.uploadify.min.js" charset="utf-8" ></script>
+
 <!-- 工具类 -->
 <script type="text/javascript" src="<%=contextPath%>/base/js/extends/goldOfficeUtils.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<%=contextPath%>/base/js/extends/Event.js" charset="UTF-8"></script>
