@@ -30,7 +30,12 @@ var chatUser = {
 	   var result=this.isGroupTypeSearch();
 	   if(!result){
 		   result = $("#chatUserGroupId").val()==room.id;
+	   }else{
+		  if(isBlank(this.getComboxNameByCode($("#chatUserGroupId"),room.id))){
+			  return false;
+		  }
 	   }
+	   
 	   //是否符合在线状态
 	   if(result){
 		   var onlineStatus = $("#chatUserOnlineStatus").val();
