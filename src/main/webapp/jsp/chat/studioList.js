@@ -50,7 +50,7 @@ var chatStudio = {
 						}},
 						{title : '名称',field : 'name'},
 						{title : '状态',field : 'status',formatter : function(value, rowData, rowIndex) {
-							return chatGroup.getDictNameByCode("#chatGroupStatus",value);
+							return chatStudio.getDictNameByCode("#chatGroupStatus",value);
 						}},
 						{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
 							var nameArr=[],valTmp=rowData.chatStudio.clientGroup,tmpData=null;
@@ -105,6 +105,12 @@ var chatStudio = {
 		$("#chatStudio_queryForm_reset").on("click",function(){
 			$("#chatStudio_queryForm")[0].reset();
 		});
+	},
+	/**
+	 * 提取名称
+	 */
+	getDictNameByCode:function(id,code){
+		return $(id).find("option[value='"+code+"']").text();
 	},
 	/**
 	 * 清空旧的参数
