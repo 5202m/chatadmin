@@ -50,7 +50,7 @@ var chatStudio = {
 						}},
 						{title : '名称',field : 'name'},
 						{title : '状态',field : 'status',formatter : function(value, rowData, rowIndex) {
-							return chatStudio.getDictNameByCode("#chatGroupStatus",value);
+							return chatStudio.getDictNameByCode("#studioStatus",value);
 						}},
 						{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
 							var nameArr=[],valTmp=rowData.chatStudio.clientGroup,tmpData=null;
