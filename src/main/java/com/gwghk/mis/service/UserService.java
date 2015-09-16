@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -68,12 +69,11 @@ public class UserService{
 	/**
 	 * 功能：分页查询用户数据
 	 */
-	public Page<BoUser> getUserPage(DetachedCriteria<BoUser> dCriteria){
+	public Page<BoUser> getUserPage(DetachedCriteria<BoUser> dCriteria, String[] roleIds){
 		Query query=new Query();
 		BoUser boUser=dCriteria.getSearchModel();
+		Criteria criteria = Criteria.where("valid").is(1);
 		if(boUser!=null){
-			Criteria criteria=new Criteria();
-			criteria.and("valid").is(1);
 			if(StringUtils.isNotBlank(boUser.getUserNo())){
 				criteria.and("userNo").regex(StringUtil.toFuzzyMatch(boUser.getUserNo()));
 			}
@@ -83,11 +83,15 @@ public class UserService{
 			if(boUser.getStatus()!=null){
 				criteria.and("status").is(boUser.getStatus());
 			}
-			if(StringUtils.isNotBlank(boUser.getRole().getRoleId())){
-				criteria.and("role.roleId").is(boUser.getRole().getRoleId());
+			if(ArrayUtils.isNotEmpty(roleIds)){
+				if(roleIds.length == 1){
+					criteria.and("role.roleId").is(roleIds[0]);
+				}else{
+					criteria.and("role.roleId").in((Object[])roleIds);
+				}
 			}
-			query.addCriteria(criteria);
 		}
+		query.addCriteria(criteria);
 		return userDao.getUserPage(query,dCriteria);
 	}
 	
@@ -96,14 +100,14 @@ public class UserService{
 	 */
 	public List<BoUser> getUserList(DetachedCriteria<BoUser> dCriteria){
 		Query query=new Query();
-		BoUser boUser=dCriteria.getSearchModel();
+		Criteria criteria = Criteria.where("valid").is(1);
+		BoUser boUser=dCriteria == null ? null : dCriteria.getSearchModel();
 		if(boUser!=null){
-			Criteria criteria=new Criteria();
 			if(StringUtils.isNotBlank(boUser.getUserNoOrName())){
 				criteria.orOperator(Criteria.where("userNo").is(boUser.getUserNoOrName()),Criteria.where("userName").is(boUser.getUserNoOrName()));
 			}
-			query.addCriteria(criteria);
 		}
+		query.addCriteria(criteria);
 		return userDao.getUserList(query);
 	}
 	

@@ -5,7 +5,9 @@
  */
 var systemUser = {
 	gridId : 'system_user_datagrid',
+	opType : '',
 	init : function(){
+		this.opType = $("#userOpType").val();
 		this.initGrid();
 		this.setEvent();
 	},
@@ -18,7 +20,7 @@ var systemUser = {
 			idField:"userId",
 			sortName : 'userId',
 			singleSelect : false,
-			url : basePath+'/userController/datagrid.do',
+			url : basePath+'/userController/datagrid.do?opType=' + systemUser.opType,
 			columns : [[
 			            {title : 'userId',field : 'userId',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -66,7 +68,7 @@ var systemUser = {
 			queryParams['position'] = position;
 			queryParams['roleId'] = role;
 			$('#'+systemUser.gridId).datagrid({
-				url : basePath+'/userController/datagrid.do',
+				url : basePath+'/userController/datagrid.do?opType=' + systemUser.opType,
 				pageNumber : 1
 			});
 		});
@@ -93,7 +95,7 @@ var systemUser = {
 	 * 功能：增加
 	 */
 	add : function(){
-		var url = formatUrl(basePath + '/userController/add.do');
+		var url = formatUrl(basePath + '/userController/add.do?opType=' + systemUser.opType);
 		var submitUrl =  formatUrl(basePath + '/userController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			dialogId : "editWindow",
@@ -128,7 +130,7 @@ var systemUser = {
 	 */
 	edit : function(recordId){
 		$("#system_user_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/userController/'+recordId+'/edit.do');
+		var url = formatUrl(basePath + '/userController/'+recordId+'/edit.do?opType=' + systemUser.opType);
 		var submitUrl =  formatUrl(basePath + '/userController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			dialogId : "editWindow",

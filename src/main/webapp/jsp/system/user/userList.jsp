@@ -64,4 +64,5 @@
 	  <a class="easyui-linkbutton del" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="systemUser.del(this.id)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
   </div>
   
+  <input style="display: none;" type="hidden" name="opType" id="userOpType" value="${opType }">
 </div>

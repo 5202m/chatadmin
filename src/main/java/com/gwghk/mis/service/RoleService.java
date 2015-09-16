@@ -162,7 +162,15 @@ public class RoleService{
 	 * @return
 	 */
 	public List<BoRole> getRoleList() {
-		return roleDao.getRoleList();
+		return roleDao.getRoleList(Query.query(Criteria.where("valid").is(1)));
+	}
+	
+	/**
+	 * 提取所有分析师角色信息
+	 * @return
+	 */
+	public List<BoRole> getAnalystRoleList() {
+		return roleDao.getRoleList(Query.query(Criteria.where("valid").is(1).and("roleNo").regex("analyst")));
 	}
 	
 	/**

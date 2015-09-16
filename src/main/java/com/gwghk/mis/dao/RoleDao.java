@@ -80,10 +80,11 @@ public class RoleDao extends MongoDBBaseDao{
 
 	/**
 	 * 提取所有角色信息
+	 * @param query
 	 * @return
 	 */
-	public List<BoRole> getRoleList(){
-		return this.findList(BoRole.class,Query.query(Criteria.where("valid").is(1)));
+	public List<BoRole> getRoleList(Query query){
+		return this.findList(BoRole.class, query);
 	}
 	
 	/**

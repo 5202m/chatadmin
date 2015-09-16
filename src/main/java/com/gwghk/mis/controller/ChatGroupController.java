@@ -29,7 +29,6 @@ import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
@@ -146,8 +145,9 @@ public class ChatGroupController extends BaseController{
     	setCommonShow(map);
     	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
-    	//分析师列表
-    	map.addAttribute("analystList", new ArrayList<BoUser>());
+    	//授权用户列表
+    	map.addAttribute("unAuthUserList", userService.getUserList(null));
+    	map.addAttribute("authUserList", new ArrayList<BoUser>());
     	return "chat/groupSubmit";
     }
     
@@ -166,28 +166,32 @@ public class ChatGroupController extends BaseController{
     		}
     		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
-    	//分析师列表
-    	List<BoRole> loc_roles = roleService.getRoleListByChatGroup(chatGroup.getId());
-    	
-    	List<BoUser> loc_users = null;
-    	if(loc_roles == null || loc_roles.isEmpty()){
-    		loc_users = new ArrayList<BoUser>();
-    	}else{
-    		List<String> loc_roleIds = new ArrayList<String>();
-    		for (BoRole role : loc_roles) {
-    			if(role.getRoleNo().startsWith("analyst")){
-    				loc_roleIds.add(role.getRoleId());
-    			}
-			}
-    		if(loc_roleIds.isEmpty()){
-    			loc_users = new ArrayList<BoUser>();
+    	//授权用户列表
+    	List<BoUser> loc_users = userService.getUserList(null);
+    	List<BoUser> loc_unAuthUsers = new ArrayList<BoUser>();
+    	List<BoUser> loc_authUsers = new ArrayList<BoUser>();
+    	if(loc_users != null){
+    		int lenI = chatGroup == null || chatGroup.getAuthUsers() == null ? 0 : chatGroup.getAuthUsers().length;
+    		if(lenI == 0){
+    			loc_unAuthUsers = loc_users;
     		}else{
-    			loc_users = userService.getUserListByRoles(loc_roleIds);
+    			String loc_userId = null;
+        		LOOP: for (BoUser loc_user : loc_users) {
+        			loc_userId = loc_user.getUserId();
+        			for (int i = 0; i < lenI; i++) {
+    					if(loc_userId.equals(chatGroup.getAuthUsers()[i])){
+    						loc_authUsers.add(loc_user);
+    						continue LOOP;
+    					}
+    				}
+    				loc_unAuthUsers.add(loc_user);
+    			}
     		}
     	}
     	
     	map.addAttribute("chatGroup",chatGroup);
-    	map.addAttribute("analystList", loc_users);
+    	map.addAttribute("unAuthUserList", loc_unAuthUsers);
+    	map.addAttribute("authUserList", loc_authUsers);
 		return "chat/groupSubmit";
     }
     

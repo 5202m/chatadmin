@@ -3,11 +3,13 @@ package com.gwghk.mis.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +59,10 @@ public class UserController extends BaseController{
 	 * 功能：用户管理-首页
 	 */
 	@RequestMapping(value = "/userController/index", method = RequestMethod.GET)
-	public  String  index(HttpServletRequest request,ModelMap map){
+	public  String  index(HttpServletRequest request,ModelMap map, String opType){
 		logger.debug(">>start into UserController.index() and url is /userController/index.do");
-		map.addAttribute("roleList",roleService.getRoleList());
+		map.addAttribute("roleList",this.getAcceptRoles(opType));
+		map.addAttribute("opType", opType);
 		return "system/user/userList";
 	}
 
@@ -72,12 +75,23 @@ public class UserController extends BaseController{
 	 */
 	@RequestMapping(value = "/userController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,BoUser mngUser){
+	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,BoUser mngUser, String opType){
 		 String roleId=request.getParameter("roleId");
-		 BoRole role=new BoRole();
-		 role.setRoleId(roleId);
-		 mngUser.setRole(role);
-		 Page<BoUser> page = userService.getUserPage(this.createDetachedCriteria(dataGrid, mngUser));
+		 String[] roleIds = null; 
+		 if(StringUtils.isNotEmpty(roleId)){
+			 roleIds = new String[]{roleId};
+		 }else if("analyst".equals(opType)){
+			 List<BoRole> analystRoles = this.getAcceptRoles(opType);
+			 if(analystRoles != null){
+				 int len = analystRoles.size();
+				 roleIds = new String[len];
+				 for (int i = 0; i < len; i++) {
+					 roleIds[i] = analystRoles.get(i).getRoleId();
+				 }
+			 }
+		 }
+		 
+		 Page<BoUser> page = userService.getUserPage(this.createDetachedCriteria(dataGrid, mngUser), roleIds);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());
@@ -89,8 +103,8 @@ public class UserController extends BaseController{
 	 */
     @RequestMapping(value="/userController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
-    public String add(ModelMap map) throws Exception {
-    	map.addAttribute("roleList",roleService.getRoleList());
+    public String add(ModelMap map, String opType) throws Exception {
+    	map.addAttribute("roleList",this.getAcceptRoles(opType));
     	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     	return "system/user/userAdd";
     }
@@ -112,10 +126,10 @@ public class UserController extends BaseController{
 	 */
     @ActionVerification(key="edit")
     @RequestMapping(value="/userController/{userId}/edit", method = RequestMethod.GET)
-    public String edit(@PathVariable String userId , ModelMap map) throws Exception {
+    public String edit(@PathVariable String userId , ModelMap map, String opType) throws Exception {
     	BoUser user=userService.getUserById(userId);
     	map.addAttribute("mngUser",user);
-		map.addAttribute("roleList",roleService.getRoleList());
+		map.addAttribute("roleList", this.getAcceptRoles(opType));
 		map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
 		return "system/user/userEdit";
     }
@@ -272,4 +286,16 @@ public class UserController extends BaseController{
   		return j;
     }
     
+    /**
+     * 获取角色列表
+     * @param opType
+     * @return
+     */
+    private List<BoRole> getAcceptRoles(String opType){
+    	if("analyst".equals(opType)){
+    		return roleService.getAnalystRoleList();
+    	}else{
+    		return roleService.getRoleList();
+    	}
+    }
 }

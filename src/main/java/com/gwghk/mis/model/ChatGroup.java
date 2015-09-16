@@ -63,6 +63,7 @@ public class ChatGroup extends BaseModel{
 	 * 直播实体
 	 */
 	private ChatStudio chatStudio;
+	
 	/**
 	 * 聊天规则id(用于数据传输）
 	 */
@@ -80,6 +81,9 @@ public class ChatGroup extends BaseModel{
 	
 	/** 房间最大人数 */
 	private Integer maxCount;
+
+	/** 授权用户列表 */
+	private String[] authUsers;
 	
 	/** 默认分析师（用户信息） */
 	private BoUser defaultAnalyst;
@@ -154,6 +158,20 @@ public class ChatGroup extends BaseModel{
 
 	public void setMaxCount(Integer maxCount) {
 		this.maxCount = maxCount;
+	}
+	
+	/**
+	 * @return the authUsers
+	 */
+	public String[] getAuthUsers() {
+		return authUsers;
+	}
+
+	/**
+	 * @param authUsers the authUsers to set
+	 */
+	public void setAuthUsers(String[] authUsers) {
+		this.authUsers = authUsers;
 	}
 
 	public BoUser getDefaultAnalyst() {
