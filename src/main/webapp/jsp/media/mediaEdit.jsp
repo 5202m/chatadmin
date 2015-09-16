@@ -134,6 +134,10 @@
 		    </td>
 	      </tr>
 	       <tr>
+			<th>作者</th>
+        	<td><input type="text" name="author" value="${mediaDetail.author}" style="width:600px"/></td>
+           </tr>
+	       <tr>
 			<th width="15%">简介</th>
         	<td width="85%"><textarea rows="2" cols="6" name="remark" style="width:600px">${mediaDetail.remark}</textarea></td>
            </tr>

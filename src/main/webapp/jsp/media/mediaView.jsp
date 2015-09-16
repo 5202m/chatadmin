@@ -62,9 +62,13 @@ function goBack(){
 		    </td>
 	      </tr>
 	      <tr>
+			<th>作者</th>
+	        <td><span>${mediaDetail.author}</span></td>
+	      </tr>
+	      <tr>
 	        <th width="15%">简介</th>
 	        <td width="85%">
-	           <span>${mediaDetail.content}</span>
+	           <span>${mediaDetail.remark}</span>
 	        </td>
 	      </tr>
 	      <tr>
