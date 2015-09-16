@@ -1742,7 +1742,7 @@ public class DateUtil {
 		//日期校验通过，则校验时间
         if(isPass && dateWeekTimeJSON.containsKey("weekTime")){
 			JSONArray timeArrTmp = dateWeekTimeJSON.getJSONArray("weekTime");
-			if(timeArrTmp.isEmpty()){
+			if(timeArrTmp == null || timeArrTmp.isEmpty()){
 				return isPass;
 			}
 			Iterator<Object> timeArrIterator = timeArrTmp.iterator();
