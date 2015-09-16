@@ -63,6 +63,13 @@ var chatGroup = {
 						}},
 						{title : '最大人数',field : 'maxCount'},
 						{title : '序号',field : 'sequence',sortable : true},
+						{title : '开放时间(红色当前生效)',field : 'openDate',formatter : function(value, rowData, rowIndex) {
+							if(!value){
+								return "";
+							}else{
+								return "<font " + (dateTimeWeekCheck(value, true) ? "style='color:red;'" : "") + " >" + formatDateWeekTime(value) + "</font>"
+							}
+						}},
 						/*{title : '创建人',field : 'createUser'},
 						{title : '创建时间',field : 'createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';

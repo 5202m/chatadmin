@@ -77,6 +77,14 @@ var chatStudio = {
 						}},
 						{title : '小频道号',field : 'minChannel',formatter : function(value, rowData, rowIndex) {
 							return rowData.chatStudio.minChannel;
+						}},
+						{title : '直播时间(红色当前生效)',field : 'studioDate',formatter : function(value, rowData, rowIndex) {
+							value = rowData.chatStudio.studioDate;
+							if(!value){
+								return "";
+							}else{
+								return "<font " + (dateTimeWeekCheck(value, true) ? "style='color:red;'" : "") + " >" + formatDateWeekTime(value) + "</font>"
+							}
 						}}
 						
 			]],
