@@ -175,11 +175,11 @@ public class ChatGroupController extends BaseController{
     		if(lenI == 0){
     			loc_unAuthUsers = loc_users;
     		}else{
-    			String loc_userId = null;
+    			String loc_userNo = null;
         		LOOP: for (BoUser loc_user : loc_users) {
-        			loc_userId = loc_user.getUserId();
+        			loc_userNo = loc_user.getUserNo();
         			for (int i = 0; i < lenI; i++) {
-    					if(loc_userId.equals(chatGroup.getAuthUsers()[i])){
+    					if(loc_userNo.equals(chatGroup.getAuthUsers()[i])){
     						loc_authUsers.add(loc_user);
     						continue LOOP;
     					}

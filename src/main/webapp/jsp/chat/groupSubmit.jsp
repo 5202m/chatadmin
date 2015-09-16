@@ -24,9 +24,11 @@
 			 var loc_defAnalystSelect = $("#groupSubmit_analystList");
 			 var loc_defAnalyst = defaultAnalyst || loc_defAnalystSelect.val();
 			 loc_defAnalystSelect.children(":gt(0)").remove();
+			 var loc_html = '<option value="">--请选择--</option>';
 			 $(this).find("option[role_no*='analyst']").each(function(){
-				 loc_defAnalystSelect.append($(this).clone()); 
+				 loc_html += '<option value="' + $(this).attr("user_id") + '">' + $(this).text() + '</option>'
 			 });
+			 loc_defAnalystSelect.html(loc_html);
 			 loc_defAnalystSelect.val(loc_defAnalyst);
 		 });
 		 
@@ -74,7 +76,7 @@
 			        <div class="easyui-panel" data-options="fit:true,title:'未授权用户'" >
 			          <select multiple="multiple" ondblclick="yxui.left2right(this);$('#groupSubmit_authUsers').trigger('reload');" style="margin:1px;width:98%;height:99%">
 			            <c:forEach var="unAuthUser" items="${unAuthUserList }">
-			      			<option value="${unAuthUser.userId}" role_no="${unAuthUser.role.roleNo}">
+			      			<option value="${unAuthUser.userNo}" role_no="${unAuthUser.role.roleNo}" user_id="${unAuthUser.userId}">
 			      				${unAuthUser.userName}【${unAuthUser.role.roleName}】
 			      			</option>
 			      		</c:forEach> 
@@ -93,7 +95,7 @@
 			        <div class="easyui-panel" data-options="fit:true,title:'已授权用户'">
 			          <select multiple="multiple" id="groupSubmit_authUsers" name="authUsers" ondblclick="yxui.right2left(this);$('#groupSubmit_authUsers').trigger('reload');" style="margin:1px;width:98%;height:99%">
 		      			<c:forEach var="authUser" items="${authUserList }">
-			      			<option value="${authUser.userId}" role_no="${authUser.role.roleNo}">
+			      			<option value="${authUser.userNo}" role_no="${authUser.role.roleNo}" user_id="${authUser.userId}">
 			      				${authUser.userName}【${authUser.role.roleName}】
 			      			</option>
 			      		</c:forEach>

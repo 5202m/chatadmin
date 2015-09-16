@@ -56,6 +56,11 @@ public class ArticleDetail{
 	private String linkUrl;
 	
 	/**
+	 * 作者
+	 */
+	private String author;
+	
+	/**
 	 * 标签
 	 */
 	private String tag;
@@ -139,6 +144,18 @@ public class ArticleDetail{
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	
-	
+
+	/**
+	 * @return the author
+	 */
+	public String getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 }
