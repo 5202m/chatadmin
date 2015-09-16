@@ -1,6 +1,7 @@
 package com.gwghk.mis.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.constant.DictConstant;
-import com.gwghk.mis.model.BoRole;
+import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.TokenAccess;
-import com.gwghk.mis.service.RoleService;
+import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.HttpClientUtils;
@@ -43,7 +44,7 @@ public class AdminChatController extends BaseController{
 	private UserService userService;
 	
 	@Autowired
-	private RoleService roleService;
+	private ChatGroupService chatGroupService;
 	
 	@Autowired
 	private TokenAccessService tokenAccessService;
@@ -53,12 +54,12 @@ public class AdminChatController extends BaseController{
 	 */
 	@RequestMapping(value = "/adminChatController/index", method = RequestMethod.GET)
 	public String index(ModelMap map){
-		BoRole boRole = roleService.getByRoleId(ResourceUtil.getSessionUser().getRole().getRoleId());
-		map.put("chatGroupList", boRole.getChatGroupList());
+		List<ChatGroup> loc_chatGroups = chatGroupService.getChatGroupListByAuthUser(ResourceUtil.getSessionUser().getUserNo(), "id", "name", "groupType");
+		map.put("chatGroupList", loc_chatGroups);
 		String chatUrl = PropertiesUtil.getInstance().getProperty("chatUrl");
 		String chatUrlParam = "userId="+userParam.getUserNo()
 				+ "&mobilePhone="+userParam.getTelephone()
-				+ "&nickname="+userParam.getUserName()+"("+boRole.getRoleName()+")"
+				+ "&nickname="+userParam.getUserName()+"("+ResourceUtil.getSessionUser().getRole().getRoleName()+")"
 				+ "&fromPlatform=pm_mis";
 		map.put("chatUrl",chatUrl);
 		map.put("chatUrlParam",chatUrlParam);

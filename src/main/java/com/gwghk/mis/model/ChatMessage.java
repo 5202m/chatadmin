@@ -83,7 +83,7 @@ public class ChatMessage{
 	/**
 	 * 需要审核角色编号
 	 */
-	private String approvalRoleArr;
+	private String approvalUserArr;
 	
 	/**
 	 * 审核人编号
@@ -256,12 +256,18 @@ public class ChatMessage{
 		this.publishEndDateStr = publishEndDateStr;
 	}
 
-	public String getApprovalRoleArr() {
-		return approvalRoleArr;
+	/**
+	 * @return the approvalUserArr
+	 */
+	public String getApprovalUserArr() {
+		return approvalUserArr;
 	}
 
-	public void setApprovalRoleArr(String approvalRoleArr) {
-		this.approvalRoleArr = approvalRoleArr;
+	/**
+	 * @param approvalUserArr the approvalUserArr to set
+	 */
+	public void setApprovalUserArr(String approvalUserArr) {
+		this.approvalUserArr = approvalUserArr;
 	}
 
 	public String getApprovalUserNo() {
