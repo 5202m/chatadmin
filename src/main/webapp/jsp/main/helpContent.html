@@ -1,0 +1,62 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="yxDemo/formStyle/treeForm/treeForm.js" charset="UTF-8">
+	
+</script>
+
+<div class="easyui-layout" data-options="fit:true">
+  <!-- west -->
+  <div data-options="region:'west',title:'树形列表',iconCls:'pag-view',split:true,border:false" style="width:200px;">
+    <ul id="helpLeftTree" class="easyui-tree" data-options="url:'yxDemo/formStyle/treeForm/treeHelpData.json',onLoadSuccess:function(){$('#helpLeftTree').tree('expandAll')}", onDblClick:function(node){
+      if (node.state == 'closed') {
+        $(this).tree('expand', node.target);
+      } else {
+        $(this).tree('collapse', node.target);
+      }
+    }"></ul> 
+  </div>
+  <!-- center -->
+  <div data-options="region:'center',border:false">
+	<!-- 帮助正文 begin -->
+	<div style="padding:5px;overflow:hidden;"><p class="menu1">1 表格制作</p></div>
+	<p class="menu2">1.1 描述：查询表格<a name="1.1"></a></p>
+	<p>查询数据时使用查询表格样式。</p>
+	<p><span class="notice">答案：</span>
+		<ol class="notice_ol">
+		<li>table样式为：class="tb_input" 且 cellspacing="1"</li>
+		<li>表头td样式为：class=&quot;search&quot;</li>
+		<li>表格一般分为4例，标题td样式为：class=&quot;td_title&quot;,标题列占百分比为10%-15%</li>
+		</ol></p>
+	<p class="menu2">1.2 信息表格<a name="1.2"></a></p>
+	<p>新增、查看信息时使用信息表格样式。</p>
+	<p><span class="notice">答案：</span>
+	<ol class="notice_ol">
+	<li>table样式为：class="tb_input" 且 cellspacing="1"</li>
+	<li>表格一般分为4例，标题td样式为：class=&quot;td_title&quot;,标题列占百分比为10%-15%</li>
+	<li>对表格的操作按钮放在表格外，操作按钮div样式为：class=&quot;tab_operate&quot;</li>
+	</ol></p>
+	<p class="menu2">1.3 查询结果表头<a name="1.3"></a></p>
+	<p>在查询结果表格前，用来放标题及操作按钮。</p>
+	<p><span class="notice">注意：</span>
+	<ol class="notice_ol">
+	<li>table样式为：class="tb_title"</li>
+	<li>标题td样式为：class="icon_note"</li>
+	<li>操作按钮td样式为：class="tb_btn"</li>
+	</ol></p>
+	
+	<br>
+	<div style="padding:5px;overflow:hidden;"><p class="menu1">2 表格制作</p></div>
+	<p class="menu2">2.1 描述：查询表格<a name="1.1"></a></p>
+	<p>查询数据时使用查询表格样式。</p>
+	<p><span class="notice">答案：</span>
+		<ol class="notice_ol">
+		<li>table样式为：class="tb_input" 且 cellspacing="1"</li>
+		<li>表头td样式为：class=&quot;search&quot;</li>
+		<li>表格一般分为4例，标题td样式为：class=&quot;td_title&quot;,标题列占百分比为10%-15%</li>
+		</ol></p>
+	<!-- 帮助正文 end-->
+   </div>
+</div>
+
+
+
+
