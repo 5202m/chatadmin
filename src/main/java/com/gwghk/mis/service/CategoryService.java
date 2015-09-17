@@ -25,11 +25,7 @@ public class CategoryService{
 	private CategoryDao categoryDao;
 	
 	public List<Category> getCategoryList(String name,String code,String status) {
-		if(StringUtils.isBlank(name) && StringUtils.isBlank(code)&& StringUtils.isBlank(status)){
-			return categoryDao.getListByType(null);
-		}else{
-			return categoryDao.getListByNameAndCode(name,code,status);
-		}
+		return categoryDao.getListByNameAndCode(name,code,status);
 	}
 	
 	/**

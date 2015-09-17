@@ -15,6 +15,7 @@
           <th width="10%">栏目状态</th>
           <td width="23%"> 
              <select id="categoryStatus">
+             	<option value="">---请选择---</option>
 	      	 	<option value="1">启用</option>
 	      	 	<option value="0">禁用</option>
 	      	 </select>
