@@ -19,20 +19,6 @@
 			    data:data
 			}); 
 		},true);
-		 
-		 $("#groupSubmit_authUsers").bind("reload", function(e, defaultAnalyst){
-			 var loc_defAnalystSelect = $("#groupSubmit_analystList");
-			 var loc_defAnalyst = defaultAnalyst || loc_defAnalystSelect.val();
-			 loc_defAnalystSelect.children(":gt(0)").remove();
-			 var loc_html = '<option value="">--请选择--</option>';
-			 $(this).find("option[role_no*='analyst']").each(function(){
-				 loc_html += '<option value="' + $(this).attr("user_id") + '">' + $(this).text() + '</option>'
-			 });
-			 loc_defAnalystSelect.html(loc_html);
-			 loc_defAnalystSelect.val(loc_defAnalyst);
-		 });
-		 
-		 $("#groupSubmit_authUsers").trigger("reload", '${chatGroup.defaultAnalyst == null ? "" : chatGroup.defaultAnalyst.userId }');
 	});
 </script>
 <div style="padding:5px;overflow:hidden;">
@@ -66,47 +52,6 @@
 	          </td>
 	      </tr>
 	      <tr>
-	      	<th>用户授权</th>
-	      	<td colspan="3">
-	      	  <!-- center -->
-			  <div data-options="region:'center',border:false" style = "padding:4px">
-			    <div class="easyui-layout" data-options="fit:true,border:false" style="width:400px;height:200px;">
-			      <!-- west -->
-			      <div data-options="region:'west',border:false" style='width:230px' >
-			        <div class="easyui-panel" data-options="fit:true,title:'未授权用户'" >
-			          <select multiple="multiple" ondblclick="yxui.left2right(this);$('#groupSubmit_authUsers').trigger('reload');" style="margin:1px;width:98%;height:99%">
-			            <c:forEach var="unAuthUser" items="${unAuthUserList }">
-			      			<option value="${unAuthUser.userNo}" role_no="${unAuthUser.role.roleNo}" user_id="${unAuthUser.userId}">
-			      				${unAuthUser.userName}【${unAuthUser.role.roleName}】
-			      			</option>
-			      		</c:forEach> 
-			          </select>
-			        </div>
-			      </div>
-			      <!-- center -->
-			      <div data-options="region:'center',border:false" style="margin: 55px 0 0 15px;">
-				      <input type="button" class="button" value="&gt;&nbsp;&gt;&nbsp;" onclick="yxui.leftall2right(this);$('#groupSubmit_authUsers').trigger('reload');" title='<spring:message code="role.assginuser.allselected" />' style="width:50px;margin-bottom: 10px;"/><!-- 全部选中 -->
-				      <input type="button" class="button" value="&gt;&nbsp;" onclick="yxui.left2right(this);$('#groupSubmit_authUsers').trigger('reload');" title='<spring:message code="role.assginuser.selected"/>' style="width:50px;margin-bottom: 10px;"/><!-- 选中 -->
-				      <input type="button" class="button" value="&lt;&nbsp;" onclick="yxui.right2left(this);$('#groupSubmit_authUsers').trigger('reload');" title='<spring:message code="role.assginuser.removed"/>' style="width:50px;margin-bottom: 10px;"/><!-- 移除 -->
-				      <input type="button" class="button" value="&lt;&nbsp;&lt;&nbsp;" onclick="yxui.rightall2left(this);$('#groupSubmit_authUsers').trigger('reload');" title='<spring:message code="role.assginuser.allremoved"/>' style="width:50px;margin-bottom: 10px;"/><!-- 全部移除 -->
-			      </div>
-			      <!-- east -->
-			      <div data-options="region:'east',border:false" style='width:230px'>
-			        <div class="easyui-panel" data-options="fit:true,title:'已授权用户'">
-			          <select multiple="multiple" id="groupSubmit_authUsers" name="authUsers" ondblclick="yxui.right2left(this);$('#groupSubmit_authUsers').trigger('reload');" style="margin:1px;width:98%;height:99%">
-		      			<c:forEach var="authUser" items="${authUserList }">
-			      			<option value="${authUser.userNo}" role_no="${authUser.role.roleNo}" user_id="${authUser.userId}">
-			      				${authUser.userName}【${authUser.role.roleName}】
-			      			</option>
-			      		</c:forEach>
-			          </select>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
-	      	</td>
-	      </tr>
-	      <tr>
 	          <th>最大人数</th>
 	          <td>
 	             <input type="number" name="maxCount" value="${chatGroup.maxCount}" class="easyui-validatebox" data-options="required:true"/>
@@ -115,6 +60,9 @@
 	          <td>
 	          	<select name="defaultAnalyst.userId" id="groupSubmit_analystList" style="width:170px;">
 	          	  <option value="">--请选择--</option>
+	          	  <c:forEach var="row" items="${analystList}">
+	                 <option value="${row.userId}" <c:if test="${chatGroup.defaultAnalyst != null && row.userId == chatGroup.defaultAnalyst.userId}">selected="selected"</c:if>>${row.userName}【${row.role.roleName}】</option>
+	              </c:forEach>
 	            </select>
 	          </td>
 	      </tr>

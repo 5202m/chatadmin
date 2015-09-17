@@ -100,7 +100,7 @@ public class UserService{
 	 */
 	public List<BoUser> getUserList(DetachedCriteria<BoUser> dCriteria){
 		Query query=new Query();
-		Criteria criteria = Criteria.where("valid").is(1);
+		Criteria criteria = Criteria.where("valid").is(1).and("status").is(0);
 		BoUser boUser=dCriteria == null ? null : dCriteria.getSearchModel();
 		if(boUser!=null){
 			if(StringUtils.isNotBlank(boUser.getUserNoOrName())){
@@ -112,15 +112,15 @@ public class UserService{
 	}
 	
 	/**
-	 * 按照角色列表获取角色
-	 * @param roleIds
+	 * 按照角色模糊查询用户列表
+	 * @param roleNo
 	 * @return
 	 */
-	public List<BoUser> getUserListByRoles(List<String> roleIds){
+	public List<BoUser> getUserListByRole(String roleNo){
 		Query query=new Query();
 		Criteria criteria = Criteria.where("valid").is(1);
-		if(roleIds != null && roleIds.isEmpty() == false){
-			criteria.and("role._id").in(roleIds);
+		if(StringUtils.isNotBlank(roleNo)){
+			criteria.and("role.roleNo").regex(StringUtil.toFuzzyMatch(roleNo));
 		}
 		query.addCriteria(criteria);
 		

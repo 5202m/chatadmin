@@ -63,35 +63,19 @@ public class ChatGroupService{
 	}
 
 	/**
-	 * 保存规则
+	 * 保存房间
 	 * @param chatGroupParam
 	 * @param isUpdate
+	 * @param isUpdateDefaultAnalyst
 	 * @return
 	 */
-	public ApiResult saveChatGroup(ChatGroup chatGroupParam, boolean isUpdate) {
+	public ApiResult saveChatGroup(ChatGroup chatGroupParam, boolean isUpdate, boolean isUpdateDefaultAnalyst) {
 		ApiResult result=new ApiResult();
 		chatGroupParam.setValid(1);
     	if(isUpdate){
     		if(StringUtils.isBlank(chatGroupParam.getId())){
     			return result.setCode(ResultCode.Error103);
     		}
-    		//默认分析师
-    		BoUser analyst = null;
-    		if(chatGroupParam.getDefaultAnalyst() != null){
-    			String analystId = chatGroupParam.getDefaultAnalyst().getUserId();
-    			if(StringUtils.isNotBlank(analystId)){
-    				BoUser analystTmp = userService.getUserById(analystId);
-    				if(analystTmp != null){
-    					analyst = new BoUser();
-    					analyst.setUserId(analystTmp.getUserId());
-    					analyst.setUserNo(analystTmp.getUserNo());
-    					analyst.setUserName(analystTmp.getUserName());
-    					analyst.setPosition(analystTmp.getPosition());
-    					analyst.setAvatar(analystTmp.getAvatar());
-    				}
-    			}
-    		}
-    		chatGroupParam.setDefaultAnalyst(analyst);
     		ChatGroup group=getChatGroupById(chatGroupParam.getId());
     		if(group==null){
     			return result.setCode(ResultCode.Error104);
@@ -102,7 +86,25 @@ public class ChatGroupService{
     			chatApiService.leaveRoom(chatGroupParam.getId());
     		}
     		BeanUtils.copyExceptNull(group, chatGroupParam);
-    		group.setDefaultAnalyst(analyst);
+    		if(isUpdateDefaultAnalyst){
+    			//修改默认分析师
+        		BoUser analyst = null;
+        		if(chatGroupParam.getDefaultAnalyst() != null){
+        			String analystId = chatGroupParam.getDefaultAnalyst().getUserId();
+        			if(StringUtils.isNotBlank(analystId)){
+        				BoUser analystTmp = userService.getUserById(analystId);
+        				if(analystTmp != null){
+        					analyst = new BoUser();
+        					analyst.setUserId(analystTmp.getUserId());
+        					analyst.setUserNo(analystTmp.getUserNo());
+        					analyst.setUserName(analystTmp.getUserName());
+        					analyst.setPosition(analystTmp.getPosition());
+        					analyst.setAvatar(analystTmp.getAvatar());
+        				}
+        			}
+        		}
+    			group.setDefaultAnalyst(analyst);
+    		}
     		setGroupRule(group);
     		roleDao.updateRoleChatGroup(group);
     		chatGroupDao.update(group);

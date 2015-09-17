@@ -145,9 +145,8 @@ public class ChatGroupController extends BaseController{
     	setCommonShow(map);
     	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
-    	//授权用户列表
-    	map.addAttribute("unAuthUserList", userService.getUserList(null));
-    	map.addAttribute("authUserList", new ArrayList<BoUser>());
+    	//分析师列表
+    	map.addAttribute("analystList", new ArrayList<BoUser>());
     	return "chat/groupSubmit";
     }
     
@@ -166,34 +165,96 @@ public class ChatGroupController extends BaseController{
     		}
     		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
-    	//授权用户列表
-    	List<BoUser> loc_users = userService.getUserList(null);
-    	List<BoUser> loc_unAuthUsers = new ArrayList<BoUser>();
-    	List<BoUser> loc_authUsers = new ArrayList<BoUser>();
-    	if(loc_users != null){
-    		int lenI = chatGroup == null || chatGroup.getAuthUsers() == null ? 0 : chatGroup.getAuthUsers().length;
-    		if(lenI == 0){
-    			loc_unAuthUsers = loc_users;
-    		}else{
-    			String loc_userNo = null;
-        		LOOP: for (BoUser loc_user : loc_users) {
-        			loc_userNo = loc_user.getUserNo();
-        			for (int i = 0; i < lenI; i++) {
-    					if(loc_userNo.equals(chatGroup.getAuthUsers()[i])){
-    						loc_authUsers.add(loc_user);
-    						continue LOOP;
-    					}
-    				}
-    				loc_unAuthUsers.add(loc_user);
-    			}
-    		}
+    	//分析师列表
+    	List<BoUser> loc_allAnalysts = userService.getUserListByRole("analyst");
+    	String[] loc_authUsers = chatGroup.getAuthUsers();
+    	List<BoUser> loc_users = new ArrayList<BoUser>();
+    	int lenJ = loc_authUsers == null ? 0 : loc_authUsers.length;
+    	BoUser loc_analyst = null;
+    	for(int i = 0, lenI = loc_allAnalysts == null ? 0 : loc_allAnalysts.size(); i < lenI; i++){
+    		loc_analyst = loc_allAnalysts.get(i);
+    		for (int j = 0; j < lenJ; j++) {
+				if(loc_authUsers[j].equals(loc_analyst.getUserNo())){
+					loc_users.add(loc_analyst);
+					break;
+				}
+			}
     	}
-    	
+    	map.addAttribute("analystList", loc_users);
     	map.addAttribute("chatGroup",chatGroup);
-    	map.addAttribute("unAuthUserList", loc_unAuthUsers);
-    	map.addAttribute("authUserList", loc_authUsers);
 		return "chat/groupSubmit";
     }
+
+	/**
+	 * 功能：聊天室组别管理-跳转用户授权界面
+	 */
+	@RequestMapping(value = "/chatGroupController/{chatGroupId}/preAuthUser", method = RequestMethod.GET)
+	@ActionVerification(key = "assignUser")
+	public String preAuthUser(@PathVariable String chatGroupId, ModelMap map) throws Exception {
+		ChatGroup chatGroup = chatGroupService.getChatGroupById(chatGroupId);
+
+		List<BoUser> loc_users = userService.getUserList(null);
+		List<BoUser> loc_unAuthUsers = new ArrayList<BoUser>();
+		List<BoUser> loc_authUsers = new ArrayList<BoUser>();
+		if (loc_users != null) {
+			int lenI = chatGroup == null || chatGroup.getAuthUsers() == null ? 0 : chatGroup.getAuthUsers().length;
+			if (lenI == 0) {
+				loc_unAuthUsers = loc_users;
+			}
+			else {
+				String loc_userNo = null;
+				LOOP: for (BoUser loc_user : loc_users) {
+					loc_userNo = loc_user.getUserNo();
+					for (int i = 0; i < lenI; i++) {
+						if (loc_userNo.equals(chatGroup.getAuthUsers()[i])) {
+							loc_authUsers.add(loc_user);
+							continue LOOP;
+						}
+					}
+					loc_unAuthUsers.add(loc_user);
+				}
+			}
+		}
+		map.addAttribute("unAuthUserList", loc_unAuthUsers);
+		map.addAttribute("authUserList", loc_authUsers);
+    	map.addAttribute("chatGroup",chatGroup);
+		return "chat/groupUserAuth";
+	}
+    
+	/**
+	 * 功能：聊天室组别管理-保存更新
+	 * 
+	 * @param request
+	 * @param response
+	 * @param chatGroup
+	 * @return
+	 */
+	@RequestMapping(value = "/chatGroupController/authUser", method = RequestMethod.POST)
+	@ResponseBody
+	@ActionVerification(key = "assignUser")
+	public AjaxJson authUser(HttpServletRequest request, HttpServletResponse response, ChatGroup chatGroup) {
+		setBaseInfo(chatGroup, request, true);
+		AjaxJson j = new AjaxJson();
+		//注意，如果为null则不会修改，对清空授权用户功能的影响
+		if(chatGroup.getAuthUsers() == null){
+			chatGroup.setAuthUsers(new String[0]);
+		}
+		ApiResult result = chatGroupService.saveChatGroup(chatGroup, true, false);
+		if (result.isOk()) {
+			j.setSuccess(true);
+			String message = "用户：" + chatGroup.getUpdateUser() + " " + DateUtil.getDateSecondFormat(new Date()) + " 修改聊天室授权用户成功";
+			logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.info("<--method:authUser()|" + message);
+		}
+		else {
+			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+			String message = "用户：" + chatGroup.getUpdateUser() + " " + DateUtil.getDateSecondFormat(new Date()) + " 修改聊天室授权用户失败";
+			logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.error("<--method:authUser()|" + message + ",ErrorMsg:" + result.toString());
+		}
+		return j;
+	}
     
 	  /**
    	 * 功能：聊天室组别管理-保存新增
@@ -208,7 +269,7 @@ public class ChatGroupController extends BaseController{
     	if(chatRuleIdArr!=null){
     		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
-    	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false);
+    	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false, false);
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增聊天室组别："+chatGroup.getName();
@@ -225,7 +286,7 @@ public class ChatGroupController extends BaseController{
     	}
 		return j;
     }
-       
+   
    /**
    	* 功能：聊天室组别管理-保存更新
    	*/
@@ -239,7 +300,7 @@ public class ChatGroupController extends BaseController{
     		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true);
+    	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true, true);
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改聊天室组别："+chatGroup.getId();

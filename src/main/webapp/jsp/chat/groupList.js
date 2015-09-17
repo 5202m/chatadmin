@@ -141,7 +141,7 @@ var chatGroup = {
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			width : 700,
-			height : 633,
+			height : 413,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -150,9 +150,6 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
-					$("#groupSubmit_authUsers option").each(function(){
-						$(this).prop("selected", true);
-					});
 					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek.getData());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
@@ -184,7 +181,7 @@ var chatGroup = {
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			width : 700,
-			height : 633,
+			height : 413,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
@@ -193,9 +190,6 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
-					$("#groupSubmit_authUsers option").each(function(){
-						$(this).prop("selected", true);
-					});
 					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek.getData());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
@@ -215,6 +209,40 @@ var chatGroup = {
 			}
 		});
 	},
+	/**
+	 * 用户授权
+	 */
+	authUser: function(recordId){
+		$("#system_user_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/chatGroupController/'+recordId+'/preAuthUser.do');
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/authUser.do');
+		goldOfficeUtils.openEditorDialog({
+			title : "用户授权",
+			width : 550,
+			height : 413,
+			href : url,
+			iconCls : 'pag-edit',
+			handler : function(){
+				$("#groupUserAuth_authUsers option").each(function(){
+					$(this).prop("selected", true);
+				});
+				goldOfficeUtils.ajaxSubmitForm({
+					url : submitUrl,
+					formId : 'groupUserAuth_form',
+					onSuccess : function(data){   //提交成功后处理
+						var d = $.parseJSON(data);
+						if (d.success) {
+							$("#myWindow").dialog("close");
+							$.messager.alert($.i18n.prop("common.operate.tips"),'用户授权成功','info');
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'用户授权失败，原因：'+data.msg,'error');
+						}
+					}
+				});
+			}
+		});
+	},
+	
 	/**
 	 * 设置token规则
 	 */
