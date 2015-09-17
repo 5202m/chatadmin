@@ -34,7 +34,7 @@
 			         	</select>
 			         </td>
 			        <th width="15%"><spring:message code="menu.no" /><!-- 菜单编号 --><span class="red">*</span></th>
-			        <td width="35%"><input type="text" name="code" id="code" class="easyui-validatebox" 
+			        <td width="35%"><input type="text" name="code" id="code" readonly="readonly" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'<spring:message code="menu.valid.no" />'"/></td>
 			      </tr>
 			      <tr>
