@@ -1669,6 +1669,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String formatDateWeekTime(String dateWeekTime){
+		String[] weekStrArr = new String[]{"周日","周一","周二","周三","周四","周五","周六"};
 		StringBuffer loc_result = new StringBuffer();
 		if(StringUtils.isBlank(dateWeekTime)){
 			return "";
@@ -1686,29 +1687,31 @@ public class DateUtil {
 			}
 			if(dateWeekTimeJSON.containsKey("weekTime")){
 				JSONArray timeArrTmp = dateWeekTimeJSON.getJSONArray("weekTime");
-				Iterator<Object> timeArrIterator = timeArrTmp.iterator();
-				JSONObject timpTmp = null;
-				String timeStartTmp = null;
-				String timeWeekTmp = null;
-				String timeEndTmp = null;
-				while (timeArrIterator.hasNext()) {
-					timpTmp = (JSONObject)timeArrIterator.next();
-
-					loc_result.append(" ");
-					timeWeekTmp = timpTmp.getString("week");
-					if (StringUtils.isNotBlank(timeWeekTmp)) {
-						loc_result.append("[");
-						loc_result.append(timeWeekTmp);
-						loc_result.append("]");
-					}
-					timeStartTmp = timpTmp.getString("beginTime");
-					if (StringUtils.isNotBlank(timeStartTmp)) {
-						loc_result.append(timeStartTmp);
-					}
-					timeEndTmp = timpTmp.getString("endTime");
-					if (StringUtils.isNotBlank(timeEndTmp) && timeEndTmp.equals(timeStartTmp) == false) {
-						loc_result.append("-");
-						loc_result.append(timeEndTmp);
+				if(timeArrTmp != null){
+					Iterator<Object> timeArrIterator = timeArrTmp.iterator();
+					JSONObject timpTmp = null;
+					String timeStartTmp = null;
+					String timeWeekTmp = null;
+					String timeEndTmp = null;
+					while (timeArrIterator.hasNext()) {
+						timpTmp = (JSONObject)timeArrIterator.next();
+						
+						loc_result.append(" ");
+						timeWeekTmp = timpTmp.getString("week");
+						if (StringUtils.isNotBlank(timeWeekTmp)) {
+							loc_result.append("[");
+							loc_result.append(weekStrArr[Integer.parseInt(timeWeekTmp)]);
+							loc_result.append("]");
+						}
+						timeStartTmp = timpTmp.getString("beginTime");
+						if (StringUtils.isNotBlank(timeStartTmp)) {
+							loc_result.append(timeStartTmp);
+						}
+						timeEndTmp = timpTmp.getString("endTime");
+						if (StringUtils.isNotBlank(timeEndTmp) && timeEndTmp.equals(timeStartTmp) == false) {
+							loc_result.append("-");
+							loc_result.append(timeEndTmp);
+						}
 					}
 				}
 			}

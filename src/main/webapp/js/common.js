@@ -619,6 +619,7 @@ function getHHMMSS(date){
  * @returns {String}
  */
 function formatDateWeekTime(openDate){
+	var weekStrArr = ["周日","周一","周二","周三","周四","周五","周六"];
     var dateStr='';
     if(isValid(openDate)){
         openDate=JSON.parse(openDate);
@@ -637,7 +638,7 @@ function formatDateWeekTime(openDate){
                 row=weekTime[i];
             	dateStr+=' ';
             	if(isValid(row.week)){
-            		dateStr+="[" + row.week + "]";
+            		dateStr+="[" + weekStrArr[parseInt(row.week, 10)] + "]";
             	}
                 if(isValid(row.beginTime)){
                     dateStr+=row.beginTime ;
