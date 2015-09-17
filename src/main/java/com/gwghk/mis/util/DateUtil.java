@@ -1669,6 +1669,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String formatDateWeekTime(String dateWeekTime){
+		String[] weekStrArr = new String[]{"周日","周一","周二","周三","周四","周五","周六"};
 		StringBuffer loc_result = new StringBuffer();
 		if(StringUtils.isBlank(dateWeekTime)){
 			return "";
@@ -1698,7 +1699,7 @@ public class DateUtil {
 					timeWeekTmp = timpTmp.getString("week");
 					if (StringUtils.isNotBlank(timeWeekTmp)) {
 						loc_result.append("[");
-						loc_result.append(timeWeekTmp);
+						loc_result.append(weekStrArr[Integer.parseInt(timeWeekTmp)]);
 						loc_result.append("]");
 					}
 					timeStartTmp = timpTmp.getString("beginTime");
