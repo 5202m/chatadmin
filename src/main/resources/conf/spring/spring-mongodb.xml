@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"    
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+       xmlns:context="http://www.springframework.org/schema/context"    
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"    
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+       http://www.springframework.org/schema/data/mongo    
+       http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+       
+    <!-- 连接配置 -->
+    <!-- 配置服务器IP和端口 -->
+	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+		<property name="host" value="${mongo.host}" />
+		<property name="port" value="${mongo.port}" />
+	</bean>
+    <mongo:db-factory  dbname="${mongo.database}" username="${mongo.username}" password="${mongo.password}" mongo-ref="mongo"/>
+    <!-- 配置连接的数据库 -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
+		<!-- <constructor-arg name="mongo" ref="mongo" />
+		<constructor-arg name="databaseName" value="${mongo.database}" /> -->
+	</bean>
+    
+    <!-- 自动扫描以下包的类 -->
+	<mongo:mapping-converter base-package="com.gwghk.mis.model" />
+	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
+	
+	<!-- 配置mongodb映射类型 -->
+	<bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+		<constructor-arg name="mappingContext" ref="mappingContext" />
+		<property name="typeMapper" ref="defaultMongoTypeMapper" />
+	</bean>
+
+	<!-- 默认Mongodb类型映射 -->
+	<bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+		<constructor-arg name="typeKey">
+			<null /><!-- 这里设置为空,可以把 spring data mongodb 多余保存的_class字段去掉 -->
+		</constructor-arg>
+	</bean>
+</beans>

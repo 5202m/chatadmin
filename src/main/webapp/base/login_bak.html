@@ -1,0 +1,182 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>远行科技门户v1.1</title>
+<script type="text/javascript">
+	if (self != top) {
+		top.location = self.location;
+	}
+	var host = window.location.host;
+
+	document.onkeypress = function(event) {
+		if (!event) {
+			event = window.event;
+		}
+		var key = window.event ? event.keyCode : event.which;
+		if (key == 13) {
+			login();
+		}
+	}
+
+	var tPath = window.location.pathname;
+	var pathArray = tPath.split("/");
+	var path = pathArray[1];
+	var link = document.createElement("link");
+	link.href = "http://" + host + "/" + path + "/base/css/login.css";
+	link.rel = "stylesheet";
+	link.type = "text/css";
+
+	var head = document.head || document.getElementsByTagName('head')[0];
+	head.appendChild(link);
+</script>
+</head>
+<body style="text-align: center;">
+  <form method="post">
+    <div id="container">
+      <div id="login_top"></div>
+      <div id="login_center">
+        <div id="input_body">
+          <table width="230" height="145" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="50" height="34" nowrap="nowrap"><span id="userSpan">用户名</span></td>
+              <td width="180"><input id="userName" type="text" class="login_input" name="userName" value="0199000000" /></td>
+            </tr>
+            <tr>
+              <td height="34"><span id="pwdSpan"> 密 码 </span>
+              </td>
+              <td><input id="password" type="password" name="password" class="login_input" value="111111" />
+              </td>
+            </tr>
+            <tr>
+              <td rowspan="3"><br> <br></td>
+              <td height="34">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left"><input name="loginBtn" id="loginBtn" onclick="login();" type="button" value="" class="button_login" /> <input name="helpBtn" id="helpBtn" type="button" value="" class="button_help" /></td>
+                    <td align="right" valign="top"><select name="localSelect" id="localSelect" onchange="changeLocal();" style="width: 80px">
+                        <option value="zh_cn" selected="selected">中文</option>
+                        <option value="en_us">英文</option>
+                    </select></td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td height="34"><span id="errorInfo" style="display:none" class="error">密码输入错误，请重新输入！</span></td>
+            </tr>
+            <tr>
+              <td height="23" class="error">&nbsp;</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="login_foot"></div>
+    </div>
+  </form>
+</body>
+<script type="text/javascript">
+	//地址为登录请求的路径
+	var address = "http://" + host + "/" + path + "/";
+
+	changeLocal = function() {
+		var userSpan = document.getElementById("userSpan");
+		var pwdSpan = document.getElementById("pwdSpan");
+		var localSelect = document.getElementById("localSelect");
+		var loginBtn = document.getElementById("loginBtn");
+		var helpBtn = document.getElementById("helpBtn");
+
+		if (localSelect.value == "zh_cn") {
+			userSpan.innerHTML = "用户名";
+			pwdSpan.innerHTML = "密   码";
+			loginBtn.className = "button_login";
+			helpBtn.className = "button_help";
+		} else {
+			userSpan.innerHTML = "UserName";
+			pwdSpan.innerHTML = "Password";
+			loginBtn.className = "button_login_en";
+			helpBtn.className = "button_help_en";
+		}
+		userSpan = null;
+		pwdSpan = null;
+		localSelect = null;
+		loginBtn = null;
+		helpBtn = null;
+	}
+
+	createStandardXHR = function() {
+		try {
+			return new window.XMLHttpRequest();
+		} catch (e) {
+		}
+	}
+
+	createActiveXHR = function() {
+		try {
+			return new window.ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) {
+		}
+	}
+
+	//登录时的业务逻辑处理
+	login = function() {
+
+		//获得异步请求的对象
+		var xhr = createStandardXHR() || createActiveXHR();
+		xhr.open("post", address + "eip/eipAction!login.action", true);
+		//注意下面利用XMLHttp对象对请求头Content-Type的设置
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				callBack(xhr.responseText);
+			}
+		}
+
+		//获得表单数据
+		var userName = document.getElementById("userName");
+		var password = document.getElementById("password");
+		var localSelect = document.getElementById("localSelect");
+
+		xhr.send('mainAccountOrUserName=' + userName.value + '&password=' + password.value + '&localString=' + localSelect.value);
+		userName = null;
+		password = null;
+	}
+
+	//登录之后的回调函数
+	callBack = function(result) {
+		//alert(result);
+		//var r = JSON.parse(result);
+		var r = eval("(" + result + ")");
+		//console.info(r.success);
+		if (r.success == false) {
+			var errorInfo = document.getElementById("errorInfo");
+			errorInfo.innerHTML = r.msg;
+			errorInfo.style.display = "";
+			document.getElementById("userName").value = "";
+			document.getElementById("password").value = "";
+		} else if (r.success) {
+			//释放资源并跳转
+			closeResource();
+			//跳转主页
+			goIndex(address + "eip/eipAction!mainIndex.action");
+		}
+	}
+
+	//跳转主页
+	goIndex = function(url) {
+		var aTag = document.createElement("a");
+		if (!aTag.click) {
+			window.location = url;
+			return;
+		}
+		aTag.setAttribute("href", url);
+		aTag.style.display = "none";
+		document.body.appendChild(aTag);
+		aTag.click();
+	}
+
+	//释放资源
+	closeResource = function() {
+		path = null;
+	}
+</script>
+</html>

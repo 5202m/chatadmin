@@ -1,0 +1,305 @@
+/*系统图标 css定义 以 sys- 开头 对应 \css\baseIcons\systemIcons */
+
+/*资源-平台图标 css定义 以 res-p- 开头 对应 \css\baseIcons\resourceIcons\portal */
+
+/*资源-应用图标 css定义 以 res-s- 开头 对应 \css\baseIcons\resourceIcons\system */
+
+/*---------------功能菜单按钮----------------*/
+.res-s-001 {
+	background: url('baseIcons/resourceIcons/system/001.png') no-repeat;
+} /*与我有关*/
+.res-s-002 {
+	background: url('baseIcons/resourceIcons/system/002.png') no-repeat;
+} /*我要申请*/
+.res-s-003 {
+	background: url('baseIcons/resourceIcons/system/003.png') no-repeat;
+} /*我的访客*/
+.res-s-004 {
+	background: url('baseIcons/resourceIcons/system/004.png') no-repeat;
+} /*预约申请*/
+.res-s-005 {
+	background: url('baseIcons/resourceIcons/system/005.png') no-repeat;
+} /*访客管理*/
+.res-s-006 {
+	background: url('baseIcons/resourceIcons/system/006.png') no-repeat;
+} /*访客登记*/
+.res-s-007 {
+	background: url('baseIcons/resourceIcons/system/007.png') no-repeat;
+} /*访客查询*/
+.res-s-008 {
+	background: url('baseIcons/resourceIcons/system/008.png') no-repeat;
+} /*统计分析*/
+.res-s-009 {
+	background: url('baseIcons/resourceIcons/system/009.png') no-repeat;
+} /*申请统计*/
+.res-s-010 {
+	background: url('baseIcons/resourceIcons/system/010.png') no-repeat;
+} /*访客统计*/
+.res-s-011 {
+	background: url('baseIcons/resourceIcons/system/011.png') no-repeat;
+} /*流程查看*/
+.res-s-012 {
+	background: url('baseIcons/resourceIcons/system/012.png') no-repeat;
+} /*基础数据*/
+.res-s-013 {
+	background: url('baseIcons/resourceIcons/system/013.png') no-repeat;
+} /*区域配置*/
+.res-s-014 {
+	background: url('baseIcons/resourceIcons/system/014.png') no-repeat;
+} /*机房配置*/
+.res-s-015 {
+	background: url('baseIcons/resourceIcons/system/015.png') no-repeat;
+} /*任务管理*/
+.res-s-016 {
+	background: url('baseIcons/resourceIcons/system/016.png') no-repeat;
+} /*计划管理*/
+.res-s-017 {
+	background: url('baseIcons/resourceIcons/system/017.png') no-repeat;
+} /*调度管理*/
+.res-s-018 {
+	background: url('baseIcons/resourceIcons/system/018.png') no-repeat;
+} /*调度监控*/
+.res-s-019 {
+	background: url('baseIcons/resourceIcons/system/019.png') no-repeat;
+} /*连接管理*/
+.res-s-020 {
+	background: url('baseIcons/resourceIcons/system/020.png') no-repeat;
+} /*授权管理*/
+.res-s-021 {
+	background: url('baseIcons/resourceIcons/system/021.png') no-repeat;
+} /*kpi管理*/
+.res-s-022 {
+	background: url('baseIcons/resourceIcons/system/022.png') no-repeat;
+} /*稽核结果*/
+.res-s-023 {
+	background: url('baseIcons/resourceIcons/system/023.png') no-repeat;
+} /*稽核规则*/
+.res-s-024 {
+	background: url('baseIcons/resourceIcons/system/024.png') no-repeat;
+} /*模型管理*/
+.res-s-025 {
+	background: url('baseIcons/resourceIcons/system/025.png') no-repeat;
+} /*数据源管理*/
+.res-s-026 {
+	background: url('baseIcons/resourceIcons/system/026.png') no-repeat;
+} /*对象管理*/
+.res-s-027 {
+	background: url('baseIcons/resourceIcons/system/027.png') no-repeat;
+} /*权限管理*/
+.res-s-028 {
+	background: url('baseIcons/resourceIcons/system/028.png') no-repeat;
+} /*用户管理*/
+.res-s-029 {
+	background: url('baseIcons/resourceIcons/system/029.png') no-repeat;
+} /*角色管理*/
+.res-s-030 {
+	background: url('baseIcons/resourceIcons/system/030.png') no-repeat;
+} /*公告管理*/
+.res-s-031 {
+	background: url('baseIcons/resourceIcons/system/031.png') no-repeat;
+} /*组织管理*/
+.res-s-032 {
+	background: url('baseIcons/resourceIcons/system/032.png') no-repeat;
+} /*testMate用户管理*/
+.res-s-033 {
+	background: url('baseIcons/resourceIcons/system/033.png') no-repeat;
+} /*参数配置*/
+.res-s-034 {
+	background: url('baseIcons/resourceIcons/system/034.png') no-repeat;
+} /*数据字典*/
+.res-s-035 {
+	background: url('baseIcons/resourceIcons/system/035.png') no-repeat;
+} /*菜单管理*/
+.res-s-036 {
+	background: url('baseIcons/resourceIcons/system/036.png') no-repeat;
+} /*系统日志*/
+.res-s-037 {
+	background: url('baseIcons/resourceIcons/system/037.png') no-repeat;
+} /*操作日志*/
+.res-s-038 {
+	background: url('baseIcons/resourceIcons/system/038.png') no-repeat;
+} /*登录日志*/
+.res-s-039 {
+	background: url('baseIcons/resourceIcons/system/039.png') no-repeat;
+} /*邮件设置*/
+.res-s-040 {
+	background: url('baseIcons/resourceIcons/system/040.png') no-repeat;
+} /*邮件设置*/
+
+/*操作图标 css定义 以 ope- 开头 对应 \css\baseIcons\operationIcons */
+
+/*---------------公共按钮01----------------*/
+.ope-add,.ope-edit,.ope-remove,.ope-view,.ope-process,.ope-ok,.ope-cancel,.ope-empty,.ope-close,.ope-reload,.ope-save,.ope-upload,.ope-download,.ope-import,.ope-export,.ope-cancelSelect,.ope-cancelEdit,.ope-redo,.ope-undo,.ope-refresh,.ope-print,.ope-search,.ope-help,.ope-copy,.ope-paste,.ope-cut,.ope-accessory,.ope-previous,.ope-next,.ope-detail,.ope-grant,.ope-mod,.ope-pause,.ope-rolesel,.ope-start
+	{
+	padding: 2px 6px 0px 20px;
+	_padding: 2px 6px 0px 20px;
+	color: #444;
+	text-decoration: none;
+}
+
+.ope-add {
+	background: url('baseIcons/operationIcons/add.png') no-repeat 3px 1px;
+}
+
+.ope-edit {
+	background: url('baseIcons/operationIcons/edit.png') no-repeat 3px 1px;
+}
+
+.ope-remove {
+	background: url('baseIcons/operationIcons/remove.png') no-repeat 3px 1px;
+}
+
+.ope-view {
+	background: url('baseIcons/operationIcons/view.png') no-repeat 3px 1px;
+}
+
+.ope-process {
+	background: url('baseIcons/operationIcons/process.png') no-repeat 3px 1px;
+}
+
+.ope-ok {
+	background: url('baseIcons/operationIcons/ok.png') no-repeat 3px 1px;
+}
+
+.ope-cancel {
+	background: url('baseIcons/operationIcons/cancel.png') no-repeat 3px 1px;
+}
+
+.ope-empty {
+	background: url('baseIcons/operationIcons/empty.png') no-repeat 3px 1px;
+}
+
+.ope-close {
+	background: url('baseIcons/operationIcons/close.png') no-repeat 3px 1px;
+}
+
+.ope-reload {
+	background: url('baseIcons/operationIcons/reload.png') no-repeat 3px 1px;
+}
+
+.ope-save {
+	background: url('baseIcons/operationIcons/save.png') no-repeat 3px 1px;
+}
+
+.ope-upload {
+	background: url('baseIcons/operationIcons/upload.png') no-repeat 3px 1px;
+}
+
+.ope-download {
+	background: url('baseIcons/operationIcons/download.png') no-repeat 3px 1px;
+}
+
+.ope-import {
+	background: url('baseIcons/operationIcons/import.png') no-repeat 3px 1px;
+}
+
+.ope-export {
+	background: url('baseIcons/operationIcons/export.png') no-repeat 3px 1px;
+}
+
+.ope-cancelSelect {
+	background: url('baseIcons/operationIcons/cancelSelect.png') no-repeat 3px 1px;
+}
+
+.ope-cancelEdit {
+	background: url('baseIcons/operationIcons/cancelEdit.png') no-repeat 3px 1px;
+}
+
+.ope-redo {
+	background: url('baseIcons/operationIcons/redo.png') no-repeat 3px 1px;
+}
+
+.ope-undo {
+	background: url('baseIcons/operationIcons/undo.png') no-repeat 3px 1px;
+}
+
+.ope-refresh {
+	background: url('baseIcons/operationIcons/refresh.png') no-repeat 3px 1px;
+}
+
+.ope-print {
+	background: url('baseIcons/operationIcons/print.png') no-repeat 3px 1px;
+}
+
+.ope-search {
+	background: url('baseIcons/operationIcons/search.png') no-repeat 3px 1px;
+}
+
+.ope-help {
+	background: url('baseIcons/operationIcons/help.png') no-repeat 3px 1px;
+}
+
+.ope-copy {
+	background: url('baseIcons/operationIcons/copy.png') no-repeat 3px 1px;
+}
+
+.ope-paste {
+	background: url('baseIcons/operationIcons/paste.png') no-repeat 3px 1px;
+}
+
+.ope-cut {
+	background: url('baseIcons/operationIcons/cut.png') no-repeat 3px 1px;
+}
+
+.ope-accessory {
+	background: url('baseIcons/operationIcons/accessory.png') no-repeat 3px 1px;
+}
+
+.ope-previous {
+	background: url('baseIcons/operationIcons/previous.png') no-repeat 3px 1px;
+}
+
+.ope-next {
+	background: url('baseIcons/operationIcons/next.png') no-repeat 3px 1px;
+}
+
+.ope-detail {
+	background: url('baseIcons/operationIcons/detail.png') no-repeat 3px 1px;
+}
+
+.ope-grant {
+	background: url('baseIcons/operationIcons/grant.png') no-repeat 3px 1px;
+}
+
+.ope-mod {
+	background: url('baseIcons/operationIcons/mod.png') no-repeat 3px 1px;
+}
+
+.ope-pause {
+	background: url('baseIcons/operationIcons/pause.png') no-repeat 3px 1px;
+}
+
+.ope-rolesel {
+	background: url('baseIcons/operationIcons/rolesel.png') no-repeat 3px 1px;
+}
+
+.ope-start {
+	background: url('baseIcons/operationIcons/start.png') no-repeat 3px 1px;
+}
+
+/*页面其他地方展示图标 css定义 以 pag- 开头 对应 \css\baseIcons\pageIcons */
+
+/*---------------表单标题图标----------------*/
+.pag-list {
+	background: url('baseIcons/pageIcons/list.png') no-repeat;
+}
+
+.pag-search {
+	background: url('baseIcons/pageIcons/search.png') no-repeat;
+}
+
+.pag-add {
+	background: url('baseIcons/pageIcons/add.png') no-repeat;
+}
+
+.pag-edit {
+	background: url('baseIcons/pageIcons/edit.png') no-repeat;
+}
+
+.pag-view {
+	background: url('baseIcons/pageIcons/view.png') no-repeat;
+}
+
+.pag-prompt {
+	background: url('baseIcons/pageIcons/prompt.png') no-repeat;
+}

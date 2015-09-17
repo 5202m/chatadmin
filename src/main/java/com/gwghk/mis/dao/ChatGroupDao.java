@@ -1,0 +1,70 @@
+package com.gwghk.mis.dao;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
+
+import com.gwghk.mis.common.dao.MongoDBBaseDao;
+import com.gwghk.mis.model.ChatGroup;
+import com.gwghk.mis.model.ChatGroupRule;
+import com.mongodb.WriteResult;
+
+/**
+ * 聊天室组别DAO
+ * @author Alan.wu
+ * @date  2015年4月1日
+ */
+@Repository
+public class ChatGroupDao extends MongoDBBaseDao{
+
+	/**
+	 * 修改组的内容关联规则
+	 */
+	public boolean updateGroupRule(ChatGroupRule rule){
+		rule.setUpdateDate(new Date());
+		rule.setValid(1);
+		WriteResult wr=this.mongoTemplate.updateMulti(new Query(Criteria.where("chatRules.id").is(rule.getId())), new Update().set("chatRules.$", rule), ChatGroup.class);
+		return wr!=null&&wr.getN()>0;
+	}
+	
+	/**
+	 * 删除组的内容关联规则
+	 */
+	public boolean deleteGroupRule(String[] ids){
+	    boolean isSuccess=false;
+	    ChatGroupRule rule=null;
+		for(String id:ids){
+			rule=new ChatGroupRule();
+			rule.setId(id);
+			WriteResult wr=this.mongoTemplate.updateMulti(new Query(Criteria.where("chatRules.id").is(id)), new Update().pull("chatRules",rule), ChatGroup.class);
+			isSuccess=(wr!=null&&wr.getN()>0);
+		}
+    	return isSuccess;
+	}
+	
+	
+	/**
+	 * 功能：查询组列表
+	 */
+	public List<ChatGroup> findGroupList(){
+		return this.findList(ChatGroup.class, new Query(Criteria.where("valid").is(1)));
+	}
+	
+	/**
+	 * 功能： 根据组Id数组 --> 查询组列表
+	 */
+	public List<ChatGroup> findGroupList(Object[] groupIdArr){
+		return this.findList(ChatGroup.class, new Query(Criteria.where("id").in(groupIdArr)));
+	}
+	
+	/**
+	 * 功能： 根据组Id集合 --> 查询组列表
+	 */
+	public List<ChatGroup> findGroupList(List<String> groupIdArr){
+		return this.findList(ChatGroup.class, new Query(Criteria.where("id").in(groupIdArr)));
+	}
+}
