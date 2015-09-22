@@ -49,7 +49,7 @@ public class FeedbackAutoService {
 		Criteria criteria = Criteria.where("isDeleted").is(1);
 		if (feedbackAuto != null) {
 			if(StringUtils.isNotBlank(feedbackAuto.getAntistop())){
-				criteria.and("antistop").is(feedbackAuto.getAntistop());
+				criteria.and("antistop").regex(feedbackAuto.getAntistop());
 			}
 			if(feedbackAuto.getType() != null){
 				criteria.and("type").is(feedbackAuto.getType());
@@ -76,7 +76,7 @@ public class FeedbackAutoService {
 	public FeedbackAuto findByAntistop(String antistop) {
 		Query query = new Query();
 		Criteria criteria = Criteria.where("isDeleted").is(1);
-		criteria.and("antistop").is(antistop);
+		criteria.and("antistop").regex(antistop);
 		query.addCriteria(criteria);
 		return feedbackAutoDao.findOne(FeedbackAuto.class, query);
 	}

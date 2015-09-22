@@ -24,7 +24,8 @@
 			</tr>
 			<tr>
 				<th>关键字<span class="red">*</span></th>
-				<td><input type="text" name="antistop"  class="easyui-validatebox" data-options="required:true,missingMessage:'关键字不能为空！'"/></td>
+				<td><input type="text" name="antistop"  class="easyui-validatebox" style="width:300px;" 
+					 data-options="required:true,missingMessage:'关键字不能为空！'"/>&nbsp;（多个关键字之间使用;分割）</td>
 			</tr>
 			<tr>
 				<th colspan="2">

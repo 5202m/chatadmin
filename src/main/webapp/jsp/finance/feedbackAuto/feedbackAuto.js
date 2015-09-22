@@ -61,7 +61,7 @@ var feedbackAuto = {
 		var submitUrl = formatUrl(basePath + '/finance/feedbackAutoController/add.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '新增自动回复配置',
-			width:650,
+			width:710,
 			height:480,
 			href : url,
 			iconCls : 'pag-add',
@@ -108,7 +108,7 @@ var feedbackAuto = {
 		var submitUrl = formatUrl(basePath + '/finance/feedbackAutoController/edit.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '修改自动回复配置',
-			width:650,
+			width:710,
 			height:480,
 			href : url,
 			iconCls : 'pag-edit',
