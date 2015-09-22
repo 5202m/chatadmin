@@ -1,6 +1,11 @@
 package com.gwghk.mis.util;
 
+import java.io.File;
+
 import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -10,7 +15,7 @@ import org.apache.commons.configuration.CompositeConfiguration;
  */
 public class PropertiesUtil {
 	
-	public  CompositeConfiguration config = new CompositeConfiguration();  
+	private static final Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 	
     private PropertiesUtil() { 
 	}
@@ -21,6 +26,28 @@ public class PropertiesUtil {
 		return PropertiesUtilInstance.instance;
 	}
  
+	
+	public static CompositeConfiguration config = new CompositeConfiguration();  
+		static {  
+	        try {
+	        	// 读取classPath下面的properties文件(带"-",log4j的都不加载)
+	        	File file = new File(ResourceUtil.getClassPath());
+	            File[] listFiles = file.listFiles(); 
+	            for(int i=0;i<listFiles.length;i++){   
+	                File f = listFiles[i];
+	                String fileName = f.getName();
+	            	if(f.isFile() && fileName.endsWith(".properties") 
+	            				  && fileName.indexOf("-") == -1
+	            				  && fileName.indexOf("log4j") == -1){
+	            		config.addConfiguration(new PropertiesConfiguration(f.getName()));
+	            		logger.debug("load properties file : "+f.getName()+"...");
+	                }
+	            }
+	        } catch (Exception e) { 
+	        	logger.error("load properties file file.");
+	        }
+	}
+	    
     /**
      * 功能呢：根据属性key --> 获取属性对应的值
      * @param key

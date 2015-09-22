@@ -83,5 +83,6 @@ public class WebConstant {
 	 /**聊天记录模板的路径*/
 	 public final static String CHAT_RECORDS_TEMPLATE_PATH ="/template/chat_records_data.xls";
 	 public final static String CHAT_USER_RECORDS_TEMPLATE_PATH ="/template/chat_user_data.xls";
-	
+	 /**反馈记录模板的路径*/
+	 public final static String FEEDBACK_RECORDS_TEMPLATE_PATH ="/template/feedback_records_data.xls";
 }

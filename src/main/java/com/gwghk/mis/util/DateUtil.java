@@ -1720,6 +1720,15 @@ public class DateUtil {
 	};
 	
 	/**
+	 * 功能：将日期转换为指定格式的字符串
+	 */
+	public static String formatDate(Date date,String pattern) {
+		SimpleDateFormat sf = new SimpleDateFormat();
+		sf.applyPattern(pattern);
+		return sf.format(date);
+	}
+	
+	/**
      * 检查当前日期是否符合日期插件数据
      * @param dateTime
      * @param nullResult 空值结果
@@ -1777,8 +1786,7 @@ public class DateUtil {
         return isPass;
     };
     
-    public static void main(String[] args) {
-//		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
-//    	System.out.println(DateUtil.formatDateWeekTime("{\"beginDate\":\"2015-08-12\",\"endDate\":\"2015-08-24\",\"weekTime\":[{\"week\":\"5\",\"beginTime\":\"11:18:00\",\"endTime\":\"11:19:00\"}]}"));
+	public static void main(String args[]) {
+		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
 	}
 }

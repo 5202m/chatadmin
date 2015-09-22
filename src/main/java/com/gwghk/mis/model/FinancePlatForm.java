@@ -65,7 +65,7 @@ public class FinancePlatForm {
 	private Integer[] bindPlatformType = null;
 	
 	/**
-	 * 用户组别(1：普通用户 2：分析师 3：禁言用户)
+	 * 用户组别(1：普通用户 2：分析师)
 	 */
 	private Integer userGroup;
 	
@@ -101,29 +101,45 @@ public class FinancePlatForm {
 	private String loginSystem;
 	
 	/**
-	 * 余额
-	 */
-	private double balance;
-	
-	/**
 	 * 关注人列表
 	 */
 	private List<String> attentions;
 	
 	/**
-	 * 被关注人列表
+	 * 被关注人列表(粉丝)
 	 */
 	private List<String> beAttentions;
 	
 	/**
-	 * 发帖列表(存帖子的Id列表)
+	 * 发帖数（发帖和删帖的时候注意修改该值）
 	 */
-	private List<String>  sendTopics;
+	private Integer topicCount;
 	
 	/**
-	 * 回帖列表(存帖子的Id列表)
+	 * 回帖数
 	 */
-	private List<String> replyTopics;
+	private Integer replyCount;
+	
+	/**
+	 * 评论数
+	 */
+	private Integer commentCount;
+	
+	/**
+	 * 喊单数
+	 */
+	private Integer shoutCount; 
+	
+	/**
+	 * 被跟单数
+	 */
+	private Integer beShoutCount; 
+	
+	/**
+	 * 收藏帖子列表
+	 */
+	private List<Collect> collects;
+	
 	
 	/**
 	 * 用户状态(0:禁用 1：启用)
@@ -336,20 +352,26 @@ public class FinancePlatForm {
 		this.beAttentions = beAttentions;
 	}
 
-	public List<String> getSendTopics() {
-		return sendTopics;
+	/**
+	 * @return the topicCount
+	 */
+	public Integer getTopicCount() {
+		return topicCount;
 	}
 
-	public void setSendTopics(List<String> sendTopics) {
-		this.sendTopics = sendTopics;
+	/**
+	 * @param topicCount the topicCount to set
+	 */
+	public void setTopicCount(Integer topicCount) {
+		this.topicCount = topicCount;
 	}
 
-	public List<String> getReplyTopics() {
-		return replyTopics;
+	public List<Collect> getCollects() {
+		return collects;
 	}
 
-	public void setReplyTopics(List<String> replyTopics) {
-		this.replyTopics = replyTopics;
+	public void setCollects(List<Collect> collects) {
+		this.collects = collects;
 	}
 
 	public Integer getStatus() {
@@ -368,14 +390,6 @@ public class FinancePlatForm {
 		this.isDeleted = isDeleted;
 	}
 
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
 	public Integer getIsBack() {
 		return isBack;
 	}
@@ -390,5 +404,37 @@ public class FinancePlatForm {
 
 	public void setIsGag(Integer isGag) {
 		this.isGag = isGag;
+	}
+
+	public Integer getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(Integer replyCount) {
+		this.replyCount = replyCount;
+	}
+
+	public Integer getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Integer commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public Integer getShoutCount() {
+		return shoutCount;
+	}
+
+	public void setShoutCount(Integer shoutCount) {
+		this.shoutCount = shoutCount;
+	}
+
+	public Integer getBeShoutCount() {
+		return beShoutCount;
+	}
+
+	public void setBeShoutCount(Integer beShoutCount) {
+		this.beShoutCount = beShoutCount;
 	}
 }

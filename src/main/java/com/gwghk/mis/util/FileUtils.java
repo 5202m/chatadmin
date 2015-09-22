@@ -1,10 +1,14 @@
 package com.gwghk.mis.util;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.util.FileCopyUtils;
@@ -148,13 +152,90 @@ public class FileUtils {
 		return result;
 	}
 	
+	/**
+	 * 功能：上传图片到远程(单文件上传)
+	 * @param  uploadFilePath  上传文件路径    
+	 * @param  remoteApiUrl    上传的目录API URL 
+	 * @param  type   		         上传目录名称
+	 */
+	public static String uploadFileToRemote(String uploadFilePath,String remoteApiUrl,String type){
+		 DataOutputStream ds = null; 
+		 String end ="\r\n",twoHyphens ="--",boundary ="*****",newName ="image."+FileUtils.getExtend(uploadFilePath);
+		 try{
+	         URL url = new URL(remoteApiUrl);
+	         HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	         
+	         //允许Input、Output，不使用Cache
+	         con.setDoInput(true);            
+	         con.setDoOutput(true);
+	         con.setUseCaches(false);
+	         
+	         //设置传送的method=POST
+	         con.setRequestMethod("POST");
+	         
+	         //设置请求的相关参数
+	         con.setRequestProperty("Connection", "Keep-Alive");
+	         con.setRequestProperty("Charset", "UTF-8");
+	         con.setRequestProperty("Content-Type","multipart/form-data;boundary="+boundary);
+	         
+	         //设置DataOutputStream
+	         ds = new DataOutputStream(con.getOutputStream());
+	         
+	         //设置固定的值--------start
+	         ds.writeBytes(twoHyphens + boundary + end);
+	         ds.writeBytes("Content-Disposition: form-data; "+"name=\"fileDir\"" + end + end + type + end);
+	         //设置固定的值--------end
+	         
+	         //设置文件的值--------start(如果是多文件的话重复这里)
+	         ds.writeBytes(twoHyphens + boundary + end);
+	         ds.writeBytes("Content-Disposition: form-data; "+ "name=\"file1\";filename=\""+newName +"\""+ end+end);
+	         FileInputStream fStream = new FileInputStream(uploadFilePath);
+	         //设置每次写入1024bytes
+	         int bufferSize =1024;  									
+	         byte[] buffer = new byte[bufferSize];
+	         int length =-1;
+	         //从文件读取数据至缓冲区,并将资料写入DataOutputStream中
+	         while((length = fStream.read(buffer)) !=-1){
+	            ds.write(buffer, 0, length);
+	         }
+	         ds.writeBytes(end);
+	         //设置文件的值--------end
+	         
+	         //post请求结束--------start
+	         ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
+	         //post请求结束--------end
+	         
+	         fStream.close();
+	         ds.flush();
+	         
+	         //接口调用结束后取得返回值的内容
+	         InputStream is = con.getInputStream();
+	         int ch;
+	         StringBuffer b =new StringBuffer();
+	         while((ch = is.read()) !=-1 ){
+	        	 b.append((char)ch);
+	         }
+	         return b.toString();
+	     }catch(Exception e){
+	    	 e.printStackTrace();
+	     }finally{
+	    	 try{
+	    		 ds.close();
+	    	 }catch(Exception e){
+	    		 e.printStackTrace();
+	    	 }
+	     }
+		 return null;
+	}
+	
 	public static void main(String[] args) {
 		//String imageFileType = "logo";
 		//String cutedImagePath = FileUtils.getFilePrefix("e:\\2.jpg")+"_"+imageFileType+"."+FileUtils.getExtend("e:\\2.jpg");
 		//System.out.println(cutedImagePath);
 		String file ="E:\\hello.jpg";
-	    System.out.println(FileUtils.getExtend(file));
-	    System.out.println(FileUtils.getPrefix(file));
-	    System.out.println(FileUtils.getBaseFileName(file));
+	    System.out.println(file.substring(file.indexOf(".")));
+		//System.out.println(FileUtils.getExtend(file));
+	    //System.out.println(FileUtils.getPrefix(file));
+	    //System.out.println(FileUtils.getBaseFileName(file));
 	}
 }

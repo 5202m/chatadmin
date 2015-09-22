@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
-import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
@@ -59,10 +58,9 @@ public class MemberDao extends MongoDBBaseDao{
 	/**
 	 * 功能：新增会员
 	 */
-    public boolean addMember(Member Member){
-    	Member.setMemberId(this.getNextSeqId(IdSeq.Member));
-    	Member.setValid(1);
-		this.add(Member);
+    public boolean addMember(Member member){
+    	member.setValid(1);
+		this.add(member);
 		return true;
 	}
 	
@@ -73,7 +71,6 @@ public class MemberDao extends MongoDBBaseDao{
 	 */
 	public boolean save(Member member) {
 		if(member.getMemberId() == null){
-			member.setMemberId(this.getNextSeqId(IdSeq.Member));
 			this.add(member);
 		}else{
 			this.update(member);
@@ -89,7 +86,6 @@ public class MemberDao extends MongoDBBaseDao{
 					   , Update.update("valid", 0), Member.class);
 		return wr!=null && wr.getN()>0;
 	}
-	
 	
     /**
      * 更新用户设置，包括设置用户为价值用户或vip用户, 用户解绑

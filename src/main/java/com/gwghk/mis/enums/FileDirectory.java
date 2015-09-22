@@ -7,8 +7,10 @@ package com.gwghk.mis.enums;
  */
 public enum FileDirectory{
 	pic("pic", "图片"),
+	app("app","移动应用包"),
 	video("video", "视频"),
 	attach("attach", "附件");
+
 	private String code;
 	private String text;
 

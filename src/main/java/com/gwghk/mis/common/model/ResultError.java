@@ -14,6 +14,8 @@ public class ResultError implements Serializable{
 	public String code;
 	public String message;
 
+	public ResultError(){}
+	
 	public ResultError(String code, String message){
 		this.code = code;
 		this.message = message;
