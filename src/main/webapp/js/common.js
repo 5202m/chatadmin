@@ -400,6 +400,30 @@ function getDictionaryName(dictionaryCode){
 }
 
 /**
+ * 功能：格式化应用平台
+ * @param value   选择的应用平台(多个平台用","隔开)
+ * @param listStr 数据字典对应的json字符串
+ */
+function formatPlatfrom(value,listStr){
+	if(isBlank(value)){
+		return "";
+	}
+	var platformJson = $.parseJSON(listStr);
+	var row=null,result=[];
+	var valArr=value.split(",");
+	for(var i=0;i<valArr.length;i++){
+		for(var index in platformJson){
+			row = platformJson[index];
+			if(valArr[i] == row.code){
+				result.push(row.nameCN);
+				break;
+			}
+		}
+	}
+	return result.join("，");
+}
+
+/**
  * 功能：以页面跳转的方式跳转回到主页
  */
 function jumpRequestPage(href){
@@ -710,6 +734,7 @@ function arraySort(key,desc){
         return desc? (a[key] < b[key]) : (a[key] > b[key]);
     }
 }
+
 //语言类型
 var LOCALE_ZH_TW = "zh_TW";
 var LOCALE_ZH_CN = "zh_CN";
@@ -728,5 +753,3 @@ $(function() {
 	    }
 	});
 });
-
-

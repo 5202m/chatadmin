@@ -63,11 +63,11 @@ var member = {
 	initUploadFile : function(){
 		goldOfficeUtils.uploadFile({
 			'fileId' : 'avatarImageId',
-			'formData' : {'imageDir' : 'member'},
+			'formData' : {'fileDir' : 'pic/header/finance'},
 			'fileSizeLimit' : 10*1024*1024,
 			'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 			'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
-			'uploader' : basePath+'/uploadController/uploadImage.do',
+			'uploader' : basePath+'/uploadController/upload.do',
 			'onUploadSuccess' : function(file, data, response){
 				var d = $.parseJSON(data);
 				if(d.success){
