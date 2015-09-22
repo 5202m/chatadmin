@@ -1,14 +1,11 @@
-package com.gwghk.cms.dao;
+package com.gwghk.mis.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.junit.Test;
-
-import com.gwghk.cms.SpringJunitTest;
+import com.gwghk.mis.SpringJunitTest;
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.model.BoLog;
 

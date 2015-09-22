@@ -1,14 +1,11 @@
-package com.gwghk.cms.dao;
+package com.gwghk.mis.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.gwghk.cms.SpringJunitTest;
-import com.gwghk.mis.dao.MenuDao;
+import com.gwghk.mis.SpringJunitTest;
 import com.gwghk.mis.model.BoMenu;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.service.MenuService;

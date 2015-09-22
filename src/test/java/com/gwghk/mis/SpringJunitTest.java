@@ -1,4 +1,4 @@
-package com.gwghk.cms;
+package com.gwghk.mis;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
