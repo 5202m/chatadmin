@@ -111,5 +111,5 @@
   	  <a class="easyui-linkbutton undo" data-options="plain:true,iconCls:'ope-undo',disabled:false" onclick="financeFinanceUser.doGag(this,0)">取消禁言</a>
   </div>
   
-  <div id="financeWidow"></div>
+  <div id="financeWidow" class="easyui-dialog" closed="true"></div>
 </div>
