@@ -88,6 +88,17 @@ public class MemberBalanceService {
 	 */
 	public ApiResult rebuild(String memberId, String ip, String userId) {
 		MemberBalance memberBalance = memberBalanceDao.getByMemberId(memberId);
+		if(memberBalance != null){
+			buildMemberBalance(memberBalance,ip,userId);
+			memberBalanceDao.update(memberBalance);
+		}else{
+			memberBalanceDao.add(buildMemberBalance(new MemberBalance(),ip,userId));
+		}
+		positionService.deletePosition(memberId);
+		return new ApiResult().setCode(ResultCode.OK);
+	}
+	
+	private MemberBalance buildMemberBalance(MemberBalance memberBalance,String ip, String userId){
 		memberBalance.setBalanceInit(100000D);
 		memberBalance.setBalance(100000D);
 		memberBalance.setPercentYield(0D);
@@ -101,13 +112,17 @@ public class MemberBalanceService {
 		memberBalance.setTimesProfit(0);
 		memberBalance.setTimesFullyLoss(0);
 		memberBalance.setTimesLoss(0);
+		memberBalance.setAttentionCount(0);
+		memberBalance.setBeAttentionCount(0);
+		memberBalance.setTopicCount(0);
+		memberBalance.setReplyCount(0);
+		memberBalance.setCommentCount(0);
+		memberBalance.setShoutCount(0);
+		memberBalance.setBeShoutCount(0);
 		memberBalance.setUpdateDate(new Date());
 		memberBalance.setUpdateIp(ip);
 		memberBalance.setUpdateUser(userId);
-		memberBalanceDao.update(memberBalance);
-		
-		positionService.deletePosition(memberId);
-		return new ApiResult().setCode(ResultCode.OK);
+		return memberBalance;
 	}
 	
 	/**

@@ -186,10 +186,6 @@ public class FinanceUserService {
 				&& new Integer(1).equals(loc_member.getLoginPlatform().getFinancePlatForm().getIsDeleted())) {
 			return result.setCode(ResultCode.Error102);
 		}
-		List<Member> memberList = memberService.getBackMember();
-		if(memberList != null && memberList.size() > 0 && member.getLoginPlatform().getFinancePlatForm().getIsBack() == 1){
-			return result.setCode(ResultCode.Error1011);
-		}
 		
 		//初始化绑定平台数据结构
 		FinancePlatForm loc_financePlatForm = member.getLoginPlatform().getFinancePlatForm();

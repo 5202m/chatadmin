@@ -95,12 +95,7 @@ public class MemberService{
     		if(memberDao.getByMemberMobilePhone(memberParam.getMobilePhone())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
-    	/*	LoginPlatform lp=new LoginPlatform();
-    		FinanceApp pmApp=new FinanceApp();
-    		pmApp.setPwd(MD5.getMd5(PropertiesUtil.getInstance().getProperty("defaultPwd")));//密码默认设置123456
-    		lp.setPmApp(pmApp);
-    		memberParam.setLoginPlatform(lp);*/
-    		memberDao.addMember(memberParam);	
+    		memberDao.addMember(memberParam);
     	}
     	return result.setCode(ResultCode.OK);
 	}
