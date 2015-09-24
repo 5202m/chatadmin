@@ -11,10 +11,14 @@ var topicAdd = {
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
+		if(isBlank($("select[name=memberId]").val())){
+			alert("发布人是必填项！");
+		    return;
+		}
 	    var combotree = $('#tempProductAdd').combotree('tree'),selectNode = combotree.tree('getSelected');
 	    if(selectNode != null && selectNode.target != null){
 	    	if(isBlank($("#tempSubjectAdd  option:selected").val())){
-	    		alert("请选择行情或资讯！");
+	    		alert("请选择行情、资讯或策略！");
 	    		return;
 	    	}
 	    	var tempProductList = combotree.tree('getChildren',selectNode.target);

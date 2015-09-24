@@ -8,6 +8,17 @@
   <form id="topicEditForm" class="yxForm" method="post">
     <table class="tableForm_L">
       <tr>
+      	 <th width="15%">发布人<span class="red">*</span></th>
+      	 <td width="35%" colspan="3">
+      	 	 <select name="memberId" style="width:160px;">
+      	 	 	 <option value="">---请选择---</option>
+      	 	 	 <c:forEach items="${memberList}" var="member">
+      	 	 	 	<option value="${member.memberId}" <c:if test="${member.memberId == topic.memberId}">selected="selected"</c:if>>${member.loginPlatform.financePlatForm.nickName}</option>
+      	 	 	 </c:forEach>
+      	 	 </select>
+		 </td>
+      </tr>
+      <tr>
       	 <th width="15%">标题<span class="red">*</span></th>
       	 <td width="35%" colspan="3">
       	 	<input type="text" name="title"  style="width: 500px;" class="easyui-validatebox" 
@@ -21,6 +32,7 @@
 				<option value="">---请选择---</option>
 				<option value="quotations"  <c:if test="${tempSubject == 'quotations'}">selected="selected"</c:if> >行情</option>
 				<option value="information" <c:if test="${tempSubject == 'information'}">selected="selected"</c:if> >资讯</option>
+				<option value="strategy" <c:if test="${tempSubject == 'strategy'}">selected="selected"</c:if> >策略</option>
 			</select>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<input  id="tempProductEdit" name="tempProduct" class="easyui-combotree" style="width:160px;" 
