@@ -127,7 +127,7 @@ public class TopicController extends BaseController{
     		}
     	}
     	topic.setPublishTime(DateUtil.parseDateSecondFormat(request.getParameter("publishTimeTemp")));
-    	topic.setMemberId(userParam.getUserId());
+    	//topic.setMemberId(userParam.getUserId());
         AjaxJson j = new AjaxJson();
         ApiResult result = topicService.saveTopic(topic,false);
      	if(result.isOk()){
