@@ -624,6 +624,23 @@ function formatterDate (date,splitChar) {
     return datetime;
 }
 /**
+ * 将html转换成字符串(去掉html标签)
+ */
+function html2str(content){
+    return content.replace(/<.*?>/ig ,'');
+}
+/**
+ * 截取指定长度的字符串
+ */
+function cutStr(content,size){
+	if(content&&content.length>size){
+		return html2str(content).substring(0,size)+"...";
+	}else{
+		return html2str(content);
+	}
+}
+
+/**
  * 提取时分秒
  */
 function getHHMMSS(date){
