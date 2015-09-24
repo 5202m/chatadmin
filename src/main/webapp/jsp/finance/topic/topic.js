@@ -45,9 +45,11 @@ var topic = {
 						    });
 							return $("#topic_datagrid_rowOperation").html();
 						}},
-						{title : '标题',field : 'title'},
+						{title : '标题',field : 'title',formatter : function(value, rowData, rowIndex) {
+							return !isBlank(value) ? cutStr(value,40)  : '';
+						}},
 						{title : '内容',field : 'content',formatter : function(value, rowData, rowIndex) {
-							return !isBlank(value) ? '<span title="'+rowData.content+'">'+value.substring(0,30)+'</span>'  : '';
+							return !isBlank(value) ? cutStr(value,20)  : '';
 						}},
 						{title : '发布时间',field : 'publishTime',formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
