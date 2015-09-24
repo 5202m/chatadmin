@@ -87,6 +87,7 @@ public class TopicController extends BaseController{
     @RequestMapping(value="/topicController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
+    	map.addAttribute("memberList", memberService.getBackMember());
     	return "finance/topic/topicAdd";
     }
 	
@@ -102,6 +103,7 @@ public class TopicController extends BaseController{
     	}
     	map.addAttribute("tempSubject",topic.getSubjectType());
     	map.addAttribute("topic",topic);
+    	map.addAttribute("memberList", memberService.getBackMember());
     	return "finance/topic/topicEdit";
     }
     

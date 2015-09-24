@@ -158,12 +158,6 @@ public class TopicService{
     		}
     		topicDao.update(oldTopic);
     	}else{
-    		List<Member> memberList = memberService.getBackMember();
-    		if(memberList != null && memberList.size() > 0){
-    			topic.setMemberId(memberList.get(0).getMemberId());
-    		}else{
-    			return result.setCode(ResultCode.Error1012);
-    		}
     		topic.setDevice("金道贵金属");
     		topic.setIsTop(0);
     		topic.setApprovalResult(0);
