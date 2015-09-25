@@ -26,7 +26,7 @@
 		 </td>
       </tr>
       <tr>
-      	<th width="15%">来源</th>
+      	<th width="15%">来源<span class="red">*</span></th>
         <td width="35%" colspan="3">
         	<input type="text" name="device"  style="width: 500px;" class="easyui-validatebox" 
 		        data-options="required:true,missingMessage:'请输入来源'" value="${topic.device}"/>
