@@ -26,6 +26,13 @@
 		 </td>
       </tr>
       <tr>
+      	<th width="15%">来源</th>
+        <td width="35%" colspan="3">
+        	<input type="text" name="device"  style="width: 500px;" class="easyui-validatebox" 
+		        data-options="required:true,missingMessage:'请输入来源'" value="${topic.device}"/>
+        </td>
+      </tr>
+      <tr>
         <th width="15%">插入主题</th>
         <td width="35%" colspan="3">
 			<select id="tempSubjectEdit" name="tempSubject" style="width:160px;">
