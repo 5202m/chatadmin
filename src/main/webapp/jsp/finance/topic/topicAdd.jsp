@@ -75,13 +75,6 @@
         	<input type="radio" name="infoStatus" value="2"/>无效
         </td>
       </tr>
-      <tr>
-      	<th width="15%">来源</th>
-        <td width="35%" colspan="3">
-        	<input type="text" name="device"  style="width: 500px;" class="easyui-validatebox" 
-		        data-options="required:true,missingMessage:'请输入来源'"/>
-        </td>
-      </tr>
       <tr style="margin-top: 6px;">
 	     <td colspan="6" align="right">&nbsp;&nbsp;
 		    <a href="#" class="easyui-linkbutton" id="topic_add_b1_submit" onclick="topicAdd.onSaveAdd()" data-options="iconCls:'ope-submit'" >提交</a> &nbsp;&nbsp;
