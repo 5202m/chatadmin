@@ -92,7 +92,9 @@ public class MemberBalanceService {
 			buildMemberBalance(memberBalance,ip,userId);
 			memberBalanceDao.update(memberBalance);
 		}else{
-			memberBalanceDao.add(buildMemberBalance(new MemberBalance(),ip,userId));
+			MemberBalance mb = new MemberBalance();
+			mb.setMemberId(memberId);
+			memberBalanceDao.add(buildMemberBalance(mb,ip,userId));
 		}
 		positionService.deletePosition(memberId);
 		return new ApiResult().setCode(ResultCode.OK);
