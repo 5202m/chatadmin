@@ -124,6 +124,7 @@ public class MemberBalanceService {
 		memberBalance.setUpdateDate(new Date());
 		memberBalance.setUpdateIp(ip);
 		memberBalance.setUpdateUser(userId);
+		memberBalance.setIsDeleted(1);
 		return memberBalance;
 	}
 	
