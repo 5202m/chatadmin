@@ -18,6 +18,7 @@ var tokenaccess = {
 			idField : 'tokenAccessId',
 			sortName : 'tokenAccessId',
 			sortOrder : 'desc',
+			pagination : false,
 			singleSelect : false,
 			url : basePath+'/tokenAccessController/datagrid.do',
 			columns : [[
