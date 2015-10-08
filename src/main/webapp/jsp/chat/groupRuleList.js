@@ -76,7 +76,7 @@ var chatGroupRule = {
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			height : 375,
-			width:665,
+			width:675,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -112,7 +112,7 @@ var chatGroupRule = {
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			height : 375,
-			width:665,
+			width:675,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
