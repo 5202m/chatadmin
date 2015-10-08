@@ -82,10 +82,13 @@ public class FeedbackController extends BaseController{
 		Page<Feedback> page = feedbackService.getFeedbackPage(this.createDetachedCriteria(dataGrid, feedback));
 		List<Feedback> feedbackList =page.getCollection();
 		if(feedbackList != null && feedbackList.size() > 0){
+			Member member = null;
 			for(Feedback fb : feedbackList){
-				Member member = financeUserService.findById(fb.getMemberId());
-				fb.setMobilePhone(member.getMobilePhone());
-				fb.setNickName(member.getLoginPlatform().getFinancePlatForm().getNickName());
+				member = financeUserService.findById(fb.getMemberId());
+				if(member != null){
+					fb.setMobilePhone(member.getMobilePhone());
+					fb.setNickName(member.getLoginPlatform().getFinancePlatForm().getNickName());
+				}
 			}
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
