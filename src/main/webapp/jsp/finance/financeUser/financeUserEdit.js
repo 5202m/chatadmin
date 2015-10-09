@@ -25,10 +25,10 @@ var financeUserEdit = {
 				if(d.success){
 					alert(file.name + ' 上传成功！');
 					if(d.obj != null){
-						$("#currentAvatarPath").val("/"+d.obj);
-						$("#sourceAvatarPath").val("/"+d.obj);
-						$("#cutedAvatarPath").val("/"+d.obj);
-						$("#saveAvatarPath").val("/"+d.obj);
+						$("#currentAvatarPath").val(d.obj);
+						$("#sourceAvatarPath").val(d.obj);
+						$("#cutedAvatarPath").val(d.obj);
+						$("#saveAvatarPath").val(d.obj);
 					}
 				}else{
 					alert(file.name + d.msg);
