@@ -50,7 +50,7 @@
       <tr>
         <th><spring:message code="common.status" /></th>
         <td colspan="3">
-        	<select name="valid" style="width: 155px;">
+        	<select name="status" style="width: 155px;">
          		<option value="1"><spring:message code="common.enabled" /></option>
          		<option value="0"><spring:message code="common.disabled" /></option>
          	</select>
