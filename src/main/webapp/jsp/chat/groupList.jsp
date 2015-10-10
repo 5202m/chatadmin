@@ -16,13 +16,18 @@
           <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/></td>
         </tr>
         <tr>
-          <th width="15%">房间类别</th>
-          <td width="35%">
+          <th>房间类别</th>
+          <td>
              <t:dictSelect  selectClass="width:170px;" id="chatGroupType" field="groupType" isEdit="false" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
           </td>
-          <th width="15%">聊天规则</th>
-          <td width="35%" colspan="3">
+          <th>聊天规则</th>
+          <td>
              <select class="easyui-combotree" style="width:400px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
+          </td>
+          <th>聊天方式</th>
+          <td>
+             <select class="easyui-combotree" id="chatTalkStyleId" name="talkStyleStr" style="width:200px;" data-options="cascadeCheck:false" multiple>
+	         </select>
           </td>
 	   </tr>
         <tr>

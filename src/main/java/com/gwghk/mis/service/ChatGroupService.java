@@ -188,6 +188,9 @@ public class ChatGroupService{
 			if(model.getStatus()!=null){
 				criter.and("status").is(model.getStatus());
 			}
+			if(StringUtils.isNotBlank(model.getTalkStyle())){
+				criter.and("talkStyle").regex(model.getTalkStyle().replaceAll(",","|"));
+			}
 		}
 		return chatGroupDao.findPage(ChatGroup.class, Query.query(criter), dCriteria);
 	}
@@ -278,9 +281,6 @@ public class ChatGroupService{
 			if(studio!=null){
 				if(StringUtils.isNotBlank(studio.getClientGroup())){
 					criter.and("chatStudio.clientGroup").regex(studio.getClientGroup().replaceAll(",","|"));
-				}
-				if(StringUtils.isNotBlank(studio.getTalkStyle())){
-					criter.and("chatStudio.talkStyle").regex(studio.getTalkStyle().replaceAll(",","|"));
 				}
 			}
 		}

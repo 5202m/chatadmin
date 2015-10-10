@@ -58,6 +58,11 @@ public class ChatGroup extends BaseModel{
 	 * 房间等级
 	 */
 	private Integer level;
+
+	/**
+	 * 聊天方式,多个逗号分隔
+	 */
+	private String talkStyle;
 	
 	/**
 	 * 直播实体
@@ -221,6 +226,18 @@ public class ChatGroup extends BaseModel{
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
-	
-	
+
+	/**
+	 * @return the talkStyle
+	 */
+	public String getTalkStyle() {
+		return talkStyle;
+	}
+
+	/**
+	 * @param talkStyle the talkStyle to set
+	 */
+	public void setTalkStyle(String talkStyle) {
+		this.talkStyle = talkStyle;
+	}
 }

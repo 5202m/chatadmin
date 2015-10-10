@@ -5,7 +5,6 @@
  */
 var chatClientGroup = {
 	cGroupComboxData:null,
-	talkStyleComboxData:null,
 	gridId : 'chatClientGroup_datagrid',
 	init : function(){
 		this.initGrid();

@@ -17,14 +17,9 @@
         </tr>
         <tr>
           <th>客户组别</th>
-          <td>
+          <td colspan="5">
               <select class="easyui-combotree" id="chatClientGroupId" name="clientGroupStr" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	          </select>
-          </td>
-          <th>聊天方式</th>
-          <td colspan="3">
-             <select class="easyui-combotree" id="chatTalkStyleId" name="talkStyleStr" style="width:200px;" data-options="cascadeCheck:false" multiple>
-	         </select>
           </td>
 	    </tr>
         <tr>

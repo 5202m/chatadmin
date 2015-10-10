@@ -5,6 +5,7 @@
  */
 var chatGroup = {
 	ruleComboxData:null,
+	talkStyleComboxData:null,
 	gridId : 'chatGroup_datagrid',
 	init : function(){
 		this.intRuleCombox();
@@ -16,10 +17,14 @@ var chatGroup = {
 	 */
 	intRuleCombox:function(){
 		var data=getJson(basePath +"/chatGroupRuleController/getGroupRuleCombox.do");
+		chatGroup.talkStyleComboxData=getJson(basePath +"/commonController/getTalkStyleList.do");
 		chatGroup.ruleComboxData=data;
 		//设置规则的下拉框
 		$("#chatRuleIds").combotree({
 		    data:data
+		});
+		$("#chatTalkStyleId").combotree({
+		    data:chatGroup.talkStyleComboxData
 		}); 
 	},
 	/**
@@ -50,6 +55,18 @@ var chatGroup = {
 						}},
 						{title : '状态',field : 'statusName',formatter : function(value, rowData, rowIndex) {
 							return chatGroup.getDictNameByCode("#chatGroupStatus",rowData.status);
+						}},
+						{title : '聊天方式',field : 'talkStyle',formatter : function(value, rowData, rowIndex) {
+							var nameArr=[],valTmp=rowData.talkStyle,tmpData=null;
+							if(!!valTmp){
+								for(var i in chatGroup.talkStyleComboxData){
+									tmpData=chatGroup.talkStyleComboxData[i];
+									if(valTmp.indexOf(tmpData.id)!=-1){
+										nameArr.push(tmpData.text);
+									}
+								}
+							}
+							return nameArr.join("，");
 						}},
 						{title : '聊天规则',field : 'chatRuleName',formatter : function(value, rowData, rowIndex) {
 							var chatRules=rowData.chatRules,result=[];

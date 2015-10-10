@@ -5,7 +5,6 @@
  */
 var chatStudio = {
 	cGroupComboxData:null,
-	talkStyleComboxData:null,
 	gridId : 'chatStudio_datagrid',
 	init : function(){
 		this.initCombox();
@@ -17,14 +16,10 @@ var chatStudio = {
 	 */
 	initCombox:function(){
 		chatStudio.cGroupComboxData=getJson(basePath +"/chatClientGroupController/getClientGroupList.do");
-		chatStudio.talkStyleComboxData=getJson(basePath +"/commonController/getTalkStyleList.do");
 		//设置下拉框
 		$("#chatClientGroupId").combotree({
 		    data:chatStudio.cGroupComboxData
-		}); 
-		$("#chatTalkStyleId").combotree({
-		    data:chatStudio.talkStyleComboxData
-		}); 
+		});
 	},
 	/**
 	 * 功能：dataGrid初始化
@@ -56,16 +51,6 @@ var chatStudio = {
 							var nameArr=[],valTmp=rowData.chatStudio.clientGroup,tmpData=null;
 							for(var i in chatStudio.cGroupComboxData){
 								tmpData=chatStudio.cGroupComboxData[i];
-								if(valTmp.indexOf(tmpData.id)!=-1){
-									nameArr.push(tmpData.text);
-								}
-							}
-							return nameArr.join("，");
-						}},
-						{title : '聊天方式',field : 'talkStyle',formatter : function(value, rowData, rowIndex) {
-							var nameArr=[],valTmp=rowData.chatStudio.talkStyle,tmpData=null;
-							for(var i in chatStudio.talkStyleComboxData){
-								tmpData=chatStudio.talkStyleComboxData[i];
 								if(valTmp.indexOf(tmpData.id)!=-1){
 									nameArr.push(tmpData.text);
 								}

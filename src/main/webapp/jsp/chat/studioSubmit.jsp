@@ -19,18 +19,6 @@
 			    data:data
 			}); 
 		},true);
-		 getJson("<%=request.getContextPath()%>/commonController/getTalkStyleList.do",null,function(data){
-				var chatTalkStyleIds=$("#chatTalkStyleIds").attr("tId");
-				//设置内容规则的下拉框
-				for(var i in data){
-					if(chatTalkStyleIds.indexOf(data[i].id)!=-1){
-						data[i].checked=true;
-					}
-				}
-				$("#chatTalkStyleIds").combotree({
-				    data:data
-				}); 
-		},true);
 	});
 </script>
 <div style="padding:5px;overflow:hidden;">
@@ -50,12 +38,6 @@
 	          <th width="15%">客户组别</th>
 	          <td width="80%">
 	             <select class="easyui-combotree"  style="width:250px;" name="clientGroupStr"  id="chatClientGroupIds" tId="${chatStudio.clientGroup}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入客户组别',cascadeCheck:false" multiple></select>
-	          </td>
-	      </tr>
-	      <tr>
-	          <th width="15%">聊天方式</th>
-	          <td width="80%">
-	             <select class="easyui-combotree" style="width:250px;" name="talkStyleStr"  id="chatTalkStyleIds" tId="${chatStudio.talkStyle}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入聊天方式',cascadeCheck:false" multiple></select>
 	          </td>
 	      </tr>
 	      <tr>

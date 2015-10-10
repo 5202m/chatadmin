@@ -13,11 +13,6 @@ public class ChatStudio {
 	private String clientGroup;
 	
 	/**
-	 * 聊天方式,多个逗号分隔
-	 */
-	private String talkStyle;
-	
-	/**
      * YY频道号
      */
 	private String yyChannel;
@@ -43,14 +38,6 @@ public class ChatStudio {
 
 	public void setClientGroup(String clientGroup) {
 		this.clientGroup = clientGroup;
-	}
-
-	public String getTalkStyle() {
-		return talkStyle;
-	}
-
-	public void setTalkStyle(String talkStyle) {
-		this.talkStyle = talkStyle;
 	}
 
 	public String getYyChannel() {

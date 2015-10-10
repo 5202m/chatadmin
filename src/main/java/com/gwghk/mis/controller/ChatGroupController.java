@@ -107,6 +107,10 @@ public class ChatGroupController extends BaseController{
     	if(chatRuleIdArr!=null){
     		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
+    	String[] talkStyleArr=request.getParameterValues("talkStyleStr");
+    	if(talkStyleArr!=null){
+    		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
+       	}
 		 Page<ChatGroup> page = chatGroupService.getChatGroupPage(this.createDetachedCriteria(dataGrid, chatGroup));
 		 List<ChatGroup> chatGroupList=page.getCollection();
 		 chatGroupList.forEach(e->formatChatUrl(e));
@@ -269,6 +273,10 @@ public class ChatGroupController extends BaseController{
     	if(chatRuleIdArr!=null){
     		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
+    	String[] talkStyleArr=request.getParameterValues("talkStyleStr");
+    	if(talkStyleArr!=null){
+    		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
+       	}    	
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false, false);
     	if(result.isOk()){
     		j.setSuccess(true);
@@ -299,6 +307,10 @@ public class ChatGroupController extends BaseController{
     	if(chatRuleIdArr!=null){
     		chatGroup.setChatRuleIds(StringUtils.join(chatRuleIdArr, ","));
     	}
+    	String[] talkStyleArr=request.getParameterValues("talkStyleStr");
+    	if(talkStyleArr!=null){
+    		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
+       	}
     	AjaxJson j = new AjaxJson();
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true, true);
     	if(result.isOk()){
@@ -367,12 +379,8 @@ public class ChatGroupController extends BaseController{
      */
     private void setCommonStudioParam(HttpServletRequest request,ChatStudio chatStudio){
     	String[] clientGroupArr=request.getParameterValues("clientGroupStr");
-   		String[] talkStyleArr=request.getParameterValues("talkStyleStr");
        	if(clientGroupArr!=null){
        		chatStudio.setClientGroup(StringUtils.join(clientGroupArr, ","));
-       	}
-    	if(talkStyleArr!=null){
-    		chatStudio.setTalkStyle(StringUtils.join(talkStyleArr, ","));
        	}
     }
     
