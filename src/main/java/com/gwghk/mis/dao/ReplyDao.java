@@ -2,6 +2,7 @@ package com.gwghk.mis.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -45,5 +46,26 @@ public class ReplyDao extends MongoDBBaseDao{
     	WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("topicId").in(topicIds))
 				   , Update.update("isDeleted", 0), Reply.class);
 	return wr!=null && wr.getN()>0;
+	}
+
+    /**
+     * 功能：删除回帖
+     * @param replyId
+     * @param subReplyId
+     * @return
+     */
+    public boolean deleteReplyByReplyId(String replyId, String subReplyId) {
+    	WriteResult wr = null;
+    	Update loc_update = null;
+    	if(StringUtils.isNotBlank(subReplyId)){
+    		Reply targetReply = new Reply();
+    		targetReply.setReplyId(subReplyId);
+    		loc_update = new Update().pull("replyList", targetReply);
+    	}else{
+    		loc_update = Update.update("isDeleted", 0);
+    	}
+    	wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("replyId").is(replyId))
+    			, loc_update, Reply.class);
+    	return wr!=null && wr.getN()>0;
 	}
 }

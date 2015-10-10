@@ -27,6 +27,11 @@ public class Reply extends BaseModel{
 	private String topicId;
 	
 	/**
+	 * 作者
+	 */
+	private String authorName;
+	
+	/**
 	 * 类型(1:帖子 2：文章)
 	 */
 	private Integer type;
@@ -89,6 +94,20 @@ public class Reply extends BaseModel{
 
 	public void setTopicId(String topicId) {
 		this.topicId = topicId;
+	}
+	
+	/**
+	 * @return the authorName
+	 */
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	/**
+	 * @param authorName the authorName to set
+	 */
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
 	}
 
 	public Integer getIsDeleted() {

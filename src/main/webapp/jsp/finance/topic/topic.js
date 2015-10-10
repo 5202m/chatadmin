@@ -183,15 +183,49 @@ var topic = {
 	 */
 	reply : function(recordId){
 		$("#topic_datagrid").datagrid('unselectAll');
-		var url = formatUrl(basePath + '/topicController/reply.do?topicId='+recordId);
+		var loc_url = formatUrl(basePath + '/topicController/reply.do?topicId='+recordId);
 		goldOfficeUtils.openSimpleDialog({
 			title : '查看回复帖子',
-			width:360,
-			height:'auto',
-			href : url,
-			iconCls : 'pag-view'
+			width:1000,
+			height:600,
+			href : loc_url + "&rows=20&page=1",
+			iconCls : 'pag-view',
+			onLoad : function(){
+				$('#topic_reply_page').pagination({
+					pageList : [10, 20, 30, 50, 100],
+					onSelectPage:function(pageNumber, pageSize){
+						$('#myWindow').dialog('refresh', loc_url + "&rows=" + pageSize + "&page=" + pageNumber);
+					}
+				});
+			}
 		});
 	},
+	
+	/**
+	 * 删除回帖
+	 */
+	replyDel : function(replyId, subReplyId){
+		$.messager.confirm("操作提示", "您确定要删除记录吗?" , function(r) {
+			   if (r) {
+				   goldOfficeUtils.ajax({
+						url : formatUrl(basePath + '/topicController/replyDel.do'),
+						data : {
+							replyId : replyId,
+							subReplyId : subReplyId
+						},
+						success: function(data) {
+							if (data.success) {
+								$('#myWindow').dialog('refresh');
+								$.messager.alert($.i18n.prop("common.operate.tips"),'删除成功!','info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'删除失败，原因：'+data.msg,'error');
+					    	}
+						}
+					});
+				}
+			});
+	},
+	
 	/**
 	 * 功能：批量删除
 	 */
