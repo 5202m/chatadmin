@@ -15,17 +15,20 @@ var topicAdd = {
 			alert("发布人是必填项！");
 		    return;
 		}
+		if(isBlank($("#tempSubjectAdd  option:selected").val())){
+    		alert("请选择行情、资讯或策略！");
+    		return;
+    	}
 	    var combotree = $('#tempProductAdd').combotree('tree'),selectNode = combotree.tree('getSelected');
 	    if(selectNode != null && selectNode.target != null){
-	    	if(isBlank($("#tempSubjectAdd  option:selected").val())){
-	    		alert("请选择行情、资讯或策略！");
-	    		return;
-	    	}
 	    	var tempProductList = combotree.tree('getChildren',selectNode.target);
 	 	    if(tempProductList != null && tempProductList.length > 0){
 	 	    	alert("插入主题-请选择具体产品！");
 	 	    	return;
 	 	    }
+	    }else{
+	    	alert("插入主题-请选择具体产品！");
+ 	    	return;
 	    }
 	    if(isBlank(UE.getEditor('contentAdd').getContent())){
 	    	alert("内容是必填项！");

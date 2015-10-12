@@ -33,7 +33,7 @@
         </td>
       </tr>
       <tr>
-        <th width="15%">插入主题</th>
+        <th width="15%">插入主题<span class="red">*</span></th>
         <td width="35%" colspan="3">
 			<select id="tempSubjectAdd" name="tempSubject" style="width:160px;">
 				<option value="">---请选择---</option>
