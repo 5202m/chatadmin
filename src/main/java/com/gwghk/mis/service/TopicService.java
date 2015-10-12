@@ -158,7 +158,6 @@ public class TopicService{
     		}
     		topicDao.update(oldTopic);
     	}else{
-    		topic.setDevice("金道贵金属");
     		topic.setIsTop(0);
     		topic.setApprovalResult(0);
     		topic.setInfoType(1);
