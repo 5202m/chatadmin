@@ -136,7 +136,7 @@ public class FeedbackController extends BaseController{
     	    List<String> aliasList = new ArrayList<String>();
     	    aliasList.add(request.getParameter("memberId"));
     	    PushResult pushResult = JPushUtil.pushAndroidMessage(2,"蜘蛛投资","",aliasList,map);
-    	    logger.info("<<push message result|"+pushResult != null && pushResult.sendno > 0 ? "反馈消息推送成功":"反馈消息推送失败");
+    	    logger.info("<<push message result|"+(pushResult != null && pushResult.sendno > 0 ? "反馈消息推送成功":"反馈消息推送失败"));
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
