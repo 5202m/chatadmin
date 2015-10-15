@@ -177,7 +177,7 @@ public class TopicService{
 			//向移动端推送发帖的消息
     	    Member loc_topicAuthorMember = financeUserService.getMemberById(topic.getMemberId());
     	    FinancePlatForm loc_topicAuthor = loc_topicAuthorMember.getLoginPlatform().getFinancePlatForm();
-    	    List<String> aliasList = loc_topicAuthor.getAttentions();
+    	    List<String> aliasList = loc_topicAuthor.getBeAttentions();
     	    if(aliasList != null && aliasList.size() > 0){
     	    	String content = loc_topicAuthor.getNickName() +"发表了新帖 "+topic.getTitle();
     	    	Map<String,String> map = new HashMap<String,String>();
