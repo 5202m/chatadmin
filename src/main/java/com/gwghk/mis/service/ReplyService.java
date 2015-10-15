@@ -17,6 +17,7 @@ import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ReplyDao;
+import com.gwghk.mis.dao.TopicStatisticalDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.Member;
 import com.gwghk.mis.model.Reply;
@@ -37,6 +38,9 @@ public class ReplyService {
 	
 	@Autowired
 	private FinanceUserService financeUserService;
+	
+	@Autowired
+	private TopicStatisticalDao topicStatisticalDao;
 
 	/**
 	 * 功能：保存回复信息(新增或修改时)
@@ -138,13 +142,19 @@ public class ReplyService {
 
 	/**
 	 * 功能：删除回帖
+	 * @param topicId
 	 * @param replyId
 	 * @param subReplyId
 	 * @return
 	 */
-	public ApiResult deleteReplyByReplyId(String replyId, String subReplyId) {
+	public ApiResult deleteReplyByReplyId(String topicId, String replyId, String subReplyId) {
     	ApiResult api = new ApiResult();
-    	api.setCode(replyDao.deleteReplyByReplyId(replyId, subReplyId) ? ResultCode.OK : ResultCode.FAIL);
+    	boolean loc_result = replyDao.deleteReplyByReplyId(replyId, subReplyId);
+    	if(loc_result && StringUtils.isBlank(subReplyId)){
+    		//帖子回复，需要更新回帖数
+    		topicStatisticalDao.updateReplyCount(topicId, 1, -1);
+    	}
+    	api.setCode(loc_result ? ResultCode.OK : ResultCode.FAIL);
 		return api;
 	}
 }

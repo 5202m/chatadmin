@@ -204,12 +204,13 @@ var topic = {
 	/**
 	 * 删除回帖
 	 */
-	replyDel : function(replyId, subReplyId){
+	replyDel : function(topicId, replyId, subReplyId){
 		$.messager.confirm("操作提示", "您确定要删除记录吗?" , function(r) {
 			   if (r) {
 				   goldOfficeUtils.ajax({
 						url : formatUrl(basePath + '/topicController/replyDel.do'),
 						data : {
+							topicId : topicId,
 							replyId : replyId,
 							subReplyId : subReplyId
 						},

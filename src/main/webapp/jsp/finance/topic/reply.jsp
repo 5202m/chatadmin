@@ -7,7 +7,7 @@
 			<c:forEach items="${replyList}" var="reply">
 				<tr height="24" style="vertical-align: top;">
 					<td width="23">
-						<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false" onclick="topic.replyDel('${reply.replyId}', '');">
+						<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false" onclick="topic.replyDel('${reply.topicId}', '${reply.replyId}', '');">
 						</a>
 					</td>
 					<td width="119">
@@ -24,7 +24,7 @@
 							<c:forEach items="${reply.replyList}" var="subReply">
 							<tr height="24" style="vertical-align: top;">
 								<td width="23">
-									<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false" onclick="topic.replyDel('${reply.replyId}','${subReply.replyId}');">
+									<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false" onclick="topic.replyDel('${reply.topicId}','${reply.replyId}','${subReply.replyId}');">
 									</a>
 								</td>
 								<td width="119">

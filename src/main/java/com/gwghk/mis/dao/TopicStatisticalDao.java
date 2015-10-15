@@ -2,6 +2,7 @@ package com.gwghk.mis.dao;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
@@ -21,5 +22,18 @@ public class TopicStatisticalDao extends MongoDBBaseDao{
 	public TopicStatistical getTopicStatistical(String topicId,Integer type){
 		return this.findOne(TopicStatistical.class,Query.query(new Criteria().andOperator(Criteria.where("topicId").is(topicId),
 			   Criteria.where("type").is(type),Criteria.where("isDeleted").is(1))));
+	}
+	
+	/**
+	 * 更新回复数
+	 * @param topicId
+	 * @param type
+	 * @param count
+	 */
+	public void updateReplyCount(String topicId, Integer type, int count){
+		Query loc_query = Query.query(Criteria.where("topicId").is(topicId).and("type").is(type).and("isDeleted").is(1));
+		Update loc_update = new Update();
+		loc_update.inc("replyCounts", count);
+		this.mongoTemplate.updateFirst(loc_query, loc_update, TopicStatistical.class);
 	}
 }

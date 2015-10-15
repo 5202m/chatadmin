@@ -302,8 +302,9 @@ public class TopicController extends BaseController {
 	public AjaxJson replyDel(HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
 		String replyId = request.getParameter("replyId");
+		String topicId = request.getParameter("topicId");
 		String subReplyId = request.getParameter("subReplyId");
-		ApiResult result = replyService.deleteReplyByReplyId(replyId, subReplyId);
+		ApiResult result = replyService.deleteReplyByReplyId(topicId, replyId, subReplyId);
 		if (result.isOk()) {
 			j.setSuccess(true);
 			String message = " 用户: " + userParam.getUserNo() + " " + DateUtil.getDateSecondFormat(new Date()) + " 删除帖子回复成功";
