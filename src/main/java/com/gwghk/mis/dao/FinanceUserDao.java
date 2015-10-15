@@ -152,6 +152,7 @@ public class FinanceUserDao extends MongoDBBaseDao {
 		String[] includeFields = new String[]{
 				"memberId",
 				"mobilePhone",
+				"loginPlatform.financePlatForm.nickName",
 				"loginPlatform.financePlatForm.attentions",
 				"loginPlatform.financePlatForm.beAttentions",
 				"loginPlatform.financePlatForm.topicCount",

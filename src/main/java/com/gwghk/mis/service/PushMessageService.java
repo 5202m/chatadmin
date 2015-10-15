@@ -102,6 +102,8 @@ public class PushMessageService{
         		result.setReturnObj(new Object[]{oldPushMessage});
         	}else{
         		pushMessage.setDataid(pushMessage.getArticleId());
+        		pushMessage.setValid(1);
+        		pushMessage.setPushStatus(0);
         		pushMessageDao.addPushMessage(pushMessage);
         	}
     	}catch(Exception e){
@@ -109,6 +111,26 @@ public class PushMessageService{
     		return result.setCode(ResultCode.FAIL);
     	}
     	return result.setCode(ResultCode.OK);
+	}
+	
+	/**
+	 * 增加推送记录
+	 * @param pushMessage
+	 */
+	public void addPushMessage(PushMessage pushMessage) {
+		if(pushMessage != null){
+			Date currDate = new Date();
+    		pushMessage.setCreateDate(currDate);
+    		pushMessage.setUpdateDate(currDate);
+			pushMessage.setIsDeleted(1);
+			pushMessage.setValid(1);
+			try {
+				pushMessageDao.addPushMessage(pushMessage);
+			}
+			catch (Exception e) {
+				logger.error("<<save pushMessage fail!", e);
+			}
+		}
 	}
 
 	/**

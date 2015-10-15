@@ -44,8 +44,6 @@ public class PushMessageDao extends MongoDBBaseDao{
 	 */
 	public void addPushMessage(PushMessage pushMessage) throws Exception{
 		pushMessage.setPushMessageId(this.getNextSeqId(IdSeq.PushMessage));
-		pushMessage.setValid(1);
-		pushMessage.setPushStatus(0);
 		this.add(pushMessage);
 	}
 	

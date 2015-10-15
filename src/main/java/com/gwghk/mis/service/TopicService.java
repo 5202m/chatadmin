@@ -1,5 +1,6 @@
 package com.gwghk.mis.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.gwghk.mis.dao.TopicDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.FinancePlatForm;
 import com.gwghk.mis.model.Member;
+import com.gwghk.mis.model.PushMessage;
 import com.gwghk.mis.model.Reply;
 import com.gwghk.mis.model.SubjectType;
 import com.gwghk.mis.model.Topic;
@@ -54,6 +56,9 @@ public class TopicService{
 	
 	@Autowired
 	private TopicStatisticalService topicStatisticalService;
+	
+	@Autowired
+	private PushMessageService pushMessageService;
 	
 	@Autowired
 	private ReplyService replyService;
@@ -187,6 +192,25 @@ public class TopicService{
     	    	map.put("messageType", "3");  //消息类型 (1:自定义 2：文章资讯 3：关注订阅 4：评论提醒  5:公告 6:反馈)
     	    	PushResult pushResult = JPushUtil.pushAndroidMessage(2, "蜘蛛投资", content, aliasList, map);
     	    	logger.info("<<push message result|"+(pushResult != null && pushResult.sendno > 0 ? "发帖消息推送成功":"发帖消息推送失败"));
+    	    	
+    	    	//保存推送信息
+    	    	if(pushResult != null){
+    	    		Date currDate = new Date();
+    	    		PushMessage pushMessage = new PushMessage();
+    	    		pushMessage.setDataid(topic.getTopicId());
+    	    		pushMessage.setTitle(content);
+    	    		pushMessage.setLang("zh");
+    	    		pushMessage.setPlatform("finance");
+    	    		pushMessage.setTipType("2");
+    	    		pushMessage.setMessageType(3);
+    	    		pushMessage.setPublishStartDate(currDate);
+    	    		pushMessage.setPublishEndDate(currDate);
+    	    		pushMessage.setPushDate(currDate);
+    	    		pushMessage.setPushStatus(pushResult.sendno > 0 ? 2 : 3);
+    	    		pushMessage.setPushMember(StringUtils.join(aliasList, "#"));
+    	    		pushMessage.setMsgId(pushResult.msg_id);
+    	    		pushMessageService.addPushMessage(pushMessage);
+    	    	}
     	    }
     	}
     	return result.setCode(ResultCode.OK);
