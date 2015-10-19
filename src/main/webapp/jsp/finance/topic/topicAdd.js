@@ -26,9 +26,6 @@ var topicAdd = {
 	 	    	alert("插入主题-请选择具体产品！");
 	 	    	return;
 	 	    }
-	    }else{
-	    	alert("插入主题-请选择具体产品！");
- 	    	return;
 	    }
 	    if(isBlank(UE.getEditor('contentAdd').getContent())){
 	    	alert("内容是必填项！");

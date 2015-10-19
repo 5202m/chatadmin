@@ -164,12 +164,17 @@ public class TopicService{
 		topic.setIsDeleted(1);
     	if(isUpdate){
     		Topic oldTopic = topicDao.findById(Topic.class, topic.getTopicId());
-    		BeanUtils.copyExceptNull(oldTopic, topic);
-    		if(topic.getExpandAttr() != null){
-    			TopicExtend oldExtend = oldTopic.getExpandAttr();
-        		oldExtend.setProductCode(topic.getExpandAttr().getProductCode());
-        		oldExtend.setProductName(topic.getExpandAttr().getProductName());
+    		TopicExtend loc_expandAttr = topic.getExpandAttr();
+    		if(oldTopic.getExpandAttr() != null){
+    			if (topic.getExpandAttr() == null) {
+    				loc_expandAttr = new TopicExtend();
+				}else{
+					loc_expandAttr = topic.getExpandAttr();
+				}
+				loc_expandAttr.setOrderNo(oldTopic.getExpandAttr().getOrderNo());
     		}
+    		BeanUtils.copyExceptNull(oldTopic, topic);
+    		oldTopic.setExpandAttr(loc_expandAttr);
     		topicDao.update(oldTopic);
     	}else{
     		topic.setIsTop(0);
