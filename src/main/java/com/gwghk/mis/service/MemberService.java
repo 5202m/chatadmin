@@ -202,6 +202,13 @@ public class MemberService{
 					userGroupCriteria.and("clientGroup").is(userGroup.getClientGroup());
 				}
 			}
+			if(userGroup.getGagStatus() != null){
+				if(userGroup.getGagStatus()){
+					userGroupCriteria.and("gagDate").nin(new Object[]{null, ""});
+				}else{
+					userGroupCriteria.and("gagDate").in(new Object[]{null, ""});
+				}
+			}
 			List<ChatRoom> roomList=userGroup.getRooms();
 			if(roomList!=null){
 				ChatRoom room=roomList.get(0);
@@ -222,8 +229,8 @@ public class MemberService{
 						roomFlag = true;
 					}
 				}
-				if(room.getGagStatus() != null){
-					if(room.getGagStatus()){
+				if(userGroup.getGagStatus() != null){
+					if(userGroup.getGagStatus()){
 						roomCriteria.and("gagDate").nin(new Object[]{null, ""});
 						roomFlag = true;
 					}else{

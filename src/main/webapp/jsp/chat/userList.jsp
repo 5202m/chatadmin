@@ -67,7 +67,7 @@
         <tr>
           <th>是否禁言</th>
           <td colspan="5">
-	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
+	          <select name="loginPlatform.chatUserGroup[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="1">是</option>
           		<option value="0">否</option>
@@ -101,6 +101,7 @@
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" onclick="chatUser.userUnbind(this)">解除绑定</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="1" onclick="chatUser.userSetting(this)">价值用户</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="2" onclick="chatUser.userSetting(this)">VIP用户</a>
+      <a class="easyui-linkbutton setGagTime" data-options="plain:true,iconCls:'ope-save',disabled:false" onclick="chatUser.setUserGag(this)">禁言</a>
   </div>
  
 </div>

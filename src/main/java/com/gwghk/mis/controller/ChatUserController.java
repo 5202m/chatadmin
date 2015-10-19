@@ -146,16 +146,24 @@ public class ChatUserController extends BaseController{
     			groupType = request.getParameter("groupType");
     	 Member member = memberService.getByMemberId(memberId);
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
+    	 //groupId为空时，针对用户组别设置禁言。
+    	 boolean isSet4Group = StringUtils.isEmpty(groupId);
  		 if(userGroupList != null && userGroupList.size() > 0){
  			for(ChatUserGroup cg : userGroupList){
  				if(groupType.equals(cg.getId())){
- 					List<ChatRoom> roomList=cg.getRooms();
- 					for(ChatRoom room:roomList){
- 						if(room.getId().equals(groupId)){
- 							map.put("gagDate", room.getGagDate());
- 		 			    	map.put("gagTips", room.getGagTips());
- 		 			    	map.put("gagTips", room.getGagTips());
- 		 			    	map.put("gagRemark", room.getGagRemark());
+ 					if(isSet4Group){
+ 						map.put("gagDate", cg.getGagDate());
+	 			    	map.put("gagTips", cg.getGagTips());
+	 			    	map.put("gagRemark", cg.getGagRemark());
+ 					}else{
+ 						List<ChatRoom> roomList=cg.getRooms();
+ 						for(ChatRoom room:roomList){
+ 							if(room.getId().equals(groupId)){
+ 								map.put("gagDate", room.getGagDate());
+ 								map.put("gagTips", room.getGagTips());
+ 								map.put("gagRemark", room.getGagRemark());
+ 								break;
+ 							}
  						}
  					}
  					break;

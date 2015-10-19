@@ -79,6 +79,26 @@ public class ChatUserGroup {
 	
 	/**注册时间*/
 	private Date createDate;
+
+	/**
+     * 禁言状态
+     */
+	private Boolean gagStatus; 
+	
+	/**
+     * 禁言，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
+     */
+	private String gagDate;
+	
+	/**
+     * 禁言提示语
+     */
+	private String gagTips; 
+	
+	/**
+	 * 禁言备注
+	 */
+	private String gagRemark;
 	
 	/**
 	 * 房间组
@@ -187,6 +207,62 @@ public class ChatUserGroup {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	
+	/**
+	 * @return the gagStatus
+	 */
+	public Boolean getGagStatus() {
+		return gagStatus;
+	}
+
+	/**
+	 * @param gagStatus the gagStatus to set
+	 */
+	public void setGagStatus(Boolean gagStatus) {
+		this.gagStatus = gagStatus;
+	}
+
+	/**
+	 * @return the gagDate
+	 */
+	public String getGagDate() {
+		return gagDate;
+	}
+
+	/**
+	 * @param gagDate the gagDate to set
+	 */
+	public void setGagDate(String gagDate) {
+		this.gagDate = gagDate;
+	}
+
+	/**
+	 * @return the gagTips
+	 */
+	public String getGagTips() {
+		return gagTips;
+	}
+
+	/**
+	 * @param gagTips the gagTips to set
+	 */
+	public void setGagTips(String gagTips) {
+		this.gagTips = gagTips;
+	}
+
+	/**
+	 * @return the gagRemark
+	 */
+	public String getGagRemark() {
+		return gagRemark;
+	}
+
+	/**
+	 * @param gagRemark the gagRemark to set
+	 */
+	public void setGagRemark(String gagRemark) {
+		this.gagRemark = gagRemark;
 	}
 
 	public List<ChatRoom> getRooms() {

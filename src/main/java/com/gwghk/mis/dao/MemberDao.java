@@ -2,6 +2,7 @@ package com.gwghk.mis.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -128,16 +129,24 @@ public class MemberDao extends MongoDBBaseDao{
 	public boolean setUserGag(String groupType,String memberId,String groupId,String gagDate,String tip,String remark){
 		 Member member = this.getByMemberId(memberId);
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
+    	 //groupId为空时，针对用户组别设置禁言。
+    	 boolean isSet4Group = StringUtils.isEmpty(groupId);
  		 if(userGroupList != null && userGroupList.size() > 0){
  			for(ChatUserGroup cg : userGroupList){
  				if(cg.getId().equals(groupType)){
- 					List<ChatRoom> roomList=cg.getRooms();
- 					for(ChatRoom room:roomList){
- 						if(room.getId().equals(groupId)){
- 							room.setGagDate(gagDate);
-							room.setGagTips(tip);
-		 			    	room.setGagRemark(remark);
-		 			    	break;
+ 					if(isSet4Group){
+						cg.setGagDate(gagDate);
+						cg.setGagTips(tip);
+						cg.setGagRemark(remark);
+ 					}else{
+ 						List<ChatRoom> roomList=cg.getRooms();
+ 						for(ChatRoom room:roomList){
+ 							if(room.getId().equals(groupId)){
+ 								room.setGagDate(gagDate);
+ 								room.setGagTips(tip);
+ 								room.setGagRemark(remark);
+ 								break;
+ 							}
  						}
  					}
  					break;

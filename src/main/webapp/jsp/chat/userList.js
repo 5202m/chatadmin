@@ -107,12 +107,17 @@ var chatUser = {
 						}},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 			            	var groupRow=rowData.loginPlatform.chatUserGroup[0],rooms=groupRow.rooms,tds="",sDom='',name='';
+			            	var loc_isAllowGag = $("#chatUser_datagrid_rowOperation .setGagTime").css("display") === "inline";
 			            	for(var i=0;i<rooms.length;i++){
-			            		name=$.trim(chatUser.getComboxNameByCode("#chatUserGroupId",rooms[i].id));
-					            sDom='<span class="ope-save" style="cursor:pointer;" onclick="chatUser.setUserGag(this)" mobilePhone="'+rowData.mobilePhone+'" groupName="'+name+'" memberId="'+rowData.memberId+'" groupType="'+groupRow.id+'" groupId="'+rooms[i].id+'">禁言</span>';
-					            if(!chatUser.isSearchField(rooms[i])){
+			            		if(!chatUser.isSearchField(rooms[i])){
 					            	continue;
 					            }
+			            		name=$.trim(chatUser.getComboxNameByCode("#chatUserGroupId",rooms[i].id));
+			            		if(loc_isAllowGag){
+			            			sDom='<span class="ope-save" style="cursor:pointer;" onclick="chatUser.setUserGag(this)" mobilePhone="'+rowData.mobilePhone+'" groupName="'+name+'" memberId="'+rowData.memberId+'" groupType="'+groupRow.id+'" groupId="'+rooms[i].id+'">禁言</span>';
+			            		}else{
+			            			sDom="";
+			            		}
 					            tds+=chatUser.formatTwoRow(name,chatUser.isGroupTypeSearch() && i<rooms.length-1,sDom, '');
 			            	}
 							return tds;
@@ -138,14 +143,19 @@ var chatUser = {
 							return tds;
 						}},
 						{title : '禁言时间(红色当前生效)',field : 'loginPlatform.chatUserGroup.gagDate',formatter : function(value, rowData, rowIndex) {
-							var rooms=rowData.loginPlatform.chatUserGroup[0].rooms,tds="",addStyle = "";
-			            	for(var i=0, lenI = rooms ? rooms.length : 0;i<lenI;i++){
-			            		if(!chatUser.isSearchField(rooms[i])){
-							       continue;
-							    }
-			            		addStyle = dateTimeWeekCheck(rooms[i].gagDate, false) ? "color:red;" : ""
-			            		tds+=chatUser.formatTwoRow((rooms[i].gagDate? formatDateWeekTime(rooms[i].gagDate) : ''), chatUser.isGroupTypeSearch() && i<rooms.length-1, '', addStyle);
-			            	}
+							var groupRow = rowData.loginPlatform.chatUserGroup[0], rooms=groupRow.rooms,tds="",addStyle = "";
+							if(isBlank(groupRow.gagDate)){
+								for(var i=0, lenI = rooms ? rooms.length : 0;i<lenI;i++){
+									if(!chatUser.isSearchField(rooms[i])){
+										continue;
+									}
+									addStyle = dateTimeWeekCheck(rooms[i].gagDate, false) ? "color:red;" : "";
+									tds+=chatUser.formatTwoRow((rooms[i].gagDate? formatDateWeekTime(rooms[i].gagDate) : ''), chatUser.isGroupTypeSearch() && i<rooms.length-1, '', addStyle);
+								}
+							}else{
+								addStyle = dateTimeWeekCheck(groupRow.gagDate, false) ? "color:red;" : "";
+								tds = chatUser.formatTwoRow((groupRow.gagDate? formatDateWeekTime(groupRow.gagDate) : ''), false, '', addStyle);
+							}
 							return tds;
 						}}					
 			]],
