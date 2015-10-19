@@ -282,7 +282,7 @@ var chatUser = {
 		var url = formatUrl(basePath + '/chatUserController/toUserGag.do?memberId='+trimStrVal($(obj).attr("memberId"))+"&groupId="+trimStrVal($(obj).attr("groupId"))+"&groupType="+trimStrVal($(obj).attr("groupType")));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/setUserGag.do');
 		goldOfficeUtils.openEditorDialog({
-			title : '设置禁言【用户：'+$(obj).attr("mobilePhone")+'；房间：'+($(obj).attr("groupName")||'所有')+'】',
+			title : '设置禁言【用户：'+$(obj).attr("mobilePhone")+'；房间：'+($(obj).attr("groupName")||'<font color="red">所有（注：所有房间禁言将应用该设置）</font>')+'】',
 			width : 672,
 			height : 326,
 			href : url,
