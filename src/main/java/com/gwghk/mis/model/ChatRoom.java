@@ -30,6 +30,11 @@ public class ChatRoom {
 	private Date onlineDate;
 
 	/**
+     * 禁言状态
+     */
+	private Boolean gagStatus; 
+
+	/**
      * 禁言，保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
      */
 	private String gagDate;
@@ -72,6 +77,20 @@ public class ChatRoom {
 
 	public void setOnlineDate(Date onlineDate) {
 		this.onlineDate = onlineDate;
+	}
+	
+	/**
+	 * @return the gagStatus
+	 */
+	public Boolean getGagStatus() {
+		return gagStatus;
+	}
+
+	/**
+	 * @param gagStatus the gagStatus to set
+	 */
+	public void setGagStatus(Boolean gagStatus) {
+		this.gagStatus = gagStatus;
 	}
 
 	public String getGagDate() {

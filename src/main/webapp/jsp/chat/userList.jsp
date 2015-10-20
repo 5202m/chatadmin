@@ -65,9 +65,17 @@
 		  </td>
         </tr>
         <tr>
-          <th>是否禁言</th>
-          <td colspan="5">
-	          <select name="loginPlatform.chatUserGroup[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
+          <th>用户是否禁言</th>
+          <td>
+	          <select name="loginPlatform.chatUserGroup[0].gagStatus" style="width:160px;">
+          		<option value="">--请选择--</option>
+          		<option value="1">是</option>
+          		<option value="0">否</option>
+	          </select>
+          </td>
+          <th>房间是否禁言</th>
+          <td colspan="3">
+	          <select name="loginPlatform.chatUserGroup[0].rooms[0].gagStatus" id="chatUser_gagStatus" style="width:160px;">
           		<option value="">--请选择--</option>
           		<option value="1">是</option>
           		<option value="0">否</option>

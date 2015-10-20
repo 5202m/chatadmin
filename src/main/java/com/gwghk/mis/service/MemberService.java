@@ -229,8 +229,8 @@ public class MemberService{
 						roomFlag = true;
 					}
 				}
-				if(userGroup.getGagStatus() != null){
-					if(userGroup.getGagStatus()){
+				if(room.getGagStatus() != null){
+					if(room.getGagStatus()){
 						roomCriteria.and("gagDate").nin(new Object[]{null, ""});
 						roomFlag = true;
 					}else{
