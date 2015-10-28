@@ -22,6 +22,10 @@
 		
 		getJson("<%=request.getContextPath()%>/commonController/getTalkStyleList.do",null,function(data){
 				var chatTalkStyleIds=$("#chatTalkStyleIds").attr("tId");
+				if(!chatTalkStyleIds){
+					//默认选中“对话”
+					chatTalkStyleIds = "0";
+				}
 				//设置内容规则的下拉框
 				for(var i in data){
 					if(chatTalkStyleIds.indexOf(data[i].id)!=-1){
