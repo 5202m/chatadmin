@@ -151,4 +151,34 @@ public class PmApiService{
   			return false;
   		}
       }
+      
+	/**
+	 * 发送短信
+	 * 
+	 * @param mobilePhone
+	 * @param useType
+	 * @param content
+	 * @return
+	 */
+	public boolean sendMsg(String mobilePhone, String type, String useType, String content) {
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("mobile", mobilePhone);
+		paramMap.put("type", type);
+		paramMap.put("useType", useType);
+		paramMap.put("content", content);
+		try {
+			String str = HttpClientUtils.httpGetString(formatUrl(ApiDir.sms, "send"), paramMap);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getIntValue("result") == 0;
+			}
+			else {
+				return false;
+			}
+		}
+		catch (Exception e) {
+			logger.error("send message fail!", e);
+			return false;
+		}
+	}
 } 

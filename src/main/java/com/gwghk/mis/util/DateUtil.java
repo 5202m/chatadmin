@@ -1786,7 +1786,94 @@ public class DateUtil {
         return isPass;
     };
     
-	public static void main(String args[]) {
-		System.out.println(longMsTimeConvertToDateTime(Long.valueOf("1431930364496_936777911".split("_")[0])));
+	/**
+	 * 按照指定的周期获取起始时间
+	 * @param cycle：H、D、W、M、Y
+	 * @return
+	 */
+	public static Date getStartDateOfCycle(Date date, String cycle){
+		Calendar loc_calendar = Calendar.getInstance();
+		loc_calendar.setTime(date);
+		if("H".equals(cycle)){
+			//小时
+			loc_calendar.set(Calendar.MINUTE, 0);
+			loc_calendar.set(Calendar.SECOND, 0);
+			loc_calendar.set(Calendar.MILLISECOND, 0);
+		}else if("D".equals(cycle)){
+			//天
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 0);
+			loc_calendar.set(Calendar.MINUTE, 0);
+			loc_calendar.set(Calendar.SECOND, 0);
+			loc_calendar.set(Calendar.MILLISECOND, 0);
+		}else if("W".equals(cycle)){
+			//周：注意这是以星期日作为每周的起始日
+			loc_calendar.set(Calendar.DAY_OF_WEEK, 1);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 0);
+			loc_calendar.set(Calendar.MINUTE, 0);
+			loc_calendar.set(Calendar.SECOND, 0);
+			loc_calendar.set(Calendar.MILLISECOND, 0);
+		}else if("M".equals(cycle)){
+			//月
+			loc_calendar.set(Calendar.DAY_OF_MONTH, 1);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 0);
+			loc_calendar.set(Calendar.MINUTE, 0);
+			loc_calendar.set(Calendar.SECOND, 0);
+			loc_calendar.set(Calendar.MILLISECOND, 0);
+		}else if("Y".equals(cycle)){
+			//年
+			loc_calendar.set(Calendar.MONTH, 0);
+			loc_calendar.set(Calendar.DAY_OF_MONTH, 1);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 0);
+			loc_calendar.set(Calendar.MINUTE, 0);
+			loc_calendar.set(Calendar.SECOND, 0);
+			loc_calendar.set(Calendar.MILLISECOND, 0);
+		}
+		return loc_calendar.getTime();
+	}
+	
+	/**
+	 * 按照指定的周期获取起始时间
+	 * @param cycle：H、D、W、M、Y
+	 * @return
+	 */
+	public static Date getEndDateOfCycle(Date date, String cycle){
+		Calendar loc_calendar = Calendar.getInstance();
+		loc_calendar.setTime(date);
+		if("H".equals(cycle)){
+			//小时
+			loc_calendar.set(Calendar.MINUTE, 59);
+			loc_calendar.set(Calendar.SECOND, 59);
+			loc_calendar.set(Calendar.MILLISECOND, 999);
+		}else if("D".equals(cycle)){
+			//天
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 23);
+			loc_calendar.set(Calendar.MINUTE, 59);
+			loc_calendar.set(Calendar.SECOND, 59);
+			loc_calendar.set(Calendar.MILLISECOND, 999);
+		}else if("W".equals(cycle)){
+			//周：注意这是以星期日作为每周的起始日
+			loc_calendar.set(Calendar.DAY_OF_WEEK, 7);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 23);
+			loc_calendar.set(Calendar.MINUTE, 59);
+			loc_calendar.set(Calendar.SECOND, 59);
+			loc_calendar.set(Calendar.MILLISECOND, 999);
+		}else if("M".equals(cycle)){
+			//月 月份+1-
+			loc_calendar.add(Calendar.MONTH, 1);
+			loc_calendar.set(Calendar.DAY_OF_MONTH, 0);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 23);
+			loc_calendar.set(Calendar.MINUTE, 59);
+			loc_calendar.set(Calendar.SECOND, 59);
+			loc_calendar.set(Calendar.MILLISECOND, 999);
+		}else if("Y".equals(cycle)){
+			//年
+			loc_calendar.set(Calendar.MONTH, 11);
+			loc_calendar.set(Calendar.DAY_OF_MONTH, 31);
+			loc_calendar.set(Calendar.HOUR_OF_DAY, 23);
+			loc_calendar.set(Calendar.MINUTE, 59);
+			loc_calendar.set(Calendar.SECOND, 59);
+			loc_calendar.set(Calendar.MILLISECOND, 999);
+		}
+		return loc_calendar.getTime();
 	}
 }

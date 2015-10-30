@@ -33,6 +33,9 @@ public class DictConstant {
 	
 	/**房间等级*/
 	public  String DICT_CHAT_GROUP_LEVEL = "chat_group_level";
+	
+	/**短信应用点*/
+	public  String DICT_SMS_USE_TYPE = "sms_use_type";
 
 	public String getDICT_PLATFORM() {
 		return DICT_PLATFORM;
