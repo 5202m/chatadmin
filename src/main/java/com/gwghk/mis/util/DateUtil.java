@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class DateUtil {
-	public final static String FORMAT_YYYYDDMMHHMMSS="YYYY/MM/dd HH:mm:ss";
+	public final static String FORMAT_YYYYDDMMHHMMSS="yyyy/MM/dd HH:mm:ss";
 	/**
 	 * MM/dd/yyyy
 	 */
