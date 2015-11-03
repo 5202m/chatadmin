@@ -93,17 +93,15 @@ public class SmsController extends BaseController{
     public AjaxJson resend(HttpServletRequest request,@Param("smsId")String smsId){
         AjaxJson j = new AjaxJson();
         ApiResult result = smsInfoService.resend(smsId);
-        SmsInfo loc_msgObj = (SmsInfo)result.getReturnObj()[0];
-        String loc_msgInfo = loc_msgObj == null ? "null" : loc_msgObj.getMobilePhone() + ":" + loc_msgObj.getContent();
     	if(result.isOk()){
 	    	j.setSuccess(true);
-	    	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重发短信成功：[" + loc_msgInfo + "]!";
+	    	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重发短信成功smsId=" + smsId + "!";
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<resend()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重发短信失败：[" + loc_msgInfo + "]!";
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重发短信失败smsId=" + smsId + "!";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<resend()|"+message+",ErrorMsg:"+result.toString());
     	}
@@ -132,13 +130,14 @@ public class SmsController extends BaseController{
 	 */
 	@RequestMapping(value="/sms/reset",method=RequestMethod.POST)
    	@ResponseBody
-    public AjaxJson resend(HttpServletRequest request){
+    public AjaxJson reset(HttpServletRequest request){
         AjaxJson j = new AjaxJson();
         String mobile = request.getParameter("mobilePhone");
         String type = request.getParameter("type");
         String useType = request.getParameter("useType");
+        String deviceKey = request.getParameter("deviceKey");
         String startDate = request.getParameter("resetStart");
-        ApiResult result = smsInfoService.setCntFlag(mobile, type, useType, startDate);
+        ApiResult result = smsInfoService.setCntFlag(mobile, type, useType, deviceKey, startDate);
     	if(result.isOk()){
 	    	j.setSuccess(true);
 	    	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 重置短信计数器成功：" + mobile + "!";

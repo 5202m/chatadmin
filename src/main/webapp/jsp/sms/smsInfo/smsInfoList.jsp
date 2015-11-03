@@ -26,13 +26,15 @@
 						</td>
 					</tr>
 					<tr>
-						<th>发送状态</th>
+						<th>状态</th>
 						<td>
 							<select id="smsInfo_status" name="status" style="width: 155px;">
 								<option value=""><spring:message code="common.pleaseselect" /></option>
 								<option value="0">未发送</option>
 								<option value="1">发送成功</option>
 								<option value="2">发送失败</option>
+								<option value="3">已使用</option>
+								<option value="4">已失效</option>
 							</select>
 						</td>
 						<th>发送时间</th>

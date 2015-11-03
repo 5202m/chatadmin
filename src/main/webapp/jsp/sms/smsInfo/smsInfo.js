@@ -51,11 +51,14 @@ var smsInfo = {
 	            	return smsInfo.formatByDicts("useType", value);
 				}},
 	            {title : "手机号",field : 'mobilePhone'},
+	            {title : "ip/mac",field : 'deviceKey'},
 	            {title : "短信内容",field : 'content'},
-	            {title : "发送状态",field : 'status',formatter : function(value, rowData, rowIndex) {
+	            {title : "状态",field : 'status',formatter : function(value, rowData, rowIndex) {
 	            	return smsInfo.formatByDicts("status", value);
 				}},
-	            {title : "发送时间",field : 'sendTime', formatter : timeObjectUtil.formatterDateTime}
+	            {title : "发送时间",field : 'sendTime', formatter : timeObjectUtil.formatterDateTime},
+				{title : "有效期至",field : 'validUntil', formatter : timeObjectUtil.formatterDateTime},
+				{title : "使用时间",field : 'useTime', formatter : timeObjectUtil.formatterDateTime}
 			]],
 			toolbar : '#sms_smsInfo_datagrid_toolbar'
 		});
@@ -152,7 +155,7 @@ var smsInfo = {
 		goldOfficeUtils.openEditorDialog({
 			title : '重置短信计数',
 			width:710,
-			height:250,
+			height:280,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){   //提交时处理

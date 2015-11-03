@@ -24,6 +24,13 @@
 					<input type="hidden" name="useType" value="${useType }">
 				</td>
 			</tr>
+			<tr>
+				<th>ip/mac</th>
+				<td>
+					<span>${deviceKey }</span>
+					<input type="hidden" name="deviceKey" value="${deviceKey }">
+				</td>
+			</tr>
 			<c:choose>
 				<c:when test="${cnt == null }">
 					<tr>

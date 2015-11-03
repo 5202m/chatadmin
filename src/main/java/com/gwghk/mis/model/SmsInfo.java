@@ -37,14 +37,25 @@ public class SmsInfo extends BaseModel{
 	private String mobilePhone;
 	
 	/**
+	 * 设备关键字，保存ip或者MAC地址，用于次数限制的设备唯一标识。
+	 */
+	private String deviceKey;
+	
+	/**
 	 * 短信内容
 	 */
 	private String content;
 	
 	/**
-	 * 发送状态：0-未发送 1-成功 2-发送成功
+	 * 发送状态：0-未发送 1-发送成功 2-发送失败 3-已使用(针对于短信验证码) 4-已失效
 	 */
 	private Integer status;
+	
+	/**
+	 * 计数标志：1-有效 0-无效
+	 * 只汇总cntFlag=1的短信记录作为判断是否达到计数总数
+	 */
+	private Integer cntFlag;
 	
 	/**
 	 * 发送时间
@@ -52,10 +63,14 @@ public class SmsInfo extends BaseModel{
 	private Date sendTime;
 	
 	/**
-	 * 计数标志：1-有效 0-无效
-	 * 只汇总cntFlag=1的短信记录作为判断是否达到计数总数
+	 * 有效期至
 	 */
-	private Integer cntFlag;
+	private Date validUntil;
+	
+	/**
+	 * 使用时间
+	 */
+	private Date useTime;
 	
 	/**
 	 * 发送起始时间
@@ -124,6 +139,20 @@ public class SmsInfo extends BaseModel{
 	}
 
 	/**
+	 * @return the deviceKey
+	 */
+	public String getDeviceKey() {
+		return deviceKey;
+	}
+
+	/**
+	 * @param deviceKey the deviceKey to set
+	 */
+	public void setDeviceKey(String deviceKey) {
+		this.deviceKey = deviceKey;
+	}
+
+	/**
 	 * @return the content
 	 */
 	public String getContent() {
@@ -152,20 +181,6 @@ public class SmsInfo extends BaseModel{
 	}
 
 	/**
-	 * @return the sendDate
-	 */
-	public Date getSendTime() {
-		return sendTime;
-	}
-
-	/**
-	 * @param sendDate the sendDate to set
-	 */
-	public void setSendDate(Date sendTime) {
-		this.sendTime = sendTime;
-	}
-	
-	/**
 	 * @return the cntFlag
 	 */
 	public Integer getCntFlag() {
@@ -180,10 +195,45 @@ public class SmsInfo extends BaseModel{
 	}
 
 	/**
+	 * @return the sendTime
+	 */
+	public Date getSendTime() {
+		return sendTime;
+	}
+
+	/**
 	 * @param sendTime the sendTime to set
 	 */
 	public void setSendTime(Date sendTime) {
 		this.sendTime = sendTime;
+	}
+
+	/**
+	 * @return the validUntil
+	 */
+	public Date getValidUntil() {
+		return validUntil;
+	}
+
+	/**
+	 * @param validUntil the validUntil to set
+	 */
+	public void setValidUntil(Date validUntil) {
+		this.validUntil = validUntil;
+	}
+
+	/**
+	 * @return the useTime
+	 */
+	public Date getUseTime() {
+		return useTime;
+	}
+
+	/**
+	 * @param useTime the useTime to set
+	 */
+	public void setUseTime(Date useTime) {
+		this.useTime = useTime;
 	}
 
 	/**

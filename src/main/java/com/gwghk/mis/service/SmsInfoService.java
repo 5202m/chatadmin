@@ -92,15 +92,8 @@ public class SmsInfoService {
 	 */
 	public ApiResult resend(String smsId){
 		ApiResult result = new ApiResult();
-		SmsInfo loc_sms = smsInfoDao.findSmsInfo(smsId);
-		result.setReturnObj(new Object[]{loc_sms});
-		if(loc_sms == null){
-			result.setCode(ResultCode.Error104);
-		}else{
-			//重发短信
-			boolean isOk = pmApiService.sendMsg(loc_sms.getMobilePhone(), loc_sms.getType(), loc_sms.getUseType(), loc_sms.getContent());
-			result.setCode(isOk ? ResultCode.OK : ResultCode.FAIL);
-		}
+		boolean isOk = pmApiService.resend(smsId);
+		result.setCode(isOk ? ResultCode.OK : ResultCode.FAIL);
 		return result;
 	}
 	
@@ -132,6 +125,7 @@ public class SmsInfoService {
 		loc_result.put("mobilePhone", loc_sms.getMobilePhone());
 		loc_result.put("type", loc_sms.getType());
 		loc_result.put("useType", loc_sms.getUseType());
+		loc_result.put("deviceKey", loc_sms.getDeviceKey());
 		SmsConfig loc_smsConfig = smsConfigService.findByType(loc_sms.getType(), loc_sms.getUseType());
 		if(loc_smsConfig != null && new Integer(1).equals(loc_smsConfig.getStatus())){
 			loc_result.put("cnt", loc_smsConfig.getCnt());
@@ -148,23 +142,28 @@ public class SmsInfoService {
 	
 	/**
 	 * 设置计数标记
-	 * @param mobile
+	 * @param mobilePhone
 	 * @param type
 	 * @param useType
+	 * @param deviceKey
 	 * @param startDate
 	 */
-	public ApiResult setCntFlag(String mobile, String type, String useType, String startDate){
+	public ApiResult setCntFlag(String mobilePhone, String type, String useType, String deviceKey, String startDate){
 		ApiResult result = new ApiResult();
-		if(StringUtils.isBlank(mobile) || StringUtils.isBlank(type) || StringUtils.isBlank(useType) || StringUtils.isBlank(startDate)){
+		if(StringUtils.isBlank(mobilePhone) || StringUtils.isBlank(type) || StringUtils.isBlank(useType) || StringUtils.isBlank(startDate)){
 			result.setCode(ResultCode.Error103);
 		}
 		else{
 			Date loc_startDate = DateUtil.parseDateFormat(startDate, DateUtil.FORMAT_YYYYDDMMHHMMSS);
 			Criteria criteria = Criteria.where("cntFlag").is(1);
-			criteria.and("mobilePhone").is(mobile);
 			criteria.and("type").is(type);
 			criteria.and("useType").is(useType);
 			criteria.and("sendTime").gte(loc_startDate);
+			if (StringUtils.isNotBlank(deviceKey)) {
+				criteria.orOperator(Criteria.where("mobilePhone").is(mobilePhone), Criteria.where("deviceKey").is(deviceKey));
+			}else{
+				criteria.and("mobilePhone").is(mobilePhone);
+			}
 			smsInfoDao.setCntFlag(new Query(criteria));
 			result.setCode(ResultCode.OK);
 		}

@@ -150,24 +150,30 @@ public class PmApiService{
   			logger.error("delTokenAccess fail!", e);
   			return false;
   		}
-      }
-      
+	}
+
 	/**
 	 * 发送短信
 	 * 
-	 * @param mobilePhone
+	 * @param type
 	 * @param useType
+	 * @param mobilePhone
 	 * @param content
+	 * @param ip
+	 * @param validTime
 	 * @return
 	 */
-	public boolean sendMsg(String mobilePhone, String type, String useType, String content) {
+	public boolean sendMsg(String type, String useType, String mobilePhone, String content, String ip, long validTime) {
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("mobile", mobilePhone);
 		paramMap.put("type", type);
 		paramMap.put("useType", useType);
 		paramMap.put("content", content);
+		paramMap.put("deviceKey", ip);
+		paramMap.put("validTime", String.valueOf(validTime));
 		try {
-			String str = HttpClientUtils.httpGetString(formatUrl(ApiDir.sms, "send"), paramMap);
+			String str = HttpClientUtils.httpPostString(formatUrl(ApiDir.sms, "send"), paramMap);
+			logger.info("<<API-sendMsg() : " + str);
 			if (StringUtils.isNotBlank(str)) {
 				JSONObject obj = JSON.parseObject(str);
 				return obj.getIntValue("result") == 0;
@@ -177,7 +183,32 @@ public class PmApiService{
 			}
 		}
 		catch (Exception e) {
-			logger.error("send message fail!", e);
+			logger.error("短信发送失败!", e);
+			return false;
+		}
+	}
+	
+	/**
+	 * 短信重新
+	 * @param smsId
+	 * @return
+	 */
+	public boolean resend(String smsId){
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("smsId", smsId);
+		try {
+			String str = HttpClientUtils.httpPostString(formatUrl(ApiDir.sms, "resend"), paramMap);
+			logger.info("<<API-resend() : " + str);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getIntValue("result") == 0;
+			}
+			else {
+				return false;
+			}
+		}
+		catch (Exception e) {
+			logger.error("重发短信失败!", e);
 			return false;
 		}
 	}
