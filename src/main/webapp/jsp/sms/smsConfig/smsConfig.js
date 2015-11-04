@@ -106,7 +106,7 @@ var smsConfig = {
 			return "";
 		}
 		var loc_obj = smsConfig.dicts[key];
-		return loc_obj.hasOwnProperty(value) ? loc_obj[value] : "";
+		return loc_obj.hasOwnProperty(value) ? loc_obj[value] : (value || "");
 	},
 	
 	/**

@@ -114,7 +114,7 @@ var smsInfo = {
 			return "";
 		}
 		var loc_obj = smsInfo.dicts[key];
-		return loc_obj.hasOwnProperty(value) ? loc_obj[value] : "";
+		return loc_obj.hasOwnProperty(value) ? loc_obj[value] : (value || "");
 	},
 	
 	/**
