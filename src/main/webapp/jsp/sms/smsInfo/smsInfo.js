@@ -34,7 +34,6 @@ var smsInfo = {
 	initGrid : function(){
 		goldOfficeUtils.dataGrid({
 			gridId : smsInfo.gridId,
-			singleSelect : false,
 			idField:"smsId",
 			sortName : 'smsId',
 			sortOrder : "desc",
