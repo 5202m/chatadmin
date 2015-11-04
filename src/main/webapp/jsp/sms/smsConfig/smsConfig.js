@@ -219,7 +219,6 @@ var smsConfig = {
 	del : function(item){
 		var loc_smsCfgId = $(item).siblings("input").val();
 		var url = formatUrl(basePath + '/smsConfig/delete.do');
-		alert(loc_smsCfgId);
 		goldOfficeUtils.deleteOne(smsConfig.gridId, loc_smsCfgId, url, "确认删除吗？");
 	}
 };
