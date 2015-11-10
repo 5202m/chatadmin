@@ -1,11 +1,15 @@
 package com.gwghk.mis.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -18,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
+import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BindPlatForm;
@@ -31,8 +37,12 @@ import com.gwghk.mis.model.Member;
 import com.gwghk.mis.service.FinanceUserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.ExcelUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
+import com.sdk.orm.DataRowSet;
+import com.sdk.orm.IRow;
+import com.sdk.poi.POIExcelBuilder;
 
 /**
  * 投资社区--成员管理<BR>
@@ -278,6 +288,71 @@ public class FinanceUserController extends BaseController {
     	map.addAttribute("memberId", memberId);
     	return "finance/financeUser/financeUserResetPwd";
     }
+    
+    /**
+	 * 功能：导出聊天记录(以模板的方式导出)
+	 */
+	@RequestMapping(value = "/financeUserController/export", method = RequestMethod.GET)
+	@ActionVerification(key="export")
+	public void export(HttpServletRequest request, HttpServletResponse response
+					  ,FinancePlatForm financeUser, DetachedCriteria<Member> dCriteria, String memberId, String mobilephone){
+		try{
+			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.FINANCEUSER_RECORDS_TEMPLATE_PATH)));
+			DataGrid dataGrid = new DataGrid();
+			dataGrid.setPage(0);
+			dataGrid.setRows(0);
+			dataGrid.setSort("memberId");
+			dataGrid.setOrder("desc");
+			Page<Member> page = financeUserService.getFinanceUsers(financeUser, this.createDetachedCriteria(dataGrid, new Member()), memberId, mobilephone);
+			List<Member>  memberList = page.getCollection();
+			if(memberList != null && memberList.size() > 0){
+				DataRowSet dataSet = new DataRowSet();
+				for(Member cm : memberList){
+					FinancePlatForm pf = cm.getLoginPlatform().getFinancePlatForm();
+					IRow row = dataSet.append();
+					row.set("memberId", cm.getMemberId());
+					row.set("mobilePhone", cm.getMobilePhone());
+					if(pf != null){
+						row.set("nickName", pf.getNickName());
+						row.set("realName", pf.getRealName());
+						row.set("sex",  pf.getSex() == 0 ? "男" : "女");
+						List<BindPlatForm> bindPlatFormList = pf.getBindPlatformList();
+						if(bindPlatFormList != null && bindPlatFormList.size() > 0){
+							for(BindPlatForm bf : bindPlatFormList){//1:QQ 2：微信  3：新浪微博
+								if(bf.getType() == 1){
+									row.set("bindPlatformQQ", bf.getBindAccountNo());
+								}else if(bf.getType() == 2){
+									row.set("bindPlatformWeiChat", bf.getBindAccountNo());
+								}else if(bf.getType() == 3){
+									row.set("bindPlatformMicroBlog", bf.getBindAccountNo());
+								}
+							}
+						}
+						if(pf.getUserGroup() == 1){ //{"1": "普通用户","2": "分析师","3": "系统"}
+							row.set("userGroup", "普通用户");
+						}else if(pf.getUserGroup() == 2){
+							row.set("userGroup", "分析师");
+						}else if(pf.getUserGroup() == 3){
+							row.set("userGroup", "系统");
+						}
+						row.set("isRecommend", pf.getIsRecommend() != null && pf.getIsRecommend() == 1 ? "是" : "否");
+						row.set("registerDate", DateUtil.getDateDayFormat(pf.getRegisterDate()));
+						row.set("isGag", pf.getIsGag() != null && pf.getIsGag() == 1 ? "是" : "否");
+						row.set("isBack", pf.getIsBack() != null && pf.getIsBack() == 1 ? "是" : "否");
+						row.set("status", pf.getStatus() != null && pf.getStatus() == 1 ? "有效" : "无效");
+					}
+				}
+				builder.put("rowSet",dataSet);
+			}else{
+				builder.put("rowSet",new DataRowSet());
+			}
+			builder.parse();
+			ExcelUtil.wrapExcelExportResponse("成员管理记录", request, response);
+			builder.write(response.getOutputStream());
+		}catch(Exception e){
+			logger.error("<<method:export()|financeUser export error!",e);
+		}
+	}
     
     /**
   	* 功能：投资社区--成员管理--保存重设密码

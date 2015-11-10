@@ -97,6 +97,7 @@
    <!-- datagrid-toolbar -->
   <div id="finance_financeUser_datagrid_toolbar" style="display:none;">
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="financeFinanceUser.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a> 
+    <a class="easyui-linkbutton export" data-options="plain:true,iconCls:'ope-export',disabled:false"  onclick="financeFinanceUser.export();">导出</a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="financeFinanceUser.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
   </div> 
   
