@@ -66,7 +66,7 @@ public class ChatGroupService{
 	 * 保存房间
 	 * @param chatGroupParam
 	 * @param isUpdate
-	 * @param isUpdateDefaultAnalyst
+	 * @param isUpdateDefaultAnalyst  是否修改默认分析师,同时会修改聊天规则
 	 * @return
 	 */
 	public ApiResult saveChatGroup(ChatGroup chatGroupParam, boolean isUpdate, boolean isUpdateDefaultAnalyst) {
@@ -104,8 +104,8 @@ public class ChatGroupService{
         			}
         		}
     			group.setDefaultAnalyst(analyst);
+    			setGroupRule(group);
     		}
-    		setGroupRule(group);
     		roleDao.updateRoleChatGroup(group);
     		chatGroupDao.update(group);
     	}else{
