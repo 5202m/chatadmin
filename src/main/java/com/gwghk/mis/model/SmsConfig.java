@@ -33,9 +33,14 @@ public class SmsConfig extends BaseModel{
 	private String cycle;
 	
 	/**
-	 * 重新发送次数
+	 * 允许发送次数
 	 */
 	private Integer cnt;
+	
+	/**
+	 * 验证码有效时间
+	 */
+	private Long validTime;
 	
 	/**
 	 * 是否有效 1-有效、0-无效
@@ -115,6 +120,20 @@ public class SmsConfig extends BaseModel{
 	 */
 	public void setCnt(Integer cnt) {
 		this.cnt = cnt;
+	}
+	
+	/**
+	 * @return the validTime
+	 */
+	public Long getValidTime() {
+		return validTime;
+	}
+
+	/**
+	 * @param validTime the validTime to set
+	 */
+	public void setValidTime(Long validTime) {
+		this.validTime = validTime;
 	}
 
 	/**

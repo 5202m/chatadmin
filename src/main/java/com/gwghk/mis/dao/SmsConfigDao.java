@@ -83,6 +83,7 @@ public class SmsConfigDao extends MongoDBBaseDao {
 		loc_update.set("updateDate", new Date());
 		
 		loc_update.set("status", smsConfig.getStatus());
+		loc_update.set("validTime", smsConfig.getValidTime());
 		loc_update.set("cnt", smsConfig.getCnt());
 		loc_update.set("cycle", smsConfig.getCycle());
 		
