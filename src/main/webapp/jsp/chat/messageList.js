@@ -35,6 +35,9 @@ var chatMessage = {
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							return rowData.nickname+"【"+rowData.userId+"】";
 						}},
+						{title : '头像',field : 'avatar', formatter : function(value, rowData, rowIndex) {
+							return !value ? value : '<img style="height:30px;background-color: #D0D0D0;" src="' + value + '">';
+						}},
 						{title : '信息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.content.msgType;
 							if(type=='text'){
