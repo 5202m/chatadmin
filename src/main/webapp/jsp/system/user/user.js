@@ -156,6 +156,21 @@ var systemUser = {
 						}
 					});
 				}
+			},
+			onLoad : function(){
+				var avatarSrc=$("#currentAvatarPath").val();
+				var loc_defaultFlag = false;
+				if(isValid(avatarSrc)){
+					$("#user_header_default div img").each(function(){
+						if(this.src==avatarSrc){
+							$("#user_header_default div input[name=defaultHeader][t="+$(this).attr("t")+"]").click();
+							loc_defaultFlag = true;
+						}
+					});
+					if(!loc_defaultFlag){
+						$("#user_header_tab").tabs("select", "本地上传");
+					}
+				}
 			}
 		});
 	},

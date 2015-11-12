@@ -40,14 +40,6 @@ $(function() {
 	$("#user_header_default div input[name=defaultHeader]").click(function(){
 		$("#currentAvatarPath").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
 	});
-	var avatarSrc=$("#currentAvatarPath").val();
-	if(isValid(avatarSrc)){
-		$("#user_header_default div img").each(function(){
-			if(this.src==avatarSrc){
-				$("#user_header_default div input[name=defaultHeader][t="+$(this).attr("t")+"]").click();
-			}
-		});
-	}
 	
 	//简介图片
 	goldOfficeUtils.uploadFile({
