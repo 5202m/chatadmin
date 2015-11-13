@@ -53,7 +53,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			return true;
 		} else {
 			if (ContextHolderUtils.getSession().getAttribute(ContextHolderUtils.getSessionId()) != null
-					|| requestPath.contains("uploadController/uploadImage.do")) {
+			           || (requestPath.contains("uploadController/upload.do") && ContextHolderUtils.getSessionId() != null)) {
 				return actionAuth(request,response,handler);
 			} else {
 				//response.sendRedirect(request.getContextPath()+"/jsp/login/timeout.jsp");
