@@ -47,6 +47,9 @@ var appVersion = {
 							}else{
 								return '非强制更新';
 							}
+						}},
+						{title : '创建时间',field : 'createDate',formatter : function(value, rowData, rowIndex) {
+							return value ? timeObjectUtil.formatterDate(value) : '';
 						}}
 			]],
 			toolbar : '#appVersion_datagrid_toolbar'
