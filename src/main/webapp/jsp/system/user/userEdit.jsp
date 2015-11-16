@@ -179,6 +179,10 @@ $(function() {
             </div>
         </td>
       </tr>
+      <tr>
+        <th>备注</th>
+        <td colspan="3"><input type="text" name="remark" size="100" value="${mngUser.remark }"/></td>
+      </tr>
     </table>
     <input type="hidden" name="userId" value="${mngUser.userId}"/>
   </form>

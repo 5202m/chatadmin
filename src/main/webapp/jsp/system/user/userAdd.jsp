@@ -180,6 +180,10 @@ $(function() {
             </div>
         </td>
       </tr>
+      <tr>
+        <th>备注</th>
+        <td colspan="3"><input type="text" name="remark" size="100"/></td>
+      </tr>
     </table>
   </form>
 </div>

@@ -49,6 +49,7 @@ var systemUser = {
 						{title : $.i18n.prop("user.logintime"),field : 'loginDate',sortable : true,formatter : function(value, rowData, rowIndex) {/**登录时间*/
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
+						{title : "备注", field : 'remark'},
 						{title : $.i18n.prop("user.loginip"),field : 'loginIp'}, 					  	/**登录IP*/
 						{title : $.i18n.prop("user.logintimes"),field : 'loginTimes',sortable : true}  /**登录次数*/
 			]],
