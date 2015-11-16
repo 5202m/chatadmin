@@ -25,6 +25,7 @@ var appVersion = {
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
 							$("#appVersion_datagrid_rowOperation a").each(function(){
 								$(this).attr("id",rowData.appVersionId);
+								$(this).attr("appPath",rowData.appPath);
 						    });
 							return $("#appVersion_datagrid_rowOperation").html();
 						}},
@@ -39,6 +40,7 @@ var appVersion = {
 						}},
 			            {title : '版本号',field : 'versionNo'},	
 			            {title : '版本名称',field : 'versionName'},
+			            {title : 'APP下载的路径',field : 'appPath',hidden:true},
 						{title : '是否强制更新',field : 'isMustUpdate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							if(value == 1) {
 								return '非强制更新';
@@ -130,6 +132,12 @@ var appVersion = {
 		$("#appVersion_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/appVersionController/oneDel.do');
 		goldOfficeUtils.deleteOne('appVersion_datagrid',recordId,url);
+	},
+	/**
+	 * 功能：下载应用包
+	 */
+	download : function(obj){
+		window.location.href = $(obj).attr("appPath");
 	},
 	/**
 	 * 功能：返回到主列表页面
