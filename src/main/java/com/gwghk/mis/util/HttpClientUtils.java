@@ -33,12 +33,22 @@ public class HttpClientUtils {
 	
 	private static final Logger logger = Logger.getLogger(HttpClientUtils.class);
 	
-	private static HttpClient client;
+	static final HttpClient client = new HttpClient();  
+    static final MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();  
 	
 	public static HttpClient getHttpClient(){
-		if(client == null){
-			client = new HttpClient(new MultiThreadedHttpConnectionManager());	
-		}
+		//设置 默认单个域名最大连接数
+		connectionManager.getParams().setDefaultMaxConnectionsPerHost(32);
+		//默认最大总连接数
+		connectionManager.getParams().setMaxTotalConnections(256);
+		//设置连接超时时间(单位毫秒) 
+		connectionManager.getParams().setConnectionTimeout(5000);
+        //设置读数据超时时间(单位毫秒) 
+		connectionManager.getParams().setSoTimeout(15000);
+        
+		//设置连接池
+		client.setHttpConnectionManager(connectionManager);
+       
 		return client;
 	}
 	
