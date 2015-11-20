@@ -596,6 +596,12 @@ $.extend($.fn.validatebox.defaults.rules, {
 				},
 				message : '用户名不合法（字母开头，允许6-16字节，允许字母数字下划线）'
 			},
+			userno : {// 验证用户编号
+				validator : function(value) {
+					return /^[a-zA-Z][a-zA-Z0-9_]{1,15}$/i.test(value);
+				},
+				message : '账号不合法（字母开头，允许2-16字节，允许字母数字下划线）'
+			},
 			faxno : {// 验证传真
 				validator : function(value) {
 					return /^((\(\d{2,3}\))|(\d{3}\-))?(\(0\d{2,3}\)|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(value);
