@@ -72,7 +72,7 @@ $(function() {
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
         <th width="15%"><spring:message code="user.no" /><!-- 账号 --><span class="red">*</span></th>
-        <td width="35%"><input type="text" name="userNo" id="userNo" class="easyui-validatebox" 
+        <td width="35%"><input type="text" name="userNo" id="userNo" readonly="readonly" class="easyui-validatebox" 
 		          	    data-options="required:true,validType:'userno',missingMessage:'<spring:message code="user.valid.no" />'" value="${mngUser.userNo}"/></td>
         <th width="15%"><spring:message code="user.name" /><!-- 姓名 --><span class="red">*</span></th>
         <td width="35%"><input type="text" name="userName" id="userName" class="easyui-validatebox" 

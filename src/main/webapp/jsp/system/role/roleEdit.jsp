@@ -5,7 +5,7 @@
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
 	      <tr>
 	        <th width="15%"><spring:message code="role.roleno" /><!-- 角色编号 --><span class="red">*</span></th>
-	        <td width="35%"><input type="text" name="roleNo" id="roleNo" class="easyui-validatebox" 
+	        <td width="35%"><input type="text" name="roleNo" id="roleNo" readonly="readonly" class="easyui-validatebox" 
 		          	    data-options="required:true,missingMessage:'<spring:message code="role.valid.rolenorequire" />'" value="${mngRole.roleNo}"/></td>
 	        <th width="15%"><spring:message code="role.rolename" /><!-- 角色名称 --><span class="red">*</span></th>
 	        <td width="35%"><input type="text" name="roleName" id="roleName" class="easyui-validatebox" 
