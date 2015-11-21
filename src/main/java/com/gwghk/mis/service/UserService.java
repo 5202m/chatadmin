@@ -46,9 +46,10 @@ public class UserService{
 	@SystemServiceLog(description = "登录验证")
 	public ApiResult login(BoUser userParam){
 		ApiResult result = new ApiResult();
-		Criteria criatira=new Criteria();
-		criatira.andOperator(Criteria.where("userNo").is(userParam.getUserNo()),
-				Criteria.where("password").is(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword())));
+		Criteria criatira=Criteria.where("status").is(0);
+		criatira.and("valid").is(1);
+		criatira.and("userNo").is(userParam.getUserNo());
+		criatira.and("password").is(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword()));
 		List<BoUser> userList = userDao.getUserList(new Query(criatira));
 		if(userList == null || userList.size() == 0){      //先是否通过用户名和密码的验证
 			result.setMsg(ResultCode.Error1006);

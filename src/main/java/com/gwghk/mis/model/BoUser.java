@@ -66,12 +66,12 @@ public class BoUser extends BaseModel{
 	private Date loginDate;
 
 	/**
-     * 是否删除
+     * 是否删除 1-未删除  0-已删除
      */
 	private Integer valid;
 
 	/**
-     * 状态
+     * 状态 1-无效 0-有效
      */
 	private Integer status;
 
