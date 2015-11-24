@@ -88,7 +88,7 @@ public class LoginController extends BaseController{
 			ajaxResult.setSuccess(false);
             return ajaxResult;
 		}
-		mngUser.setLoginIp(req.getRemoteAddr());
+		mngUser.setLoginIp(IPUtil.getClientIP(req));
 		ApiResult result = userService.login(mngUser);
 		if(result != null && result.isOk()){
 			// 更新用户信息(如IP、登录时间、登录次数)，保存当前登录用户,并写入登录日志
