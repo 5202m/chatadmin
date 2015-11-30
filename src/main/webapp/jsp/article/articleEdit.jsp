@@ -5,6 +5,9 @@
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.all.js"> </script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/article/articleEdit.js" charset="UTF-8"></script>
+<script type="text/javascript">
+articleEdit.filePath='${filePath}';
+</script>
 <!-- 文章基本信息 -->
 <div>
    <form id="articleBaseInfoForm" class="yxForm" method="post">
@@ -87,7 +90,7 @@
 	      </tr>
 	       <tr>
 			<th>作者</th>
-        	<td><input type="text" name="author" value="${articleDetail.author}" style="width:600px"/></td>
+        	<td><input type="hidden" name="author" value="${articleDetail.author}"/><select name="authorAvatar" style="width:280px;"></select></td>
            </tr>
            <tr>
 	       <tr>

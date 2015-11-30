@@ -5,6 +5,9 @@
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.all.js"> </script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/article/articleAdd.js" charset="UTF-8"></script>
+<script type="text/javascript">
+articleAdd.filePath='${filePath}';
+</script>
 <!-- 文章基本信息 -->
 <div>
    <form id="articleBaseInfoForm" class="yxForm" method="post">

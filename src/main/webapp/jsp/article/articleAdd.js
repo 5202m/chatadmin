@@ -4,11 +4,40 @@
  * @date   2015/03/19
  */
 var articleAdd = {
+	filePath:'',	
 	init : function(){
 		this.setEvent();
 	},
 	setEvent:function(){
 		this.setLangCheck();
+	},
+	setAuthorList:function(id){
+		$('#'+id).combogrid({
+		    idField:'name',
+		    textField:'name',
+		    url:basePath+'/js/authorList.json',
+		    columns:[[
+		        {field : 'name',title : '姓名',width:100},
+		        {field : 'avatar1',title : '头像(51*51)',width:72,formatter : function(value, rowData, rowIndex) {
+		        	if(isBlank(value)){
+		        		return '';
+		        	}
+		        	var av=articleAdd.filePath+'/upload/pic/header/chat/201508/'+value;
+					return '<input type="radio" name="avatar_radio_'+rowIndex+'" value="'+av+'"/><img src="'+av+'"/>';
+				}},
+				{field : 'avatar2',title : '头像(61*61)',width:72,formatter : function(value, rowData, rowIndex) {
+					if(isBlank(value)){
+		        		return '';
+		        	}
+					var av=articleAdd.filePath+'/upload/pic/header/chat/201508/'+value;
+					return '<input type="radio" name="avatar_radio_'+rowIndex+'" value="'+av+'"/><img src="'+av+'"/>';
+				}}
+		    ]],
+		    onSelect:function(rowIndex, rowData){
+		    	var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
+		    	$('form[name=articleDetailForm] input[name=author]').val(rowData.name+";"+avatarTmp);
+		    }
+		}); 
 	},
 	/**
 	 * 设置勾选语言，显示文章信息
@@ -27,12 +56,16 @@ var articleAdd = {
 	                  selected: true,
 	                  content:$("#articleDetailTemp").html()
 		         });
+		    	
 			     $(tabTid+" td[tid=content]").html('<script id="'+editorId+'" name="content" type="text/plain" style="width:auto;height:auto;"></script>');
 			     UE.getEditor(editorId,{
 				  		initialFrameWidth : '100%',
 				  		initialFrameHeight:'200'
 			  	  });
 			     $(tabTid+" form[name=articleDetailForm] input[type=hidden][name=lang]").val(lang);
+			     var authorListId="authorList_"+lang;
+			     $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
+			     articleAdd.setAuthorList(authorListId);
 			}else{
 				 var hasVal=false;
 				 $(tabTid+" input[name!=lang]").each(function(){

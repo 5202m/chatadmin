@@ -43,6 +43,7 @@ import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.JsonUtil;
+import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -124,6 +125,7 @@ public class ArticleController extends BaseController{
     	DictConstant dict=DictConstant.getInstance();
     	map.put("dictConstant", dict);
     	map.put("dictMap", ResourceUtil.getDictListByLocale(new String[]{dict.DICT_USE_STATUS}));
+    	map.put("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     }
     
     /**

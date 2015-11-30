@@ -10,6 +10,58 @@ var articleEdit = {
 	setEvent:function(){
 		this.setEditor();
 		this.setLangCheck();
+		//加载页面时设置作者列表
+		$("#articleBaseInfoForm input[id^=checkbox_lang_]").each(function(){
+			if(this.checked){
+				var title=$(this).attr("tv"),lang=this.value;
+				var tabId="article_detail_"+lang;
+				var tabTid="#"+tabId;
+				var authorListId="authorList_"+lang;
+			    $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
+			    articleEdit.setAuthorList(authorListId,true);
+			}
+		});
+	},
+	/**
+	 * 设置作者列表
+	 */
+	setAuthorList:function(id,isInit){
+		var authorVal=$('form[name=articleDetailForm] input[name=author]').val();
+		var avatar='',author='';
+		if(isValid(authorVal) && authorVal.indexOf(";")!=-1){
+			var varArr=authorVal.split(";");
+			author=varArr[0];
+			avatar=varArr[1];
+		}
+		$('#'+id).combogrid({
+		    idField:'name',
+		    textField:'name',
+		    value:author,
+		    url:basePath+'/js/authorList.json',
+		    columns:[[
+		        {field : 'name',title : '姓名',width:100},
+		        {field : 'avatar1',title : '头像(51*51)',width:72,formatter : function(value, rowData, rowIndex) {
+		        	if(isBlank(value)){
+		        		return '';
+		        	}
+		        	var av=articleEdit.filePath+'/upload/pic/header/chat/201508/'+value;
+					return '<input type="radio" name="avatar_radio_'+rowIndex+'" '+(avatar==av?'checked':'')+' value="'+av+'"/><img src="'+av+'"/>';
+				}},
+				{field : 'avatar2',title : '头像(61*61)',width:72,formatter : function(value, rowData, rowIndex) {
+					if(isBlank(value)){
+		        		return '';
+		        	}
+					var av=articleEdit.filePath+'/upload/pic/header/chat/201508/'+value;
+					return '<input type="radio" name="avatar_radio_'+rowIndex+'" '+(avatar==av?'checked':'')+' value="'+av+'"/><img src="'+av+'"/>';
+				}}
+		   ]],
+		   onSelect:function(rowIndex, rowData){
+			   if(!isInit){//非点击语言checkbox触发的无需触发一下代码
+				   var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
+				   $('form[name=articleDetailForm] input[name=author]').val(rowData.name+";"+avatarTmp);
+			   }
+		   }
+		}); 
 	},
 	/**
 	 * 设置勾选语言，显示文章信息
@@ -33,6 +85,9 @@ var articleEdit = {
 				  		initialFrameHeight:'200'
 			  	  });
 			     $(tabTid+" form[name=articleDetailForm] input[type=hidden][name=lang]").val(lang);
+			     var authorListId="authorList_"+lang;
+			     $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
+			     articleEdit.setAuthorList(authorListId);
 			}else{
 				 var hasVal=false;
 				 $(tabTid+" input[name]").each(function(){
@@ -105,6 +160,7 @@ var articleEdit = {
 		if(this.checkForm() && $("#articleDetailForm").form('validate')){
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
+			alert(detaiInfo);
 			$.messager.progress();//提交时，加入进度框
 			var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 			getJson(formatUrl(basePath + '/articleController/update.do'),submitInfo,function(data){
