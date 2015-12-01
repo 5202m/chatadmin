@@ -34,8 +34,13 @@ var articleAdd = {
 				}}
 		    ]],
 		    onSelect:function(rowIndex, rowData){
-		    	var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
-		    	$('form[name=articleDetailForm] input[name=author]').val(rowData.name+";"+avatarTmp);
+		       var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
+			   if(isValid(avatarTmp)){
+				   avatarTmp=";"+avatarTmp;
+			   }else{
+				   avatarTmp=''; 
+			   }
+			   $('form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
 		    }
 		}); 
 	},

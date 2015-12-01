@@ -28,10 +28,14 @@ var articleEdit = {
 	setAuthorList:function(id,isInit){
 		var authorVal=$('form[name=articleDetailForm] input[name=author]').val();
 		var avatar='',author='';
-		if(isValid(authorVal) && authorVal.indexOf(";")!=-1){
-			var varArr=authorVal.split(";");
-			author=varArr[0];
-			avatar=varArr[1];
+		if(isValid(authorVal)){
+			if(authorVal.indexOf(";")!=-1){
+				var varArr=authorVal.split(";");
+				author=varArr[0];
+				avatar=varArr[1];
+			}else{
+				author=authorVal;
+			}
 		}
 		$('#'+id).combogrid({
 		    idField:'name',
@@ -58,7 +62,14 @@ var articleEdit = {
 		   onSelect:function(rowIndex, rowData){
 			   if(!isInit){//非点击语言checkbox触发的无需触发一下代码
 				   var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
-				   $('form[name=articleDetailForm] input[name=author]').val(rowData.name+";"+avatarTmp);
+				   if(isValid(avatarTmp)){
+					   avatarTmp=";"+avatarTmp;
+				   }else{
+					   avatarTmp=''; 
+				   }
+				   $('form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
+			   }else{
+				   isInit=false; 
 			   }
 		   }
 		}); 
@@ -160,7 +171,6 @@ var articleEdit = {
 		if(this.checkForm() && $("#articleDetailForm").form('validate')){
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
-			alert(detaiInfo);
 			$.messager.progress();//提交时，加入进度框
 			var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 			getJson(formatUrl(basePath + '/articleController/update.do'),submitInfo,function(data){
