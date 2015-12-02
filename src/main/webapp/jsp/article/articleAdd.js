@@ -40,7 +40,8 @@ var articleAdd = {
 			   }else{
 				   avatarTmp=''; 
 			   }
-			   $('form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
+			   var lang=id.replace("authorList_","");
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
 		    }
 		}); 
 	},
@@ -126,10 +127,31 @@ var articleAdd = {
 		return isPass;
 	},
 	/**
+	 * 清除无效的作者值
+	 */
+	checkClearAuthor:function(){
+		$("input[type=hidden][name^=authorList_]").each(function(){
+			 var lang=this.name.replace("authorList_","");
+			 var authorDom=$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]');
+			 if(isBlank(this.value)){
+				 authorDom.val('');
+			 }else{
+				 if(isBlank(authorDom.val())){
+					 authorDom.val(this.value);
+				 }else{
+					 if(this.value!=authorDom.val().split(";")[0]){
+						 authorDom.val(this.value);
+					 }
+				 }
+			 }
+		});
+	},
+	/**
 	 * 功能：新增时保存
 	 */
 	onSaveAdd : function(){
 		if(this.checkForm() && $("#articleDetailForm").form('validate')){
+			this.checkClearAuthor();//清除无效的作者值
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
 			$.messager.progress();//提交时，加入进度框
