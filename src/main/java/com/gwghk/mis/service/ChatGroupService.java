@@ -83,7 +83,7 @@ public class ChatGroupService{
     		//有效-->无效、在开放时间-->不在开放时间的情况，需要通知API leaveRoom
     		if((new Integer(1).equals(group.getStatus()) && new Integer(0).equals(chatGroupParam.getStatus()))
     				|| (DateUtil.dateTimeWeekCheck(group.getOpenDate(), true) && DateUtil.dateTimeWeekCheck(chatGroupParam.getOpenDate(), true) == false)){
-    			chatApiService.leaveRoom(chatGroupParam.getId());
+    			chatApiService.leaveRoom(chatGroupParam.getId(),"");
     		}
     		BeanUtils.copyExceptNull(group, chatGroupParam);
     		if(isUpdateDefaultAnalyst){
@@ -157,7 +157,7 @@ public class ChatGroupService{
     	boolean isSuccess = chatGroupDao.softDelete(ChatGroup.class,ids);
     	if(isSuccess){
     		roleDao.deleteRoleChatGroup(ids);
-    		chatApiService.leaveRoom(StringUtils.join(ids, ","));
+    		chatApiService.leaveRoom(StringUtils.join(ids, ","),"");
     	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
@@ -221,6 +221,13 @@ public class ChatGroupService{
 	 */
 	public List<ChatGroup> findGroupList(Object[] groupIdArr){
 		 return chatGroupDao.findGroupList(groupIdArr);
+	}
+	
+	/**
+	 * 功能： 根据groupType --> 查询组列表
+	 */
+	public List<ChatGroup> findByGroupType(String groupType){
+		 return chatGroupDao.findByGroupType(groupType);
 	}
 	
 	/**

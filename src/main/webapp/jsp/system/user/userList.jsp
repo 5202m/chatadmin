@@ -54,6 +54,7 @@
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="systemUser.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="systemUser.batchDel();"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="systemUser.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
+    <a class="easyui-linkbutton exitRoom" data-options="plain:true,iconCls:'ope-cancel',disabled:false"   onclick="systemUser.exitChatRoom();">退出房间</a>
   </div> 
   
   <!-- datagrid-操作按钮 -->

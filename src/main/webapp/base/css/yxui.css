@@ -248,7 +248,7 @@ body {
 	border-radius: 5px; /*box-shadow :3px 3px 4px #999;
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color="#999999");*/
 }
-/*----------form闂傚倷娴囧畷鐢稿磻閻愮數鐭欓煫鍥ㄧ☉缁�澶愭倶閻愬灚娅曢柡鍡畵閺屻劑鎮ら崒娑橆伓----------
+/*----------form闂傚倸鍊峰ù鍥х暦閻㈢纾婚柣鎰暩閻瑩鐓崶銊р槈缂侊拷婢舵劖鍊堕柣鎰仛濞呮洟鏌￠崱顓犵暤闁哄被鍔戦幃銈夊磼濞戞﹩浼�----------
 table, td, tr {
 	font-size: 12px;
 }
@@ -1067,10 +1067,10 @@ color:#FF0000;
 	position:absolute;top:22px;left:32%
 }
 
-/*--------------閺夊啴妾洪幒褍鍩楁い鐢告桨閺勫墽銇氱拋鍓х枂----------------*/
+/*--------------权限按钮显示处理----------------*/
 .noValidAuthority{
 	display: block;
 }
-.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,.setGagTime,.userSetting,.export,.redo,.undo,.recommand,.approve_chat_pass,.approve_chat_reject,.reply,.push,.start,.stop{
+.add,.delete,.batchDel,.edit,.view,.resetPwd,.assignUser,.assignChatGroup,.assignApp,.setGagTime,.userSetting,.export,.redo,.undo,.recommand,.approve_chat_pass,.approve_chat_reject,.reply,.push,.start,.stop,.exitRoom{
 	display: none;
 }

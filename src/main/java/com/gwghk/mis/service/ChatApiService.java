@@ -76,12 +76,15 @@ public class ChatApiService{
     
     /**
      * 离开房间
-     * @param groupId 房间ID,如果存在多个，中间用逗号分隔
+     * @param groupIds 房间ID,如果存在多个，中间用逗号分隔
+     * @param groupIds
+     * @param userIds
      * @return
      */
-    public ApiResult leaveRoom(String groupId){
+    public ApiResult leaveRoom(String groupIds,String userIds){
     	Map<String, String> paramMap=new HashMap<String, String>();
-    	paramMap.put("groupId", groupId);
+    	paramMap.put("groupIds", groupIds);
+    	paramMap.put("userIds", userIds);
     	ApiResult api=new ApiResult();
     	try {
     		String str=HttpClientUtils.httpPostString(formatUrl("leaveRoom"),paramMap);

@@ -34,6 +34,7 @@ import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
+import com.gwghk.mis.service.ChatApiService;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
@@ -64,6 +65,8 @@ public class ChatUserController extends BaseController{
 	private ChatGroupService chatGroupService;
 	@Autowired
 	private ChatClientGroupService chatClientGroupService;
+	@Autowired
+	private ChatApiService chatApiService;
 
 	/**
 	 * 格式成树形列表
@@ -87,6 +90,60 @@ public class ChatUserController extends BaseController{
     		}
     	}
     	return nodeList;
+	}
+	
+	/**
+	 * 功能：聊天室内容管理-首页
+	 */
+	@RequestMapping(value = "/chatUserController/toExitRoom", method = RequestMethod.GET)
+	public  String  toExitRoom(HttpServletRequest request,ModelMap map){
+		DictConstant dict=DictConstant.getInstance();
+    	map.put("userIds", request.getParameter("userIds"));
+    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+		logger.debug(">>start into chatUserController.toExitRoom() and url is /chatUserController/toExitRoom.do");
+		return "chat/exitRoom";
+	}
+	
+	/**
+	 * 强制离开房间
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/chatUserController/exitRoom",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="exitRoom")
+    public AjaxJson exitRoom(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String userIds = request.getParameter("userIds"),chatUserRoomId = request.getParameter("chatUserRoomId");
+		if(StringUtils.isBlank(userIds)||StringUtils.isBlank(chatUserRoomId)){
+			j.setSuccess(false);
+			j.setMsg("输入参数有误，请检查！");
+			return j;
+		}
+		if(chatUserRoomId.endsWith(",")){//逗号结尾为房间大类
+			List<ChatGroup> list=chatGroupService.findByGroupType(chatUserRoomId.replace(",",""));
+			ArrayList<String> roomIdList=new ArrayList<String>();
+			for(ChatGroup row :list){
+				roomIdList.add(row.getId());
+				chatUserRoomId=StringUtils.join(roomIdList, ",");
+			}
+		}
+		ApiResult apiResult = chatApiService.leaveRoom(chatUserRoomId,userIds);
+		if(apiResult.isOk()){
+			j.setSuccess(true);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置退出房间成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:exitRoom()|"+message);
+		}else{
+			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(apiResult.getCode()));
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置退出房间失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:exitRoom()|"+message+",ErrorMsg:"+apiResult.toString());
+		}
+		return j;
 	}
 	/**
 	 * 功能：聊天室内容管理-首页

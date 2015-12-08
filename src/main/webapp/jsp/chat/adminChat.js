@@ -8,10 +8,6 @@ var adminChat = {
 	pmApiUrl:'',
 	chatUrl:'',
 	chatUrlParam:'',
-	chatIndex:{//聊天室组默认访问路径
-	   wechat:'wechat',
-	   studio:'studio'
-	},
 	intervalId:null,
 	init : function(){
 	  this.setPrice()
@@ -61,25 +57,15 @@ var adminChat = {
 		if($("#pp iframe").length>0){
 			return;
 		}
-		var tokenGroupId=groupId;
-		if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
-			tokenGroupId=adminChat.chatIndex.studio;
-		}
-		if(groupId.indexOf(adminChat.chatIndex.wechat)!=-1){
-			tokenGroupId=adminChat.chatIndex.wechat;
-		}
 		goldOfficeUtils.ajax({
-			url : basePath +'/adminChatController/getToken.do?groupId='+tokenGroupId,
+			url : basePath +'/adminChatController/getToken.do?groupId='+groupId.replace(/_+.*/g,""),
 			type : 'get',
 			success : function(data){
 				if(data.obj != null){
 					$('#adminChat_div '+groupId).linkbutton('disable');
-					var urlPath='';
-					if(groupId.indexOf(adminChat.chatIndex.studio)!=-1){
-						urlPath=adminChat.chatIndex.studio+"/admin";
-					}
-					if(groupId.indexOf(adminChat.chatIndex.wechat)!=-1){
-						urlPath=adminChat.chatIndex.wechat;
+					var urlPath=groupId.replace(/_+.*/g,"");
+					if(groupId.indexOf("studio")!=-1){
+						urlPath="studio/admin";
 					}
 					var iframeSrc = adminChat.chatUrl+"/"+urlPath+"?"+adminChat.chatUrlParam+'&groupId='+ groupId+"&token="+data.obj+"&roomName="+groupName;
 					window.open(iframeSrc,groupName,"location=no,resizable=yes");

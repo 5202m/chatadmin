@@ -62,6 +62,12 @@ public class ChatGroupDao extends MongoDBBaseDao{
 	}
 	
 	/**
+	 * 功能： 根据GroupType--> 查询组列表
+	 */
+	public List<ChatGroup> findByGroupType(String groupType){
+		return this.findList(ChatGroup.class, new Query(Criteria.where("groupType").is(groupType)));
+	}
+	/**
 	 * 功能： 根据组Id集合 --> 查询组列表
 	 */
 	public List<ChatGroup> findGroupList(List<String> groupIdArr){
