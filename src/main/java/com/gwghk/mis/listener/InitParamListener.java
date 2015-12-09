@@ -9,7 +9,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gwghk.mis.timer.QuartzJobManager;
 import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -39,8 +38,8 @@ public class InitParamListener implements ServletContextListener{
                 }
             }
             //启动定时器任务
-    		QuartzJobManager.startScheduler();
-    		logger.warn(">>timer Job start into....");
+    		//QuartzJobManager.startScheduler();
+    		//logger.warn(">>timer Job start into....");
         } catch (Exception e) { 
         	logger.error("<<load properties file error.",e);
         }

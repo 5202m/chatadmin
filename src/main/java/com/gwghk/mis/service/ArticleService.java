@@ -172,4 +172,14 @@ public class ArticleService{
 		return new ApiResult().setCode(articleDao.softDelete(Article.class, ids)?ResultCode.OK:ResultCode.FAIL);
 	}
 	
+	/**
+	 * 设置文章状态
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	public ApiResult setArticleStatus(String[] ids,String status) {
+		return new ApiResult().setCode(articleDao.batchSetFieldVal(Article.class, ids,"status",status)?ResultCode.OK:ResultCode.FAIL);
+	}
+	
 }

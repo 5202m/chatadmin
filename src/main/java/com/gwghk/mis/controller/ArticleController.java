@@ -327,4 +327,32 @@ public class ArticleController extends BaseController{
     	}
   		return j;
     }
+    
+    /**
+  	* 功能：文章管理-批量删除
+  	*/
+    @RequestMapping(value="/articleController/setStatus",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="setStatus")
+    public AjaxJson setStatus(HttpServletRequest request,HttpServletResponse response){
+    	BoUser userParam = ResourceUtil.getSessionUser();
+    	AjaxJson j = new AjaxJson();
+    	String delIds = request.getParameter("ids"),status=request.getParameter("fieldVal");
+    	ApiResult result =articleService.setArticleStatus(delIds.contains(",")?delIds.split(","):new String[]{delIds},status);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置文章状态成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:setArticleStatus|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置文章状态失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:setArticleStatu|"+message+",ErrorMsg:"+result.toString());
+    	}
+  		return j;
+    }
 }

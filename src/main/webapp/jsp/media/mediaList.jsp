@@ -59,6 +59,7 @@ var mediaPlatformStr='${mediaPlatformJson}';
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="media.add();">新增<!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="media.batchDel();">删除<!-- 删除 --></a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="media.refresh();">刷新<!-- 刷新 --></a> 
+    <a class="ope-undo setStatus">状态设置【<t:dictSelect id="media_setStatusSelect" isEdit="false" isShowPleaseSelected="true" dataList="${dictMap[dictConstant.DICT_USE_STATUS]}" selectClass="width:80px;"/>】</a>
   </div>
   
   <!-- datagrid-操作按钮 -->

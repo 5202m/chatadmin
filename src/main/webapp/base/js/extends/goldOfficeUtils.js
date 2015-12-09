@@ -508,6 +508,60 @@ var goldOfficeUtils = {
 	 */
 	refreshTab : function(){
 		$('#yxui_main_tabs').tabs('getSelected').panel('refresh');
+	},
+	
+	/**
+	 * 列表下拉选择框设置
+	 * @param gridId 列表id
+	 * @param selectId 下拉框字段
+	 * @param selectfieldOfGrid
+	 * @param theUrl 提交的请求路径
+	 * @param idFieldOfGrid id字段对应的field,默认是id
+	 */
+	setGridSelectVal:function(gridId,selectId,selectfieldOfGrid,theUrl,idFieldOfGrid){
+		$("#"+selectId).on("change",function(){
+			var selectDom=$(this).children('option:selected'),
+			    val=selectDom.val();
+			var rows = $("#"+gridId).datagrid('getSelections');
+			var ids = [];
+			if(rows.length > 0){
+				 $.messager.confirm("操作提示", "您确定要把所选记录设为【"+selectDom.text()+"】？", function(r) {
+					   if (r) {
+						    var idKeyTmp = idFieldOfGrid ? idFieldOfGrid:"id";
+							for(var i = 0; i < rows.length; i++) {
+								ids.push(rows[i][idKeyTmp]);
+							}
+							goldOfficeUtils.ajax({
+								url : theUrl,
+								data : {
+									ids : ids.join(','),
+									fieldVal:val
+								},
+								success: function(data) {
+									if(data.success) {
+										var rowIndex=0,rowObj={};
+										for(var k= 0; k < rows.length; k++){
+											rowIndex=$("#"+gridId).datagrid('getRowIndex',rows[k]);
+											rowObj[selectfieldOfGrid]=val;
+											$('#'+gridId).datagrid('updateRow',{index:rowIndex,row:rowObj}); 
+										}
+										$("#"+gridId).datagrid('unselectAll');
+										$.messager.alert("操作提示","状态设置成功!",'info');
+									}else{
+										$.messager.alert($.i18n.prop("common.operate.tips"),'状态设置失败，原因：'+data.msg,'error');
+							    	}
+									$("#"+selectId).find("option[value='']").attr("selected",true);
+								}
+							});
+						}else{
+							$("#"+selectId).find("option[value='']").attr("selected",true);
+						}
+					});
+			 }else{
+				 $("#"+selectId).find("option[value='']").attr("selected",true);
+				 $.messager.alert("操作提示", "请选择一行记录!"); 
+			 }
+		});
 	}
 };
 

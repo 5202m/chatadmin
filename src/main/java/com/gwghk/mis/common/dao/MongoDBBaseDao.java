@@ -211,6 +211,33 @@ public class MongoDBBaseDao implements IBaseDao{
 		return wr!=null&&wr.getN()>0;
 	}
     
+    /**
+     * 批量设置字段值
+     * @param entityClass
+     * @param ids
+     * @param statusFieldName
+     * @param status
+     * @return
+     */
+    @SuppressWarnings("hiding")
+    public <T> boolean batchSetFieldVal(Class<T> entityClass,Object[] ids,String fieldName,Object fieldVal){
+		WriteResult wr=this.mongoTemplate.updateMulti(Query.query(Criteria.where("id").in(ids)), Update.update(fieldName,fieldVal),entityClass);
+		return wr!=null&&wr.getN()>0;
+	}
+    
+    /**
+     * 批量设置字段值
+     * @param entityClass
+     * @param selfCriteria 之定义条件
+     * @param statusFieldName
+     * @param status
+     * @return
+     */
+    @SuppressWarnings("hiding")
+    public <T> boolean batchSetFieldVal(Class<T> entityClass,Criteria selfCriteria,String fieldName,Object fieldVal){
+		WriteResult wr=this.mongoTemplate.updateMulti(Query.query(selfCriteria), Update.update(fieldName,fieldVal),entityClass);
+		return wr!=null&&wr.getN()>0;
+	}
     /** 
      * 功能:插入单个对象 
      * @param obj  要添加的Mongo对象

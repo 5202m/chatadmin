@@ -122,6 +122,8 @@ var article = {
 		$("#article_queryForm_reset").on("click",function(){
 			$("#article_queryForm")[0].reset();
 		});
+		//列表状态设置
+		goldOfficeUtils.setGridSelectVal(article.gridId,"article_setStatusSelect","status",formatUrl(basePath + '/articleController/setStatus.do'));
 	},
 	/**
 	 * 清空旧的参数

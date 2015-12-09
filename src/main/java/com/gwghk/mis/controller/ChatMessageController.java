@@ -141,16 +141,19 @@ public class ChatMessageController extends BaseController{
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatMessage cm : chatMessageList){
 					IRow row = dataSet.append();
-					row.set("userId", cm.getUserId());
+					row.set("userId", "studio".equals(cm.getGroupType())?cm.getUserId():(StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo()));
 					String userTypeVal = "";
 					Integer userType = cm.getUserType();
-					if(userType == 0){
-						userTypeVal = "普通会员";
-					}else if(userType == 1){
-						userTypeVal = "系统管理员";
+					if(userType == 1){
+						userTypeVal = "管理员";
 					}else if("2".equals(userTypeVal)){
 						userTypeVal = "分析师";
+					}else if("3".equals(userTypeVal)){
+						userTypeVal = "客服";
+					}else{
+						userTypeVal = "普通会员";
 					}
+					row.set("mobilePhone", cm.getMobilePhone());
 					row.set("nickname", cm.getNickname());
 					row.set("userType", userTypeVal);
 					row.set("groupId", chatGroupService.getChatGroupById(cm.getGroupId()).getName());
