@@ -17,7 +17,7 @@ var mediaPlatformStr='${mediaPlatformJson}';
           <td width="23%"><input type="text" name="title" style="width:160px"/></td>
           <th width="10%">应用位置</th>
           <td width="23%">
-	          <select class="easyui-combotree" name="platform" data-options="url:'<%=request.getContextPath()%>/commonController/getPlatformList.do',cascadeCheck:false" multiple>
+	          <select class="easyui-combotree" name="platform" style="width:180px;" data-options="url:'<%=request.getContextPath()%>/commonController/getPlatformList.do',cascadeCheck:false" multiple>
 	          </select>
           </td>
         </tr>
