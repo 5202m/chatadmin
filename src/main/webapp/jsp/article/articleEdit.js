@@ -4,6 +4,11 @@
  * @date   2015/03/19
  */
 var articleEdit = {
+	combogridInit:{//初始化次数, 防止打开combogrid时onCheck执行两次
+		zh:0,
+		tw:0,
+		en:0
+	},
 	init : function(){
 		this.setEvent();
 	},
@@ -18,14 +23,14 @@ var articleEdit = {
 				var tabTid="#"+tabId;
 				var authorListId="authorList_"+lang;
 			    $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
-			    articleEdit.setAuthorList(authorListId,true);
+			    articleEdit.setAuthorList(authorListId);
 			}
 		});
 	},
 	/**
 	 * 设置作者列表
 	 */
-	setAuthorList:function(id,isInit){
+	setAuthorList:function(id){
 		var authorVal=$('form[name=articleDetailForm] input[name=author]').val();
 		var avatar='',author='';
 		if(isValid(authorVal)){
@@ -37,6 +42,7 @@ var articleEdit = {
 				author=authorVal;
 			}
 		}
+		var lang=id.replace("authorList_","");
 		$('#'+id).combogrid({
 		    idField:'name',
 		    textField:'name',
@@ -59,18 +65,29 @@ var articleEdit = {
 					return '<input type="radio" name="avatar_radio_'+rowIndex+'" '+(avatar==av?'checked':'')+' value="'+av+'"/><img src="'+av+'"/>';
 				}}
 		   ]],
-		   onSelect:function(rowIndex, rowData){
-			   if(!isInit){//非点击语言checkbox触发的无需触发一下代码
+		   onCheck:function(rowIndex, rowData){
+			   if(articleEdit.combogridInit[lang]>1){//非点击语言checkbox触发的无需触发一下代码
+				   $('#'+id).next().find(".combo-text").val("");
 				   var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
 				   if(isValid(avatarTmp)){
 					   avatarTmp=";"+avatarTmp;
 				   }else{
 					   avatarTmp=''; 
 				   }
-				   var lang=id.replace("authorList_","");
 				   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
-			   }else{
-				   isInit=false; 
+			   }
+			   articleEdit.combogridInit[lang]++;
+		   },
+		   onLoadSuccess:function(data){
+			   var isHasAuthor=false;
+			   for(var i in data.rows){
+				   if(data.rows[i].name==author){
+					   isHasAuthor=true;
+				   }
+			   }
+			   if(!isHasAuthor){
+				   articleEdit.combogridInit[lang]=2;
+				   $('#'+id).next().find(".combo-text").val(author); 
 			   }
 		   }
 		}); 

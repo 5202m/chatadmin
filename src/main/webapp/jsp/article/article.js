@@ -178,6 +178,44 @@ var article = {
 		$("#article_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/articleController/del.do');
 		goldOfficeUtils.deleteOne('article_datagrid',recordId,url);
+	},
+	/**
+	 * 交易策略提取
+	 */
+	getTradeStrate:function(){
+		var url = formatUrl(basePath + '/articleController/toTradeStrateGet.do');
+		var submitUrl =  formatUrl(basePath + '/articleController/getTradeStrate.do');
+		goldOfficeUtils.openEditorDialog({
+			title : '交易策略提取',
+			width : 680,
+			height : 320,
+			href : url,
+			iconCls : 'ope-import',
+			handler : function(){   //提交时处理
+				if($("#tradeStrateGetForm").form('validate')){
+					 var titles=$(".strateTitleDiv input").map(function(){
+						return $.trim($(this).val());
+					 }).get().join("|");
+					 $("#strateTitlesId").val(titles);
+					 $.messager.progress();
+					 goldOfficeUtils.ajaxSubmitForm({
+							url : submitUrl,
+							formId : 'tradeStrateGetForm',
+							onSuccess : function(data){//提交成功后处理
+								var d = $.parseJSON(data);
+								$.messager.progress('close');
+								if(d.success) {
+									$("#article_datagrid").datagrid('reload');
+									$("#myWindow").dialog("close");
+									$.messager.alert('提示','操作已执行','info');
+								}else{
+									$.messager.alert('提示','操作失败：'+d.msg,'error');
+								}
+							}
+					});
+				}
+			}
+		});
 	}
 };
 		
