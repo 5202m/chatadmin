@@ -8,6 +8,7 @@ package com.gwghk.mis.enums;
 public enum ApiDir{
 	app("app"),
 	sms("sms"),
+	common("common"),
 	token("token");
 	private String value;
 

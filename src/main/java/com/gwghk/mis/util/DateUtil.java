@@ -513,6 +513,9 @@ public class DateUtil {
 	 */
 	public static synchronized String getDateFormat(java.util.Date date,
 			String pattern) {
+		if(date==null){
+			return "";
+		}
 		synchronized (sdf) {
 			String str = null;
 			sdf.applyPattern(pattern);

@@ -212,4 +212,22 @@ public class PmApiService{
 			return false;
 		}
 	}
+	/**
+     * 离开房间
+     * @param groupIds 房间ID,如果存在多个，中间用逗号分隔
+     * @param groupIds
+     * @param userIds
+     * @return
+     */
+    public String getBroadStrateList(String platform, String dateStr,String lang){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	paramMap.put("platform", platform);
+    	paramMap.put("dateStr", dateStr);
+    	paramMap.put("lang", lang);
+    	try {
+    		return HttpClientUtils.httpGetString(formatUrl(ApiDir.common,"getBroadStrateList"),paramMap);
+    	} catch (Exception e) {
+    		return null;
+    	}
+    }
 } 

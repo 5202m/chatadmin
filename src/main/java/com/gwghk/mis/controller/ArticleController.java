@@ -355,4 +355,52 @@ public class ArticleController extends BaseController{
     	}
   		return j;
     }
+    
+
+	/**
+	 * 功能：文章管理-提取策略
+	 */
+    @RequestMapping(value="/articleController/toTradeStrateGet", method = RequestMethod.GET)
+    @ActionVerification(key="getTradeStrate")
+    public String toGetTradeStrate(ModelMap map) throws Exception {
+      	map.addAttribute("serverDate",DateUtil.getDateDayFormat(new Date()));
+    	return "article/tradeStrateGet";
+    }
+    
+    /**
+  	* 功能：文章管理-提取策略
+  	*/
+    @RequestMapping(value="/articleController/getTradeStrate",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="getTradeStrate")
+    public AjaxJson tradeStrateGet(HttpServletRequest request,HttpServletResponse response){
+    	BoUser userParam = ResourceUtil.getSessionUser();
+    	AjaxJson j = new AjaxJson();
+    	String dateStr = request.getParameter("dateStr"),
+    		   srcPlaform = request.getParameter("srcPlaform"),
+    		   lang=request.getParameter("lang"),
+    	       titles=request.getParameter("titles");
+    	String[] platformArr=request.getParameterValues("platform");
+    	if(platformArr==null||StringUtils.isBlank(dateStr)||StringUtils.isBlank(lang)||StringUtils.isBlank(srcPlaform)){
+    		j.setMsg("输入参数有误，请检查输入栏位！");
+    		j.setSuccess(false);
+    		return j;
+    	}
+    	ApiResult apiResult = articleService.getTradeStrate(srcPlaform,dateStr,lang,titles,StringUtils.join(platformArr, ","),IPUtil.getClientIP(request),userParam.getUserId());
+		if(apiResult.isOk()){
+			j.setSuccess(true);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 提取交易策略成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:tradeStrateGet()|"+message);
+		}else{
+			j.setSuccess(false);
+			j.setMsg(apiResult.getErrorMsg());
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 提取交易策略失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:tradeStrateGet()|"+message+",ErrorMsg:"+apiResult.toString());
+		}
+  		return j;
+    }
 }

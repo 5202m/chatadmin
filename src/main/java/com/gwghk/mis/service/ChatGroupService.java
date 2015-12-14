@@ -242,6 +242,18 @@ public class ChatGroupService{
 		}
 		return chatGroupDao.findList(ChatGroup.class, query);
 	}
+	/**
+	 * 提取列表数据
+	 * @return
+	 */
+	public List<ChatGroup> getChatGroupAllList(String...selectField) {
+		Query query = Query.query(Criteria.where("valid").is(1));
+		query.with(new Sort(new Order(Direction.ASC, "groupType"), new Order(Direction.ASC, "level")));
+		if(selectField!=null){
+			return chatGroupDao.findListInclude(ChatGroup.class, query,selectField);
+		}
+		return chatGroupDao.findList(ChatGroup.class, query);
+	}
 	
 	/**
 	 * 根据用户编号查询已授权房间列表

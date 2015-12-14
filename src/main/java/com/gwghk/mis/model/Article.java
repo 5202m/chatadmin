@@ -82,6 +82,11 @@ public class Article extends BaseModel{
 	private Integer valid;
 	
 	/**
+	 * 文章来源id (如是数据导入，则对应id)
+	 */
+	private Integer srcId;
+	
+	/**
 	 * 栏目路径名(仅用于输出)
 	 */
 	private String categoryNamePath;
@@ -197,4 +202,14 @@ public class Article extends BaseModel{
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
 	}
+
+	public Integer getSrcId() {
+		return srcId;
+	}
+
+	public void setSrcId(Integer srcId) {
+		this.srcId = srcId;
+	}
+	
+	
 }

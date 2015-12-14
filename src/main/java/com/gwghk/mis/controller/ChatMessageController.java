@@ -161,6 +161,9 @@ public class ChatMessageController extends BaseController{
 					row.set("msgType", "文本");
 					row.set("content", cm.getContent().getValue());
 					row.set("publishTime",DateUtil.longMsTimeConvertToDateTime(Long.valueOf(cm.getPublishTime().split("_")[0])));
+					row.set("approvalUserNo", cm.getApprovalUserNo());
+					row.set("status", cm.getStatus()==1?"通过":(cm.getStatus()==2?"拒绝":"等待审批"));//0、等待审批，1、通过 ；2、拒绝
+					row.set("valid", cm.getValid()==1?"正常":"删除");
 				}
 				builder.put("rowSet",dataSet);
 			}else{

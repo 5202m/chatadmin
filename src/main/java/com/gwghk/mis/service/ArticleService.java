@@ -1,6 +1,7 @@
 package com.gwghk.mis.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -20,6 +24,7 @@ import com.gwghk.mis.model.Article;
 import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.Category;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -35,6 +40,9 @@ public class ArticleService{
 	
 	@Autowired
 	private CategoryDao categoryDao;
+	
+	@Autowired
+	private PmApiService pmApiService;
 	/**
 	 * 分页查询文章
 	 * @param detachedCriteria
@@ -181,5 +189,115 @@ public class ArticleService{
 	public ApiResult setArticleStatus(String[] ids,String status) {
 		return new ApiResult().setCode(articleDao.batchSetFieldVal(Article.class, ids,"status",status)?ResultCode.OK:ResultCode.FAIL);
 	}
-	
+
+	/**
+	 * 通过pm_api接口提取交易策略
+	 * @param platform
+	 * @param dateStr
+	 * @param langs
+	 * @param titles
+	 * @param usedByPlatforms 用于那些平台
+	 * @return
+	 */
+	public ApiResult getTradeStrate(String platform, String dateStr,
+			String lang, String titles,String usedByPlatforms,String ip,String createUser) {
+		String str=pmApiService.getBroadStrateList(platform,dateStr,lang);
+		ApiResult api=new ApiResult();
+		if(StringUtils.isBlank(str)){
+			return api.setErrorMsg("没有可提取的交易策略！");
+		}
+		api.setErrorMsg("提取交易策略失败,请联系管理员！");
+		JSONObject strObj=JSON.parseObject(str);
+		if(!strObj.containsKey("broadcasts")){
+			return api.setErrorMsg("没有可提取的交易策略！");
+		}
+		JSONObject bdObj=(JSONObject)strObj.get("broadcasts");
+		if(0==bdObj.getIntValue("result")){
+			if(!bdObj.containsKey("broadcastList")){
+				return api.setErrorMsg("没有可提取的交易策略！");
+			}
+			Object bdList=bdObj.get("broadcastList");
+			JSONArray arr=new JSONArray();
+			if(bdList instanceof  JSONArray){
+				arr=(JSONArray)bdList;
+			}else{
+				arr.add(bdList);
+			}
+			JSONObject jo=null;
+			Article article=null;
+			ArticleDetail articleDetail=null;
+			List<ArticleDetail> detailList=null;
+			String publishDateStr="",title="";
+			int label=0,dbHasRecord=0,hasTitleIndex=0;
+			Long count=0L;
+			boolean hasRecord=false;
+			String[] titleArr=null;
+			for(Object obj:arr){
+				jo=(JSONObject)obj;
+				title=jo.getString("title");
+				if(StringUtils.isNotBlank(titles)){
+					if(titleArr==null){
+						titleArr=StringUtils.split(titles,"|");
+					}
+					for(String titleStr:titleArr){
+						if(title.equals(titleStr)){
+							hasRecord=true;
+							break;
+						}
+					}
+					if(!hasRecord){
+						hasTitleIndex++;
+						continue; 
+					}
+				}
+				publishDateStr=jo.getString("regtime");
+				count=articleDao.count(Article.class, Query.query(new Criteria().and("valid").is(1).and("srcId").is(jo.getIntValue("id")).and("categoryId").is("trade_strategy_article")));
+				if(count>0){
+					dbHasRecord++;
+					continue;
+				}
+				article=new Article();
+				article.setCategoryId("trade_strategy_article");
+				article.setPlatform(usedByPlatforms);
+				article.setCreateDate(DateUtil.parseDateSecondFormat(publishDateStr));
+				article.setSrcId(jo.getIntValue("id"));
+				article.setPublishStartDate(DateUtil.parseDateSecondFormat(publishDateStr));
+				article.setPublishEndDate(DateUtil.parseDateSecondFormat(publishDateStr.substring(0, 10)+" 23:59:59"));
+				article.setCreateIp(ip);
+				article.setCreateUser(createUser);
+				article.setSequence(0);
+				articleDetail=new ArticleDetail();
+				articleDetail.setLang(lang);
+				label=jo.getIntValue("label");
+				if(1==label){
+					articleDetail.setTag("黄金");
+				}else if(2==label){
+					articleDetail.setTag("白银");
+				}else if(3==label){
+					articleDetail.setTag("美元指数");
+				}else{
+					articleDetail.setTag("");
+				}
+				articleDetail.setTitle(title);
+				articleDetail.setAuthor(jo.getString("expertname")+(StringUtils.isBlank(jo.getString("expertpic"))?"":";"+jo.getString("expertpic")));
+				articleDetail.setContent(jo.getString("content"));
+				detailList=new ArrayList<ArticleDetail>();
+				detailList.add(articleDetail);
+				article.setDetailList(detailList);
+				ApiResult result=this.addArticle(article);
+				if(result.isOk()){
+					api.setCode(ResultCode.OK);
+				}
+			}
+			if(dbHasRecord==arr.size()){
+				return api.setErrorMsg("文档已经存在相同的记录，无需再提取！");
+			}
+			if(hasTitleIndex==arr.size()){
+				return api.setErrorMsg("没有可提取的交易策略！");
+			}
+		}else{
+			return api.setErrorMsg("没有可提取的交易策略！");
+		}
+		return api;
+	}
 }

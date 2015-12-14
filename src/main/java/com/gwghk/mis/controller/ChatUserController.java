@@ -29,6 +29,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
+import com.gwghk.mis.model.ChatClientGroup;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.ChatRoom;
@@ -351,22 +352,18 @@ public class ChatUserController extends BaseController{
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_USER_RECORDS_TEMPLATE_PATH)));
 			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 			List<Member>  memberList = page.getCollection();
+			List<ChatGroup> chatGroupList=chatGroupService.getChatGroupAllList("id","name");
+			List<ChatClientGroup> clientGroupList=chatClientGroupService.getClientGroupList();
 			ChatUserGroup userGroup=null;
+			Member cm=null;
 			if(memberList != null && memberList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
-				for(Member cm : memberList){
-					IRow row = dataSet.append();
+				for(int i=0;i<memberList.size();i++){
+					cm=memberList.get(i);
 					userGroup=cm.getLoginPlatform().getChatUserGroup().get(0);
-					row.set("mobilePhone", cm.getMobilePhone());
-					row.set("accountNo", userGroup.getAccountNo());
-					row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
-					row.set("groupId", userGroup.getId());
-					row.set("createDate", userGroup.getCreateDate());
-					ChatRoom room=userGroup.getRooms().get(0);
-					row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
-					row.set("onlineDate", room.getOnlineDate());
-					row.set("gagDate", DateUtil.formatDateWeekTime(room.getGagDate()));
-					row.set("sendMsgCount", room.getSendMsgCount()==null?0:room.getSendMsgCount());
+					for(ChatRoom room :userGroup.getRooms()){
+						setIRow(i+1,dataSet,cm.getMobilePhone(),userGroup,room,chatGroupList,clientGroupList);
+					}
 				}
 				builder.put("rowSet",dataSet);
 			}else{
@@ -378,5 +375,53 @@ public class ChatUserController extends BaseController{
 		}catch(Exception e){
 			logger.error("<<method:exportRecord()|chat user export error!",e);
 		}
+	}
+	
+	/**
+	 * 设置导出数据
+	 * @param index
+	 * @param row
+	 * @param mobilePhone
+	 * @param userGroup
+	 * @param room
+	 * @param cgList
+	 * @param clgList
+	 */
+	private void setIRow(int index,DataRowSet dataSet,String mobilePhone,ChatUserGroup userGroup,ChatRoom room,List<ChatGroup> cgList,List<ChatClientGroup> clgList){
+		String groupName="";
+		for(ChatGroup cg:cgList){
+			if(cg.getId().equals(room.getId())){
+				groupName=cg.getName();
+				break;
+			}
+		}
+		if(StringUtils.isBlank(groupName)){
+			return;
+		}
+		IRow row=dataSet.append();
+		row.set("no", index);
+		row.set("mobilePhone", mobilePhone);
+		row.set("accountNo", "studio".equals(userGroup.getId())?userGroup.getUserId():(StringUtils.isBlank(userGroup.getAccountNo())?userGroup.getUserId():userGroup.getAccountNo()));
+		row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
+		if("studio".equals(userGroup.getId())){
+			if(userGroup.getVipUser()!=null && userGroup.getVipUser()){
+				row.set("clientGroup", "VIP用户");
+			}else{
+				for(ChatClientGroup cg:clgList){
+					if(cg.getId().equals(userGroup.getClientGroup())){
+						row.set("clientGroup", cg.getName());
+					}
+				}
+			}
+		}else{
+			row.set("clientGroup", "真实用户");
+		}
+		row.set("valueUser", userGroup.getValueUser()!=null&&userGroup.getValueUser()?"是":"否");
+		row.set("createDate", userGroup.getCreateDate());
+		row.set("groupName",groupName);
+		row.set("onlineStatus",(room.getOnlineStatus()==1?"在线":"下线"));
+		row.set("onlineDate", room.getOnlineDate());
+		row.set("gagDate", DateUtil.formatDateWeekTime(room.getGagDate()));
+		row.set("sendMsgCount", room.getSendMsgCount()==null?0:room.getSendMsgCount());
 	}
 }
