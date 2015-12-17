@@ -417,6 +417,7 @@ public class ChatGroupController extends BaseController{
     	map.addAttribute("chatGroupId",chatGroupId);
     	List<ChatGroup> chatGroupList=chatGroupService.getChatGroupList("id","name","chatStudio.defClientGroup");
     	map.put("chatGroupList",chatGroupList);
+    	map.put("exStudioCodeData", JSONArray.toJSONString(ResourceUtil.getSubDictListByParentCode(DictConstant.getInstance().DICT_EXTERNAL_STUDIO)));
     	if(StringUtils.isNotBlank(chatGroupId)){
     		ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
         	map.addAttribute("chatStudio",chatGroup.getChatStudio());

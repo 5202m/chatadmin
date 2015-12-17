@@ -28,6 +28,10 @@ public class ChatStudio {
 	private String minChannel;
 	
 	/**
+	 * 外接直播 ,保存格式[{code:"oneTV",srcUrl:'',studioDate:""}],其中oneTV对应字典项DICT_EXTERNAL_STUDIO的子code
+	 */
+	private String externalStudio;
+	/**
 	 * 备注
 	 */
 	private String remark;
@@ -70,6 +74,14 @@ public class ChatStudio {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getExternalStudio() {
+		return externalStudio;
+	}
+
+	public void setExternalStudio(String externalStudio) {
+		this.externalStudio = externalStudio;
 	}
 	
 }

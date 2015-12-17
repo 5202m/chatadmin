@@ -1,14 +1,45 @@
 /**
  * 通用dateTimeWeek插件
  * 调用方式：	$("#studioTimeDiv").dateTimeWeek({data:dataTmp});
+ * 数据格式：{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
  * create by alan.wu
  * date:2015/08/12
  */
 (function($) {  
   //插件的定义  
   $.fn.dateTimeWeek = function(options) {
-	  //插件的defaults  
-	  var opts = $.extend($.fn.dateTimeWeek.defaults, options); 
+	  var _this=this;
+      if(options && (typeof options!="object")){
+          var getData=function(){
+              var id="#"+$(_this).attr("id"),
+                  bDate=$.trim($(id+"_start_date").val()),
+                  eDate=$.trim($(id+"_end_date").val()),
+                  weekTimeArr=$(id+" .date-time-week-each div[n]").map(function(){
+                      var result={week:$(this).find("select[name=week]").val(),beginTime:$(this).find("input[id*=start_time]").val(),endTime:$(this).find("input[id*=end_time]").val()};
+                      if($.trim(result.week)=="" && $.trim(result.beginTime)=="" && $.trim(result.endTime)==""){
+                          return null;
+                      }else{
+                          return result;
+                      }
+                  }).get();
+              if(weekTimeArr && weekTimeArr.length==0){
+                  weekTimeArr=null;
+              }else{
+                  weekTimeArr.sort($.fn.dateTimeWeek.arraySort("week",false));
+              }
+              if(bDate=="" && eDate=="" && !weekTimeArr){
+                  return '';
+              }else{
+                  return JSON.stringify({beginDate:bDate,endDate:eDate,weekTime:weekTimeArr});
+              }
+          };
+          //提供外部方法,提取数据
+          if(options=="getData"){
+              return getData();
+          }else{
+              return null;
+          }
+      }
 	  //声明类对象
 	  var dateTimeWeekDom={
 			    id:'',
@@ -101,8 +132,8 @@
 						        	'&nbsp;到&nbsp;<input style="width:80px;" id="'+dateTimeWeekDom.srcId+'_end_time_1" class="Wdate" onFocus="WdatePicker({minDate:\'#F{$dp.$D(\\\''+dateTimeWeekDom.srcId+'_start_time_1\\\')}\',dateFmt:\'HH:mm:ss\'})"/>'+
 						   	     '</span>'+
 						   	     '<span style="margin-left:8px;">'+
-						   	        '<a class="easyui-linkbutton" t="remove" style="display:none;" data-options="plain:true,iconCls:\'ope-remove\',disabled:false"></a>'+
-						   	        '<a class="easyui-linkbutton" t="add" data-options="plain:true,iconCls:\'ope-add\',disabled:false"></a>' + 
+						   	        '<a class="ope-remove" t="remove" style="display:none;"></a>'+
+						   	        '<a class="ope-add" t="add"></a>' + 
 						   	    '</span>'+    
 						   	   '</span>'+
 					   	  '</span>' +
@@ -111,43 +142,14 @@
 				}
 			};
 	   return this.each(function() {    
-		   $.fn.dateTimeWeek.defaults.id=this.id;
-		   dateTimeWeekDom.init(this.id, opts.data); 
+		   dateTimeWeekDom.init(this.id, options?options.data:null); 
 	   }); 
-  }; 
-    $.fn.dateTimeWeek.defaults = {
-	    data: null, //数据
-	    id:''
-	}; 
+    }; 
     //排序方法
     $.fn.dateTimeWeek.arraySort=function(key,desc){
         return function(a,b){
             return desc? (a[key] < b[key]) : (a[key] > b[key]);
         }
     };
-    //提供外部方法,提取数据
-    $.fn.dateTimeWeek.getData=function(){
-    	var id="#"+$.fn.dateTimeWeek.defaults.id,
-    	bDate=$.trim($(id+"_start_date").val()),
-    	eDate=$.trim($(id+"_end_date").val()),
-    	weekTimeArr=$(id+" .date-time-week-each div[n]").map(function(){
-    		var result={week:$(this).find("select[name=week]").val(),beginTime:$(this).find("input[id*=start_time]").val(),endTime:$(this).find("input[id*=end_time]").val()};
-    		if($.trim(result.week)=="" && $.trim(result.beginTime)=="" && $.trim(result.endTime)==""){
-    			return null;
-    		}else{
-    			return result;
-    		}
-    	}).get();
-    	if(weekTimeArr && weekTimeArr.length==0){
-    		weekTimeArr=null;
-    	}else{
-    		weekTimeArr.sort($.fn.dateTimeWeek.arraySort("week",false));
-    	}
-    	if(bDate=="" && eDate=="" && !weekTimeArr){
-    		return '';
-    	}else{
-    		return JSON.stringify({beginDate:bDate,endDate:eDate,weekTime:weekTimeArr});
-    	}
-    }; 
 })(jQuery);
 

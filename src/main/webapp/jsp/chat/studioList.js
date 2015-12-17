@@ -119,6 +119,19 @@ var chatStudio = {
 		});
 	},
 	/**
+	 * 提取外接直播地址
+	 */
+	getExStudioVal:function(){
+		var val=$("#externalStudioMainDiv .exStudioDiv").map(function(){
+			var code=$(this).find("select[name=code]").val(),
+			    url=$(this).find("input[name=srcUrl]").val();
+			    sDate=$(this).find("div[id^=exStudioDateDiv_]").dateTimeWeek("getData");
+			return isBlank(code)?null:'{"code":"'+code+'","srcUrl":"'+url+'","studioDate":'+(isValid(sDate)?sDate:null)+'}';
+		}).get().join(",");
+		val=isValid(val)?'['+val+']':'';
+		return val;
+	},
+	/**
 	 * 功能：增加
 	 */
 	add : function(){
@@ -126,13 +139,14 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=false');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 430,
-			width:550,
+			height : 550,
+			width:630,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
 				if($("#chatStudioSubmitForm").form('validate')){
-					$("#chatStudio_studioDate").val($("#studioDateDiv").dateTimeWeek.getData());
+					$("#chatStudio_externalStudio").val(chatStudio.getExStudioVal());
+					$("#chatStudio_studioDate").val($("#studioDateDiv").dateTimeWeek("getData"));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatStudioSubmitForm',
@@ -162,13 +176,14 @@ var chatStudio = {
 		var submitUrl =  formatUrl(basePath + '/chatGroupController/saveStudio.do?isUpdate=true');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 430,
-			width:550,
+			height : 550,
+			width:630,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatStudioSubmitForm").form('validate')){
-					$("#chatStudio_studioDate").val($("#studioDateDiv").dateTimeWeek.getData());
+					$("#chatStudio_studioDate").val($("#studioDateDiv").dateTimeWeek("getData"));
+					$("#chatStudio_externalStudio").val(chatStudio.getExStudioVal());
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatStudioSubmitForm',

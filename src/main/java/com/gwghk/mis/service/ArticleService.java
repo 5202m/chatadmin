@@ -227,11 +227,12 @@ public class ArticleService{
 			Article article=null;
 			ArticleDetail articleDetail=null;
 			List<ArticleDetail> detailList=null;
-			String publishDateStr="",title="";
+			String publishDateStr="",title="",content="",remark="";
 			int label=0,dbHasRecord=0,hasTitleIndex=0;
 			Long count=0L;
 			boolean hasRecord=false;
 			String[] titleArr=null;
+			Date publishStartDate=null;
 			for(Object obj:arr){
 				jo=(JSONObject)obj;
 				title=jo.getString("title");
@@ -256,13 +257,15 @@ public class ArticleService{
 					dbHasRecord++;
 					continue;
 				}
+				content=jo.getString("content");
 				article=new Article();
 				article.setCategoryId("trade_strategy_article");
 				article.setPlatform(usedByPlatforms);
-				article.setCreateDate(DateUtil.parseDateSecondFormat(publishDateStr));
+				article.setCreateDate(new Date());
 				article.setSrcId(jo.getIntValue("id"));
-				article.setPublishStartDate(DateUtil.parseDateSecondFormat(publishDateStr));
-				article.setPublishEndDate(DateUtil.parseDateSecondFormat(publishDateStr.substring(0, 10)+" 23:59:59"));
+				publishStartDate=DateUtil.parseDateSecondFormat(publishDateStr);
+				article.setPublishStartDate(publishStartDate);
+				article.setPublishEndDate(DateUtil.getNextDay(publishStartDate));
 				article.setCreateIp(ip);
 				article.setCreateUser(createUser);
 				article.setSequence(0);
@@ -278,9 +281,11 @@ public class ArticleService{
 				}else{
 					articleDetail.setTag("");
 				}
+				remark=StringUtil.html2Text(content);
 				articleDetail.setTitle(title);
 				articleDetail.setAuthor(jo.getString("expertname")+(StringUtils.isBlank(jo.getString("expertpic"))?"":";"+jo.getString("expertpic")));
-				articleDetail.setContent(jo.getString("content"));
+				articleDetail.setContent(content);
+				articleDetail.setRemark(remark.length()>50?remark.substring(0, 50):remark);
 				detailList=new ArrayList<ArticleDetail>();
 				detailList.add(articleDetail);
 				article.setDetailList(detailList);

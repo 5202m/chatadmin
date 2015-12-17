@@ -167,7 +167,7 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
-					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek.getData());
+					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek("getData"));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -207,7 +207,7 @@ var chatGroup = {
 						alert("排序：请输入数字！");
 						return;
 					}
-					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek.getData());
+					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek("getData"));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',

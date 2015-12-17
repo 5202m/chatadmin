@@ -36,6 +36,10 @@ public class DictConstant {
 	
 	/**短信应用点*/
 	public  String DICT_SMS_USE_TYPE = "sms_use_type";
+	
+	/**外接直播*/
+	public  String DICT_EXTERNAL_STUDIO = "external_studio";
+	
 
 	public String getDICT_PLATFORM() {
 		return DICT_PLATFORM;
@@ -83,8 +87,22 @@ public class DictConstant {
 
 	public void setDICT_CHAT_GROUP_LEVEL(String dICT_CHAT_GROUP_LEVEL) {
 		DICT_CHAT_GROUP_LEVEL = dICT_CHAT_GROUP_LEVEL;
+	}
+
+	public String getDICT_SMS_USE_TYPE() {
+		return DICT_SMS_USE_TYPE;
+	}
+
+	public void setDICT_SMS_USE_TYPE(String dICT_SMS_USE_TYPE) {
+		DICT_SMS_USE_TYPE = dICT_SMS_USE_TYPE;
+	}
+
+	public String getDICT_EXTERNAL_STUDIO() {
+		return DICT_EXTERNAL_STUDIO;
+	}
+
+	public void setDICT_EXTERNAL_STUDIO(String dICT_EXTERNAL_STUDIO) {
+		DICT_EXTERNAL_STUDIO = dICT_EXTERNAL_STUDIO;
 	} 
-	
-	
 	
 }
