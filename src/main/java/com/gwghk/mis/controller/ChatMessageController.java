@@ -136,6 +136,7 @@ public class ChatMessageController extends BaseController{
 			dataGrid.setOrder("desc");
 			chatMessage.getContent().setMsgType("text");  //默认只导出文本类型
 			Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
+			List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
 			List<ChatMessage>  chatMessageList = page.getCollection();
 			if(chatMessageList != null && chatMessageList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
@@ -156,7 +157,13 @@ public class ChatMessageController extends BaseController{
 					row.set("mobilePhone", cm.getMobilePhone());
 					row.set("nickname", cm.getNickname());
 					row.set("userType", userTypeVal);
-					row.set("groupId", chatGroupService.getChatGroupById(cm.getGroupId()).getName());
+					row.set("groupId", "");
+					for(ChatGroup rg:groupList){
+						if(rg.getId().equals(cm.getGroupId())){
+							row.set("groupId", rg.getName());
+							break;
+						}
+					}
 					row.set("fromPlatform", cm.getFromPlatform());
 					row.set("msgType", "文本");
 					row.set("content", cm.getContent().getValue());

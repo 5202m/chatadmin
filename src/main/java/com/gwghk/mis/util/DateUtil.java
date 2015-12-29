@@ -528,6 +528,9 @@ public class DateUtil {
 	 * 功能：将毫秒转换为yyyy-MM-dd HH:mm:ss日期
 	 */
 	public static synchronized String longMsTimeConvertToDateTime(long longMs){
+		if(longMs<=0){
+			return "";
+		}
 		Date dat = new Date(longMs);
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(dat);  
