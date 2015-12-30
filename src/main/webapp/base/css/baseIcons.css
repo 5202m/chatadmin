@@ -129,7 +129,7 @@
 /*操作图标 css定义 以 ope- 开头 对应 \css\baseIcons\operationIcons */
 
 /*---------------公共按钮01----------------*/
-.ope-add,.ope-edit,.ope-remove,.ope-view,.ope-process,.ope-ok,.ope-cancel,.ope-empty,.ope-close,.ope-reload,.ope-save,.ope-upload,.ope-download,.ope-import,.ope-export,.ope-cancelSelect,.ope-cancelEdit,.ope-redo,.ope-undo,.ope-refresh,.ope-print,.ope-search,.ope-help,.ope-copy,.ope-paste,.ope-cut,.ope-accessory,.ope-previous,.ope-next,.ope-detail,.ope-grant,.ope-mod,.ope-pause,.ope-rolesel,.ope-start
+.ope-add,.ope-edit,.ope-remove,.ope-view,.ope-process,.ope-ok,.ope-cancel,.ope-empty,.ope-close,.ope-reload,.ope-save,.ope-upload,.ope-download,.ope-import,.ope-export,.ope-cancelSelect,.ope-cancelEdit,.ope-redo,.ope-undo,.ope-refresh,.ope-print,.ope-search,.ope-help,.ope-copy,.ope-paste,.ope-cut,.ope-accessory,.ope-previous,.ope-next,.ope-up,.ope-down,.ope-detail,.ope-grant,.ope-mod,.ope-pause,.ope-rolesel,.ope-start
 	{
 	padding: 2px 6px 0px 20px;
 	_padding: 2px 6px 0px 20px;
@@ -251,6 +251,14 @@
 
 .ope-next {
 	background: url('baseIcons/operationIcons/next.png') no-repeat 3px 1px;
+}
+
+.ope-up {
+	background: url('baseIcons/operationIcons/up.png') no-repeat 3px 1px;
+}
+
+.ope-down {
+	background: url('baseIcons/operationIcons/down.png') no-repeat 3px 1px;
 }
 
 .ope-detail {

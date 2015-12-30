@@ -113,6 +113,24 @@ public class UserService{
 	}
 	
 	/**
+	 * 按照指定的用户编号查询用户列表
+	 * @param userNos
+	 * @return
+	 */
+	public List<BoUser> getUserListByNo(String... userNos)
+	{
+		Query query=new Query();
+		Criteria criteria = Criteria.where("valid").is(1);
+		if(userNos != null && userNos.length > 0)
+		{
+			criteria.and("userNo").in((Object[])userNos);
+		}
+		query.addCriteria(criteria);
+		
+		return userDao.getUserList(query);
+	}
+	
+	/**
 	 * 按照角色模糊查询用户列表
 	 * @param roleNo
 	 * @return
