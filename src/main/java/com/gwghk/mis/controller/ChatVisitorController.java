@@ -147,7 +147,7 @@ public class ChatVisitorController extends BaseController{
 	public void exportRecord(HttpServletRequest request, HttpServletResponse response,Member member){
 		try{
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_VISITOR_RECORDS_TEMPLATE_PATH)));
-			Page<ChatVisitor> page = this.getPageData(request,0,10000);
+			Page<ChatVisitor> page = this.getPageData(request,1,10000);
 			List<ChatVisitor> list=page.getCollection();
 			List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
 			if(list != null && list.size() > 0){
