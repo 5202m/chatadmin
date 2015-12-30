@@ -171,6 +171,8 @@ public class ChatVisitorController extends BaseController{
 					row.set("loginDate", DateUtil.longMsTimeConvertToDateTime(cm.getLoginDate()));
 					row.set("onlineStatus", cm.getOnlineStatus()!=null && cm.getOnlineStatus()==1?"在线":"下线");
 					row.set("loginStatus", cm.getLoginStatus()!=null && cm.getLoginStatus()==1?"已登录":"未登录");
+					row.set("ip", cm.getIp());
+					row.set("ipCity", cm.getIpCity());
 					row.set("userAgent",cm.getUserAgent());
 				}
 				builder.put("rowSet",dataSet);

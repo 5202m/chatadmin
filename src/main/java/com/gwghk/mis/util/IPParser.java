@@ -16,7 +16,7 @@ import org.apache.log4j.Level;
   
 public class IPParser {  
     //纯真IP数据库名  
-    private String IP_FILE_NAME="QQWry.Dat";  
+    private String IP_FILE_NAME="ip_city.dat";  
     // 一些固定常量，比如记录长度等等  
     private static final int IP_RECORD_LENGTH = 7;  
     private static final byte REDIRECT_MODE_1 = 0x01;  
