@@ -9,7 +9,7 @@
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">手机号码</th>
-          <td width="21%"><input type="text" name="mobilePhone"></td>
+          <td width="21%"><input type="text" name="mobile"></td>
           <th>所属房间</th>
           <td>
 	          <select name="roomId" id="visitorGroupId" style="width:160px;">
