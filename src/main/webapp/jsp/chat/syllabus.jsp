@@ -3,13 +3,26 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/syllabus.js" charset="UTF-8"></script>
 <style>
 	#panel_viewSyllabus div.syllabus_title{text-align:center; font-size:20px; font-weight:bolder; margin-top: 20px;}
-	#panel_viewSyllabus table{margin-top: 5px; width: auto;}
-	#panel_viewSyllabus table tr{height: 66px;}
-	#panel_viewSyllabus table tr th{font-weight:bold; vertical-align: middle; text-align: center; font-size: 14px; width: 110px;}
-	#panel_viewSyllabus table tr td{vertical-align: middle; text-align: center; font-size: 14px; width: 110px;}
+	#panel_viewSyllabus .syllabus .sy_panel{width:600px; margin: 0 auto; background-color: rgba(219,219,219,.9);}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a{float: left; display: block; color: #757575; font-size: 12pt; font-weight: bold; padding: 6px 0px 6px 0px; text-align: center; text-decoration: none; lin}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a span{margin-top: 5px; font-size:12px; font-weight: normal;}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a.active{ color: #a17d20; background: #f6f6f6;}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_cont{padding-top: 45px;}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_cont div{padding-top: 5px; background-color: #f6f6f6;}
+	#panel_viewSyllabus .syllabus .sy_panel table{width: 600px;}
+	#panel_viewSyllabus .syllabus .sy_panel table tbody{display: none;}
+	#panel_viewSyllabus .syllabus .sy_panel table tr.prev{color: #808080;}
+	#panel_viewSyllabus .syllabus .sy_panel table tr.ing{color: #3181c6;}
+	#panel_viewSyllabus .syllabus > table{margin-top: 5px; width: auto;}
+	#panel_viewSyllabus .syllabus > table tr{height: 66px;}
+	#panel_viewSyllabus .syllabus > table tr th{ width: 110px;}
+	#panel_viewSyllabus .syllabus > table tr td{ width: 110px;}
+	#panel_viewSyllabus table tr th{font-weight:bold; vertical-align: middle; text-align: center; font-size: 14px;}
+	#panel_viewSyllabus table tr td{vertical-align: middle; text-align: center; font-size: 14px;}
 	#panel_viewSyllabus table tr th span{font-size: 80%; font-weight: normal;}
 	#panel_viewSyllabus table tr td.prev{color: #808080;}
-	#panel_viewSyllabus table tr td.ing{color: blue}
+	#panel_viewSyllabus table tr td.ing{color: #3181c6;}
+	#panel_viewSyllabus table tr td.next{}
 </style>
 <div class="easyui-layout" data-options="fit:true">
 	<!-- notrh -->
@@ -51,7 +64,8 @@
 	            </div>
 	            <div data-options="region:'center'" id="panel_viewSyllabus">
 	            	<div class="syllabus_title"><span></span>课程表</div>
-	            	<div></div>
+	            	<div class="syllabus">
+	            	</div>
 	            </div>
 			</div>
 		</div>

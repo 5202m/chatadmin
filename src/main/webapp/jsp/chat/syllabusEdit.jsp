@@ -6,7 +6,7 @@
 	#panel_editSyllabus table{margin-top: 5px; width: 1000px;}
 	#panel_editSyllabus table tr{height: 66px;}
 	#panel_editSyllabus table tr td select{width: 100%;}
-	#panel_editSyllabus table tr td textarea{width: 100%; height: 100%;}
+	#panel_editSyllabus table tr td textarea{width: 100%; height: 60px;}
 	#panel_editSyllabus table tr th,#panel_editSyllabus table tr td{vertical-align: middle; text-align: center; font-size: 14px;}
 </style>
 <form id="form_editSyllabus">
@@ -57,11 +57,13 @@
 							<option value="1">有效</option>
 							<option value="0">休市</option>
 						</select><br>
-						<select name="lecturer" style="margin-top: 10px;">
+						<select name="lecturerSelect" style="margin-top: 10px;">
+							<option value="">--请选择--</option>
 							<c:forEach var="locUser" items="${authUsers }">
 								<option value="${locUser.userName }">${locUser.userName }【${locUser.role.roleName}】</option>
 							</c:forEach>
-						</select>
+						</select><br>
+						<textarea name="lecturer"></textarea>
 					</td>
 				</c:forEach>
 			</tr>
