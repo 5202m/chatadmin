@@ -2,10 +2,13 @@ package com.gwghk.mis.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +21,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gwghk.mis.authority.ActionVerification;
+import com.gwghk.mis.common.model.AjaxJson;
+import com.gwghk.mis.common.model.ApiResult;
+import com.gwghk.mis.common.model.DataGrid;
+import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
+import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatSyllabus;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatSyllabusService;
+import com.gwghk.mis.util.BrowserUtils;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
@@ -84,35 +95,66 @@ public class ChatSyllabusController extends BaseController
 	}
 
 	/**
-	 * 获取课程表数据
+	 * 功能：获取dataGrid列表
+	 * 
 	 * @param request
-	 * @param chatGroupType 房间类别
-	 * @param chatGroupId 房间编号
-	 * @return
+	 * @param dataGrid
+	 *            分页查询参数对象
+	 * @param syllabus
+	 * @return Map<String,Object> dataGrid需要的数据
 	 */
 	@RequestMapping(value = "/chatSyllabusController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public ChatSyllabus datagrid(HttpServletRequest request, @Param("chatGroupType")String chatGroupType, @Param("chatGroupId")String chatGroupId)
+	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ChatSyllabus syllabus) {
+		Page<ChatSyllabus> page = syllabusService.getSyllabuses(this.createDetachedCriteria(dataGrid, syllabus));
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("total", null == page ? 0 : page.getTotalSize());
+		result.put("rows", null == page ? new ArrayList<ChatSyllabus>() : page.getCollection());
+		return result;
+	}
+
+	/**
+	 * 获取课程表数据
+	 * @param request
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/chatSyllabusController/view", method = RequestMethod.GET)
+	@ResponseBody
+	public ChatSyllabus view(HttpServletRequest request, @Param("id")String id)
 	{
-		ChatSyllabus loc_syllabus = syllabusService.getChatSyllabus(chatGroupType, chatGroupId);
+		ChatSyllabus loc_syllabus = syllabusService.getChatSyllabus(id);
 		return loc_syllabus;
 	}
 	
 	/**
 	 * 功能：课程表修改
-	 * @param request
-	 * @param syllabus
+	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/chatSyllabusController/preEdit", method = RequestMethod.GET)
 	@ActionVerification(key = "edit")
-	public String preEdit(HttpServletRequest request, ModelMap map, @Param("chatGroupType")String chatGroupType, @Param("chatGroupId")String chatGroupId) throws Exception
+	public String preEdit(HttpServletRequest request, ModelMap map, @Param("id")String id) throws Exception
 	{
-		ChatSyllabus loc_syllabus = syllabusService.getChatSyllabus(chatGroupType, chatGroupId);
-		List<BoUser> loc_authUsers = syllabusService.getAuthUsers(chatGroupType, chatGroupId);
+		ChatSyllabus loc_syllabus = null;
+		List<BoUser> loc_authUsers = null;
+		if(StringUtils.isNotBlank(id)){
+			loc_syllabus = syllabusService.getChatSyllabus(id);
+			loc_authUsers = syllabusService.getAuthUsers(loc_syllabus.getGroupType(), loc_syllabus.getGroupId());
+		}
+		else 
+		{
+			loc_syllabus = new ChatSyllabus();
+			loc_authUsers = new ArrayList<BoUser>();
+		}
+		
+		DictConstant dict=DictConstant.getInstance();
+    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
 
 		map.addAttribute("syllabus", loc_syllabus);
+		map.put("publishStartStr", loc_syllabus.getPublishStart() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishStart(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("publishEndStr", loc_syllabus.getPublishEnd() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishEnd(), "yyyy-MM-dd HH:mm:ss"));
 		map.addAttribute("days", new String[]{"星期一","星期二","星期三","星期四","星期五","星期六","星期天"});
 		map.addAttribute("authUsers", loc_authUsers);
 		
@@ -126,11 +168,16 @@ public class ChatSyllabusController extends BaseController
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/chatSyllabusController/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/chatSyllabusController/edit", method = RequestMethod.POST)
 	@ActionVerification(key = "edit")
 	@ResponseBody
 	public Object edit(HttpServletRequest request, ChatSyllabus syllabus) throws Exception
 	{
+		String publishStartDateStr = request.getParameter("publishStartStr");
+		String publishEndDateStr = request.getParameter("publishEndStr");
+		syllabus.setPublishStart(DateUtil.parseDateFormat(publishStartDateStr));
+		syllabus.setPublishEnd(DateUtil.parseDateFormat(publishEndDateStr));
+   	 
         Date currDate = new Date();
         syllabus.setCreateUser(userParam.getUserNo());
         syllabus.setCreateDate(currDate);
@@ -140,5 +187,32 @@ public class ChatSyllabusController extends BaseController
         syllabus.setUpdateIp(IPUtil.getClientIP(request));
 		
         return syllabusService.saveChatSyllabus(syllabus);
+	}
+
+	/**
+	 * 删除
+	 * @param request
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/chatSyllabusController/delete",method=RequestMethod.POST)
+	@ActionVerification(key="delete")
+	@ResponseBody
+	public AjaxJson delete(HttpServletRequest request, @Param("id")String id){
+		AjaxJson j = new AjaxJson();
+		ApiResult result = syllabusService.delete(id);
+		if(result.isOk()){
+			j.setSuccess(true);
+			String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除课程安排成功：" + id + "!";
+			logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+			logger.info("<<delete()|"+message);
+		}else{
+			j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+			String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除课程安排失败：" + id + "!";
+			logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+			logger.error("<<delete()|"+message+",ErrorMsg:"+result.toString());
+		}
+		return j;
 	}
 }

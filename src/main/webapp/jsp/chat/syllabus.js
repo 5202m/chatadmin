@@ -16,20 +16,88 @@ var Syllabus = {
 	chatGroups : {},
 	
 	init : function(){
+		this.initGrid();
+		this.initConst();
 		this.setEvent();
-		
-		$("#syllabus_queryForm select[name='chatGroupId'] option").each(function(){
-			Syllabus.chatGroups[$(this).val()] = $.trim($(this).text());
+	},
+	
+	/**
+	 * 功能：dataGrid初始化
+	 */
+	initGrid : function(){
+		goldOfficeUtils.dataGrid({
+			gridId : Syllabus.gridId,
+			idField:"id",
+			sortName : 'publishStart',
+			sortOrder : "desc",
+			url : basePath+'/chatSyllabusController/datagrid.do',
+			columns : [[
+			    {title : $.i18n.prop("common.operate"), field:'id', formatter: function(value, rowData, rowIndex){
+			    	$("#syllabus_datagrid_rowOperation input").val(value);
+			    	return $("#syllabus_datagrid_rowOperation").html();
+			    }},
+	            {title : "应用组别",field : 'groupType',formatter : function(value, rowData, rowIndex) {
+	            	return Syllabus.chatGroups[value + ","];
+				}},
+				{title : "应用房间",field : 'groupId',formatter : function(value, rowData, rowIndex) {
+					return value ? Syllabus.chatGroups[rowData.groupType + "," + value] : "";
+				}},
+	            {title : "发布开始时间",field : 'publishStart',formatter : function(value, rowData, rowIndex) {
+	            	return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
+				}},
+				{title : "发布结束时间",field : 'publishEnd',formatter : function(value, rowData, rowIndex) {
+					return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
+				}}
+			]],
+			toolbar : '#syllabus_datagrid_toolbar'
 		});
-		$("#syllabus_groupId_select").trigger("change");
+	},
+	
+	/**
+	 * 初始化常量
+	 */
+	initConst : function(){
+		$("#syllabus_groupType_select option").each(function(){
+			var loc_val = $(this).val();
+			if(loc_val){
+				Syllabus.chatGroups[loc_val + ","] = $(this).text();
+			}
+		});
+		$("#syllabus_groupId_select option").each(function(){
+			var loc_val = $(this).val();
+			if(loc_val){
+				Syllabus.chatGroups[$(this).attr("t") + "," + loc_val] = $(this).text();
+			}
+		});
 	},
 	
 	/** 绑定事件 */
 	setEvent:function(){
 		/**查询*/
-		$("#syllabus_groupId_select").on("change",function(){
-			var loc_chatGroupId = $("#syllabus_queryForm select[name='chatGroupId'] :selected");
-			Syllabus.getSyllabus(loc_chatGroupId.attr("group_type"), loc_chatGroupId.attr("group_id"));
+		$("#syllabus_groupType_select").on("change",function(){
+			var loc_val = $(this).val();
+			var loc_target = $("#syllabus_groupId_select");
+			loc_target.find("option[t]").hide();
+			if(loc_val)
+			{
+				loc_target.find("option[t='" + loc_val + "']").show();
+			}
+			loc_target.val("");
+		});
+		$("#syllabus_groupType_select").trigger("change");
+		
+		/**查询*/
+		$("#syllabus_queryForm_search").on("click",function(){
+			var queryParams = $('#'+Syllabus.gridId).datagrid('options').queryParams;
+			$("#syllabus_queryForm select").each(function(){
+				queryParams[$(this).attr("name")] = $(this).val();
+			});
+			$('#'+Syllabus.gridId).datagrid({pageNumber : 1});
+		});
+		
+		/**重置*/
+		$("#syllabus_queryForm_reset").on("click",function(){
+			$("#syllabus_queryForm")[0].reset();
 		});
 	},
 
@@ -37,6 +105,35 @@ var Syllabus = {
      * 设置编辑事件
      */
     setEditEvent : function() {
+    	/**
+    	 * 房间选择处理
+    	 */
+    	if(!$("#form_editSyllabus input[name='id']").val())
+		{
+    		//新增
+    		$("#syllabusEdit_groupType_select").on("change",function(){
+    			var loc_val = $(this).val();
+    			var loc_target = $("#syllabusEdit_groupId_select");
+    			loc_target.find("option[t]").hide();
+    			if(loc_val)
+    			{
+    				loc_target.find("option[t='" + loc_val + "']").show();
+    			}
+    			loc_target.val("");
+    		});
+    		$("#syllabusEdit_groupType_select").trigger("change");
+		}
+    	else
+		{
+			//修改
+    		var loc_select = $("#syllabusEdit_groupType_select");
+    		loc_select.val(loc_select.attr("val"));
+    		loc_select.prop("disabled", true);
+    		loc_select = $("#syllabusEdit_groupId_select");
+    		loc_select.val(loc_select.attr("val"));
+    		loc_select.prop("disabled", true);
+		}
+    	
         /**
          * 添加
          */
@@ -152,15 +249,38 @@ var Syllabus = {
 	},
 	
 	/**
-	 * 获取课程表记录
-	 * @param chatGroupType
-	 * @param chatGroupId
+	 * 预览
+	 * @param item
 	 */
-	getSyllabus : function(chatGroupType, chatGroupId)
+	view : function(item){
+		var loc_syllabusId = $(item).siblings("input").val();
+		goldOfficeUtils.openSimpleDialog({
+			dialogId : "viewSyllabusWin",
+			title : '课程表预览',
+			width : 1050,
+			height : 560,
+			onOpen : function(){
+				Syllabus.getSyllabus(loc_syllabusId);
+			},
+			buttons	 : [{
+				text : '关闭',
+				iconCls : "ope-close",
+				handler : function() {
+					$("#viewSyllabusWin").dialog("close");
+				}
+			}]
+		});
+	},
+	
+	/**
+	 * 获取课程表记录
+	 * @param syllabusId
+	 */
+	getSyllabus : function(syllabusId)
 	{
 		$("#panel_viewSyllabus table").html("");
 		goldOfficeUtils.ajax({
-			url : basePath +'/chatSyllabusController/datagrid.do?chatGroupType=' + chatGroupType + '&chatGroupId=' + chatGroupId,
+			url : basePath +'/chatSyllabusController/view.do?id=' + syllabusId,
 			type : 'get',
 			success : function(data){
 				var loc_syllabus = data;
@@ -213,16 +333,24 @@ var Syllabus = {
 	 */
 	edit : function(item)
 	{
-		var loc_syllabus = $("#panel_viewSyllabus").data("syllabus");
-		var loc_url = formatUrl(basePath + '/chatSyllabusController/preEdit.do?chatGroupType=' + loc_syllabus.groupType + '&chatGroupId=' + loc_syllabus.groupId);
+		var loc_syllabusId = !item ? "" : $(item).siblings("input").val();
+		var loc_url = formatUrl(basePath + '/chatSyllabusController/preEdit.do?id=' + loc_syllabusId);
 		goldOfficeUtils.openEditorDialog({
-			title : '编辑课程表',
+			title : '新增/编辑课程表',
 			width : 1050,
 			height : 560,
 			href : loc_url,
 			iconCls : 'ope-edit',
 			handler : function(){
-                $("#form_editSyllabus input[name='courses']").val(Syllabus.getCoursesJson($("#panel_editSyllabus table:first")));
+				if(!$("#syllabusEdit_groupType_select").val()){
+					$.messager.alert($.i18n.prop("common.operate.tips"),'房间组别不能为空！','error');
+					return ;
+				}
+				if(!$("#syllabus_publishStart").val() || !$("#syllabus_publishEnd").val()){
+					$.messager.alert($.i18n.prop("common.operate.tips"),'发布时间不能为空！','error');
+					return ;
+				}
+				$("#form_editSyllabus input[name='courses']").val(Syllabus.getCoursesJson($("#panel_editSyllabus table:first")));
 				goldOfficeUtils.ajaxSubmitForm({
 					url : formatUrl(basePath + '/chatSyllabusController/edit.do'),
 					formId : 'form_editSyllabus',
@@ -240,7 +368,6 @@ var Syllabus = {
 			},
 			onLoad : function(){
 				var loc_panel = $("#panel_editSyllabus");
-				loc_panel.find("span:first").text(Syllabus.getGroupName(loc_syllabus.groupType, loc_syllabus.groupId));
                 Syllabus.setEditEvent();
                 var loc_courses = $("#form_editSyllabus input[name='courses']").val();
                 if(!loc_courses){
@@ -279,11 +406,20 @@ var Syllabus = {
 	},
 	
 	/**
+	 * 删除
+	 * @param item
+	 */
+	del : function(item){
+		var loc_id = $(item).siblings("input").val();
+		var url = formatUrl(basePath + '/chatSyllabusController/delete.do');
+		goldOfficeUtils.deleteOne(Syllabus.gridId, loc_id, url, "确认删除吗？");
+	},
+	
+	/**
 	 * 刷新
 	 */
 	refresh : function(){
-		var loc_syllabus = $("#panel_viewSyllabus").data("syllabus");
-		Syllabus.getSyllabus(loc_syllabus.groupType, loc_syllabus.groupId);
+		$('#'+Syllabus.gridId).datagrid('reload');
 	},
 
     /**
@@ -536,7 +672,7 @@ var Syllabus = {
                                 for(var j = 0; j < lenJ; j++){
                                     loc_timeBucket = loc_courses.timeBuckets[j];
                                     loc_timeCls = loc_timeClsFunc(loc_day.day, loc_timeBucket.startTime, loc_timeBucket.endTime, currTime, false);
-                                    loc_html.push('<td class="' + loc_timeCls + '">' + (loc_timeBucket.status == 0 ? "休市" : loc_timeBucket.course[j].lecturer) + '</td>');
+                                    loc_html.push('<td class="' + loc_timeCls + '">' + (loc_timeBucket.course[i].status == 0 ? "休市" : loc_timeBucket.course[i].lecturer) + '</td>');
                                 }
                             }
                             loc_html.push('</tr>');

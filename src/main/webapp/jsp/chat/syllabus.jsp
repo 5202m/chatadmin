@@ -31,43 +31,83 @@
 			<form class="yxForm" id="syllabus_queryForm">
 				<table class="tableForm_L" style="margin-top: 3px" width="99%" heigth="auto" border="0" cellpadding="0" cellspacing="1">
 					<tr>
-						<th width="10%">房间</th>
-						<td>
-							<select name="chatGroupId" id="syllabus_groupId_select" style="width: 160px;">
-								<c:forEach var="row" items="${chatGroupList}" varStatus="status">
-									<option value="${row.groupType },${row.id }" group_type="${row.groupType }" group_id="${row.id }">
-										<c:if test="${not empty row.id}">&nbsp;&nbsp;&nbsp;&nbsp;</c:if>${row.name}
-									</option>
+						<th width="10%">房间组别</th>
+						<td width="40%">
+							<select name="groupType" id="syllabus_groupType_select" style="width: 160px;">
+								<option value="">--请选择--</option>
+								<c:forEach var="row" items="${chatGroupList}">
+									<c:if test="${empty row.id}">
+										<option value="${row.groupType }">
+											${row.name}
+										</option>
+									</c:if>
 								</c:forEach>
 							</select>
+						</td>
+						<th width="10%">房间</th>
+						<td width="40%">
+							<select name="groupId" id="syllabus_groupId_select" style="width: 160px;">
+								<option value="">--请选择--</option>
+								<c:forEach var="row" items="${chatGroupList}">
+									<c:if test="${not empty row.id}">
+										<option value="${row.id }" t="${row.groupType }">
+											${row.name}
+										</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="6" align="right">
+							&nbsp;&nbsp;
+							<a href="#" class="easyui-linkbutton" id="syllabus_queryForm_search" data-options="iconCls:'ope-search'">
+								<spring:message code="common.buttons.search" />
+								<!-- 查询 -->
+							</a>
+							&nbsp;&nbsp;
+							<a href="#" class="easyui-linkbutton" id="syllabus_queryForm_reset" data-options="iconCls:'ope-empty'">
+								<spring:message code="common.buttons.clear" />
+								<!-- 清空 -->
+							</a>
 						</td>
 					</tr>
 				</table>
 			</form>
 		</div>
 	</div>
-
+	
 	<!-- datagrid -->
-	<div data-options="region:'center'">
-		<div class="easyui-panel" style="height: 300px;" data-options="fit:true,title:'课表预览',border:false,iconCls:'pag-list',footer:'#syllabus_datagrid_toolbar'">
-			<div class="easyui-layout" data-options="fit:true">
-				<div data-options="region:'north',border:false" style="width:100%; height: 25px;">
-					<div>
-						<a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="Syllabus.edit();">
-							<spring:message code="common.buttons.edit" /><!-- 新增 -->
-						</a> 
-						<a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false" onclick="Syllabus.refresh();">
-							<spring:message code="common.buttons.refresh" />
-							<!-- 刷新 -->
-						</a>
-					</div>
-	            </div>
-	            <div data-options="region:'center'" id="panel_viewSyllabus">
-	            	<div class="syllabus_title"><span></span>课程表</div>
-	            	<div class="syllabus">
-	            	</div>
-	            </div>
+	<div data-options="region:'center',title:'<spring:message code="common.datalist" />',iconCls:'pag-list'">
+		<div id="syllabus_datagrid" style="display: none"></div>
+	</div>
+
+	<!-- datagrid-操作按钮 -->
+	<div id="syllabus_datagrid_rowOperation" style="display: none;">
+		<input type="hidden" value="">
+		<a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="Syllabus.view(this)"><spring:message code="common.buttons.view" /><!-- 预览 --></a>
+		<a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="Syllabus.edit(this)"><spring:message code="common.buttons.edit" /><!-- 修改 --></a>
+	  	<a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="Syllabus.del(this)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
+	</div>
+	
+	<!-- datagrid-toolbar -->
+	<div id="syllabus_datagrid_toolbar" style="display: none;">
+		<a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="Syllabus.edit();">
+			<spring:message code="common.buttons.add" /><!-- 新增 -->
+		</a> 
+		<a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false" onclick="Syllabus.refresh();">
+			<spring:message code="common.buttons.refresh" />
+			<!-- 刷新 -->
+		</a>
+	</div>
+
+	<div id="viewSyllabusWin" class="easyui-dialog" closed="true">
+		<div data-options="region:'center'" id="panel_viewSyllabus">
+			<div class="syllabus_title">
+				<span></span>
+				课程表
 			</div>
+			<div class="syllabus"></div>
 		</div>
 	</div>
 </div>

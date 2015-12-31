@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.gwghk.mis.common.model.ApiResult;
+import com.gwghk.mis.common.model.DetachedCriteria;
+import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatSyllabusDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
@@ -35,29 +37,39 @@ public class ChatSyllabusService
 	
 	@Autowired
 	private UserService userService;
+	
 
+	/**
+	 * 查询课表列表
+	 * 
+	 * @param dCriteria
+	 * @return
+	 */
+	public Page<ChatSyllabus> getSyllabuses(DetachedCriteria<ChatSyllabus> dCriteria) {
+		ChatSyllabus syllabus = dCriteria.getSearchModel();
+		Query query = new Query();
+		Criteria criteria = Criteria.where("isDeleted").is(0);
+		if (syllabus != null) {
+			if (StringUtils.isNotBlank(syllabus.getGroupType())) {
+				criteria.and("groupType").is(syllabus.getGroupType());
+			}
+			if (StringUtils.isNotBlank(syllabus.getGroupId())) {
+				criteria.and("groupId").is(syllabus.getGroupId());
+			}
+		}
+		query.addCriteria(criteria);
+		return chatSyllabusDao.findPage(ChatSyllabus.class, query, dCriteria);
+	}
+	
 	/**
 	 * 通过id找对应课程表记录
 	 * 
-	 * @param chatGroupType
-	 * @param chatGroupId
+	 * @param id
 	 * @return
 	 */
-	public ChatSyllabus getChatSyllabus(String chatGroupType, String chatGroupId)
+	public ChatSyllabus getChatSyllabus(String id)
 	{
-		Query query = new Query();
-		Criteria criteria = Criteria.where("groupType").is(chatGroupType);
-		//如果是空的，也需要传递
-		criteria.and("groupId").is(chatGroupId);
-		query.addCriteria(criteria);
-		ChatSyllabus loc_result = chatSyllabusDao.findByGroupId(query);
-		if(loc_result == null)
-		{
-			loc_result = new ChatSyllabus();
-			loc_result.setGroupType(chatGroupType);
-			loc_result.setGroupId(chatGroupId);
-		}
-		return loc_result;
+		return chatSyllabusDao.findById(ChatSyllabus.class, id);
 	}
 	
 	/**
@@ -114,13 +126,6 @@ public class ChatSyllabusService
 		}
 		return loc_authUsers;
 	}
-	
-	public static void main(String[] args)
-	{
-		String[] loc_s = null;
-		Set<String> loc_userIds = new HashSet<String>(Arrays.asList(loc_s));
-		System.out.println(loc_userIds);
-	}
 
 	/**
 	 * 保存课程表
@@ -130,21 +135,37 @@ public class ChatSyllabusService
 	 */
 	public ApiResult saveChatSyllabus(ChatSyllabus syllabus) {
 		ApiResult loc_result=new ApiResult();
-		ChatSyllabus loc_syllabus = this.getChatSyllabus(syllabus.getGroupType(), syllabus.getGroupId());
-		if (loc_syllabus.getId() == null)
+		if (StringUtils.isBlank(syllabus.getId()))
 		{
 			//没有相关课程表，直接添加
+			syllabus.setId(null);
+			syllabus.setIsDeleted(0);
 			chatSyllabusDao.add(syllabus);
 		}
 		else
 		{
+
+			ChatSyllabus loc_syllabus = this.getChatSyllabus(syllabus.getId());
 			//已经存在课程表，直接更新
 			loc_syllabus.setCourses(syllabus.getCourses());
+			loc_syllabus.setPublishStart(syllabus.getPublishStart());
+			loc_syllabus.setPublishEnd(syllabus.getPublishEnd());
 			loc_syllabus.setUpdateUser(syllabus.getUpdateUser());
 			loc_syllabus.setUpdateIp(syllabus.getUpdateIp());
 			loc_syllabus.setUpdateDate(syllabus.getUpdateDate());
 			chatSyllabusDao.update(loc_syllabus);
 		}
     	return loc_result.setCode(ResultCode.OK);
+	}
+
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	public ApiResult delete(String id) {
+		ApiResult result=new ApiResult();
+		boolean isOk = chatSyllabusDao.delete(id);
+		return result.setCode(isOk ? ResultCode.OK : ResultCode.FAIL);
 	}
 }

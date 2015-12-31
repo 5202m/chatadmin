@@ -2,24 +2,57 @@
 <%@ include file="/jsp/common/common.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/syllabus.js" charset="UTF-8"></script>
 <style>
-	#panel_editSyllabus div.syllabus_title{text-align:center; font-size:20px; font-weight:bolder; margin-top: 20px;}
-	#panel_editSyllabus table{margin-top: 5px; width: 1000px;}
+	#panel_editSyllabus table{margin-top: 5px;}
 	#panel_editSyllabus table tr{height: 66px;}
 	#panel_editSyllabus table tr td select{width: 100%;}
 	#panel_editSyllabus table tr td textarea{width: 100%; height: 60px;}
 	#panel_editSyllabus table tr th,#panel_editSyllabus table tr td{vertical-align: middle; text-align: center; font-size: 14px;}
 </style>
-<form id="form_editSyllabus">
-	<input type="hidden" name="groupType" value="${syllabus.groupType  }">
-	<input type="hidden" name="groupId" value="${syllabus.groupId  }">
+<!-- 编辑框 -->
+<form id="form_editSyllabus" class="yxForm" method="post">
+	<table class="tableForm_L" border="0" cellpadding="0" cellspacing="1" style="margin-top: 5px;">
+		<thead>
+			<tr>
+				<th width="10%">房间组别</th>
+				<td width="40%">
+					<select name="groupType" id="syllabusEdit_groupType_select" style="width: 160px;" val="${syllabus.groupType }">
+						<option value="">--请选择--</option>
+						<c:forEach var="row" items="${chatGroupList}">
+							<c:if test="${empty row.id}">
+								<option value="${row.groupType }">
+									${row.name}
+								</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</td>
+				<th width="10%">房间</th>
+				<td width="40%">
+					<select name="groupId" id="syllabusEdit_groupId_select" style="width: 160px;" val="${syllabus.groupId }">
+						<option value="">--请选择--</option>
+						<c:forEach var="row" items="${chatGroupList}">
+							<c:if test="${not empty row.id}">
+								<option value="${row.id }" t="${row.groupType }">
+									${row.name}
+								</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>发布时间</th>
+				<td colspan="3">
+					从&nbsp; <input name="publishStartStr" id="syllabus_publishStart" class="Wdate" value="${publishStartStr }" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'syllabus_publishEnd\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px"/>
+             &nbsp;&nbsp; 到&nbsp;<input name="publishEndStr" id="syllabus_publishEnd" class="Wdate" value="${publishEndStr }" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'syllabus_publishStart\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width:150px"/>
+				</td>
+			</tr>
+		</thead>
+	</table>
+	<input type="hidden" name="id" value="${syllabus.id  }">
 	<input type="hidden" name="courses" value='${syllabus.courses  }'>
 </form>
-<!-- 编辑框 -->
 <div id="panel_editSyllabus">
-	<div class="syllabus_title">
-		<span></span>
-		课程表
-	</div>
 	<table class="tableForm_L" border="0" cellpadding="0" cellspacing="1">
 		<thead>
 			<tr>

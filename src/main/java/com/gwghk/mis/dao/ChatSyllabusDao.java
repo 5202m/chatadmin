@@ -1,10 +1,13 @@
 package com.gwghk.mis.dao;
 
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
 import com.gwghk.mis.model.ChatSyllabus;
+import com.mongodb.WriteResult;
 
 /**
  * 聊天室课程安排DAO
@@ -22,5 +25,16 @@ public class ChatSyllabusDao extends MongoDBBaseDao{
 	public ChatSyllabus findByGroupId(Query query)
 	{
 		return this.findOne(ChatSyllabus.class, query);
+	}
+
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	public boolean delete(String id) {
+		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("_id").is(id))
+					, Update.update("isDeleted", 1), ChatSyllabus.class);
+		return wr != null && wr.getN() > 0;
 	}
 }
