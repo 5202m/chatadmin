@@ -150,6 +150,7 @@ public class ChatVisitorController extends BaseController{
 			Page<ChatVisitor> page = this.getPageData(request,1,10000);
 			List<ChatVisitor> list=page.getCollection();
 			List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
+			int totalOnline=0,totalLogin=0,totalNeverLogin=0,totalRegist=0,totalHasLogin=0;
 			if(list != null && list.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatVisitor cm : list){
@@ -169,8 +170,27 @@ public class ChatVisitorController extends BaseController{
 					row.set("onlineDate", DateUtil.longMsTimeConvertToDateTime(cm.getOnlineDate()));
 					row.set("loginPreDate",DateUtil.longMsTimeConvertToDateTime(cm.getLoginPreDate()));
 					row.set("loginDate", DateUtil.longMsTimeConvertToDateTime(cm.getLoginDate()));
-					row.set("onlineStatus", cm.getOnlineStatus()!=null && cm.getOnlineStatus()==1?"在线":"下线");
-					row.set("loginStatus", cm.getLoginStatus()!=null && cm.getLoginStatus()==1?"已登录":"未登录");
+					if(cm.getOnlineStatus()!=null && cm.getOnlineStatus()==1){
+						row.set("onlineStatus", "在线");
+						totalOnline+=1;
+					}else{
+						row.set("onlineStatus", "下线");
+					}
+					if(cm.getLoginStatus()!=null && cm.getLoginStatus()==1){
+						row.set("loginStatus","已登入");
+						totalLogin+=1;
+					}else{
+						row.set("loginStatus","已登出");
+					}
+					if(cm.getLoginTimes()==null||cm.getLoginTimes()==0){
+						totalNeverLogin+=1;
+						row.set("loginStatus", "从未登录");
+					}else{
+						totalHasLogin+=1;
+					}
+					if(StringUtils.isNotBlank(cm.getMobile())){
+						totalRegist+=1;
+					}
 					row.set("ip", cm.getIp());
 					row.set("ipCity", cm.getIpCity());
 					row.set("userAgent",cm.getUserAgent());
@@ -179,6 +199,11 @@ public class ChatVisitorController extends BaseController{
 			}else{
 				builder.put("rowSet",new DataRowSet());
 			}
+			builder.put("totalOnline",totalOnline);
+			builder.put("totalLogin",totalLogin);
+			builder.put("totalNeverLogin",totalNeverLogin);
+			builder.put("totalRegist",totalRegist);
+			builder.put("totalHasLogin",totalHasLogin);
 			builder.parse();
 			ExcelUtil.wrapExcelExportResponse("访客记录", request, response);
 			builder.write(response.getOutputStream());
