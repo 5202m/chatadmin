@@ -57,13 +57,13 @@
 							<option value="1">有效</option>
 							<option value="0">休市</option>
 						</select><br>
-						<select name="lecturerSelect" style="margin-top: 10px;">
+						<select name="lecturerSelect" style="margin-top: 5px; display: none;">
 							<option value="">--请选择--</option>
 							<c:forEach var="locUser" items="${authUsers }">
 								<option value="${locUser.userName }">${locUser.userName }【${locUser.role.roleName}】</option>
 							</c:forEach>
-						</select><br>
-						<textarea name="lecturer"></textarea>
+						</select>
+						<textarea name="lecturer"style="margin-top: 5px;"></textarea>
 					</td>
 				</c:forEach>
 			</tr>
