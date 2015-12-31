@@ -113,7 +113,8 @@ var Syllabus = {
         		if(loc_lecturer)
         		{
         			var loc_input = $(this).siblings("textarea[name='lecturer']");
-        			loc_input.val(loc_input.val() + '&' + loc_lecturer);
+        			loc_input.val((loc_input.val() ? (loc_input.val() + '&') : "") + loc_lecturer);
+        			$(this).val("");
         		}
             });
         });
