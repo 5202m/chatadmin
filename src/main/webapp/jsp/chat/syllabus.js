@@ -201,7 +201,7 @@ var Syllabus = {
 					var loc_html = '<table cellpadding="0" cellspacing="1" border="0" class="tableForm_L" style="width: 730px;">';
 					loc_html += '<tr><th>未设置任何课程表，请点击修改按钮！</th></tr>';
 					loc_html += '</table>';
-					$("#panel_viewSyllabus div:last").html(loc_html);
+					$("#panel_viewSyllabus div.syllabus").html(loc_html);
 				}
 			}
 		});
