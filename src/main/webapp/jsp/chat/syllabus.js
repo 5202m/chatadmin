@@ -217,7 +217,7 @@ var Syllabus = {
         });
         
         /**
-         * 选择讲师
+         * 选择状态
          */
         $("#panel_editSyllabus tbody select[name='status']").each(function(index){
         	$(this).bind("change", index, function (event, status) {

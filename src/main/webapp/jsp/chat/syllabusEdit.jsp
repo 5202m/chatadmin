@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp"%>
-<script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/syllabus.js" charset="UTF-8"></script>
 <style>
 	#panel_editSyllabus table{margin-top: 5px;}
 	#panel_editSyllabus table tr{height: 66px;}
