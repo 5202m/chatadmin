@@ -3,6 +3,7 @@ package com.gwghk.mis.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -22,11 +23,13 @@ public class ChatSyllabus extends BaseModel{
 	/**
 	 * 房间号
 	 */
+	@Indexed
 	private String groupId;
 	
 	/**
 	 * 房间类别
 	 */
+	@Indexed
 	private String groupType;
 	
 	/**
