@@ -16,7 +16,7 @@ var chatVisitor = {
 		goldOfficeUtils.dataGrid({
 			gridId : chatVisitor.gridId,
 			idField : 'chatVisitorId',
-			sortName : 'updateDate',
+			sortName : 'onlineDate',
 			sortOrder : 'desc',
 			singleSelect : false,
 			url : basePath+'/chatVisitorController/datagrid.do?roomId='+$("#visitorGroupId").val(),
