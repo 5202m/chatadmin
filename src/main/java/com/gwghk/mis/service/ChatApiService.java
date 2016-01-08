@@ -4,19 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.common.model.ApiResult;
-import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.enums.ResultCode;
-import com.gwghk.mis.model.ChatVisitor;
 import com.gwghk.mis.util.HttpClientUtils;
-import com.gwghk.mis.util.IPParser;
 import com.gwghk.mis.util.PropertiesUtil;
 
 /**
@@ -26,7 +20,7 @@ import com.gwghk.mis.util.PropertiesUtil;
  */
 @Service
 public class ChatApiService{
-	private static final Logger logger = LoggerFactory.getLogger(ChatApiService.class);
+	//private static final Logger logger = LoggerFactory.getLogger(ChatApiService.class);
 	/**
 	 * 格式请求url
 	 * @return
@@ -105,80 +99,4 @@ public class ChatApiService{
     		return api.setCode(ResultCode.FAIL).setErrorMsg(e.getMessage());
     	}
     }
-    
-    /**
-     * 提取訪客記錄
-     * @param chatVisitor
-     * @return
-     */
-    public Page<ChatVisitor> getChatVisitorList(ChatVisitor chatVisitor,int pageNo,int pageSize){
-    	 Map<String, String> paramMap=new HashMap<String, String>();
-    	 if(StringUtils.isNotBlank(chatVisitor.getMobile())){
-    		 paramMap.put("mobile", chatVisitor.getMobile()); 
-    	 }
-    	 if(StringUtils.isNotBlank(chatVisitor.getRoomId())){
-    	    paramMap.put("roomId", chatVisitor.getRoomId());
-    	 }
-    	 if(StringUtils.isNotBlank(chatVisitor.getGroupType())){
-     	    paramMap.put("groupType", chatVisitor.getGroupType());
-    	 }
-    	 if(chatVisitor.getLoginStatus()!=null){
-      	    paramMap.put("loginStatus", chatVisitor.getLoginStatus().toString());
-     	 }
-    	 if(chatVisitor.getOnlineStatus()!=null){
-       	    paramMap.put("onlineStatus", chatVisitor.getOnlineStatus().toString());
-      	 }
-    	 paramMap.put("pageNo", String.valueOf(pageNo));
-    	 paramMap.put("pageSize", String.valueOf(pageSize));
-     	 Page<ChatVisitor> page=new Page<ChatVisitor>();
-         try {
-			String str=HttpClientUtils.httpGetString(formatUrl("getChatVisitorList"),paramMap);
-			if(StringUtils.isNotBlank(str)){
-				JSONObject strObj=JSON.parseObject(str);
-				page.setTotalSize(strObj.getIntValue("totalRecord"));
-				Object listObj=strObj.get("list");
-				JSONArray jsListObj=null;
-				if(listObj!=null && (jsListObj=(JSONArray)listObj).size()>0){
-					JSONObject jsObj=null;
-					IPParser ipObject=new IPParser(); 
-					for(Object obj:jsListObj){
-						jsObj=(JSONObject)obj;
-						jsObj.put("ipCity",ipObject.getIPLocation(jsObj.getString("ip")).getCountry());
-					}
-				   page.addAll(JSONArray.parseArray(listObj.toString(), ChatVisitor.class));
-				}
-				return page;
-			}else{
-				return null;
-			}
-		} catch (Exception e) {
-			logger.error("getChatVisitorList fail!", e);
-			return null;
-		}
-    }
-    
-    /**
-  	 * 删除 chatVisitor
-  	 * @param  chatVisitor=>clientStoreId(多个逗号分隔)
-  	 */
-      public ApiResult deleteChatVisitor(String groupType,String clientStoreIds){
-      	 Map<String, String> paramMap=new HashMap<String, String>();
-      	 paramMap.put("ids",clientStoreIds);
-      	 paramMap.put("groupType",groupType);
-      	 ApiResult result=new ApiResult();
-         try {
-  			String str=HttpClientUtils.httpPostString(formatUrl("deleteChatVisitor"),paramMap);
-  			if(StringUtils.isNotBlank(str)){
-  				JSONObject obj=JSON.parseObject(str);
-				return result.setCode(obj.getBoolean("isOK")?ResultCode.OK:ResultCode.FAIL);
-  			}else{
-  				return result.setCode(ResultCode.FAIL);
-  			}
-  		} catch (Exception e) {
-  			logger.error("deleteChatVisitor fail!", e);
-  			return result.setErrorMsg("操作异常，请检查！");
-  		}
-	}
-    
-    
 } 

@@ -36,8 +36,23 @@
           		<option value="">--请选择--</option>
           		<option value="1">已登录</option>
           		<option value="0">未登录</option>
+          		<option value="2">从未登录</option>
 	          </select>
           </td>
+        </tr>
+        <tr>
+        	<th>上线时间</th>
+			<td>
+				<input name="onlineDateStart" id="visitor_onlineDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_onlineDateEnd\')}'})" style="width: 160px" />
+				—
+				<input name="onlineDateEnd" id="visitor_onlineDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_onlineDateStart\')}'})" style="width: 160px" />
+			</td>
+        	<th>上线时间</th>
+			<td>
+				<input name="loginDateStart" id="visitor_loginDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_loginDateEnd\')}'})" style="width: 160px" />
+				—
+				<input name="loginDateEnd" id="visitor_loginDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_loginDateStart\')}'})" style="width: 160px" />
+			</td>
         </tr>
         <tr>
           <td colspan="6" align="right">&nbsp;&nbsp;

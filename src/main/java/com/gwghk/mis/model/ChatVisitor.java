@@ -1,130 +1,453 @@
 package com.gwghk.mis.model;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
- * 访客对象 
+ * 访客对象
+ * 
  * @author Alan.wu
  * @date 2015年12月25日
  */
-public class ChatVisitor {
+@Document
+public class ChatVisitor extends BaseModel
+{
+	@Id
+	private String chatVisitorId;//ObjectId
+
+	@Indexed
 	private String clientStoreId;// 客服端id
+
+	@Indexed
 	private String groupType;// 房间组别
+
+	@Indexed
 	private String roomId;// 所在房间id
+
 	private String userId;// 用户id
+
 	private String ip;// 访问者ip
+
 	private String ipCity;// 访问者ip城市
+
 	private Integer visitTimes;// 累计访问次数
+
 	private Integer loginTimes;// 累计登陆次数
+
 	private Integer onlineStatus;// 在线状态
+
 	private Integer loginStatus;// 登陆状态
-	private long onlineDate;// 最近上线时间
-	private long onlinePreDate;// 前一次上线时间
-	private long loginDate;// 登录时间
-	private long loginPreDate;// 上次登录时间
-	private String mobile;// 手机号
-	private String accountNo;// 账号
-	private String userAgent;// 用户客户端信息
+
+	private Date onlineDate;// 最近上线时间
 	
-	public String getClientStoreId() {
+	private String onlineDateStart;// 上线开始时间 yyyy-MM-dd
+	
+	private String onlineDateEnd;// 上线结束时间yyyy-MM-dd
+	
+	private Date offlineDate;// 最近下线时间
+	
+	private String onLineDuration;// 最近时长
+
+	private Date onlinePreDate;// 前一次上线时间
+
+	private Date loginDate;// 登录时间
+	
+	private String loginDateStart;// 登录开始时间 yyyy-MM-dd
+	
+	private String loginDateEnd;// 登录结束时间yyyy-MM-dd
+
+	private Date loginPreDate;// 上次登录时间
+
+	private String mobile;// 手机号
+
+	private String accountNo;// 账号
+
+	private String userAgent;// 用户客户端信息
+
+	/**
+	 * @return the chatVisitorId
+	 */
+	public String getChatVisitorId()
+	{
+		return chatVisitorId;
+	}
+
+	/**
+	 * @param chatVisitorId the chatVisitorId to set
+	 */
+	public void setChatVisitorId(String chatVisitorId)
+	{
+		this.chatVisitorId = chatVisitorId;
+	}
+
+	/**
+	 * @return the clientStoreId
+	 */
+	public String getClientStoreId()
+	{
 		return clientStoreId;
 	}
-	public void setClientStoreId(String clientStoreId) {
+
+	/**
+	 * @param clientStoreId the clientStoreId to set
+	 */
+	public void setClientStoreId(String clientStoreId)
+	{
 		this.clientStoreId = clientStoreId;
 	}
-	public String getGroupType() {
+
+	/**
+	 * @return the groupType
+	 */
+	public String getGroupType()
+	{
 		return groupType;
 	}
-	public void setGroupType(String groupType) {
+
+	/**
+	 * @param groupType the groupType to set
+	 */
+	public void setGroupType(String groupType)
+	{
 		this.groupType = groupType;
 	}
-	public String getRoomId() {
+
+	/**
+	 * @return the roomId
+	 */
+	public String getRoomId()
+	{
 		return roomId;
 	}
-	public void setRoomId(String roomId) {
+
+	/**
+	 * @param roomId the roomId to set
+	 */
+	public void setRoomId(String roomId)
+	{
 		this.roomId = roomId;
 	}
-	public String getUserId() {
+
+	/**
+	 * @return the userId
+	 */
+	public String getUserId()
+	{
 		return userId;
 	}
-	public void setUserId(String userId) {
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(String userId)
+	{
 		this.userId = userId;
 	}
-	public String getIp() {
+
+	/**
+	 * @return the ip
+	 */
+	public String getIp()
+	{
 		return ip;
 	}
-	public void setIp(String ip) {
+
+	/**
+	 * @param ip the ip to set
+	 */
+	public void setIp(String ip)
+	{
 		this.ip = ip;
 	}
-	public Integer getVisitTimes() {
-		return visitTimes;
-	}
-	public void setVisitTimes(Integer visitTimes) {
-		this.visitTimes = visitTimes;
-	}
-	public Integer getLoginTimes() {
-		return loginTimes;
-	}
-	public void setLoginTimes(Integer loginTimes) {
-		this.loginTimes = loginTimes;
-	}
-	public Integer getOnlineStatus() {
-		return onlineStatus;
-	}
-	public void setOnlineStatus(Integer onlineStatus) {
-		this.onlineStatus = onlineStatus;
-	}
-	public Integer getLoginStatus() {
-		return loginStatus;
-	}
-	public void setLoginStatus(Integer loginStatus) {
-		this.loginStatus = loginStatus;
-	}
-	public long getOnlineDate() {
-		return onlineDate;
-	}
-	public void setOnlineDate(long onlineDate) {
-		this.onlineDate = onlineDate;
-	}
-	public long getOnlinePreDate() {
-		return onlinePreDate;
-	}
-	public void setOnlinePreDate(long onlinePreDate) {
-		this.onlinePreDate = onlinePreDate;
-	}
-	public long getLoginDate() {
-		return loginDate;
-	}
-	public void setLoginDate(long loginDate) {
-		this.loginDate = loginDate;
-	}
-	public long getLoginPreDate() {
-		return loginPreDate;
-	}
-	public void setLoginPreDate(long loginPreDate) {
-		this.loginPreDate = loginPreDate;
-	}
-	public String getMobile() {
-		return mobile;
-	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public String getAccountNo() {
-		return accountNo;
-	}
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
-	}
-	public String getUserAgent() {
-		return userAgent;
-	}
-	public void setUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-	}
-	public String getIpCity() {
+
+	/**
+	 * @return the ipCity
+	 */
+	public String getIpCity()
+	{
 		return ipCity;
 	}
-	public void setIpCity(String ipCity) {
+
+	/**
+	 * @param ipCity the ipCity to set
+	 */
+	public void setIpCity(String ipCity)
+	{
 		this.ipCity = ipCity;
 	}
-    
+
+	/**
+	 * @return the visitTimes
+	 */
+	public Integer getVisitTimes()
+	{
+		return visitTimes;
+	}
+
+	/**
+	 * @param visitTimes the visitTimes to set
+	 */
+	public void setVisitTimes(Integer visitTimes)
+	{
+		this.visitTimes = visitTimes;
+	}
+
+	/**
+	 * @return the loginTimes
+	 */
+	public Integer getLoginTimes()
+	{
+		return loginTimes;
+	}
+
+	/**
+	 * @param loginTimes the loginTimes to set
+	 */
+	public void setLoginTimes(Integer loginTimes)
+	{
+		this.loginTimes = loginTimes;
+	}
+
+	/**
+	 * @return the onlineStatus
+	 */
+	public Integer getOnlineStatus()
+	{
+		return onlineStatus;
+	}
+
+	/**
+	 * @param onlineStatus the onlineStatus to set
+	 */
+	public void setOnlineStatus(Integer onlineStatus)
+	{
+		this.onlineStatus = onlineStatus;
+	}
+
+	/**
+	 * @return the loginStatus
+	 */
+	public Integer getLoginStatus()
+	{
+		return loginStatus;
+	}
+
+	/**
+	 * @param loginStatus the loginStatus to set
+	 */
+	public void setLoginStatus(Integer loginStatus)
+	{
+		this.loginStatus = loginStatus;
+	}
+
+	/**
+	 * @return the onlineDate
+	 */
+	public Date getOnlineDate()
+	{
+		return onlineDate;
+	}
+
+	/**
+	 * @param onlineDate the onlineDate to set
+	 */
+	public void setOnlineDate(Date onlineDate)
+	{
+		this.onlineDate = onlineDate;
+	}
+
+	/**
+	 * @return the onlineDateStart
+	 */
+	public String getOnlineDateStart()
+	{
+		return onlineDateStart;
+	}
+
+	/**
+	 * @param onlineDateStart the onlineDateStart to set
+	 */
+	public void setOnlineDateStart(String onlineDateStart)
+	{
+		this.onlineDateStart = onlineDateStart;
+	}
+
+	/**
+	 * @return the onlineDateEnd
+	 */
+	public String getOnlineDateEnd()
+	{
+		return onlineDateEnd;
+	}
+
+	/**
+	 * @param onlineDateEnd the onlineDateEnd to set
+	 */
+	public void setOnlineDateEnd(String onlineDateEnd)
+	{
+		this.onlineDateEnd = onlineDateEnd;
+	}
+	
+	/**
+	 * @return the offlineDate
+	 */
+	public Date getOfflineDate()
+	{
+		return offlineDate;
+	}
+
+	/**
+	 * @param offlineDate the offlineDate to set
+	 */
+	public void setOfflineDate(Date offlineDate)
+	{
+		this.offlineDate = offlineDate;
+	}
+	
+	/**
+	 * @return the onLineDuration
+	 */
+	public String getOnLineDuration()
+	{
+		return onLineDuration;
+	}
+
+	/**
+	 * @param onLineDuration the onLineDuration to set
+	 */
+	public void setOnLineDuration(String onLineDuration)
+	{
+		this.onLineDuration = onLineDuration;
+	}
+
+	/**
+	 * @return the onlinePreDate
+	 */
+	public Date getOnlinePreDate()
+	{
+		return onlinePreDate;
+	}
+
+	/**
+	 * @param onlinePreDate the onlinePreDate to set
+	 */
+	public void setOnlinePreDate(Date onlinePreDate)
+	{
+		this.onlinePreDate = onlinePreDate;
+	}
+
+	/**
+	 * @return the loginDate
+	 */
+	public Date getLoginDate()
+	{
+		return loginDate;
+	}
+
+	/**
+	 * @param loginDate the loginDate to set
+	 */
+	public void setLoginDate(Date loginDate)
+	{
+		this.loginDate = loginDate;
+	}
+
+	/**
+	 * @return the loginDateStart
+	 */
+	public String getLoginDateStart()
+	{
+		return loginDateStart;
+	}
+
+	/**
+	 * @param loginDateStart the loginDateStart to set
+	 */
+	public void setLoginDateStart(String loginDateStart)
+	{
+		this.loginDateStart = loginDateStart;
+	}
+
+	/**
+	 * @return the loginDateEnd
+	 */
+	public String getLoginDateEnd()
+	{
+		return loginDateEnd;
+	}
+
+	/**
+	 * @param loginDateEnd the loginDateEnd to set
+	 */
+	public void setLoginDateEnd(String loginDateEnd)
+	{
+		this.loginDateEnd = loginDateEnd;
+	}
+
+	/**
+	 * @return the loginPreDate
+	 */
+	public Date getLoginPreDate()
+	{
+		return loginPreDate;
+	}
+
+	/**
+	 * @param loginPreDate the loginPreDate to set
+	 */
+	public void setLoginPreDate(Date loginPreDate)
+	{
+		this.loginPreDate = loginPreDate;
+	}
+
+	/**
+	 * @return the mobile
+	 */
+	public String getMobile()
+	{
+		return mobile;
+	}
+
+	/**
+	 * @param mobile the mobile to set
+	 */
+	public void setMobile(String mobile)
+	{
+		this.mobile = mobile;
+	}
+
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo()
+	{
+		return accountNo;
+	}
+
+	/**
+	 * @param accountNo the accountNo to set
+	 */
+	public void setAccountNo(String accountNo)
+	{
+		this.accountNo = accountNo;
+	}
+
+	/**
+	 * @return the userAgent
+	 */
+	public String getUserAgent()
+	{
+		return userAgent;
+	}
+
+	/**
+	 * @param userAgent the userAgent to set
+	 */
+	public void setUserAgent(String userAgent)
+	{
+		this.userAgent = userAgent;
+	}
 }

@@ -15,13 +15,13 @@ var chatVisitor = {
 	initGrid : function(){
 		goldOfficeUtils.dataGrid({
 			gridId : chatVisitor.gridId,
-			idField : 'clientStoreId',
-			sortName : 'clientStoreId',
+			idField : 'chatVisitorId',
+			sortName : 'updateDate',
 			sortOrder : 'desc',
 			singleSelect : false,
 			url : basePath+'/chatVisitorController/datagrid.do?roomId='+$("#visitorGroupId").val(),
 			columns : [[
-			            {title : 'clientStoreId',checkbox : true},
+			            {title : 'chatVisitorId',checkbox : true},
 						{title : '手机号码',field : 'mobile'},
 						{title : '账号',field : 'userIds',formatter : function(value, rowData, rowIndex) {
 							return isBlank(rowData.accountNo)?rowData.userId:rowData.accountNo;
@@ -39,6 +39,7 @@ var chatVisitor = {
 						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
 							return value&&value=='1'?'在线':'下线';
 						}},
+						{title : '在线时长',field : 'onLineDuration'},
 						{title : '上次登录时间',field : 'loginPreDateStr',formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPreDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.loginPreDate) : '';
 						}},
@@ -71,6 +72,18 @@ var chatVisitor = {
 			$("#visitor_queryForm input[name],#visitor_queryForm select[name]").each(function(){
 				queryParams[this.name] = $(this).val();
 			});
+			if(queryParams["onlineDateStart"] !== ""){
+				queryParams["onlineDateStart"] =  formatStartDate(queryParams["onlineDateStart"]);
+			}
+			if(queryParams["onlineDateEnd"] !== ""){
+				queryParams["onlineDateEnd"] =  formatEndDate(queryParams["onlineDateEnd"]);
+			}
+			if(queryParams["loginDateStart"] !== ""){
+				queryParams["loginDateStart"] =  formatStartDate(queryParams["loginDateStart"]);
+			}
+			if(queryParams["loginDateEnd"] !== ""){
+				queryParams["loginDateEnd"] =  formatEndDate(queryParams["loginDateEnd"]);
+			}
 			$('#'+chatVisitor.gridId).datagrid({
 				url : basePath+'/chatVisitorController/datagrid.do',
 				pageNumber : 1
@@ -85,7 +98,7 @@ var chatVisitor = {
 	 * 功能：批量删除
 	 */
 	batchDel : function(){
-		goldOfficeUtils.deleteBatch(chatVisitor.gridId,formatUrl(basePath + '/chatVisitorController/del.do'),"clientStoreId");	
+		goldOfficeUtils.deleteBatch(chatVisitor.gridId,formatUrl(basePath + '/chatVisitorController/del.do'),"chatVisitorId");	
 	},
 	/**
 	 * 功能：刷新
