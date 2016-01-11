@@ -2,7 +2,6 @@ package com.gwghk.mis.dao;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
@@ -42,8 +41,9 @@ public class ChatVisitorDao extends MongoDBBaseDao {
 	 * @return
 	 */
 	public boolean delete(String[] chatVisitorIds) {
-		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("_id").in((Object[])chatVisitorIds))
-					, Update.update("valid", 0), ChatVisitor.class);
+//		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("_id").in((Object[])chatVisitorIds))
+//					, Update.update("valid", 0), ChatVisitor.class);
+		WriteResult wr = this.mongoTemplate.remove(Query.query(Criteria.where("_id").in((Object[])chatVisitorIds)), ChatVisitor.class);
 		return wr != null && wr.getN() > 0;
 	}
 }
