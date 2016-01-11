@@ -19,23 +19,56 @@
 			    data:data
 			}); 
 		},true);
-		
+		//对话列表
 		getJson("<%=request.getContextPath()%>/commonController/getTalkStyleList.do",null,function(data){
 				var chatTalkStyleIds=$("#chatTalkStyleIds").attr("tId");
 				if(!chatTalkStyleIds){
 					//默认选中“对话”
 					chatTalkStyleIds = "0";
 				}
-				//设置内容规则的下拉框
+				//设置对话列表的下拉框
 				for(var i in data){
 					if(chatTalkStyleIds.indexOf(data[i].id)!=-1){
 						data[i].checked=true;
+						if(data[i].id==1){
+							$("#chatWhisperRoleSpan").show();
+						}
 					}
 				}
 				$("#chatTalkStyleIds").combotree({
-				    data:data
+				    data:data,
+				    onCheck:function(r){
+				    	var tsObj=$("#chatGroupSubmitForm input[name=talkStyleStr]");
+				    	if(tsObj.length==0){
+				    		$("#chatWhisperRoleSpan").hide();
+				    	}else{
+				    		tsObj.each(function(){
+					    		if("1"==$(this).val()){
+						    		$("#chatWhisperRoleSpan").show();
+						    	}else{
+						    		$("#chatWhisperRoleSpan").hide();
+						    	}
+					    	});
+				    	}
+				    }
 				}); 
 		},true);
+		//私聊角色
+		var whisperRoleData=[{id:3,text:'客服'},{id:2,text:'分析师'},{id:1,text:'管理员'}];
+		var whisperRoleTmp=$("#chatWhisperRoleId").attr("tId");
+		if(!whisperRoleTmp){
+			//默认选中客服
+			whisperRoleTmp = "3";
+		}
+		//设置私聊角色的下拉框
+		for(var i in whisperRoleData){
+			if(whisperRoleTmp.indexOf(whisperRoleData[i].id)!=-1){
+				whisperRoleData[i].checked=true;
+			}
+		}
+		$("#chatWhisperRoleId").combotree({
+		    data:whisperRoleData
+		});
 	});
 </script>
 <div style="padding:5px;overflow:hidden;">
@@ -65,7 +98,8 @@
 	      <tr>
 	          <th>聊天方式</th>
 	          <td colspan="3">
-	             <select class="easyui-combotree" style="width:250px;" name="talkStyleStr"  id="chatTalkStyleIds" tId="${chatGroup.talkStyle}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入聊天方式',cascadeCheck:false" multiple></select>
+	             <select class="easyui-combotree" style="width:175px;" name="talkStyleStr"  id="chatTalkStyleIds" tId="${chatGroup.talkStyle}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入聊天方式',cascadeCheck:false" multiple></select>
+	             <span style="margin-left:40px;display:none;" id="chatWhisperRoleSpan">角色授权(私聊)<span style="margin-left:18px;"><select class="easyui-combotree" style="width:175px;" name="chatWhisperRoleStr"  id="chatWhisperRoleId" tId="${chatGroup.whisperRoles}" class="easyui-validatebox" data-options="required:true,missingMessage:'请选择角色',cascadeCheck:false" multiple></select></span></span>
 	          </td>
 	      </tr>
 	      <tr>

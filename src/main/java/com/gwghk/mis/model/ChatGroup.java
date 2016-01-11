@@ -63,7 +63,10 @@ public class ChatGroup extends BaseModel{
 	 * 聊天方式,多个逗号分隔
 	 */
 	private String talkStyle;
-	
+	/**
+	 * 私聊角色（对应pm_chat的constant中roleUserType值),多个逗号分隔
+	 */
+	private String whisperRoles;
 	/**
 	 * 直播实体
 	 */
@@ -240,4 +243,13 @@ public class ChatGroup extends BaseModel{
 	public void setTalkStyle(String talkStyle) {
 		this.talkStyle = talkStyle;
 	}
+
+	public String getWhisperRoles() {
+		return whisperRoles;
+	}
+
+	public void setWhisperRoles(String whisperRoles) {
+		this.whisperRoles = whisperRoles;
+	}
+	
 }

@@ -276,7 +276,17 @@ public class ChatGroupController extends BaseController{
     	String[] talkStyleArr=request.getParameterValues("talkStyleStr");
     	if(talkStyleArr!=null){
     		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
-       	}    	
+       	}else{
+       		j.setSuccess(false);
+       		j.setMsg("聊天方式不能为空！");
+       		return j;
+       	}
+    	String[] chatWhisperRoleStr=request.getParameterValues("chatWhisperRoleStr");
+    	if(chatWhisperRoleStr!=null && StringUtils.isNotBlank(chatGroup.getTalkStyle())&& chatGroup.getTalkStyle().contains("1")){
+    		chatGroup.setWhisperRoles(StringUtils.join(chatWhisperRoleStr, ","));
+       	}else{
+       		chatGroup.setWhisperRoles("");
+       	}
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false, false);
     	if(result.isOk()){
     		j.setSuccess(true);
@@ -302,6 +312,7 @@ public class ChatGroupController extends BaseController{
    	@ResponseBody
     @ActionVerification(key="edit")
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
+    	AjaxJson j = new AjaxJson();
     	setBaseInfo(chatGroup,request,true);
     	String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
     	if(chatRuleIdArr!=null){
@@ -310,8 +321,17 @@ public class ChatGroupController extends BaseController{
     	String[] talkStyleArr=request.getParameterValues("talkStyleStr");
     	if(talkStyleArr!=null){
     		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
+       	}else{
+       		j.setSuccess(false);
+       		j.setMsg("聊天方式不能为空！");
+       		return j;
        	}
-    	AjaxJson j = new AjaxJson();
+    	String[] chatWhisperRoleStr=request.getParameterValues("chatWhisperRoleStr");
+    	if(chatWhisperRoleStr!=null && StringUtils.isNotBlank(chatGroup.getTalkStyle())&& chatGroup.getTalkStyle().contains("1")){
+    		chatGroup.setWhisperRoles(StringUtils.join(chatWhisperRoleStr, ","));
+       	}else{
+       		chatGroup.setWhisperRoles("");
+       	}
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true, true);
     	if(result.isOk()){
     		j.setSuccess(true);
