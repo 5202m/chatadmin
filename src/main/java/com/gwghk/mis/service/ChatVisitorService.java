@@ -124,7 +124,7 @@ public class ChatVisitorService
 				loc_duration = loc_nowTime;
 			}else{
 				//离线
-				loc_duration = loc_chatVisitor.getOfflineDate() != null ? 0 : loc_chatVisitor.getOfflineDate().getTime();
+				loc_duration = loc_chatVisitor.getOfflineDate() != null ? loc_chatVisitor.getOfflineDate().getTime() : 0;
 			}
 			if(loc_duration != 0 && loc_chatVisitor.getOnlineDate() != null){
 				loc_duration = loc_duration - loc_chatVisitor.getOnlineDate().getTime();
