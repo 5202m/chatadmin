@@ -110,7 +110,8 @@ var chatVisitor = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		var path = basePath+ '/chatVisitorController/exportRecord.do?'+$("#visitor_queryForm").serialize();
+		var loc_params = $('#'+chatVisitor.gridId).datagrid('options').queryParams;
+		var path = basePath+ '/chatVisitorController/exportRecord.do?'+$.param(loc_params);
 		window.location.href = path;
 	}
 };
