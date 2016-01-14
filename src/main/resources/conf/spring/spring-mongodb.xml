@@ -8,7 +8,9 @@
        http://www.springframework.org/schema/context/spring-context-3.0.xsd   
        http://www.springframework.org/schema/data/mongo    
        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
-       
+     
+    <context:property-placeholder location="classpath:init.properties"/>
+     
     <!-- 连接配置 -->
     <!-- 配置服务器IP和端口 -->
 	<bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">

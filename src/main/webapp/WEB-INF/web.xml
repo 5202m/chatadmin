@@ -5,7 +5,7 @@
     version="3.0">
   <context-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>classpath*:conf/spring/spring-*.xml<!-- ,classpath*:conf/consumer.xml --></param-value>
+      <param-value>classpath*:conf/spring/spring-*.xml , classpath*:conf/spring/time-task.xml</param-value>
   </context-param>
   
   <listener>
