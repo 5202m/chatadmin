@@ -1,20 +1,20 @@
 package com.gwghk.mis.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatMessageDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 
@@ -31,19 +31,37 @@ public class ChatMessgeService{
 
 	@Autowired
 	private ChatApiService chatApiService;
+	
+	
+	@SuppressWarnings({"rawtypes" })
+	private Class getChatMessageClass(int year){
+		Class classObj=null;
+		try {
+			classObj=Class.forName("com.gwghk.mis.model.ChatMessage_"+year);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+		return classObj;
+	}
 	/**
 	 * 删除内容
 	 * @param ids
 	 * @return
 	 */
-	public ApiResult deleteChatMessage(String[] ids) {
+	@SuppressWarnings("unchecked")
+	public ApiResult deleteChatMessage(String[] ids,int year) {
 		ApiResult api=new ApiResult();
-		boolean isSuccess=chatMessageDao.deleteMessage(ids);
+		if(year<2005){
+			return api.setCode(ResultCode.FAIL);
+		}
+		@SuppressWarnings("rawtypes")
+		Class classObj=getChatMessageClass(year);
+		boolean isSuccess=chatMessageDao.deleteMessage(ids,classObj);
 	    if(isSuccess){
 	    	int size=0;
 	    	String groupId="";
 	    	ChatMessage row=null;
-	    	List<ChatMessage> list=chatMessageDao.getListByIds(ids, "publishTime","groupId");
+	    	List<ChatMessage> list=BeanUtils.cloneList(chatMessageDao.getListByIds(classObj,ids, "publishTime","groupId"), ChatMessage.class);
 	    	if(list!=null && (size=list.size())>0){
 	    		StringBuffer buffer=new StringBuffer();
 	    		for(int i=0;i<size;i++){
@@ -79,10 +97,12 @@ public class ChatMessgeService{
 	 * @param dCriteria
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Page<ChatMessage> getChatMessagePage(
 			DetachedCriteria<ChatMessage> dCriteria) {
 		Criteria criteria=new Criteria();
 		ChatMessage model=dCriteria.getSearchModel();
+		int year = DateUtil.getFullYear(null);	
 		if(model!=null){
 			if(StringUtils.isNotBlank(model.getMobilePhone())){
 				criteria.and("mobilePhone").regex(StringUtil.toFuzzyMatch(model.getMobilePhone()));
@@ -123,7 +143,9 @@ public class ChatMessgeService{
 				criteria.and("valid").is(model.getValid());
 			}
 			if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
-				criteria = criteria.and("createDate").gte(DateUtil.parseDateSecondFormat(model.getPublishStartDateStr()));
+				Date startDate=DateUtil.parseDateSecondFormat(model.getPublishStartDateStr());
+				criteria = criteria.and("createDate").gte(startDate);
+				year=DateUtil.getFullYear(startDate);
 			}
 			if(StringUtils.isNotBlank(model.getPublishEndDateStr())){
 				if(StringUtils.isNotBlank(model.getPublishStartDateStr())){
@@ -133,6 +155,11 @@ public class ChatMessgeService{
 				}
 			}
 		}
-		return chatMessageDao.findPage(ChatMessage.class, Query.query(criteria), dCriteria);
+		if(year<2005){
+			return new Page<ChatMessage>();
+		}
+		@SuppressWarnings("rawtypes")
+		Class classObj=getChatMessageClass(year);
+		return chatMessageDao.findPage(classObj, Query.query(criteria),dCriteria.clone(classObj)).clone(ChatMessage.class);
 	}
 }

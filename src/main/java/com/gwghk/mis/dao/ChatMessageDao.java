@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
-import com.gwghk.mis.model.ChatMessage;
 import com.mongodb.WriteResult;
 
 /**
@@ -22,8 +21,8 @@ public class ChatMessageDao extends MongoDBBaseDao{
 	 * 通过ids找对应记录
 	 * @return
 	 */
-   public List<ChatMessage> getListByIds(Object[] ids,String ...include){
-	 return this.findListInclude(ChatMessage.class, Query.query(Criteria.where("id").in(ids)),include);
+   public <T> List<T> getListByIds(Class<T> entityClass,Object[] ids,String ...include){
+	 return this.findListInclude(entityClass, Query.query(Criteria.where("id").in(ids)),include);
    }
    
 	/**
@@ -31,8 +30,8 @@ public class ChatMessageDao extends MongoDBBaseDao{
 	 * @param ids
 	 * @return
 	 */
-	public boolean deleteMessage(Object[] ids){
-		WriteResult wr=this.mongoTemplate.updateMulti(Query.query(Criteria.where("id").in(ids)), Update.update("valid", 0), ChatMessage.class);
+	public <T> boolean deleteMessage(Object[] ids,Class<T> entityClass){
+		WriteResult wr=this.mongoTemplate.updateMulti(Query.query(Criteria.where("id").in(ids)), Update.update("valid", 0),entityClass);
 		return wr!=null&&wr.getN()>0;
 	}
 }

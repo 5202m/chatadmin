@@ -6,10 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -32,6 +29,7 @@ import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.model.ChatMessage_2015;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatMessgeService;
@@ -109,7 +107,7 @@ public class ChatMessageController extends BaseController{
 	 */
 	@RequestMapping(value = "/chatMessageController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage chatMessage){
+	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage_2015 chatMessage){
 		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
 		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
 		 Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
@@ -229,11 +227,17 @@ public class ChatMessageController extends BaseController{
     public AjaxJson del(HttpServletRequest request,HttpServletResponse response){
     	BoUser boUser = ResourceUtil.getSessionUser();
     	String delIds = request.getParameter("ids");
+    	String year=request.getParameter("year");
+    	AjaxJson j = new AjaxJson();
+    	if(StringUtils.isBlank(year)){
+    		j.setSuccess(false);
+    		j.setMsg("删除数据所在年份有误，请检查！");
+    		return j;
+    	}
     	if(StringUtils.isBlank(delIds)){
     		delIds = request.getParameter("id");
     	}
-    	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatMessageService.deleteChatMessage(delIds.split(","));
+    	ApiResult result =chatMessageService.deleteChatMessage(delIds.split(","),Integer.parseInt(year));
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天信息成功";

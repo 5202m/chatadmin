@@ -3,6 +3,8 @@ package com.gwghk.mis.common.model;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
 import com.gwghk.mis.enums.SortDirection;
 
 /**
@@ -49,5 +51,26 @@ public class DetachedCriteria<T> implements Serializable{
 	}
 	public void setCurrRecordSize(int currRecordSize) {
 		this.currRecordSize = currRecordSize;
+	}
+	/**
+	 * 对象copy
+	 * @param clazz
+	 * @return
+	 */
+	public <M> DetachedCriteria<M> clone(Class<M> clazz) {
+		DetachedCriteria<M> dCriter = new DetachedCriteria<M>();
+		dCriter.setCurrRecordSize(this.currRecordSize);
+		dCriter.setOrderbyMap(this.orderbyMap);
+		dCriter.setPageSize(this.pageSize);
+		dCriter.setPageNo(this.pageNo);
+		try {
+			M m = clazz.newInstance();
+			PropertyUtils.copyProperties(m, this.searchModel);
+			dCriter.setSearchModel(m);
+		} catch (Exception e) {
+			System.out.println("error:"+e);
+			return null;
+		}
+		return dCriter;
 	}
 }

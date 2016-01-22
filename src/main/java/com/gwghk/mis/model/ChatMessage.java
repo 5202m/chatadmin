@@ -4,40 +4,38 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * 聊天室信息实体类
  * @author Alan.wu
  * @date   2015年3月16日
  */
-@Document
 public class ChatMessage{
 	
 	/**
 	 * 用户id
 	 */
-	private String userId;
+	protected String userId;
 	
 	/**
 	 * 用户昵称
 	 */
 	@Indexed
-	private String nickname;
+	protected String nickname;
 	
 	/**
 	 * 用户头像
 	 */
-	private String avatar;
+	protected String avatar;
 	
 	//房间大类组
-	private String groupType;
+	protected String groupType;
 	
 	/**
 	 * 区分系统用户还是会员，0表示会员，1表示系统用户
 	 */
 	@Indexed
-	private Integer userType;
+	protected Integer userType;
 	
 	/**
 	 * 组别Id
@@ -47,21 +45,21 @@ public class ChatMessage{
 	/**
 	 * 客户组别
 	 */
-	private String clientGroup;
+	protected String clientGroup;
 	
 	/**
 	 * 上线时间
 	 */
-	private Date onlineDate;
+	protected Date onlineDate;
 	
 	
-	private String fromPlatform;//平台来源
+	protected String fromPlatform;//平台来源
 
 	/**
 	 * 内容Id
 	 */
 	@Id
-	private String id;
+	protected String id;
 	
 	/**
 	 * 信息内容
@@ -72,52 +70,52 @@ public class ChatMessage{
 	 * 手机号码
 	 */
 	@Indexed
-	private String mobilePhone;
+	protected String mobilePhone;
 	
 	/**
 	 * 用户账号
 	 */
 	@Indexed
-	private String accountNo;
+	protected String accountNo;
 	
 	/**
 	 * 需要审核角色编号
 	 */
-	private String approvalUserArr;
+	protected String approvalUserArr;
 	
 	/**
 	 * 审核人编号
 	 */
-	private String approvalUserNo;
+	protected String approvalUserNo;
 	/**
 	 * 审核状态：0、等待审批，1、通过 ；2、拒绝
 	 */
-	private Integer status;
+	protected Integer status;
 	
 	/**
 	 * 内容状态：0、无效，1、有效
 	 */
-	private Integer valid;
+	protected Integer valid;
 	/**
 	 * 发布日期
 	 */
-	private String publishTime;
+	protected String publishTime;
 	
-	private String createUser;
+	protected String createUser;
 
-	private String createIp;
+	protected String createIp;
 
-	private Date createDate;
+	protected Date createDate;
 
 	/**
 	 * 发布开始日期（用于查询）
 	 */
-	private String publishStartDateStr;
+	protected String publishStartDateStr;
 	
 	/**
 	 * 发布结束日期（用于查询）
 	 */
-	private String publishEndDateStr;
+	protected String publishEndDateStr;
 	
 	public String getUserId() {
 		return userId;

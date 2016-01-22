@@ -195,7 +195,19 @@ public class DateUtil {
 		String year = Integer.toString(gc.get(Calendar.YEAR));
 		return year;
 	}
-
+    
+	/**
+	 * 提取全年
+	 * @param date
+	 * @return
+	 */
+	public static synchronized int getFullYear(Date date) {		
+		GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();	
+		if(date!=null){
+			gc.setTime(date);
+		}
+		return gc.get(Calendar.YEAR);
+	}
 	/**
 	 * @param cal
 	 * @return String

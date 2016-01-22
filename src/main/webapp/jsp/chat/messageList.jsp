@@ -100,10 +100,9 @@
     <a class="easyui-linkbutton export" data-options="plain:true,iconCls:'ope-export',disabled:false"  onclick="chatMessage.exportRecord();">导出记录</a>
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.batchDel();">删除</a>
   </div> 
-  
   <!-- datagrid-操作按钮 -->
-  <div id="chatMessage_datagrid_rowOperation" style="display:none;">
+ <%--  <div id="chatMessage_datagrid_rowOperation" style="display:none;">
 	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatMessage.del(this.id)"><spring:message code="common.buttons.delete" /></a>
-  </div>
+  </div> --%>
  
 </div>

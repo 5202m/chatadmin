@@ -103,6 +103,15 @@ var chatMessage = {
 	setEvent:function(){
 		// 列表查询
 		$("#chatMessage_queryForm_search").on("click",function(){
+			var startDate=$("#publishStartDate").val(),endDate=$("#publishEndDate").val();
+			if((isValid(startDate) && isBlank(endDate))||(isValid(endDate) && isBlank(startDate))){
+				alert("请输入完整的发布时间段！");
+				return false;
+			}
+			if(isValid(startDate)&& isValid(endDate) && startDate.substring(0,4)!= endDate.substring(0,4)){
+				alert("暂不支持查询跨年数据！");
+				return false;
+			}
 			var queryParams = $('#'+chatMessage.gridId).datagrid('options').queryParams;
 			$("#chatMessage_queryForm input[name],#chatMessage_queryForm select[name]").each(function(){
 				queryParams[this.name] = $(this).val();
@@ -177,7 +186,12 @@ var chatMessage = {
 	 * 功能：批量删除
 	 */
 	batchDel : function(){
-		var url = formatUrl(basePath + '/chatMessageController/del.do');
+		var rows = $("#"+chatMessage.gridId).datagrid('getSelections');
+		var year=new Date().getFullYear();
+		if(rows.length>0){
+			year=new Date(Number(rows[0]["publishTime"].replace(/_.+/,""))).getFullYear();
+		}
+		var url = formatUrl(basePath + '/chatMessageController/del.do?year='+year);
 		goldOfficeUtils.deleteBatch('chatMessage_datagrid',url);	
 	},
 	/**
