@@ -40,8 +40,14 @@ public class HighQualityClient {
     private static void synchToTargetExcel(){
 		try {
 			List<HQWxUserModel> sList=getUserListFromSrcExcel(); 
+			System.out.println("从优质客户excel文件提取数据--》完成！");
+			System.out.println("从微信后台数据库导出的excel文件提取数据--》开始！");
 	    	List<HQWxUserModel> wList=getUserListFromExcel();
+	    	System.out.println("从微信后台数据库导出的excel文件提取数据--》完成！");
+	    	System.out.println("从pm_mis数据库导出的json文件提取数据--》开始！");
 	    	List<HQWxUserModel> mList=getUserListFromMember();
+	    	System.out.println("从pm_mis数据库导出的json文件提取数据--》完成！");
+	    	System.out.println("export doing,please waiting...........");
 	    	String accoutNo="";
 	    	for(HQWxUserModel u:sList){
 	    		accoutNo=StringUtils.isNotBlank(u.getGtsNo())?u.getGtsNo():(StringUtils.isNotBlank(u.getMt4No())?u.getMt4No():u.getMt5No());
@@ -96,8 +102,11 @@ public class HighQualityClient {
 		String gtsNo="",mt4No="",mt5No="";
 		List<HQWxUserModel> uList=new ArrayList<HQWxUserModel>();
 		HQWxUserModel su=null;
-		for (int j = 3; j <10000; j++) {
+		for (int j = 2; j <10000; j++) {
 			gtsNo=getValueNoByCell(hssfsheet.getRow(j).getCell(0));
+			if(j==2){
+			  System.out.println("从优质客户excel文件提取数据，首行交易账号:"+gtsNo);
+			}
 			if("end".equals(gtsNo.toLowerCase())){
 				break;
 			}
