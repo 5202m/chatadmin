@@ -15,6 +15,7 @@ import com.gwghk.mis.dao.ChatVisitorDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatVisitor;
 import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.IPParser;
 
 /**
  * 聊天室访客记录service<BR>
@@ -117,8 +118,12 @@ public class ChatVisitorService
 		Integer loc_onlineFlag = new Integer(1);
 		long loc_duration = 0;
 		String loc_durationStr = null;
+		IPParser ipParser=new IPParser();
 		for (ChatVisitor loc_chatVisitor : chatVisitorPage.getCollection())
 		{
+			//解析IP
+			loc_chatVisitor.setIpCity(ipParser.getIPLocation(loc_chatVisitor.getIp()).getCountry());
+			//在线时长
 			if(loc_onlineFlag.equals(loc_chatVisitor.getOnlineStatus())){
 				//在线
 				loc_duration = loc_nowTime;
