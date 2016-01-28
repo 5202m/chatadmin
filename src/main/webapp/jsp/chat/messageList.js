@@ -51,7 +51,7 @@ var chatMessage = {
 						{title : '内容',field : 'contentStr',formatter : function(value, rowData, rowIndex) {
 							return rowData.content.msgType!='text'?'<img src="'+rowData.content.value+'"/>':rowData.content.value;
 						}},
-						{title : '发布时间',field : 'publishTimeStr',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '发布时间',field : 'publishTime',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.publishTime ? timeObjectUtil.longMsTimeConvertToDateTime(Number(rowData.publishTime.replace(/_.+/,""))) : '';
 						}},
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
