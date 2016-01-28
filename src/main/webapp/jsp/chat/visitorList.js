@@ -19,7 +19,8 @@ var chatVisitor = {
 			sortName : 'onlineDate',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatVisitorController/datagrid.do?roomId='+$("#visitorGroupId").val(),
+			url : basePath+'/chatVisitorController/datagrid.do',
+			queryParams : {roomId : $("#visitorGroupId").val()},
 			columns : [[
 			            {title : 'chatVisitorId',checkbox : true},
 						{title : '手机号码',field : 'mobile'},
