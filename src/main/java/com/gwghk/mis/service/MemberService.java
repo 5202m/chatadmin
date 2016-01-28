@@ -247,6 +247,6 @@ public class MemberService{
 			criteria.and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
 			query.addCriteria(criteria);
 		}
-		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone");
+		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone","updateDate");
 	}
 }
