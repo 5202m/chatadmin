@@ -157,7 +157,10 @@ var chatUser = {
 								tds = chatUser.formatTwoRow((groupRow.gagDate? formatDateWeekTime(groupRow.gagDate) : ''), false, '', addStyle);
 							}
 							return tds;
-						}}					
+						}},
+						{title : '最后修改时间',field : 'updateDate', formatter : function(value, rowData, rowIndex) {
+							return value ? timeObjectUtil.formatterDateTime(value) : '';
+						}}
 			]],
 			toolbar : '#chatUser_datagrid_toolbar'
 		});
