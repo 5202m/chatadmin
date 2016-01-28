@@ -14,7 +14,12 @@
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
 	      <tbody>
 		      <tr>
-		          <th width="30%">禁言时间段(若不填值，则不受该时间段限制)</th>
+		          <th width="30%">
+		          	禁言时间段<br>
+		          	<span style="color: red; font-weight: bolder;">
+		          		(若不填值，则禁言无效或解除禁言)
+		          	</span>
+		          </th>
 		          <td width="70%">
 		            <input type="hidden" name="gagDate"  id="userGag_gagDate"/>
 		            <div id="userGag_gagDate_div"></div>
