@@ -19,7 +19,12 @@ var chatMessage = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatMessageController/datagrid.do?groupId='+$("#chatMessageGroupId").val()+"&status="+$("#chatMessageStatusId").val()+"&valid="+$("#chatMessageValidId").val(),
+			url : basePath+'/chatMessageController/datagrid.do',
+			queryParams : {
+					groupId : $("#chatMessageGroupId").val(),
+					status : $("#chatMessageStatusId").val(),
+					valid : $("#chatMessageValidId").val()
+				},
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            /*{title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		*//**操作*//*
@@ -207,19 +212,18 @@ var chatMessage = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		var publishStartDate=$("#chatMessage_queryForm #publishStartDate").val();
-		var publishEndDate=$("#chatMessage_queryForm #publishEndDate").val();
-		if(isBlank(publishStartDate)||isBlank(publishEndDate)){
-			alert("请输入发布时间");
+		var loc_params = $('#'+chatMessage.gridId).datagrid('options').queryParams;
+		if(isBlank(loc_params.publishStartDateStr)||isBlank(loc_params.publishEndDateStr)){
+			alert("请输入发布时间查询后再导出");
 			return;
 		}
-		var beginDate=new Date(publishStartDate),endDate=new Date(publishEndDate);
+		var beginDate=new Date(loc_params.publishStartDateStr),endDate=new Date(loc_params.publishEndDateStr);
 		beginDate.setMonth(beginDate.getMonth()+1);
 		if(endDate>beginDate){
 			alert("目前导出数据暂支持发布时间段为一个月，请检查发布时间段！");
 			return;
 		}
-		var path = basePath+ '/chatMessageController/exportRecord.do?'+$("#chatMessage_queryForm").serialize();
+		var path = basePath+ '/chatMessageController/exportRecord.do?'+$.param(loc_params);
 		window.location.href = path;
 	}
 };

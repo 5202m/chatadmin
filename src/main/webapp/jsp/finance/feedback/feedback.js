@@ -131,7 +131,8 @@ var feedback = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		var path = basePath+ '/feedbackController/exportRecord.do?'+$("#feedback_queryForm").serialize();
+		var loc_params = $('#'+feedback.gridId).datagrid('options').queryParams;
+		var path = basePath+ '/feedbackController/exportRecord.do?'+$.param(loc_params);
 		window.location.href = path;
 	},
 	/**

@@ -67,7 +67,8 @@ var chatUser = {
 			sortName : 'memberId',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatUserController/datagrid.do?loginPlatform.chatUserGroup[0].id='+$("#chatUserGroupId").val(),
+			url : basePath+'/chatUserController/datagrid.do',
+			queryParams : { "loginPlatform.chatUserGroup[0].id" : $("#chatUserGroupId").val()},
 			columns : [[
 			            {title : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -211,7 +212,8 @@ var chatUser = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		var path = basePath+ '/chatUserController/exportRecord.do?'+$("#chatUser_queryForm").serialize();
+		var loc_params = $('#'+chatUser.gridId).datagrid('options').queryParams;
+		var path = basePath+ '/chatUserController/exportRecord.do?'+$.param(loc_params);
 		window.location.href = path;
 	},
 	/**

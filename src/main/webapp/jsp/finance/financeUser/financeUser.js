@@ -342,20 +342,8 @@ var financeFinanceUser = {
 	 * 功能：导出
 	 */
 	export : function(){
-		var params = "";
-		if(!isBlank($("#finance_financeUser_timeStart").val())){
-			params += 'timeStart='+formatStartDate($("#finance_financeUser_timeStart").val());
-		}
-		if(!isBlank($("#finance_financeUser_timeEnd").val())){
-			params += '&timeEnd='+formatStartDate($("#finance_financeUser_timeEnd").val());
-		}
-		var bindPlatformType =[];
-		$('input[name=bindPlatformType]:checked').each(function(){ 
-			bindPlatformType.push($(this).val());
-		}); 
-		//params += '&bindPlatformType='+convertArr2Obj(bindPlatformType);
-		params += $("#finance_financeUser_queryForm").serialize();
-		window.location.href = basePath+ '/financeUserController/export.do?'+params;
+		var loc_params = $('#'+financeFinanceUser.gridId).datagrid('options').queryParams;
+		window.location.href = basePath+ '/financeUserController/export.do?'+$.param(loc_params);
 	},
 	/**
 	 * 初始化校验器
