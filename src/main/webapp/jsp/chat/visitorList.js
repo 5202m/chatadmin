@@ -23,29 +23,30 @@ var chatVisitor = {
 			queryParams : {roomId : $("#visitorGroupId").val()},
 			columns : [[
 			            {title : 'chatVisitorId',checkbox : true},
-						{title : '手机号码',field : 'mobile'},
-						{title : '账号',field : 'userIds',formatter : function(value, rowData, rowIndex) {
-							return isBlank(rowData.accountNo)?rowData.userId:rowData.accountNo;
+						/*{title : '手机号码',field : 'mobile'},*/
+						{title : '账号',field : 'userId',formatter : function(value, rowData, rowIndex) {
+							return isBlank(rowData.userId)?rowData.visitorId:rowData.userId;
 						}},
+						{title : '昵称',field : 'nickname'},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return chatVisitor.getComboxNameByCode("#visitorGroupId",rowData.roomId);
 						}},
 						{title : '访问次数',field : 'visitTimes'},
-						{title : '上次上线时间',field : 'onlinePreDateStr',formatter : function(value, rowData, rowIndex) {
+						{title : '上次上线时间',field : 'onlinePreDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.onlinePreDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.onlinePreDate) : '';
 						}},
-						{title : '上线时间',field : 'onlineDateStr',formatter : function(value, rowData, rowIndex) {
+						{title : '上线时间',field : 'onlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.onlineDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.onlineDate) : '';
 						}},
 						{title : '在线状态',field : 'onlineStatus',formatter : function(value, rowData, rowIndex) {
 							return value&&value=='1'?'在线':'下线';
 						}},
 						{title : '在线时长',field : 'onLineDuration'},
-						{title : '上次登录时间',field : 'loginPreDateStr',formatter : function(value, rowData, rowIndex) {
+						{title : '上次登录时间',field : 'loginPreDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPreDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.loginPreDate) : '';
 						}},
 						{title : '登录次数',field : 'loginTimes'},
-						{title : '登录时间',field : 'loginDateStr',sortable : true,formatter : function(value, rowData, rowIndex) {
+						{title : '登录时间',field : 'loginDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.loginDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.loginDate) : '';
 						}},
 						{title : '登录状态',field : 'loginStatus',formatter : function(value, rowData, rowIndex) {

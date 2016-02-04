@@ -28,6 +28,10 @@ public class ChatVisitor extends BaseModel
 	private String roomId;// 所在房间id
 
 	private String userId;// 用户id
+	
+	private String visitorId;// 用户visitorId
+	
+	private String nickname;//昵称
 
 	private String ip;// 访问者ip
 
@@ -449,5 +453,21 @@ public class ChatVisitor extends BaseModel
 	public void setUserAgent(String userAgent)
 	{
 		this.userAgent = userAgent;
+	}
+
+	public String getVisitorId() {
+		return visitorId;
+	}
+
+	public void setVisitorId(String visitorId) {
+		this.visitorId = visitorId;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

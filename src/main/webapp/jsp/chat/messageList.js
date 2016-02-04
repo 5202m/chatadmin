@@ -33,7 +33,7 @@ var chatMessage = {
 						    });
 							return $("#chatMessage_datagrid_rowOperation").html();
 						}},*/
-						{title : '手机号码',field:'mobilePhone'},
+						/*{title : '手机号码',field:'mobilePhone'},*/
 						{title : '账号',field:'accountNoStr', formatter : function(value, rowData, rowIndex) {
 							return rowData.accountNo||rowData.userId;
 						}},

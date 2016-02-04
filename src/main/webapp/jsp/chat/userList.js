@@ -84,7 +84,7 @@ var chatUser = {
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
-						{title : '手机号码',field : 'mobilePhone'},
+						/*{title : '手机号码',field : 'mobilePhone'},*/
 						{title : '账号',field : 'userIds',formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							return isBlank(row.accountNo)?row.userId:row.accountNo;
