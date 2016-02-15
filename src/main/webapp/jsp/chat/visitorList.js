@@ -25,7 +25,7 @@ var chatVisitor = {
 			            {title : 'chatVisitorId',checkbox : true},
 						/*{title : '手机号码',field : 'mobile'},*/
 						{title : '账号',field : 'userId',formatter : function(value, rowData, rowIndex) {
-							return isBlank(rowData.userId)?rowData.visitorId:rowData.userId;
+							return isBlank(rowData.userId)?rowData.visitorId:(rowData.userId+"【" + rowData.visitorId + "】");
 						}},
 						{title : '昵称',field : 'nickname'},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
