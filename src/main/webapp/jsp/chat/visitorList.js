@@ -19,7 +19,7 @@ var chatVisitor = {
 			sortName : 'onlineDate',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatVisitorController/datagrid.do',
+			url : basePath+'/chatVisitorController/visitorDatagrid.do',
 			queryParams : {roomId : $("#visitorGroupId").val()},
 			columns : [[
 			            {title : 'chatVisitorId',checkbox : true},
@@ -74,20 +74,19 @@ var chatVisitor = {
 			$("#visitor_queryForm input[name],#visitor_queryForm select[name]").each(function(){
 				queryParams[this.name] = $(this).val();
 			});
-			if(queryParams["onlineDateStart"] !== ""){
+			if(queryParams["onlineDateStart"]){
 				queryParams["onlineDateStart"] =  formatStartDate(queryParams["onlineDateStart"]);
 			}
-			if(queryParams["onlineDateEnd"] !== ""){
+			if(queryParams["onlineDateEnd"]){
 				queryParams["onlineDateEnd"] =  formatEndDate(queryParams["onlineDateEnd"]);
 			}
-			if(queryParams["loginDateStart"] !== ""){
+			if(queryParams["loginDateStart"]){
 				queryParams["loginDateStart"] =  formatStartDate(queryParams["loginDateStart"]);
 			}
-			if(queryParams["loginDateEnd"] !== ""){
+			if(queryParams["loginDateEnd"]){
 				queryParams["loginDateEnd"] =  formatEndDate(queryParams["loginDateEnd"]);
 			}
 			$('#'+chatVisitor.gridId).datagrid({
-				url : basePath+'/chatVisitorController/datagrid.do',
 				pageNumber : 1
 			});
 		});
@@ -100,7 +99,7 @@ var chatVisitor = {
 	 * 功能：批量删除
 	 */
 	batchDel : function(){
-		goldOfficeUtils.deleteBatch(chatVisitor.gridId,formatUrl(basePath + '/chatVisitorController/del.do'),"chatVisitorId");	
+		goldOfficeUtils.deleteBatch(chatVisitor.gridId,formatUrl(basePath + '/chatVisitorController/visitorDel.do'),"chatVisitorId");	
 	},
 	/**
 	 * 功能：刷新

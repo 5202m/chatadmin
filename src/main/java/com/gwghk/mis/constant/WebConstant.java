@@ -89,4 +89,10 @@ public class WebConstant {
 	 public final static String FINANCEUSER_RECORDS_TEMPLATE_PATH ="/template/financeuser_records_data.xls";
 	 /**访客记录模板的路径*/
 	 public final static String CHAT_VISITOR_RECORDS_TEMPLATE_PATH ="/template/chat_visitor_data.xls";
+	 /**在线时长用户数量统计*/
+	 public final static String CHAT_VISITOR_REP_D_TEMPLATE_PATH ="/template/chat_visitor_repD_data.xls";
+	 /**各类在线人数数量统计*/
+	 public final static String CHAT_VISITOR_REP_O_TEMPLATE_PATH ="/template/chat_visitor_repO_data.xls";
+	 /**整点在线人数数量统计*/
+	 public final static String CHAT_VISITOR_REP_T_TEMPLATE_PATH ="/template/chat_visitor_repT_data.xls";
 }

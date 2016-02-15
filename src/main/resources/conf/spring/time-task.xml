@@ -15,8 +15,8 @@
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
     <!-- 定时器开关-->
-   <!--  <task:annotation-driven />  
-    <bean id="taskRun" class=""></bean>  
+   <task:annotation-driven />  
+   <!--   <bean id="taskRun" class=""></bean>  
     <task:scheduled-tasks>  
      	每天的23:30执行备份,时间可以自定
         <task:scheduled ref="taskRun" method="toHistory" cron="0 30 23 * * ?" />  

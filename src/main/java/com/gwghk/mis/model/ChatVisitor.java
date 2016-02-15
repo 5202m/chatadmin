@@ -40,6 +40,10 @@ public class ChatVisitor extends BaseModel
 	private Integer visitTimes;// 累计访问次数
 
 	private Integer loginTimes;// 累计登陆次数
+	
+	private Date onlineMSDate;// 累积在线毫秒数数据日期
+	
+	private Long onlineMS;// 累积在线毫秒数
 
 	private Integer onlineStatus;// 在线状态
 
@@ -68,6 +72,8 @@ public class ChatVisitor extends BaseModel
 	private String mobile;// 手机号
 
 	private String accountNo;// 账号
+	
+	private String clientGroup;// 客户组
 
 	private String userAgent;// 用户客户端信息
 
@@ -150,6 +156,38 @@ public class ChatVisitor extends BaseModel
 	{
 		this.userId = userId;
 	}
+	
+	/**
+	 * @return the visitorId
+	 */
+	public String getVisitorId()
+	{
+		return visitorId;
+	}
+
+	/**
+	 * @param visitorId the visitorId to set
+	 */
+	public void setVisitorId(String visitorId)
+	{
+		this.visitorId = visitorId;
+	}
+
+	/**
+	 * @return the nickname
+	 */
+	public String getNickname()
+	{
+		return nickname;
+	}
+
+	/**
+	 * @param nickname the nickname to set
+	 */
+	public void setNickname(String nickname)
+	{
+		this.nickname = nickname;
+	}
 
 	/**
 	 * @return the ip
@@ -213,6 +251,38 @@ public class ChatVisitor extends BaseModel
 	public void setLoginTimes(Integer loginTimes)
 	{
 		this.loginTimes = loginTimes;
+	}
+	
+	/**
+	 * @return the onlineMSDate
+	 */
+	public Date getOnlineMSDate()
+	{
+		return onlineMSDate;
+	}
+
+	/**
+	 * @param onlineMSDate the onlineMSDate to set
+	 */
+	public void setOnlineMSDate(Date onlineMSDate)
+	{
+		this.onlineMSDate = onlineMSDate;
+	}
+
+	/**
+	 * @return the onlineMS
+	 */
+	public Long getOnlineMS()
+	{
+		return onlineMS;
+	}
+
+	/**
+	 * @param onlineMS the onlineMS to set
+	 */
+	public void setOnlineMS(Long onlineMS)
+	{
+		this.onlineMS = onlineMS;
 	}
 
 	/**
@@ -438,6 +508,22 @@ public class ChatVisitor extends BaseModel
 	{
 		this.accountNo = accountNo;
 	}
+	
+	/**
+	 * @return the clientGroup
+	 */
+	public String getClientGroup()
+	{
+		return clientGroup;
+	}
+
+	/**
+	 * @param clientGroup the clientGroup to set
+	 */
+	public void setClientGroup(String clientGroup)
+	{
+		this.clientGroup = clientGroup;
+	}
 
 	/**
 	 * @return the userAgent
@@ -453,21 +539,5 @@ public class ChatVisitor extends BaseModel
 	public void setUserAgent(String userAgent)
 	{
 		this.userAgent = userAgent;
-	}
-
-	public String getVisitorId() {
-		return visitorId;
-	}
-
-	public void setVisitorId(String visitorId) {
-		this.visitorId = visitorId;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
 	}
 }

@@ -1464,11 +1464,12 @@ public class DateUtil {
 	}
 
 	public static Date getYesterday() {
-		Calendar calendar = GregorianCalendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, -1);
-		calendar.set(calendar.get(GregorianCalendar.YEAR), calendar
-				.get(GregorianCalendar.MONTH), calendar
-				.get(GregorianCalendar.DATE), 0, 0, 0);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
 
