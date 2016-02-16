@@ -63,10 +63,7 @@ var adminChat = {
 			success : function(data){
 				if(data.obj != null){
 					$('#adminChat_div '+groupId).linkbutton('disable');
-					var urlPath=groupId.replace(/_+.*/g,"");
-					if(groupId.indexOf("studio")!=-1){
-						urlPath="studio/admin";
-					}
+					var urlPath=groupId.replace(/_+.*/g,"")+'/admin';
 					var iframeSrc = adminChat.chatUrl+"/"+urlPath+"?"+adminChat.chatUrlParam+'&groupId='+ groupId+"&token="+data.obj+"&roomName="+groupName;
 					window.open(iframeSrc,groupName+"("+groupId+")","location=no,resizable=yes");
 					//$("#pp").append("<div style='margin:1%;border:solid #ccc 1px;width:90%;height:95%;display:inline-block'>"+'<iframe src="' + iframeSrc+'" frameborder=0 height=100% width=100% scrolling=no></iframe>'+"</div>");

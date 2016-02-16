@@ -57,10 +57,7 @@ public class AdminChatController extends BaseController{
 		List<ChatGroup> loc_chatGroups = chatGroupService.getChatGroupListByAuthUser(ResourceUtil.getSessionUser().getUserNo(), "id", "name", "groupType");
 		map.put("chatGroupList", loc_chatGroups);
 		String chatUrl = PropertiesUtil.getInstance().getProperty("chatUrl");
-		String chatUrlParam = "userId="+userParam.getUserNo()
-				+ "&mobilePhone="+userParam.getTelephone()
-				+ "&nickname="+userParam.getUserName()+"("+ResourceUtil.getSessionUser().getRole().getRoleName()+")"
-				+ "&fromPlatform=pm_mis";
+		String chatUrlParam = "userId="+userParam.getUserNo()+ "&mobilePhone="+userParam.getTelephone()+ "&fromPlatform=pm_mis";
 		map.put("chatUrl",chatUrl);
 		map.put("chatUrlParam",chatUrlParam);
 		map.put("pmApiUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/get24kPrice");
