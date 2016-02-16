@@ -498,15 +498,15 @@ public class ChatVisitorService
 	
 	/**
 	 * 统计访客信息（按天统计）
-	 * @param statDate 统计日期，要求统计日期的开始（时分秒毫秒值均为0）
+	 * @param startDate 统计开始日期时间（统计日期00:00:00）
+	 * @param endDate  统计结束时间（统计日期23:59:59）
 	 * @return
 	 */
-	public Map<String, ChatVisitorStat> statVisitors(Date statDate){
-		Date loc_endDate = new Date(statDate.getTime() + 86400000);//统计完整一天的数据
+	public Map<String, ChatVisitorStat> statVisitors(Date startDate, Date endDate){
 		List<ChatGroup> loc_groups = chatGroupService.getChatGroupList("id","name", "groupType");
-		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(statDate, loc_endDate);
+		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate);
 		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statVisitorsOnline(loc_groups, loc_visitors);
-		Map<String, List<ChatVisitorStatData>> loc_statDuration = this.statVisitorsDuration(loc_groups, loc_visitors, statDate, loc_endDate);
+		Map<String, List<ChatVisitorStatData>> loc_statDuration = this.statVisitorsDuration(loc_groups, loc_visitors, startDate, endDate);
 		Map<String, ChatVisitorStat> loc_result = new HashMap<String, ChatVisitorStat>();
 		//将统计数据保存到数据库
 		ChatGroup loc_group = null;
@@ -523,7 +523,7 @@ public class ChatVisitorService
 					loc_groupType = loc_group.getGroupType();
 					loc_key = loc_groupType;
 					loc_stat = new ChatVisitorStat();
-					loc_stat.setDataDate(statDate);
+					loc_stat.setDataDate(startDate);
 					loc_stat.setGroupType(loc_groupType);
 					loc_stat.setGroupId("");
 					loc_stat.setStatOnline(loc_statOnline.get(loc_key));
@@ -534,7 +534,7 @@ public class ChatVisitorService
 				//按房间分组数据
 				loc_key = loc_group.getGroupType() + "_" + loc_group.getId();
 				loc_stat = new ChatVisitorStat();
-				loc_stat.setDataDate(statDate);
+				loc_stat.setDataDate(startDate);
 				loc_stat.setGroupType(loc_group.getGroupType());
 				loc_stat.setGroupId(loc_group.getId());
 				loc_stat.setStatOnline(loc_statOnline.get(loc_key));
@@ -546,7 +546,7 @@ public class ChatVisitorService
 		//总计
 		loc_key = "";
 		loc_stat = new ChatVisitorStat();
-		loc_stat.setDataDate(statDate);
+		loc_stat.setDataDate(startDate);
 		loc_stat.setGroupType("");
 		loc_stat.setGroupId("");
 		loc_stat.setStatOnline(loc_statOnline.get(loc_key));
@@ -560,14 +560,14 @@ public class ChatVisitorService
 	/**
 	 * 统计访客信息（按整点统计）
 	 * @param statDate 统计日期，要求统计日期的开始（时 分 秒 毫秒值均为0）
-	 * @param timePoint 统计时间，要求统计时间点的开始（分 秒 毫秒值均为0）
+	 * @param startDate 统计开始时间
+	 * @param endDate  统计结束时间
 	 * @return
 	 */
-	public Map<String, ChatVisitorStat> statVisitors(Date statDate, Date timePoint){
-		Date loc_endDate = new Date(timePoint.getTime() + 3600000);//统计完整一小时的数据
+	public Map<String, ChatVisitorStat> statVisitors(Date statDate, Date startDate, Date endDate){
 		List<ChatGroup> loc_groups = chatGroupService.getChatGroupList("id","name", "groupType");
-		String loc_timeStr = DateUtil.formatDate(timePoint, "HH:mm"); 
-		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(timePoint, loc_endDate);
+		String loc_timeStr = DateUtil.formatDate(startDate, "HH:mm"); 
+		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate);
 		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statVisitorsOnline(loc_groups, loc_visitors);
 		Map<String, ChatVisitorStat> loc_result = new HashMap<String, ChatVisitorStat>();
 		//将统计数据保存到数据库
