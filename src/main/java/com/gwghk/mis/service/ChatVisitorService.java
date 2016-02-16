@@ -368,7 +368,8 @@ public class ChatVisitorService
 				isNewGroupType = false;
 			}
 			if(isNewGroupType){
-				loc_statGroup = loc_result.get(loc_visitor.getGroupType());
+				loc_groupType = loc_visitor.getGroupType();
+				loc_statGroup = loc_result.get(loc_groupType);
 				if(loc_statGroup != null){
 					loc_statGroup.get(loc_index).addOnlineNum(1);
 				}
