@@ -36,14 +36,16 @@ public class ChatVisitorTask
 	 */
 	@Scheduled(cron="0 0 0 * * ?")
 	public void statVisitorsDay(){
-		logger.info("系统开始自动执行任务==>每天凌晨0点自动统计访客记录信息!");
+		logger.info("系统开始自动执行任务==>每天凌晨0点自动统计访客记录信息(在线时长分类统计、各类在线人数统计)!");
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -1);
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		chatVisitorService.statVisitors(calendar.getTime());
+		Date loc_endTime = calendar.getTime();
+		calendar.add(Calendar.DATE, -1);
+		Date loc_startTime = calendar.getTime();
+		chatVisitorService.statVisitors(loc_startTime, loc_endTime);
 	}
 	
 	/**
@@ -51,14 +53,16 @@ public class ChatVisitorTask
 	 */
 	@Scheduled(cron="0 0 * * * ?")
 	public void statVisitorsTimePoint(){
-		logger.info("系统开始自动执行任务==>每天整点自动统计访客记录信息!");
+		logger.info("系统开始自动执行任务==>每天整点自动统计访客记录信息(整点在线人数统计)!");
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.HOUR_OF_DAY, -1);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		Date loc_statTime = calendar.getTime();
+		Date loc_endTime = calendar.getTime();
+		calendar.add(Calendar.HOUR_OF_DAY, -1);
+		Date loc_startTime = calendar.getTime();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		chatVisitorService.statVisitors(calendar.getTime(), loc_statTime);
+		Date loc_statDate = calendar.getTime();
+		chatVisitorService.statVisitors(loc_statDate, loc_startTime, loc_endTime);
 	}
 }

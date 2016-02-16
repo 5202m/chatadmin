@@ -79,7 +79,7 @@ public class ChatVisitorDao extends MongoDBBaseDao {
 	}
 	
 	/**
-	 * 查询游客统计信息（报表）
+	 * 查询访客统计信息（报表）
 	 * @param groupType
 	 * @param groupId
 	 * @param dateStart

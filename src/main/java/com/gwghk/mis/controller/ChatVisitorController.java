@@ -346,9 +346,9 @@ public class ChatVisitorController extends BaseController
 		loc_result[1] = groupInfos[1];
 		String dateStart = request.getParameter("dateDateStart");
 		String dateEnd = request.getParameter("dateDateEnd");
-		Date loc_date = StringUtils.isBlank(dateStart) ? DateUtil.getYesterday() : DateUtil.parseDateFormat(dateStart, "yyyy-MM-dd");
+		Date loc_date = StringUtils.isBlank(dateStart) ? DateUtil.getYesterday() : DateUtil.parseDateFormat(dateStart + " 00:00:00", "yyyy-MM-dd HH:mm:ss");
 		loc_result[2] = loc_date;
-		loc_date = StringUtils.isBlank(dateEnd) ? DateUtil.getYesterday() : DateUtil.parseDateFormat(dateEnd, "yyyy-MM-dd");
+		loc_date = StringUtils.isBlank(dateEnd) ? DateUtil.getYesterday() : DateUtil.parseDateFormat(dateEnd + " 23:59:59", "yyyy-MM-dd HH:mm:ss");
 		loc_result[3] = loc_date;
 		return loc_result;
 	}
