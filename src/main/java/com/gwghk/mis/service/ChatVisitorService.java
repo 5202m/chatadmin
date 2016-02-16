@@ -375,6 +375,7 @@ public class ChatVisitorService
 			}
 			if (isNewCst)
 			{
+				loc_clientStoreId = loc_visitor.getClientStoreId();
 				loc_statAll.get(loc_index).addOnlineNum(1);
 			}
 		}
