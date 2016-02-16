@@ -11,6 +11,9 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -207,6 +210,12 @@ public class ChatVisitorService
 		criteria.orOperator(Criteria.where("offlineDate").gte(startDate).lt(endDate), 
 							Criteria.where("onlineStatus").is(1));
 		query.addCriteria(criteria);
+
+		List<Order> orders = new ArrayList<Order>();
+		orders.add(new Order(Direction.ASC, "clientStoreId"));
+		orders.add(new Order(Direction.ASC, "groupType"));
+		orders.add(new Order(Direction.ASC, "roomId"));
+		query.with(new Sort(orders));
 		return chatVisitorDao.queryChatVisitors(query);
 	}
 	
