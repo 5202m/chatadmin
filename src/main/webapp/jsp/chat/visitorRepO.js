@@ -136,7 +136,7 @@ var chatVisitorRepO = {
 	                depth: 25,
 	                dataLabels: {
 	                    enabled: true,
-	                    format: '{point.name}'
+	                    format: '{point.percentage:.2f}%'
 	                },
 	                showInLegend : true
 	            }
