@@ -42,6 +42,9 @@ var chatVisitor = {
 							return value&&value=='1'?'在线':'下线';
 						}},
 						{title : '在线时长',field : 'onLineDuration'},
+						{title : '下线时间',field : 'offlineDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+							return rowData.offlineDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.offlineDate) : '';
+						}},
 						{title : '上次登录时间',field : 'loginPreDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.loginPreDate? timeObjectUtil.longMsTimeConvertToDateTime(rowData.loginPreDate) : '';
 						}},
