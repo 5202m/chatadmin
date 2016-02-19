@@ -3,6 +3,7 @@ package com.gwghk.mis.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -202,17 +203,28 @@ public class ChatVisitorService
 	 * 查找指定时间段有登录的用户
 	 * @param startDate 开始时间
 	 * @param endDate 结束时间
+	 * @param isOnlyLogin 是否仅查询已登录的用户
 	 * @return
 	 */
-	public List<ChatVisitor> getChatVisitorsByDate(Date startDate, Date endDate){
+	public List<ChatVisitor> getChatVisitorsByDate(Date startDate, Date endDate, boolean isOnlyLogin){
 		Query query = new Query();
 		Criteria criteria = Criteria.where("valid").is(1);
+		if (isOnlyLogin)
+		{
+			criteria.and("userId").nin(new Object[]{null, ""});
+		}else{
+			criteria.and("userId").in(new Object[]{null, ""});
+		}
 		criteria.orOperator(Criteria.where("offlineDate").gte(startDate).lt(endDate), 
 							Criteria.where("onlineStatus").is(1));
 		query.addCriteria(criteria);
 
 		List<Order> orders = new ArrayList<Order>();
-		orders.add(new Order(Direction.ASC, "clientStoreId"));
+		if (isOnlyLogin){
+			orders.add(new Order(Direction.ASC, "userId"));
+		}else{
+			orders.add(new Order(Direction.ASC, "clientStoreId"));
+		}
 		orders.add(new Order(Direction.ASC, "groupType"));
 		orders.add(new Order(Direction.ASC, "roomId"));
 		query.with(new Sort(orders));
@@ -285,6 +297,7 @@ public class ChatVisitorService
 			loc_stat = new ChatVisitorStatGroup();
 			loc_stat.setClientGroup(clientGroup.getValue());
 			loc_stat.setOnlineNum(0);
+			loc_stat.setUsers(new ArrayList<String>());
 			loc_result.add(loc_stat);
 		}
 		return loc_result;
@@ -310,12 +323,11 @@ public class ChatVisitorService
 	}
 	
 	/**
-	 * 统计访客信息（各类在线人数统计，按天）（整点在线人数统计，按时间点）
+	 * 初始化统计数据（各类在线人数统计，按天）（整点在线人数统计，按时间点）
 	 * @param chatGroups
-	 * @param visitors
 	 * @return
 	 */
-	private Map<String, List<ChatVisitorStatGroup>> statVisitorsOnline(List<ChatGroup> chatGroups, List<ChatVisitor> visitors){
+	private Map<String, List<ChatVisitorStatGroup>> statInitOnline(List<ChatGroup> chatGroups){
 		Map<String, List<ChatVisitorStatGroup>> loc_result = new HashMap<String, List<ChatVisitorStatGroup>>();
 		ChatGroup chatGroup = null;
 		String loc_groupType = null;
@@ -333,17 +345,29 @@ public class ChatVisitorService
 				loc_result.put(chatGroup.getGroupType() + "_" + chatGroup.getId(), this.initVisitorStatClientGroups());
 			}
 		}
-		List<ChatVisitorStatGroup> loc_statAll = this.initVisitorStatClientGroups(); //总统计
 		//所有合计
-		loc_result.put("", loc_statAll);
-
+		loc_result.put("", this.initVisitorStatClientGroups());
+		return loc_result;
+	}
+	
+	/**
+	 * 统计访客信息（各类在线人数统计，按天）（整点在线人数统计，按时间点）
+	 * @param statMap
+	 * @param visitors
+	 * @param isLogin
+	 * @return
+	 */
+	private Map<String, List<ChatVisitorStatGroup>> statVisitorsOnline(Map<String, List<ChatVisitorStatGroup>> statMap, List<ChatVisitor> visitors, boolean isLogin){
+		List<ChatVisitorStatGroup> loc_statAll = statMap.get(""); //总统计
 		ChatVisitor loc_visitor = null;
 		List<ChatVisitorStatGroup> loc_stat = null;
 		List<ChatVisitorStatGroup> loc_statGroup = null;
-		String loc_clientStoreId = null;    //客户标识
-		loc_groupType = null;               //客户组别标识
+		String loc_userKey = null;    //客户标识
+		String loc_groupType = null;        //客户组别标识
+		String loc_groupId = null;          //房间号标识
 		boolean isNewCst = false;           //是否新客户
-		boolean isNewGroupType = false;     //是否新客户
+		boolean isNewGroupType = false;     //是否新客户组
+		boolean isNewGroupId = false;       //是否新房间
 		int loc_index = -1;
 		for (int i = 0, lenI = visitors == null ? 0 : visitors.size(); i < lenI; i++)
 		{
@@ -352,46 +376,58 @@ public class ChatVisitorService
 			if(loc_index < 0){
 				continue;
 			}
-			loc_stat = loc_result.get(loc_visitor.getGroupType() + "_" + loc_visitor.getRoomId());
-			if(loc_stat != null){
-				loc_stat.get(loc_index).addOnlineNum(1);
-			}
 			
-			if(loc_visitor.getClientStoreId().equals(loc_clientStoreId) == false){//新的客户端访客信息
+			if(loc_userKey == null || loc_userKey.equals(isLogin ? loc_visitor.getUserId() : loc_visitor.getClientStoreId()) == false){//新的客户端访客信息
 				isNewCst = true;
 				isNewGroupType = true;
-			}else if(loc_visitor.getGroupType().equals(loc_groupType) == false){//新的房间组别
+				isNewGroupId = true;
+			}else if(loc_groupType == null || loc_groupType.equals(loc_visitor.getGroupType()) == false){//新的房间组别
 				isNewCst = false;
 				isNewGroupType = true;
+				isNewGroupId = true;
+			}else if(loc_groupId == null || loc_groupId.equals(loc_visitor.getRoomId()) == false){
+				isNewCst = false;
+				isNewGroupType = false;
+				isNewGroupId = true;
 			}else{
 				isNewCst = false;
 				isNewGroupType = false;
+				isNewGroupId = false;
+			}
+			
+			if (isNewCst)
+			{
+				loc_userKey = isLogin ? loc_visitor.getUserId() : loc_visitor.getClientStoreId();
+				loc_userKey = loc_userKey == null ? "" : loc_userKey;
+				loc_statAll.get(loc_index).addUser(loc_userKey);
 			}
 			if(isNewGroupType){
 				loc_groupType = loc_visitor.getGroupType();
-				loc_statGroup = loc_result.get(loc_groupType);
+				loc_groupType = loc_groupType == null ? "" : loc_groupType;
+				loc_statGroup = statMap.get(loc_groupType);
 				if(loc_statGroup != null){
-					loc_statGroup.get(loc_index).addOnlineNum(1);
+					loc_statGroup.get(loc_index).addUser(loc_userKey);
 				}
 			}
-			if (isNewCst)
+			if (isNewGroupId)
 			{
-				loc_clientStoreId = loc_visitor.getClientStoreId();
-				loc_statAll.get(loc_index).addOnlineNum(1);
+				loc_groupId = loc_visitor.getRoomId();
+				loc_groupId = loc_groupId == null ? "" : loc_groupId;
+				loc_stat = statMap.get(loc_visitor.getGroupType() + "_" + loc_groupId);
+				if(loc_stat != null){
+					loc_stat.get(loc_index).addUser(loc_userKey);
+				}
 			}
 		}
-		return loc_result;
+		return statMap;
 	}
 	
 	/**
 	 * 统计访客信息（在线时长人数统计，按天）
 	 * @param chatGroups
-	 * @param visitors
-	 * @param dateStart
-	 * @param dateEnd
 	 * @return
 	 */
-	private Map<String, List<ChatVisitorStatData>> statVisitorsDuration(List<ChatGroup> chatGroups, List<ChatVisitor> visitors, Date dateStart, Date dateEnd){
+	private Map<String, List<ChatVisitorStatData>> statInitDuration(List<ChatGroup> chatGroups){
 		Map<String, List<ChatVisitorStatData>> loc_result = new HashMap<String, List<ChatVisitorStatData>>();
 		ChatGroup chatGroup = null;
 		String loc_groupType = null;
@@ -409,20 +445,34 @@ public class ChatVisitorService
 				loc_result.put(chatGroup.getGroupType() + "_" + chatGroup.getId(), this.initVisitorStatDurations());
 			}
 		}
-		List<ChatVisitorStatData> loc_statAll = this.initVisitorStatDurations(); //总统计
 		//所有合计
-		loc_result.put("", loc_statAll);
-
+		loc_result.put("", this.initVisitorStatDurations());
+		return loc_result;
+	}
+	
+	/**
+	 * 统计访客信息（在线时长人数统计，按天）
+	 * @param statMap
+	 * @param visitors
+	 * @param dateStart
+	 * @param dateEnd
+	 * @param isLogin
+	 * @return
+	 */
+	private Map<String, List<ChatVisitorStatData>> statVisitorsDuration(Map<String, List<ChatVisitorStatData>> statMap, List<ChatVisitor> visitors, Date dateStart, Date dateEnd, boolean isLogin){
+		List<ChatVisitorStatData> loc_statAll = statMap.get(""); //总统计
 		ChatVisitor loc_visitor = null;
 		List<ChatVisitorStatData> loc_stat = null;
 		List<ChatVisitorStatData> loc_statGroup = null;
-		String loc_clientStoreId = null;    //客户标识
-		loc_groupType = null;               //客户组别标识
+		String loc_userKey = null;    //客户标识
+		String loc_groupType = null;        //客户组别标识
+		String loc_groupId = null;          //房间号标识
 		long loc_duration = 0;              //客户房间在线时长
 		long loc_durationGroup = 0;         //客户房间组别在线总时长
 		long loc_durationAll = 0;           //客户在线总时长
 		boolean isNewCst = false;           //是否新客户
-		boolean isNewGroupType = false;     //是否新客户
+		boolean isNewGroupType = false;     //是否新客户组
+		boolean isNewGroupId = false;       //是否新房间
 		int loc_index1 = -1;
 		int loc_index2 = -1;
 		for (int i = 0, lenI = visitors == null ? 0 : visitors.size(); i < lenI; i++)
@@ -432,68 +482,90 @@ public class ChatVisitorService
 			if(loc_index1 < 0){
 				continue;
 			}
-			loc_stat = loc_result.get(loc_visitor.getGroupType() + "_" + loc_visitor.getRoomId());
-			if(loc_stat == null){
-				continue;
-			}
 			
-			if(loc_visitor.getClientStoreId().equals(loc_clientStoreId) == false){//新的客户端访客信息
+			if(loc_userKey == null || loc_userKey.equals(isLogin ? loc_visitor.getUserId() : loc_visitor.getClientStoreId()) == false){//新的客户端访客信息
 				isNewCst = true;
 				isNewGroupType = true;
-			}else if(loc_visitor.getGroupType().equals(loc_groupType) == false){//新的房间组别
+				isNewGroupId = true;
+			}else if(loc_groupType == null || loc_groupType.equals(loc_visitor.getGroupType()) == false){//新的房间组别
 				isNewCst = false;
 				isNewGroupType = true;
+				isNewGroupId = true;
+			}else if(loc_groupId == null || loc_groupId.equals(loc_visitor.getRoomId()) == false){//新的房间组别
+				isNewCst = false;
+				isNewGroupType = false;
+				isNewGroupId = true;
 			}else{
 				isNewCst = false;
 				isNewGroupType = false;
+				isNewGroupId = false;
 			}
 
+			if(isNewGroupId){
+				loc_groupId = loc_visitor.getRoomId();
+				loc_groupId = loc_groupId == null ? "" : loc_groupId;
+				if(loc_stat != null){
+					loc_index2 = ChatOnlineDuration.getDurationIndex(loc_duration);
+					if(loc_index2 != -1){
+						loc_stat.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
+					}
+				}
+				loc_stat = statMap.get(loc_visitor.getGroupType() + "_" + loc_groupId);
+				loc_durationGroup += loc_duration;
+				loc_durationAll += loc_duration;
+				loc_duration = this.getOnlineDuration(loc_visitor, dateStart, dateEnd);
+			}else{
+				loc_duration += this.getOnlineDuration(loc_visitor, dateStart, dateEnd);
+			}
+			
 			if(isNewGroupType){
-				if(loc_groupType != null && loc_statGroup != null){
+				if(loc_statGroup != null){
 					loc_index2 = ChatOnlineDuration.getDurationIndex(loc_durationGroup);
 					if(loc_index2 >= 0){
-						loc_statGroup.get(loc_index2).getData().get(loc_index1).addOnlineNum(1);
+						loc_statGroup.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
 					}
 				}
 				loc_groupType = loc_visitor.getGroupType();
-				loc_statGroup = loc_result.get(loc_groupType);
+				loc_groupType = loc_groupType == null ? "" : loc_groupType;
+				loc_statGroup = statMap.get(loc_groupType);
 				loc_durationGroup = 0;
 			}
 
 			if(isNewCst){
-				if(loc_clientStoreId != null){
+				if(loc_userKey != null){
 					loc_index2 = ChatOnlineDuration.getDurationIndex(loc_durationAll);
 					if(loc_index2 >= 0){
-						loc_statAll.get(loc_index2).getData().get(loc_index1).addOnlineNum(1);
+						loc_statAll.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
 					}
 				}
-				loc_clientStoreId = loc_visitor.getClientStoreId();
+				loc_userKey = isLogin ? loc_visitor.getUserId() : loc_visitor.getClientStoreId();
+				loc_userKey = loc_userKey == null ? "" : loc_userKey;
 				loc_durationAll = 0;
 			}
-			loc_duration = this.getOnlineDuration(loc_visitor, dateStart, dateEnd);
-			loc_index2 = ChatOnlineDuration.getDurationIndex(loc_duration);
-			if(loc_index2 != -1){
-				loc_stat.get(loc_index2).getData().get(loc_index1).addOnlineNum(1);
-			}
-			loc_durationGroup += loc_duration;
-			loc_durationAll += loc_duration;
 		}
 		if(loc_index1 != -1)
 		{
-			if(loc_groupType != null && loc_statGroup != null){
-				loc_index2 = ChatOnlineDuration.getDurationIndex(loc_durationGroup);
+			if (loc_stat != null)
+			{
+				loc_index2 = ChatOnlineDuration.getDurationIndex(loc_duration);
 				if(loc_index2 != -1){
-					loc_statGroup.get(loc_index2).getData().get(loc_index1).addOnlineNum(1);
+					loc_stat.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
 				}
 			}
-			if(loc_clientStoreId != null){
+			if(loc_statGroup != null){
+				loc_index2 = ChatOnlineDuration.getDurationIndex(loc_durationGroup);
+				if(loc_index2 != -1){
+					loc_statGroup.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
+				}
+			}
+			if(loc_userKey != null){
 				loc_index2 = ChatOnlineDuration.getDurationIndex(loc_durationAll);
 				if(loc_index2 != -1){
-					loc_statAll.get(loc_index2).getData().get(loc_index1).addOnlineNum(1);
+					loc_statAll.get(loc_index2).getData().get(loc_index1).addUser(loc_userKey);
 				}
 			}
 		}
-		return loc_result;
+		return statMap;
 	}
 	
 	/**
@@ -504,9 +576,17 @@ public class ChatVisitorService
 	 */
 	public Map<String, ChatVisitorStat> statVisitors(Date startDate, Date endDate){
 		List<ChatGroup> loc_groups = chatGroupService.getChatGroupList("id","name", "groupType");
-		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate);
-		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statVisitorsOnline(loc_groups, loc_visitors);
-		Map<String, List<ChatVisitorStatData>> loc_statDuration = this.statVisitorsDuration(loc_groups, loc_visitors, startDate, endDate);
+		List<ChatVisitor> loc_users = this.getChatVisitorsByDate(startDate, endDate, true);
+		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate, false);
+		
+		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statInitOnline(loc_groups);
+		loc_statOnline = this.statVisitorsOnline(loc_statOnline, loc_users, true);
+		loc_statOnline = this.statVisitorsOnline(loc_statOnline, loc_visitors, false);
+		
+		Map<String, List<ChatVisitorStatData>> loc_statDuration = this.statInitDuration(loc_groups);
+		loc_statDuration = this.statVisitorsDuration(loc_statDuration, loc_users, startDate, endDate, true);
+		loc_statDuration = this.statVisitorsDuration(loc_statDuration, loc_visitors, startDate, endDate, false);
+		
 		Map<String, ChatVisitorStat> loc_result = new HashMap<String, ChatVisitorStat>();
 		//将统计数据保存到数据库
 		ChatGroup loc_group = null;
@@ -567,8 +647,13 @@ public class ChatVisitorService
 	public Map<String, ChatVisitorStat> statVisitors(Date statDate, Date startDate, Date endDate){
 		List<ChatGroup> loc_groups = chatGroupService.getChatGroupList("id","name", "groupType");
 		String loc_timeStr = DateUtil.formatDate(startDate, "HH:mm"); 
-		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate);
-		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statVisitorsOnline(loc_groups, loc_visitors);
+		List<ChatVisitor> loc_users = this.getChatVisitorsByDate(startDate, endDate, true);
+		List<ChatVisitor> loc_visitors = this.getChatVisitorsByDate(startDate, endDate, false);
+		
+		Map<String, List<ChatVisitorStatGroup>> loc_statOnline = this.statInitOnline(loc_groups);
+		loc_statOnline = this.statVisitorsOnline(loc_statOnline, loc_users, true);
+		loc_statOnline = this.statVisitorsOnline(loc_statOnline, loc_visitors, false);
+		
 		Map<String, ChatVisitorStat> loc_result = new HashMap<String, ChatVisitorStat>();
 		//将统计数据保存到数据库
 		ChatGroup loc_group = null;
@@ -705,12 +790,11 @@ public class ChatVisitorService
 		}
 		
 		//总计
-		JSONObject loc_totalStat = new JSONObject();
+		Map<String, HashSet<String>> loc_usersMap = new HashMap<String, HashSet<String>>();
 		for (ChatClientGroup group : ChatClientGroup.values())
 		{
-			loc_totalStat.put(group.name(), 0);
+			loc_usersMap.put(group.name(), new HashSet<String>());
 		}
-		loc_totalStat.put("statSum", 0);
 		
 		//提取数据
 		ChatVisitorStat loc_dbStat = null;
@@ -719,7 +803,6 @@ public class ChatVisitorService
 		JSONObject loc_stat = null;
 		int loc_statTemp = 0;
 		int loc_statSum = 0;
-		int loc_statSumAll = 0;
 		for(int i = 0, lenI = loc_dbStats.size(); i < lenI; i++){
 			loc_statSum = 0;
 			loc_dbStat = loc_dbStats.get(i);
@@ -729,16 +812,24 @@ public class ChatVisitorService
 				loc_dbStatGroup = loc_dbStatGroups.get(j);
 				loc_statTemp = loc_dbStatGroup.getOnlineNum();
 				loc_stat.put(loc_dbStatGroup.getClientGroup(), loc_statTemp);
-				loc_totalStat.put(loc_dbStatGroup.getClientGroup(), loc_totalStat.getInt(loc_dbStatGroup.getClientGroup()) + loc_statTemp);
+				loc_usersMap.get(loc_dbStatGroup.getClientGroup()).addAll(loc_dbStatGroup.getUsers());
 				loc_statSum += loc_statTemp;
 			}
 			loc_stat.put("dataDate", DateUtil.formatDate(loc_dbStat.getDataDate(), "yyyy-MM-dd"));
 			loc_stat.put("statSum", loc_statSum);
-			loc_statSumAll += loc_statSum;
+			
 			loc_result.add(loc_stat);
 		}
 		
 		//总计
+		JSONObject loc_totalStat = new JSONObject();
+		int loc_statSumAll = 0;
+		for (ChatClientGroup group : ChatClientGroup.values())
+		{
+			loc_statSum = loc_usersMap.get(group.name()).size();
+			loc_statSumAll += loc_statSum;
+			loc_totalStat.put(group.name(), loc_statSum);
+		}
 		loc_totalStat.put("dataDate", "合计");
 		loc_totalStat.put("statSum", loc_statSumAll);
 		loc_result.add(loc_totalStat);

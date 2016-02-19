@@ -1,5 +1,7 @@
 package com.gwghk.mis.model;
 
+import java.util.List;
+
 
 /**
  * 访客信息统计数据--客户组别
@@ -14,6 +16,9 @@ public class ChatVisitorStatGroup
 	
 	/**在线人数*/
 	private Integer onlineNum = null;
+	
+	/**用户信息（userId 或者 clientStoreId）*/
+	private List<String> users = null;
 
 	/**
 	 * @return the clientGroup
@@ -48,10 +53,27 @@ public class ChatVisitorStatGroup
 	}
 	
 	/**
-	 * 在线人数自增（注意NullPointer）
-	 * @param amount
+	 * @return the users
 	 */
-	public void addOnlineNum(int amount){
-		this.onlineNum = this.onlineNum == null ? amount : (this.onlineNum + amount);
+	public List<String> getUsers()
+	{
+		return users;
+	}
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(List<String> users)
+	{
+		this.users = users;
+	}
+
+	/**
+	 * 增加一个用户
+	 * @param userKey
+	 */
+	public void addUser(String userKey){
+		this.users.add(userKey);
+		this.onlineNum ++;
 	}
 }
