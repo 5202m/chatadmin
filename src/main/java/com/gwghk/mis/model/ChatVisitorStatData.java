@@ -1,5 +1,6 @@
 package com.gwghk.mis.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +79,21 @@ public class ChatVisitorStatData
 		{
 			if(this.data.get(i) != null && this.data.get(i).getOnlineNum() != null){
 				loc_result += this.data.get(i).getOnlineNum();
+			}
+		}
+		return loc_result;
+	}
+	
+	/**
+	 * 在线用户信息总计
+	 * @return
+	 */
+	public List<String> sumOnlineUsers(){
+		List<String> loc_result = new ArrayList<String>();
+		for(int i = 0, lenI = this.data == null ? 0 : this.data.size(); i < lenI; i++)
+		{
+			if(this.data.get(i) != null && this.data.get(i).getUsers() != null){
+				loc_result.addAll(this.data.get(i).getUsers());
 			}
 		}
 		return loc_result;

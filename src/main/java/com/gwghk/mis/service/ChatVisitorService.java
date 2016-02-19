@@ -545,6 +545,8 @@ public class ChatVisitorService
 		}
 		if(loc_index1 != -1)
 		{
+			loc_durationGroup += loc_duration;
+			loc_durationAll += loc_duration;
 			if (loc_stat != null)
 			{
 				loc_index2 = ChatOnlineDuration.getDurationIndex(loc_duration);
