@@ -56,7 +56,7 @@ public class ChatVisitorService
 	private ChatGroupService chatGroupService;
 	
 	/**
-	 * 短信信息列表查询
+	 * 访客信息列表查询
 	 * 
 	 * @param dCriteria
 	 * @return
