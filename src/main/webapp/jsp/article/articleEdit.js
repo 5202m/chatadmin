@@ -42,54 +42,44 @@ var articleEdit = {
 				author=authorVal;
 			}
 		}
-		var lang=id.replace("authorList_","");
 		$('#'+id).combogrid({
-		    idField:'name',
-		    textField:'name',
+		    idField:'userName',
+		    textField:'userName',
 		    value:author,
-		    url:basePath+'/js/authorList.json',
+		    url:basePath+'/userController/getAnalystList.do?hasOther=true',
 		    columns:[[
-		        {field : 'name',title : '姓名',width:100},
-		        {field : 'avatar1',title : '头像(51*51)',width:72,formatter : function(value, rowData, rowIndex) {
+		        {field : 'userNo',hidden:true},
+		        {field : 'author_Key_id',hidden:true,formatter : function(value, rowData, rowIndex) {
+					return 'author_Key_id';
+				}},
+		        {field : 'userName',title : '姓名',width:100},
+		        {field : 'avatar',title : '头像',width:40,formatter : function(value, rowData, rowIndex) {
 		        	if(isBlank(value)){
 		        		return '';
 		        	}
-		        	var av=articleEdit.filePath+'/upload/pic/header/chat/201508/'+value;
-					return '<input type="radio" name="avatar_radio_'+rowIndex+'" '+(avatar==av?'checked':'')+' value="'+av+'"/><img src="'+av+'"/>';
-				}},
-				{field : 'avatar2',title : '头像(61*61)',width:72,formatter : function(value, rowData, rowIndex) {
-					if(isBlank(value)){
-		        		return '';
-		        	}
-					var av=articleEdit.filePath+'/upload/pic/header/chat/201508/'+value;
-					return '<input type="radio" name="avatar_radio_'+rowIndex+'" '+(avatar==av?'checked':'')+' value="'+av+'"/><img src="'+av+'"/>';
+					return '<img src="'+value+'" style="height:35px;width:35px;"/>';
 				}}
-		   ]],
-		   onCheck:function(rowIndex, rowData){
-			   if(articleEdit.combogridInit[lang]>1){//非点击语言checkbox触发的无需触发一下代码
-				   $('#'+id).next().find(".combo-text").val("");
-				   var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
-				   if(isValid(avatarTmp)){
-					   avatarTmp=";"+avatarTmp;
-				   }else{
-					   avatarTmp=''; 
-				   }
-				   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
+		    ]],
+		    onSelect:function(rowIndex, rowData){
+		       var lang=id.replace("authorList_","");
+		       var avatarTmp=rowData.avatar;
+		       if(isValid(avatarTmp)){
+				   avatarTmp=";"+avatarTmp;
+			   }else{
+				   avatarTmp=''; 
 			   }
-			   articleEdit.combogridInit[lang]++;
-		   },
-		   onLoadSuccess:function(data){
-			   var isHasAuthor=false;
-			   for(var i in data.rows){
-				   if(data.rows[i].name==author){
-					   isHasAuthor=true;
-				   }
-			   }
-			   if(!isHasAuthor){
-				   articleEdit.combogridInit[lang]=2;
-				   $('#'+id).next().find(".combo-text").val(author); 
-			   }
-		   }
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);
+		    },
+		    onChange:function(val){
+		    	var lang=id.replace("authorList_","");
+		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
+		    		if(val!=$(this).text()){
+		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(val);
+		 			    $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
+			    	}
+		    	});
+		    }
 		}); 
 	},
 	/**

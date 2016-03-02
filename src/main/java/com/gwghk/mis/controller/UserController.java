@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -298,4 +299,23 @@ public class UserController extends BaseController{
     		return roleService.getRoleList();
     	}
     }
+    
+    @RequestMapping(value = "/userController/getAnalystList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+   	@ResponseBody
+    public String getAnalystList(HttpServletRequest request,ModelMap map) throws Exception {
+    	List<BoUser> allAnalysts = userService.getUserListByRole("analyst");
+    	String hasOther=request.getParameter("hasOther");
+    	if(StringUtils.isNotBlank(hasOther)){
+    		String path=PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/upload/pic/header/chat/201508";
+        	String[] nameArr={"梁育诗","罗恩•威廉","黃湛铭","赵相宾","周游","刘敏","陈杭霞","金道研究院"};
+        	BoUser user=null;
+        	for(int i=0;i<nameArr.length;i++){
+        		user=new BoUser();
+        		user.setAvatar(path+(i==1?"/headimg51_2.jpg":"/headimg61_"+(i+1)+".jpg"));
+        	    user.setUserName(nameArr[i]);
+        		allAnalysts.add(user);
+        	}
+    	}
+       	return JSONArray.toJSONString(allAnalysts);
+     }
 }

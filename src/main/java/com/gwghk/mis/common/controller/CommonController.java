@@ -42,16 +42,18 @@ public class CommonController extends BaseController{
        	Map<String, List<BoDict>> dictMap=ResourceUtil.getDictListByLocale(new String[]{dictCode});
        	List<BoDict> subList=dictMap.get(dictCode);
         platform=StringUtils.isBlank(platform)?"":(",".concat(platform).concat(","));
-       	for(BoDict row:subList){
-       		 tbean=new TreeBean();
-       		 tbean.setId(row.getCode());
-       		 tbean.setText(row.getName());
-       		 if(platform.contains(",".concat(row.getCode()).concat(","))){
-    			tbean.setChecked(true);
-    		 }
-       		 tbean.setParentId("");
-   			 treeList.add(tbean);
-       	}
+        if(subList!=null && subList.size()>0){
+           for(BoDict row:subList){
+      		 tbean=new TreeBean();
+      		 tbean.setId(row.getCode());
+      		 tbean.setText(row.getName());
+      		 if(platform.contains(",".concat(row.getCode()).concat(","))){
+   			   tbean.setChecked(true);
+   		     }
+      		 tbean.setParentId("");
+  			 treeList.add(tbean);
+          }
+        }
        	return JsonUtil.formatListToTreeJson(treeList,false);
      }
     

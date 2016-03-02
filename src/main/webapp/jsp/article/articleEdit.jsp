@@ -90,7 +90,7 @@ articleEdit.filePath='${filePath}';
 	      </tr>
 	       <tr>
 			<th>作者</th>
-        	<td><input type="hidden" name="author" value="${articleDetail.author}"/><select name="authorAvatar" style="width:280px;"></select></td>
+        	<td><input type="hidden" name="author" value="${articleDetail.author}"/><input type="hidden" name="authorId" value="${articleDetail.authorId}"/><select name="authorAvatar" style="width:280px;"></select></td>
            </tr>
            <tr>
 	       <tr>

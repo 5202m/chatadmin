@@ -13,35 +13,41 @@ var articleAdd = {
 	},
 	setAuthorList:function(id){
 		$('#'+id).combogrid({
-		    idField:'name',
-		    textField:'name',
-		    url:basePath+'/js/authorList.json',
+		    idField:'userName',
+		    textField:'userName',
+		    url:basePath+'/userController/getAnalystList.do?hasOther=true',
 		    columns:[[
-		        {field : 'name',title : '姓名',width:100},
-		        {field : 'avatar1',title : '头像(51*51)',width:72,formatter : function(value, rowData, rowIndex) {
+		        {field : 'userNo',hidden:true},
+		        {field : 'author_Key_id',hidden:true,formatter : function(value, rowData, rowIndex) {
+					return 'author_Key_id';
+				}},
+		        {field : 'userName',title : '姓名',width:100},
+		        {field : 'avatar',title : '头像',width:40,formatter : function(value, rowData, rowIndex) {
 		        	if(isBlank(value)){
 		        		return '';
 		        	}
-		        	var av=articleAdd.filePath+'/upload/pic/header/chat/201508/'+value;
-					return '<input type="radio" name="avatar_radio_'+rowIndex+'" value="'+av+'"/><img src="'+av+'"/>';
-				}},
-				{field : 'avatar2',title : '头像(61*61)',width:72,formatter : function(value, rowData, rowIndex) {
-					if(isBlank(value)){
-		        		return '';
-		        	}
-					var av=articleAdd.filePath+'/upload/pic/header/chat/201508/'+value;
-					return '<input type="radio" name="avatar_radio_'+rowIndex+'" value="'+av+'"/><img src="'+av+'"/>';
+					return '<img src="'+value+'" style="height:35px;width:35px;"/>';
 				}}
 		    ]],
 		    onSelect:function(rowIndex, rowData){
-		       var avatarTmp=$("input[type=radio][name=avatar_radio_"+rowIndex+"]:checked").val();
-			   if(isValid(avatarTmp)){
+		       var lang=id.replace("authorList_","");
+		       var avatarTmp=rowData.avatar;
+		       if(isValid(avatarTmp)){
 				   avatarTmp=";"+avatarTmp;
 			   }else{
 				   avatarTmp=''; 
 			   }
-			   var lang=id.replace("authorList_","");
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.name+avatarTmp);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);
+		    },
+		    onChange:function(val){
+		    	var lang=id.replace("authorList_","");
+		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
+		    		if(val!=$(this).text()){
+		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(val);
+		 			    $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
+			    	}
+		    	});
 		    }
 		}); 
 	},

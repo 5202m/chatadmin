@@ -56,9 +56,14 @@ public class ArticleDetail{
 	private String linkUrl;
 	
 	/**
-	 * 作者
+	 * 作者昵称与头像
 	 */
 	private String author;
+	
+	/**
+	 * 作者id
+	 */
+	private String authorId;
 	
 	/**
 	 * 标签
@@ -158,4 +163,13 @@ public class ArticleDetail{
 	public void setAuthor(String author) {
 		this.author = author;
 	}
+
+	public String getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
+	}
+	
 }
