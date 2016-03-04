@@ -93,6 +93,7 @@ public class ArticleController extends BaseController{
     	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
     	 ArticleDetail detail=new ArticleDetail();
     	 detail.setTitle(request.getParameter("title"));
+    	 detail.setAuthor(request.getParameter("author"));
     	 detailList.add(detail);
     	 article.setDetailList(detailList);
 		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, article), 1);

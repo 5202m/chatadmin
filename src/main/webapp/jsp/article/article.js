@@ -64,6 +64,14 @@ var article = {
 								return '启用';
 							}
 						}},
+						{title : '作者',field : 'author',formatter : function(value, rowData, rowIndex) {
+							var val=rowData.detailList[0].author;
+							if(isBlank(val)){
+								return "";
+							}
+							var valArr=val.split(";");
+							return (valArr.length>1?'<img src="'+valArr[1]+'" style="width:30px;height:30px;" />':"")+valArr[0];
+						}},
 						{title : '发布开始时间',field : 'publishStartDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},

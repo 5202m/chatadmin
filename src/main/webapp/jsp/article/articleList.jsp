@@ -27,9 +27,11 @@ var articlePlatformStr='${articlePlatformJson}';
           	<t:dictSelect field="status" isEdit="false" isShowPleaseSelected="true"  dataList="${dictMap[dictConstant.DICT_USE_STATUS]}"/>
           </td>
           <th width="10%">栏目</th>
-          <td width="23%" colspan="6"> 
+          <td width="23%"> 
             <input name="categoryId" class="easyui-combotree" style="width:160px;" data-options="url:'<%=request.getContextPath()%>/categoryController/getCategoryTree.do?type=1',valueField:'id',textField:'text'"/>
           </td>
+          <th width="10%">作者</th>
+          <td width="23%"><input type="text" name="author" style="width:160px"/></td>
         </tr>
          <tr>
           <th width="10%">发布时间</th>

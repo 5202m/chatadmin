@@ -85,16 +85,21 @@ public class ArticleService{
 			if(article.getPublishEndDate()!=null){
 				criteria = criteria.and("publishEndDate").lte(article.getPublishEndDate());
 			}
+			Criteria  detailCriteria = new Criteria();
 			List<ArticleDetail> detailList=article.getDetailList();
 			if(detailList!=null&&detailList.size()>0){
 				ArticleDetail detail=detailList.get(0);
 				if(StringUtils.isNotBlank(detail.getLang())){
-					criteria.and("detailList.lang").in((Object[])detail.getLang().split(","));
+					detailCriteria.and("lang").in((Object[])detail.getLang().split(","));
 				}
 				if(StringUtils.isNotBlank(detail.getTitle())){
-					criteria.and("detailList.title").regex(StringUtil.toFuzzyMatch(detail.getTitle()));
+					detailCriteria.and("title").regex(StringUtil.toFuzzyMatch(detail.getTitle()));
+				}
+				if(StringUtils.isNotBlank(detail.getAuthor())){
+					detailCriteria.and("author").regex(StringUtil.toFuzzyMatch(detail.getAuthor()));
 				}
 			}
+			criteria.and("detailList").elemMatch(detailCriteria);
 			query.addCriteria(criteria);
 		}
 		Page<Article> page=articleDao.getPage(query,dCriteria);
