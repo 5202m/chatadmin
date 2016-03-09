@@ -64,7 +64,12 @@ public class ChatMessage{
 	/**
 	 * 信息内容
 	 */
-	private ChatContent content;
+	protected ChatContent content;
+	
+	/**
+	 * 接收者toUser
+	 */
+	protected ChatMsgToUser toUser;
 	
 	/**
 	 * 手机号码
@@ -236,6 +241,14 @@ public class ChatMessage{
 
 	public void setContent(ChatContent content) {
 		this.content = content;
+	}
+	
+	public ChatMsgToUser getToUser() {
+		return toUser;
+	}
+
+	public void setToUser(ChatMsgToUser toUser) {
+		this.toUser = toUser;
 	}
 
 	public String getPublishStartDateStr() {

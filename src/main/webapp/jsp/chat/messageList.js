@@ -22,7 +22,7 @@ var chatMessage = {
 			url : basePath+'/chatMessageController/datagrid.do',
 			queryParams : {
 					groupId : $("#chatMessageGroupId").val(),
-					status : $("#chatMessageStatusId").val(),
+					/*status : $("#chatMessageStatusId").val(),*/
 					valid : $("#chatMessageValidId").val()
 				},
 			columns : [[
@@ -34,16 +34,16 @@ var chatMessage = {
 							return $("#chatMessage_datagrid_rowOperation").html();
 						}},*/
 						/*{title : '手机号码',field:'mobilePhone'},*/
-						{title : '账号',field:'accountNoStr', formatter : function(value, rowData, rowIndex) {
+						{title : '账号',field:'accountNo', formatter : function(value, rowData, rowIndex) {
 							return rowData.accountNo||rowData.userId;
 						}},
-						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
+						{title : '昵称【ID号】',field : 'nickname', formatter : function(value, rowData, rowIndex) {
 							return rowData.nickname+"【"+rowData.userId+"】";
 						}},
 						{title : '头像',field : 'avatar', formatter : function(value, rowData, rowIndex) {
 							return !value ? value : '<img style="height:30px;background-color: #D0D0D0;" src="' + value + '">';
 						}},
-						{title : '信息类型',field : 'msgTypeStr',formatter : function(value, rowData, rowIndex) {
+						{title : '信息类型',field : 'msgType',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.content.msgType;
 							if(type=='text'){
 								return "文本";
@@ -69,7 +69,17 @@ var chatMessage = {
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return $.trim(chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId));
 						}},
-						{title : '审核状态',field : 'statusStr',formatter : function(value, rowData, rowIndex) {
+						{title : '接收者',field : 'toUserName',formatter : function(value, rowData, rowIndex) {
+							var toUser=rowData.toUser;
+							if(toUser){
+								if(isBlank(toUser.userId)){
+									return "房间所有人";
+								}else{
+									return toUser.nickname;
+								}
+							}
+						}},
+						{title : '审核状态',field : 'status',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.status;
 							if(type==1){
 								return "通过";
@@ -80,12 +90,9 @@ var chatMessage = {
 								return "待审批";
 							}
 						}},
-						{title : '审核人',field : 'approvalUserNo'},
-						{title : '发布时间隐藏字段',field : 'publishTime',hidden:true},
 						{title : '用户id',field : 'userId',hidden:true},
 						{title : '组',field : 'groupId',hidden:true},
-						{title : '状态隐藏字段',field : 'status',hidden:true},
-						{title : '数据状态',field : 'validStr',formatter : function(value, rowData, rowIndex) {
+						{title : '数据状态',field : 'valid',formatter : function(value, rowData, rowIndex) {
 							var type=rowData.valid;
 							if(type==0){
 								return "删除";

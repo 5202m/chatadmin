@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -29,7 +32,7 @@ import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
-import com.gwghk.mis.model.ChatMessage_2015;
+import com.gwghk.mis.model.ChatMsgToUser;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatMessgeService;
@@ -97,6 +100,23 @@ public class ChatMessageController extends BaseController{
 		logger.debug(">>start into chatMessageController.index() and url is /chatMessageController/index.do");
 		return "chat/messageList";
 	}
+	
+	/**
+	 * 设置通用查询
+	 * @param request
+	 * @param dataGrid
+	 * @param chatMessage
+	 */
+	private void setComSearch(HttpServletRequest request,ChatMessage chatMessage){
+		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
+		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
+		 String talkStyle=request.getParameter("talkStyle");
+		 if(StringUtils.isNotBlank(talkStyle)){
+			 ChatMsgToUser msgToUser=new ChatMsgToUser();
+			 msgToUser.setTalkStyle(Integer.parseInt(talkStyle));
+			 chatMessage.setToUser(msgToUser);
+		 }
+	}
 
 	/**
 	 * 获取datagrid列表
@@ -107,9 +127,8 @@ public class ChatMessageController extends BaseController{
 	 */
 	@RequestMapping(value = "/chatMessageController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
-	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage_2015 chatMessage){
-		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
-		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
+	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatMessage chatMessage){
+		 this.setComSearch(request,chatMessage);
 		 Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
@@ -124,18 +143,19 @@ public class ChatMessageController extends BaseController{
 	@ActionVerification(key="export")
 	public void exportRecord(HttpServletRequest request, HttpServletResponse response,ChatMessage chatMessage){
 		try{
-			chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
-			chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
+			this.setComSearch(request,chatMessage);
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_RECORDS_TEMPLATE_PATH)));
 			DataGrid dataGrid = new DataGrid();
 			dataGrid.setPage(0);
 			dataGrid.setRows(0);
-			dataGrid.setSort("id");
+			dataGrid.setSort("publishTime");
 			dataGrid.setOrder("desc");
 			chatMessage.getContent().setMsgType("text");  //默认只导出文本类型
 			Page<ChatMessage> page = chatMessageService.getChatMessagePage(this.createDetachedCriteria(dataGrid, chatMessage));
 			List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
 			List<ChatMessage>  chatMessageList = page.getCollection();
+			ChatMsgToUser toUser=null;
+			String toUserName="房间所有人";
 			if(chatMessageList != null && chatMessageList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatMessage cm : chatMessageList){
@@ -169,6 +189,11 @@ public class ChatMessageController extends BaseController{
 					row.set("approvalUserNo", cm.getApprovalUserNo());
 					row.set("status", cm.getStatus()==1?"通过":(cm.getStatus()==2?"拒绝":"等待审批"));//0、等待审批，1、通过 ；2、拒绝
 					row.set("valid", cm.getValid()==1?"正常":"删除");
+					toUser=cm.getToUser();
+					if(toUser!=null && StringUtils.isNotBlank(toUser.getUserId())){
+						toUserName=toUser.getNickname();
+					}
+					row.set("toUserName", toUserName);
 				}
 				builder.put("rowSet",dataSet);
 			}else{

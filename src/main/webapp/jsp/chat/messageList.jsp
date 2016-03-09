@@ -51,12 +51,21 @@
           </td>
         </tr>
         <tr>
-          <th width="10%">审核状态</th>
+          <!-- <th width="10%">审核状态</th>
           <td width="40%">
 	          <select name="status" id="chatMessageStatusId"  style="width:160px;">
           		<option value="1">通过</option>
           		<option value="0">待审批</option>
           		<option value="2">拒绝</option>
+	          </select>
+          </td> -->
+          <th width="10%">聊天方式</th>
+          <td width="40%">
+	          <select name="talkStyle" style="width:160px;">
+	            <option value="">--请选择--</option>
+          		<option value="0">公聊</option>
+          		<option value="1">私聊</option>
+          		<option value="2">@TA</option>
 	          </select>
           </td>
           <th width="10%">内容关键词</th>

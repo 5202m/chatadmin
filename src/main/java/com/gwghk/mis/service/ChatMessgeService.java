@@ -3,17 +3,20 @@ package com.gwghk.mis.service;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatMessageDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatMessage;
+import com.gwghk.mis.model.ChatMsgToUser;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
@@ -137,6 +140,16 @@ public class ChatMessgeService{
 				if(StringUtils.isNotBlank(model.getContent().getValue())){
 					criteria.and("content.msgType").is("text");
 					criteria.and("content.value").regex(StringUtil.toFuzzyMatch(model.getContent().getValue()));
+				}
+			}
+			ChatMsgToUser toUser=model.getToUser();
+			if(toUser!=null){
+				if(toUser.getTalkStyle()==1){
+					criteria.and("toUser.talkStyle").is(1);
+				}else if(toUser.getTalkStyle()==2){
+					criteria.and("toUser.talkStyle").is(0).and("toUser.userId").nin("",null);
+				}else{
+					criteria.and("toUser.talkStyle").is(0).and("toUser.userId").in("",null);
 				}
 			}
 			if(model.getValid()!=null){
