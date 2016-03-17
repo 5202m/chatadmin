@@ -40,7 +40,7 @@
         <td width="35%" colspan="3">
         	<div id="media_div">
 	        	&nbsp;媒体路径：&nbsp;<input type="text" name="mediaUrl" id="currentMediaPath" style="margin-bottom: 5px;width:450px;" class="easyui-validatebox"
-	        				data-options="required:true,validType:'url',missingMessage:'请填入一个有效的URL'"/>
+	        				data-options="required:true"/>
 	        				<input type="button" value="设置链接" id="addMediaUrlHander">
 	        	<input type="file"  id="mediaFileId" style="width:155px">
 	        	<!-- 原图片路径 -->
@@ -106,7 +106,16 @@
 					<label for="addMediaUrlTecent">腾讯</label>
 				</th>
 				<td>
-					vid: <input type="text" pName="vid">
+					vid: <input type="text" pName="vid" style="width:250px">
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<input type="radio" name="addMediaUrlName" id="addMediaUrlblws" value="type=blws&">
+					<label for="addMediaUrlblws">保利威视</label>
+				</th>
+				<td>
+					vid: <input type="text" pName="vid" style="width:250px">
 				</td>
 			</tr>
 		</table>

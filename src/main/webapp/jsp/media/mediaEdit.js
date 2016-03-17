@@ -29,20 +29,19 @@ var mediaEdit = {
 			goldOfficeUtils.openSimpleDialog({
 				dialogId : "addMediaUrl",
 				title : '设置链接',
-				height:110,
+				height:130,
 				onOpen : function(){
 					var loc_url = loc_targetDom.val();
-					if(loc_url){
+					if(isValid(loc_url)){
 						$("#addMediaUrl input:radio").each(function(){
 							if(loc_url.startsWith($(this).val())){
 								$(this).prop("checked", true);
-								var loc_params = loc_url.substring(loc_url.indexOf("?") + 1).split("&");
-								var loc_eqIndex = -1, loc_trDom = $(this).parents("tr:first");
-								for(var i = 0, lenI = !loc_params ? 0 :loc_params.length; i < lenI; i++){
-									loc_eqIndex = loc_params[i].indexOf("=");
-									loc_trDom.find("input[pName='" + loc_params[i].substring(0, loc_eqIndex) + "']").val(loc_params[i].substring(loc_eqIndex+1));
+								var pDom=$(this).parent().next().find("input[pName]"),pName=pDom.attr("pName");
+								var pnVal=loc_url.match(eval('/'+pName+'=([^&]+)/g'));
+								if(isValid(pnVal)){
+									pDom.val(pnVal.toString().replace(pName+'=',""));
+									return false;
 								}
-								return false;
 							}
 						});
 					}
@@ -57,23 +56,18 @@ var mediaEdit = {
 					text : '确定',
 					iconCls : "ope-save",
 					handler : function(){
-						var loc_checkTr = $("#addMediaUrl input:checked").parents("tr:first");
-						var loc_url = "";
-						if(loc_checkTr.size() > 0){
-							loc_url += loc_checkTr.find("input:radio").val();
-							var loc_params = "";
-							loc_checkTr.find("input:not(:radio)").each(function(){
-								if($(this).attr("pName") === "vid" && !$(this).val()){
-									loc_url = "";
-									return false;
-								}
-								loc_params += "&" + $(this).attr("pName") + "=" + $(this).val();
-							})
-							if(loc_params !== ""){
-								loc_url = loc_url + "?" + loc_params.substring(1);
-							}
+						var checkDom=$("#addMediaUrl input:checked"),pDom=checkDom.parent().next().find("input[pName]");
+						var pVal=pDom.val(),pName=pDom.attr("pName");
+						var locUrl = checkDom.val();
+						if(isBlank(pVal)){
+							return false;
 						}
-						loc_targetDom.val(loc_url);
+						if(locUrl.indexOf('&')==-1){
+							locUrl = locUrl + '?'+pName+'='+ pVal;
+						}else{
+							locUrl += (/&$/g.test(locUrl)?"":"&") + pName + "=" +pVal;
+						}
+						loc_targetDom.val(locUrl);
 						$("#addMediaUrl form")[0].reset();
 						$("#addMediaUrl").dialog("close");
 					}
