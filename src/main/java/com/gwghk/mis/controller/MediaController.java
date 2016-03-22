@@ -249,7 +249,6 @@ public class MediaController extends BaseController{
     	String publishEndDateStr=request.getParameter("publishEndDateStr");
     	media.setPublishStartDate(DateUtil.parseDateFormat(publishStartDateStr));
     	media.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
-    	System.out.println("test:"+JsonUtil.formatJsonStr(detaiInfo));
         List<ArticleDetail> detailList=JSON.parseArray(JsonUtil.formatJsonStr(detaiInfo), ArticleDetail.class);
         media.setDetailList(detailList);
         String[] platformArr=request.getParameterValues("platformStr");

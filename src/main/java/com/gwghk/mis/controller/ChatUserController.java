@@ -320,6 +320,48 @@ public class ChatUserController extends BaseController{
 		return j;
 	}
 	
+	/**
+	 * 功能:修改用户昵称
+	 */
+	@RequestMapping(value="/chatUserController/modifyName",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="modifyName")
+    public AjaxJson modifyName(HttpServletRequest request){
+		AjaxJson j = new AjaxJson();
+		String oldname = request.getParameter("oldname"),
+			   nickname = request.getParameter("nickname"),
+			   groupType=request.getParameter("groupType"),
+			   mobile=request.getParameter("mobilePhone");
+		if(StringUtils.isBlank(nickname)){
+			j.setSuccess(false);
+			j.setMsg("昵称不能为空");
+			return j;
+		}
+		if(StringUtils.isBlank(groupType)||StringUtils.isBlank(mobile)){
+			j.setSuccess(false);
+			j.setMsg("请求参数有误，请联系管理员！");
+			return j;
+		}
+		ApiResult apiResult = memberService.modifyName(mobile,groupType,nickname);
+		if(apiResult.isOk()){
+			j.setSuccess(true);
+			j.setObj(nickname);
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 操作成功提示:把客户("+mobile+")的昵称【"+oldname+"】改成【"+nickname+"】";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:userSetting()|"+message);
+		}else{
+			j.setSuccess(false);
+			j.setMsg(apiResult.getErrorMsg());
+    		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 操作失败提示:把客户("+mobile+")的昵称【"+oldname+"】改成【"+nickname+"】";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:userSetting()|"+message+",ErrorMsg:"+apiResult.toString());
+		}
+		return j;
+	}
+	
+	
 	
 	/**
 	 * 功能：导出成员记录(以模板的方式导出)

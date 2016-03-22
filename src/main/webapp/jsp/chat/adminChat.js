@@ -10,8 +10,8 @@ var adminChat = {
 	chatUrlParam:'',
 	intervalId:null,
 	init : function(){
-	  this.setPrice()
-	  this.intervalId=setInterval("adminChat.setPrice()",5000);	//每间隔3秒刷新下报价信息
+	  /*this.setPrice()
+	  this.intervalId=setInterval("adminChat.setPrice()",5000);	//每间隔3秒刷新下报价信息*/	
 	},
 	 /**
      * 设置价格

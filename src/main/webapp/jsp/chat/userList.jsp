@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/chat/userList.js" charset="UTF-8"></script>
-<div class="easyui-layout" data-options="fit:true">
+<div class="easyui-layout" data-options="fit:true" id="chatUserListPanel">
   <!-- notrh -->
    <div data-options="region:'north',border:false" style="height:170px;">
     <div class="easyui-panel" data-options="fit:true,title:'<spring:message code="common.searchCondition" />',border:false,iconCls:'pag-search'">

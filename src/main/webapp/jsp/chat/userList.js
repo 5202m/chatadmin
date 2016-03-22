@@ -57,6 +57,51 @@ var chatUser = {
 	isGroupTypeSearch:function(){
 	  return $("#chatUserGroupId").val().indexOf(",")!=-1;
 	},
+	 /**
+     * 是否合法的昵称
+     * @param name
+     * @returns {boolean}
+     */
+    isRightName:function(name){
+        return !(/^([0-9]{2,20})$/g.test(name)) && /^([\w\u4e00-\u9fa5]{2,20})$/g.test(name);
+    },
+	modifyName:function(_this){
+		var _thisDom=$(_this),preDom=_thisDom.prev(),val=preDom.val(),oldn=preDom.attr("oldn"),
+			mb=preDom.attr("mb"),gy=preDom.attr("gy"),t=_thisDom.attr("t");
+		if("modify"==t){
+			_thisDom.text("保存").attr("t","save");
+			preDom.css({border:""}).attr("readonly",false).focus();
+			preDom.val(val);
+		}
+        if("save"==t){
+            if(isBlank(val) || !this.isRightName(val)){
+                alert('昵称为2至10位字符(数字、英文、中文、下划线)，不能全是数字');
+                return;
+            }
+            if(oldn==val){
+                alert('请修改昵称，再保存！');
+                return;
+            }
+            $.messager.confirm("操作提示", '确定要把该客户昵称<br/><strong>'+oldn+'</strong><br/>改成<br/><strong style="color:red;margin-left:47px;">'+val+'</strong> ?', function(r) {
+    			if(r){
+    				try{
+    	                 getJson(formatUrl(basePath+"/chatUserController/modifyName.do"),{groupType:gy,mobilePhone:mb,nickname:val,oldname:oldn},function(result){
+    	                    if(!result || !result.success){
+    	                    	alert(result.msg?result.msg:"修改失败，请联系管理员！");
+    	                    	preDom.focus();
+    	                    }else{
+    	                    	_thisDom.attr("t","modify").text("修改");
+    	                    	preDom.val(result.obj).attr("readonly",true);
+    	                    	preDom.attr("oldn",result.obj).css({border:"none"});
+    	                    }
+    	                },true);
+    	            }catch(e){
+    	            	alert("修改失败，请联系管理员！");
+    	            }
+    			}
+    		});
+        }
+	},
 	/**
 	 * 功能：dataGrid初始化
 	 */
@@ -90,7 +135,11 @@ var chatUser = {
 							return isBlank(row.accountNo)?row.userId:row.accountNo;
 						}},
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
-							return rowData.loginPlatform.chatUserGroup[0].nickname+"【"+rowData.loginPlatform.chatUserGroup[0].userId+"】";
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							if(row.id=="studio"){
+								return '<input value="'+row.nickname+'" oldn="'+row.nickname+'"  gy="studio" mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
+							}
+							return row.nickname+"【"+row.userId+"】"; 
 						}},
 						{title : '价值用户',field : 'loginPlatform.chatUserGroup.valueUser',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
@@ -163,7 +212,19 @@ var chatUser = {
 							return value ? timeObjectUtil.formatterDateTime(value) : '';
 						}}
 			]],
-			toolbar : '#chatUser_datagrid_toolbar'
+			toolbar : '#chatUser_datagrid_toolbar',
+			onLoadSuccess : function(data){
+				if(data.total > 0 && $("#chatUserGroupId").val().indexOf("studio")!=-1){
+					var menuId=$("#chatUserListPanel").parent().attr("id");
+					var result = getJson(basePath+"/authorityController/getFuns.do",{menuId:menuId},null);
+					var obj = result.obj;
+				    if(validObj(obj)){
+				       for(var i=0;i<obj.length;i++){
+				    	   $(".datagrid a[class~="+obj[i].code+"]","#"+menuId).show();
+				       }
+				    }
+				}
+			}
 		});
 	},
 	/**

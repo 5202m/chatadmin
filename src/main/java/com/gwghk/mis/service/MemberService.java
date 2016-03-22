@@ -145,6 +145,17 @@ public class MemberService{
 	}
 	
 	/**
+	 * 修改用户昵称
+	 * @param mobile
+	 * @param groupType
+	 * @param nickname
+	 * @return
+	 */
+	public ApiResult modifyName(String mobile,String groupType,String nickname){
+		return memberDao.modifyName(mobile,groupType,nickname);
+	}
+	
+	/**
 	 * 分页查询聊天室用户组信息
 	 * @param dCriteria
 	 * @param onlineStartDate

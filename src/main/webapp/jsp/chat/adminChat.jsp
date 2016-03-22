@@ -50,7 +50,7 @@ adminChat.chatUrlParam="${chatUrlParam}";
 						</div>
 					</c:forEach>
 		</div>
- 		<div style="top:0px;position:absolute;right:0;">
+ 		<!-- <div style="top:0px;position:absolute;right:0;">
  		     <section class="date-box">
 		        <ul class="clearfix" id="product_price_ul">
 		            <li name="022">
@@ -75,7 +75,7 @@ adminChat.chatUrlParam="${chatUrlParam}";
 		            </li>
 		        </ul>
             </section>
- 		</div>
+ 		</div> -->
 	</div>
 	<div id="pp" region="center" border="false">
 	</div>

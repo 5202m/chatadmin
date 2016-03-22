@@ -9,8 +9,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
+import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatRoom;
 import com.gwghk.mis.model.ChatUserGroup;
 import com.gwghk.mis.model.Member;
@@ -114,6 +116,30 @@ public class MemberDao extends MongoDBBaseDao{
 		}
 		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.id").is(groupType))), update, Member.class);
 		return wr!=null && wr.getN()>0;
+	}
+	
+	/**
+	 * 修改用户昵称
+	 * @param mobile
+	 * @param groupType
+	 * @param nickname
+	 * @return
+	 */
+	public ApiResult modifyName(String mobile,String groupType,String nickname){
+		ApiResult result=new ApiResult();
+		Criteria mCri=new Criteria();
+		mCri.and("mobilePhone").ne(mobile).and("valid").is(1);
+		mCri.and("loginPlatform.chatUserGroup").elemMatch(new Criteria().and("id").is(groupType).and("nickname").is(nickname).and("userType").is(0));
+		if(this.mongoTemplate.count(Query.query(mCri), Member.class)>0){
+			return result.setErrorMsg("该昵称已被占用！");
+		}
+		Criteria searchObj=new Criteria();
+		searchObj.and("mobilePhone").is(mobile).and("valid").is(1);
+		searchObj.and("loginPlatform.chatUserGroup").elemMatch(new Criteria().and("id").is(groupType).and("userType").is(0));
+		Update update=new Update();
+		update.set("loginPlatform.chatUserGroup.$.nickname", nickname);
+		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(searchObj), update, Member.class);
+		return result.setCode((wr!=null && wr.getN()>0)?ResultCode.OK:ResultCode.FAIL);
 	}
 	
 	/**
