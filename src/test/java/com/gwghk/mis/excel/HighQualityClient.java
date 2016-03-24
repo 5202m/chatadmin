@@ -26,6 +26,14 @@ import com.sdk.poi.POIExcelBuilder;
  */
 public class HighQualityClient {
 	
+	private static final String WORK_PATH = "D:/workspaces/project/优质客户/hq_client/20160324/";
+	private static final String FILE_WECHAT_USER = "wechat_user.xls";   //微信客户
+	private static final String FILE_GREAT_USER = "3月优质名单（微信推送）.xls";     //优质客户名单（数据源）
+	private static final String FILE_MIS_MEMBER = "pmmis_member.json";  //member名单
+	private static final String FILE_TEMPLATE = "target_template.xls";  //导出模板
+	private static final String FILE_TARGET = "优质客户名单.xls";          //优质客户名单（结果）
+	
+	
 	/**
 	 * 主函数
 	 * @param arg
@@ -72,13 +80,12 @@ public class HighQualityClient {
 	    		}
 	    	}
 	    	//写数据到excel
-			POIExcelBuilder builder = new POIExcelBuilder(new File("E://GTS2_Work/hq_client/target_template.xls"));
+			POIExcelBuilder builder = new POIExcelBuilder(new File(WORK_PATH + FILE_TEMPLATE));
 			builder.put("sList",sList);
 			builder.parse();
-    		builder.write(new File("E://GTS2_Work/hq_client/优质客户名单.xls"));
-    		System.out.println("export 优质客户名单.xls success!");
+    		builder.write(new File(WORK_PATH + FILE_TARGET));
+    		System.out.println("export " + FILE_TARGET + " success!");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -90,21 +97,19 @@ public class HighQualityClient {
     private static List<HQWxUserModel> getUserListFromSrcExcel() {
     	HSSFWorkbook hssfworkbook=null;
 		try {
-			hssfworkbook = new HSSFWorkbook(new FileInputStream("E://GTS2_Work/hq_client/src_user.xls"));
+			hssfworkbook = new HSSFWorkbook(new FileInputStream(WORK_PATH + FILE_GREAT_USER));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		HSSFSheet hssfsheet = hssfworkbook.getSheetAt(0);
 		String gtsNo="",mt4No="",mt5No="";
 		List<HQWxUserModel> uList=new ArrayList<HQWxUserModel>();
 		HQWxUserModel su=null;
-		for (int j = 2; j <10000; j++) {
+		for (int j = 1; j <10000; j++) {
 			gtsNo=getValueNoByCell(hssfsheet.getRow(j).getCell(0));
-			if(j==2){
+			if(j==1){
 			  System.out.println("从优质客户excel文件提取数据，首行交易账号:"+gtsNo);
 			}
 			if("end".equals(gtsNo.toLowerCase())){
@@ -128,6 +133,10 @@ public class HighQualityClient {
      * @return
      */
     private static String getValueNoByCell(HSSFCell cell){
+    	if (cell == null)
+		{
+    		return null;
+		}
     	int type=cell.getCellType();
 		if(type==HSSFCell.CELL_TYPE_STRING){
 			return cell.getStringCellValue().trim();
@@ -145,12 +154,10 @@ public class HighQualityClient {
     private static List<HQWxUserModel> getUserListFromExcel() {
     	HSSFWorkbook hssfworkbook=null;
 		try {
-			hssfworkbook = new HSSFWorkbook(new FileInputStream("E://GTS2_Work/hq_client/wxuser.xls"));
+			hssfworkbook = new HSSFWorkbook(new FileInputStream(WORK_PATH + FILE_WECHAT_USER));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		HSSFSheet hssfsheet = hssfworkbook.getSheetAt(0);
@@ -169,7 +176,7 @@ public class HighQualityClient {
 			}
 			accountNo=getValueNoByCell(hssfsheet.getRow(j).getCell(1));
 			nickname=getValueNoByCell(hssfsheet.getRow(j).getCell(2));
-			//System.out.println("j:"+j+";openId:"+openId+";accountNo:"+accountNo+";nickname:"+nickname);
+//			System.out.println("j:"+j+";openId:"+openId+";accountNo:"+accountNo+";nickname:"+nickname);
 			wu=new HQWxUserModel();
 	    	wu.setOpenId(openId);
 	    	wu.setAccountNo(accountNo);
@@ -184,7 +191,7 @@ public class HighQualityClient {
      * @return
      */
     private static List<HQWxUserModel> getUserListFromMember(){
-    	String str=readFile("E://GTS2_Work/hq_client/pm_mis_member.json");
+    	String str=readFile(WORK_PATH + FILE_MIS_MEMBER);
     	List<Member> memberList=JSONArray.parseArray("["+str.replaceAll("_id", "id")+"]", Member.class);
     	List<HQWxUserModel> uList=new ArrayList<HQWxUserModel>();
     	HQWxUserModel wu=null;
