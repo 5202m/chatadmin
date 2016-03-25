@@ -33,13 +33,51 @@ public class HighQualityClient {
 	private static final String FILE_TEMPLATE = "target_template.xls";  //导出模板
 	private static final String FILE_TARGET = "优质客户名单.xls";          //优质客户名单（结果）
 	
+	private static final String FILE_WECHAT_TEMPLATE = "target_wechat_template.xls";    //导出模板
+	private static final String FILE_WECHAT_TARGET = "微解盘客户名单.xls";          //微解盘客户名单
+	
 	
 	/**
 	 * 主函数
 	 * @param arg
 	 */
     public static void main (String[] arg){
-    	synchToTargetExcel();
+//    	synchToTargetExcel();
+    	synchWechatUserToTargetExcel();
+    }
+    
+    /**
+     * 导出微解盘用户列表
+     */
+    private static void synchWechatUserToTargetExcel(){
+    	try
+		{
+			System.out.println("从pm_mis数据库导出的json文件提取数据--》开始！");
+			List<HQWxUserModel> mList=getUserListFromMember();
+			System.out.println("从pm_mis数据库导出的json文件提取数据--》完成！");
+			for (HQWxUserModel m : mList)
+			{
+				if(StringUtils.isNotBlank(m.getAccountNo())){
+					if(m.getAccountNo().length() == 7){
+						m.setGtsNo(m.getAccountNo());
+					}else if ("8".equals(m.getAccountNo().substring(0, 1))) {
+						m.setMt4No(m.getAccountNo());
+					}else if ("5".equals(m.getAccountNo().substring(0, 1))) {
+						m.setMt5No(m.getAccountNo());
+					}
+    			}
+			}
+			//写数据到excel
+			POIExcelBuilder builder = new POIExcelBuilder(new File(WORK_PATH + FILE_WECHAT_TEMPLATE));
+			builder.put("mList",mList);
+			builder.parse();
+			builder.write(new File(WORK_PATH + FILE_WECHAT_TARGET));
+			System.out.println("export " + FILE_WECHAT_TARGET + " success!");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
     }
     
     /**

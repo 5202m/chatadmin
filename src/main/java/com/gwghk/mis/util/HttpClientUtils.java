@@ -96,7 +96,7 @@ public class HttpClientUtils {
 		try {
 			int returnCode = getHttpClient().executeMethod(postMethod);
 			if (returnCode != HttpStatus.SC_OK) {
-				logger.error("Method failed: " + postMethod.getStatusLine());
+				logger.error("Method failed: " + postMethod.getStatusLine() + ";url=" + url + ";params=" + parameters);
 			} else {
 				if(StringUtils.isNotEmpty(charset)){
 					reader = new BufferedReader(new InputStreamReader(postMethod.getResponseBodyAsStream(), charset));
@@ -255,7 +255,7 @@ public class HttpClientUtils {
 		try {
 			int statusCode = getHttpClient().executeMethod(getMethod);
 			if (statusCode != HttpStatus.SC_OK) {
-				logger.error("Method failed: " + getMethod.getStatusLine());
+				logger.error("Method failed: " + getMethod.getStatusLine() + ";url=" + url);
 			}else{
 				BufferedReader reader = null;
 				if(StringUtils.isNotEmpty(charset)){
