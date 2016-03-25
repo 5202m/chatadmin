@@ -51,7 +51,7 @@ public class ZxFinanceTask
 	 * 财经日历——每2小时更新前15天、每1小时更新后15天的数据信息
 	 */
 	@Scheduled(cron="0 1 0/1 * * ?")
-	public void financeDataBefore(){
+	public void financeDataOthDay(){
 		logger.debug("系统开始自动执行任务==>[财经日历]每2小时更新前15天、每1小时更新后15天的数据信息!");
 		Calendar cal = Calendar.getInstance();
 		List<String> dates = new ArrayList<String>();
