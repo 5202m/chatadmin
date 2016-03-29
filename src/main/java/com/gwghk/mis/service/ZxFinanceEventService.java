@@ -234,7 +234,8 @@ public class ZxFinanceEventService {
 				else
 				{
 					event = ZxFinanceEvent.refresh(event, apiEvent);
-					this.update(event);
+					event.setUpdateDate(currDate);
+					eventDao.update(event);
 				}
 			}
 			if (!newEvents.isEmpty())

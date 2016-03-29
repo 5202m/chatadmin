@@ -400,7 +400,8 @@ public class ZxFinanceDataService {
 					data = ZxFinanceData.refresh(data, apiData, apiDetail);
 					//数据更新的直接用现有数据更新描述，不需要查询配置信息，因为配置更新的时候会更新所有数据
 					data.setDescription(this.getDescription(data)); 
-					this.update(data);
+					data.setUpdateDate(currDate);
+					dataDao.update(data);
 				}
 			}
 			if (!newDatas.isEmpty())

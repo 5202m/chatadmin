@@ -57,7 +57,7 @@ var ZxData = {
 	            {title : "前值",field : 'lastValue'},
 	            {title : "公布值",field : 'value'},
 	            /*{title : "指标级数",field : 'level'},*/
-	            {title : "重要指数",field : 'importanceLevel',formatter : function(value, rowData, rowIndex) {
+	            {title : "重要指数",field : 'importanceLevel',sortable : true,formatter : function(value, rowData, rowIndex) {
 					value = value || 0;
 					var html = [];
 					for(var i = 0; i < 5; i++){
@@ -71,6 +71,9 @@ var ZxData = {
 				}},
 				{title : "有效性",field : 'valid',formatter : function(value, rowData, rowIndex) {
 					return ZxData.formatByDicts("valid", value + "");
+				}},
+				{title : '修改时间',field : 'updateDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+					return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 				}}
 			]],
 			toolbar : '#zxData_datagrid_toolbar'

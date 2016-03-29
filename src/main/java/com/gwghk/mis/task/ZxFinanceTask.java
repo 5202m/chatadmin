@@ -72,22 +72,6 @@ public class ZxFinanceTask
 	}
 	
 	/**
-	 * 财经日历——每1小时更新财经日历后15天的数据信息
-	 */
-	@Scheduled(cron="0 1 0/1 * * ?")
-	public void financeDataAfter(){
-		logger.debug("系统开始自动执行任务==>[财经日历]每1小时更新后15天数据!");
-		Calendar cal = Calendar.getInstance();
-		String[] dates = new String[15];
-		for (int i = 0; i < 15; i++)
-		{
-			cal.add(Calendar.DAY_OF_YEAR, 1);
-			dates[i] = DateUtil.getDateDayFormat(cal);
-		}
-		dataService.importDataFromFxGold(dates);
-	}
-	
-	/**
 	 * 财经大事——每2分钟更新财经大事当天的数据信息
 	 */
 	@Scheduled(cron="0 0/2 * * * ?")

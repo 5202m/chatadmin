@@ -52,7 +52,7 @@ var ZxEvent = {
 	            {title : "时间",field : 'date',formatter : function(value, rowData, rowIndex) {
 	            	return value + "&nbsp;" + rowData["time"];
 				}},
-				{title : "重要指数",field : 'importanceLevel',formatter : function(value, rowData, rowIndex) {
+				{title : "重要指数",field : 'importanceLevel',sortable : true,formatter : function(value, rowData, rowIndex) {
 					value = value || 0;
 					var html = [];
 					for(var i = 0; i < 5; i++){
@@ -71,6 +71,9 @@ var ZxEvent = {
 				}},
 				{title : "有效性",field : 'valid',formatter : function(value, rowData, rowIndex) {
 					return ZxEvent.formatByDicts("valid", value + "");
+				}},
+				{title : '修改时间',field : 'updateDate',sortable : true,formatter : function(value, rowData, rowIndex) {
+					return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 				}}
 			]],
 			toolbar : '#zxEvent_datagrid_toolbar'
