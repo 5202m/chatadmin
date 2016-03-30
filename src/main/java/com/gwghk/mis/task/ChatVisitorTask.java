@@ -36,6 +36,9 @@ public class ChatVisitorTask
 	 */
 	@Scheduled(cron="0 0 0 * * ?")
 	public void statVisitorsDay(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.info("系统开始自动执行任务==>每天凌晨0点自动统计访客记录信息(在线时长分类统计、各类在线人数统计)!");
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -53,6 +56,9 @@ public class ChatVisitorTask
 	 */
 	@Scheduled(cron="0 0 * * * ?")
 	public void statVisitorsTimePoint(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.info("系统开始自动执行任务==>每天整点自动统计访客记录信息(整点在线人数统计)!");
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.MINUTE, 0);

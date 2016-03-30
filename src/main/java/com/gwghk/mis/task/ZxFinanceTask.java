@@ -42,6 +42,9 @@ public class ZxFinanceTask
 	 */
 	@Scheduled(cron="0 0/2 * * * ?")
 	public void financeDataToday(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.debug("系统开始自动执行任务==>[财经日历]每2分钟更新当天数据!");
 		String date = DateUtil.getDateDayFormat(Calendar.getInstance());
 		dataService.importDataFromFxGold(date);
@@ -52,6 +55,9 @@ public class ZxFinanceTask
 	 */
 	@Scheduled(cron="0 1 0/1 * * ?")
 	public void financeDataOthDay(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.debug("系统开始自动执行任务==>[财经日历]每2小时更新前15天、每1小时更新后15天的数据信息!");
 		Calendar cal = Calendar.getInstance();
 		List<String> dates = new ArrayList<String>();
@@ -76,6 +82,9 @@ public class ZxFinanceTask
 	 */
 	@Scheduled(cron="0 0/2 * * * ?")
 	public void financeEventToday(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.debug("系统开始自动执行任务==>[财经大事]每2分钟更新当天数据!");
 		String date = DateUtil.getDateDayFormat(Calendar.getInstance());
 		eventService.importEventFromFxGold(date);
@@ -86,6 +95,9 @@ public class ZxFinanceTask
 	 */
 	@Scheduled(cron="0 1 0/1 * * ?")
 	public void financeEventOthDay(){
+		if (TaskManager.off()){
+			return;
+		}
 		logger.debug("系统开始自动执行任务==>[财经大事]每2小时更新前15天、每1小时更新后15天的数据信息!");
 		Calendar cal = Calendar.getInstance();
 		List<String> dates = new ArrayList<String>();
