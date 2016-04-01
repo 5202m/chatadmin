@@ -45,7 +45,7 @@ public class ZxFinanceTask
 		if (TaskManager.off()){
 			return;
 		}
-		logger.debug("系统开始自动执行任务==>[财经日历]每2分钟更新当天数据!");
+		logger.info("系统开始自动执行任务==>[财经日历]每2分钟更新当天数据!");
 		String date = DateUtil.getDateDayFormat(Calendar.getInstance());
 		dataService.importDataFromFxGold(date);
 	}
@@ -58,7 +58,7 @@ public class ZxFinanceTask
 		if (TaskManager.off()){
 			return;
 		}
-		logger.debug("系统开始自动执行任务==>[财经日历]每2小时更新前15天、每1小时更新后15天的数据信息!");
+		logger.info("系统开始自动执行任务==>[财经日历]每2小时更新前15天、每1小时更新后15天的数据信息!");
 		Calendar cal = Calendar.getInstance();
 		List<String> dates = new ArrayList<String>();
 		if(cal.get(Calendar.HOUR_OF_DAY) % 2 == 0){
@@ -85,7 +85,7 @@ public class ZxFinanceTask
 		if (TaskManager.off()){
 			return;
 		}
-		logger.debug("系统开始自动执行任务==>[财经大事]每2分钟更新当天数据!");
+		logger.info("系统开始自动执行任务==>[财经大事]每2分钟更新当天数据!");
 		String date = DateUtil.getDateDayFormat(Calendar.getInstance());
 		eventService.importEventFromFxGold(date);
 	}
@@ -98,7 +98,7 @@ public class ZxFinanceTask
 		if (TaskManager.off()){
 			return;
 		}
-		logger.debug("系统开始自动执行任务==>[财经大事]每2小时更新前15天、每1小时更新后15天的数据信息!");
+		logger.info("系统开始自动执行任务==>[财经大事]每2小时更新前15天、每1小时更新后15天的数据信息!");
 		Calendar cal = Calendar.getInstance();
 		List<String> dates = new ArrayList<String>();
 		if(cal.get(Calendar.HOUR_OF_DAY) % 2 == 0){
