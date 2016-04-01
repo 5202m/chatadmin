@@ -539,10 +539,6 @@ public class ZxFinanceDataService {
 		{
 			description = "WH_ZX_U_U_U";//默认是外汇正向
 		}
-		String[] srcArr = description.split(",");
-		int lenI = srcArr.length;
-		String[] destArr = new String[lenI];
-		String[] descs = null;
 		
 		//计算前值、预期值、公布值
 		Pattern numPattern = Pattern.compile("^[+-]?\\d+(\\.\\d+)?$");
@@ -572,6 +568,10 @@ public class ZxFinanceDataService {
 		//计算预期影响、实际影响、影响力度
 		int comp = 0;
 		boolean isZX = false;
+		String[] srcArr = description.split(",");
+		int lenI = srcArr.length;
+		String[] destArr = new String[lenI];
+		String[] descs = null;
 		for(int i = 0; i < lenI; i++){
 			description = srcArr[i];
 			descs = description.split("_");
@@ -590,7 +590,7 @@ public class ZxFinanceDataService {
 					if (comp == 0)
 					{
 						descs[2] = "FLAT";
-					}else if((comp > 0 && isZX) || (comp < 0 && isZX)){
+					}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
 						descs[2] = "GOOD";
 					}else{
 						descs[2] = "BAD";
@@ -605,7 +605,7 @@ public class ZxFinanceDataService {
 					if (comp == 0)
 					{
 						descs[3] = "FLAT";
-					}else if((comp > 0 && isZX) || (comp < 0 && isZX)){
+					}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
 						descs[3] = "GOOD";
 					}else{
 						descs[3] = "BAD";

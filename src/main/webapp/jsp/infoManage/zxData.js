@@ -268,6 +268,7 @@ var ZxData = {
 		change:function($tr){
 			var $selectes = $tr.find("select");
 			var descs = ["WH", $selectes.eq(1).val(), "", "", ""];
+			var comp = 0;
 			if(descs[1]){
 				var isZX = descs[1] == "ZX";
 				if (this.val.lastValue == null)
@@ -280,10 +281,11 @@ var ZxData = {
 					{
 						descs[2] = "U";
 					}else{
-						if (this.val.predictValue == this.val.lastValue)
+						comp = this.val.predictValue - this.val.lastValue;
+						if (comp = 0)
 						{
 							descs[2] = "FLAT";
-						}else if((this.val.predictValue > this.val.lastValue && isZX) || (this.val.predictValue < this.val.lastValue && isZX)){
+						}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
 							descs[2] = "GOOD";
 						}else{
 							descs[2] = "BAD";
@@ -294,10 +296,11 @@ var ZxData = {
 						descs[3] = "U";
 						descs[4] = "U";
 					}else{
-						if (this.val.value == this.val.lastValue)
+						comp = this.val.value - this.val.lastValue;
+						if (comp = 0)
 						{
 							descs[3] = "FLAT";
-						}else if((this.val.value > this.val.lastValue && isZX) || (this.val.value < this.val.lastValue && isZX)){
+						}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
 							descs[3] = "GOOD";
 						}else{
 							descs[3] = "BAD";
