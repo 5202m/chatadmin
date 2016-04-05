@@ -7,7 +7,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.gwghk.mis.service.ZxFinanceDataService;
@@ -40,7 +39,7 @@ public class ZxFinanceTask
 	/**
 	 * 财经日历——每2分钟更新财经日历当天的数据信息
 	 */
-	@Scheduled(cron="0 0/2 * * * ?")
+//	@Scheduled(cron="0 0/2 * * * ?")
 	public void financeDataToday(){
 		if (TaskManager.off()){
 			return;
@@ -53,7 +52,7 @@ public class ZxFinanceTask
 	/**
 	 * 财经日历——每2小时更新前15天、每1小时更新后15天的数据信息
 	 */
-	@Scheduled(cron="0 1 0/1 * * ?")
+//	@Scheduled(cron="0 1 0/1 * * ?")
 	public void financeDataOthDay(){
 		if (TaskManager.off()){
 			return;
@@ -80,7 +79,7 @@ public class ZxFinanceTask
 	/**
 	 * 财经大事——每2分钟更新财经大事当天的数据信息
 	 */
-	@Scheduled(cron="0 0/2 * * * ?")
+//	@Scheduled(cron="0 0/2 * * * ?")
 	public void financeEventToday(){
 		if (TaskManager.off()){
 			return;
@@ -93,7 +92,7 @@ public class ZxFinanceTask
 	/**
 	 * 财经大事——每2小时更新前15天、每1小时更新前15天的数据信息
 	 */
-	@Scheduled(cron="0 1 0/1 * * ?")
+//	@Scheduled(cron="0 1 0/1 * * ?")
 	public void financeEventOthDay(){
 		if (TaskManager.off()){
 			return;
