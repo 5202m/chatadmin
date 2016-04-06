@@ -1,7 +1,6 @@
 package com.gwghk.mis.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -21,7 +20,6 @@ public class ZxFinanceEvent extends BaseModel
 	private String status = null;
 
 	/** 事件种类[1-财经日历、2-国债发行、3-假期预告] */
-	@Indexed
 	private String type = null;
 
 	/** 事件国家 */
@@ -37,14 +35,12 @@ public class ZxFinanceEvent extends BaseModel
 	private String content = null;
 
 	/** 事件标题 */
-	@Indexed
 	private String title = null;
 
 	/** 事件链接 */
 	private String link = null;
 
 	/** 事件日期 yyyy-MM-dd */
-	@Indexed
 	private String date = null;
 	
 	/** 事件日期 yyyy-MM-dd（开始） */
@@ -54,14 +50,12 @@ public class ZxFinanceEvent extends BaseModel
 	private String dateEnd = null;
 
 	/** 事件时间 HH:mm:ss */
-	@Indexed
 	private String time = null;
 	
 	/** 重要指数 */
 	private Integer importanceLevel = null;
 	
 	/** 是否有效(0：所有 1：外汇 2：贵金属 ) */
-	@Indexed
 	private Integer dataType;
 
 	/** 是否有效(0：无效 1：有效 ) */

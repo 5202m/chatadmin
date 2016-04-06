@@ -282,7 +282,7 @@ var ZxData = {
 						descs[2] = "U";
 					}else{
 						comp = this.val.predictValue - this.val.lastValue;
-						if (comp = 0)
+						if (comp == 0)
 						{
 							descs[2] = "FLAT";
 						}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
@@ -297,7 +297,7 @@ var ZxData = {
 						descs[4] = "U";
 					}else{
 						comp = this.val.value - this.val.lastValue;
-						if (comp = 0)
+						if (comp == 0)
 						{
 							descs[3] = "FLAT";
 						}else if((comp > 0 && isZX) || (comp < 0 && !isZX)){
@@ -320,7 +320,6 @@ var ZxData = {
 					}
 				}
 			}
-			console.log(descs);
 			$selectes.eq(2).val(descs[2]);
 			$selectes.eq(3).val(descs[3]);
 			$selectes.eq(4).val(descs[4]);

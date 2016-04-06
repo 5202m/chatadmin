@@ -1,7 +1,6 @@
 package com.gwghk.mis.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -24,11 +23,9 @@ public class ZxFinanceData extends BaseModel
 	private String country = null;
 
 	/** 指标ID 财经日历详情页查询参数 */
-	@Indexed
 	private String basicIndexId = null;
 
 	/** 指标时期 */
-	@Indexed
 	private String period = null;
 
 	/** 指标重要性[low-1、mid-2、high-3] */
@@ -44,7 +41,6 @@ public class ZxFinanceData extends BaseModel
 	private String value = null;
 
 	/** 年份 */
-	@Indexed
 	private int year;
 
 	/** 利多项 */
@@ -102,7 +98,6 @@ public class ZxFinanceData extends BaseModel
 	private String description = null;
 	
 	/** 数据类型(0：所有 1：外汇 2：贵金属 ) */
-	@Indexed
 	private Integer dataType;
 
 	/** 是否有效(0：无效 1：有效 ) */

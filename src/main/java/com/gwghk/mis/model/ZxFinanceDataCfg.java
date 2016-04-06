@@ -1,7 +1,6 @@
 package com.gwghk.mis.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -33,7 +32,6 @@ public class ZxFinanceDataCfg extends BaseModel
 	private Integer setFlag = null;
 	
 	/** 数据类型(0：所有 1：外汇 2：贵金属 ) */
-	@Indexed
 	private Integer dataType = null;
 
 	/** 是否有效(0：无效 1：有效 ) */
