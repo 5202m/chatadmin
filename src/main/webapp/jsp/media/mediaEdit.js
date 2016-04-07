@@ -91,7 +91,7 @@ var mediaEdit = {
 			alert("请选择栏目！");
 			return;
 		}
-		if(val=='advertisement' || val=='sysPicture'){
+		if(val.indexOf('advertisement')!=-1 || val=='sysPicture'){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic'});
 		}else if(val.indexOf("video")!=-1 || val.indexOf("audio")!=-1){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'video'});

@@ -27,6 +27,7 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoUser;
@@ -41,6 +42,7 @@ import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -113,7 +115,6 @@ public class ChatGroupController extends BaseController{
        	}
 		 Page<ChatGroup> page = chatGroupService.getChatGroupPage(this.createDetachedCriteria(dataGrid, chatGroup));
 		 List<ChatGroup> chatGroupList=page.getCollection();
-		 chatGroupList.forEach(e->formatChatUrl(e));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : chatGroupList);
@@ -121,11 +122,28 @@ public class ChatGroupController extends BaseController{
 	}
 	
 	/**
-	 * 格式聊天室路径
-	 */
-	private void formatChatUrl(ChatGroup row){
-		//row.setChatUrl(String.format(PropertiesUtil.getInstance().getProperty("chatURL"), row.getId()));
-	}
+   	 * 功能：房间
+   	 */
+    @RequestMapping(value = "/chatGroupController/getGroupTreeList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+   	@ResponseBody
+    public String getGroupTreeList(HttpServletRequest request,ModelMap map) throws Exception {
+    	String groupId=request.getParameter("groupId"),groupType=request.getParameter("groupType");
+       	List<TreeBean> treeList=new ArrayList<TreeBean>();
+       	TreeBean tbean=null;
+       	List<ChatGroup> subList=chatGroupService.getChatGroupByTypeList(groupType,"id","name");
+       	groupId=StringUtils.isBlank(groupId)?"":(",".concat(groupId).concat(","));
+       	for(ChatGroup row:subList){
+       		 tbean=new TreeBean();
+       		 tbean.setId(row.getId());
+       		 tbean.setText(row.getName());
+       		 if(groupId.contains(",".concat(row.getId()).concat(","))){
+    			tbean.setChecked(true);
+    		 }
+       		 tbean.setParentId("");
+   			 treeList.add(tbean);
+       	}
+       	return JsonUtil.formatListToTreeJson(treeList,false);
+     }
 	
 	/**
 	 * 获取分组列表
