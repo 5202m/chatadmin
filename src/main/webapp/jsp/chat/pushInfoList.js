@@ -61,6 +61,9 @@ var chatPushInfo = {
 						}},
 						{title : '上线分钟数',field : 'onlineMin'},
 						{title : '推送内容',field : 'content'},
+						{title:'是否延续推送',field : 'replyRepeat',formatter : function(value, rowData, rowIndex) {
+							return (!value||0==value)?"否":"是";
+						}},
 						{title : '状态',field : 'statusName',formatter : function(value, rowData, rowIndex) {
 							return chatPushInfo.getDictNameByCode("#chatPushInfoStatus",rowData.status);
 						}},

@@ -75,9 +75,9 @@
 	          <th width="10%">推送位置</th>
 	          <td width="23%">
 	            <select name="position" style="width:150px;">
-	               <option value="0">任务栏</option>
+	               <!-- <option value="0">任务栏</option> -->
 	               <option value="1" selected="selected">私聊框</option>
-	               <option value="2">页面提示</option>
+	               <!-- <option value="2">页面提示</option> -->
 	             </select>
 	          </td>
 	          <th width="10%">上线时长(分钟)</th>
@@ -101,8 +101,15 @@
           </tr>
 	      <tr id="chatPushInfoCGTr">
 	          <th>客户组别</th>
-	          <td colspan="6">
-	             <select class="easyui-combotree" id="chatPushInfoClientGroupId" name="clientGroup" style="width:150px;" data-options="cascadeCheck:false" multiple>
+	          <td colspan="2">
+	             <select class="easyui-combotree" id="chatPushInfoClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
+	             </select>
+	          </td>
+	          <th>是否延续推送</th>
+	          <td colspan="2">
+	             <select name="replyRepeat" style="width:150px;">
+	               <option value="1" <c:if test="${chatPushInfo.replyRepeat==1}"> selected="selected" </c:if>>是</option>
+	               <option value="0" <c:if test="${chatPushInfo.replyRepeat==0}"> selected="selected" </c:if>>否</option>
 	             </select>
 	          </td>
 	      </tr>

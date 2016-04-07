@@ -70,6 +70,12 @@ public class ChatPushInfo extends BaseModel {
 	private Integer status;
 	
 	/**
+	 * 推送内容回复后是否继续重复通知
+	 * 0表示回复后不再重复，1表示回复后继续提示
+	 */
+	private Integer replyRepeat;
+	
+	/**
 	 * 是否有效
 	 */
 	private Integer valid;
@@ -176,6 +182,14 @@ public class ChatPushInfo extends BaseModel {
 
 	public void setGroupType(String groupType) {
 		this.groupType = groupType;
+	}
+
+	public Integer getReplyRepeat() {
+		return replyRepeat;
+	}
+
+	public void setReplyRepeat(Integer replyRepeat) {
+		this.replyRepeat = replyRepeat;
 	}
 	
 }
