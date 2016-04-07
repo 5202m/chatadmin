@@ -131,6 +131,7 @@ public class ChatPushInfoController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatPushInfo chatPushInfo){
     	setBaseInfo(chatPushInfo,request,false);
     	AjaxJson j = new AjaxJson();
+    	chatPushInfo.setId(null);
     	ApiResult result =chatPushInfoService.save(chatPushInfo, false);
     	if(result.isOk()){
     		j.setSuccess(true);
