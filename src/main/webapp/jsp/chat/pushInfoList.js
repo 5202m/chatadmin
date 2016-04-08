@@ -59,7 +59,7 @@ var chatPushInfo = {
 						{title : '推送位置',field : 'position',formatter : function(value, rowData, rowIndex) {
 							return 0==value?'任务栏':(1==value?'私聊框':'页面提示');
 						}},
-						{title : '上线分钟数',field : 'onlineMin'},
+						{title : '上线时长(分钟)',field : 'onlineMin'},
 						{title : '推送内容',field : 'content'},
 						{title:'是否延续推送',field : 'replyRepeat',formatter : function(value, rowData, rowIndex) {
 							return (!value||0==value)?"否":"是";

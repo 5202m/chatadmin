@@ -21,6 +21,7 @@
 <link type="text/css" rel="stylesheet" href="<%=contextPath%>/base/js/easyui-portal/portal.css" />
 <!-- uploadify -->
 <link rel="stylesheet" href="<%=contextPath%>/base/js/uploadify/css/uploadify.css" type="text/css">
+<link rel="stylesheet" href="<%=contextPath%>/base/js/ueditor/themes/default/css/ueditor.min.css" type="text/css">
 </head>
 <body class="easyui-layout">
   <!-- north -->

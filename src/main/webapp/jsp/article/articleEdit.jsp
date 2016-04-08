@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/base/js/ueditor/themes/default/css/ueditor.min.css" type="text/css">
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.all.js"> </script>
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/base/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.config.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/base/js/ueditor/lang/zh-cn/zh-cn.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/base/js/ueditor/ueditor.all.min.js" charset="UTF-8"> </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/article/articleEdit.js" charset="UTF-8"></script>
 <script type="text/javascript">
 articleEdit.filePath='${filePath}';
@@ -83,9 +82,7 @@ articleEdit.filePath='${filePath}';
 	      <tr>
 	        <th width="15%">内容</th>
 	        <td width="85%" tid="content">
-	          <script id="article_editor_${articleDetail.lang}" name="content" type="text/plain" style="width:auto;height:auto;">
-			 		${articleDetail.content}
-			  </script>
+	          <script id="article_editor_${articleDetail.lang}" name="content" type="text/plain" style="width:auto;height:auto;">${articleDetail.content}</script>
 	        </td>
 	      </tr>
 	       <tr>
