@@ -25,7 +25,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>数据类型</th>
+				<th>产品类型</th>
 				<td>
 					<select name="dataType">
 						<option value="0">所有</option>
@@ -65,7 +65,7 @@
 					<table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
 						<tr>
 							<th>序号</th>
-							<th>产品类型</th>
+							<th>产品</th>
 							<th>反馈方式</th>
 							<th>
 								操作&nbsp;

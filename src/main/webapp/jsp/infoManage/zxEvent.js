@@ -44,7 +44,7 @@ var ZxEvent = {
 			    	$("#zxEvent_datagrid_rowOperation input").val(value);
 			    	return $("#zxEvent_datagrid_rowOperation").html();
 			    }},
-	            {title : "类型",field : 'type',formatter : function(value, rowData, rowIndex) {
+	            {title : "事件类型",field : 'type',formatter : function(value, rowData, rowIndex) {
 	            	return ZxEvent.formatByDicts("type", value);
 				}},
 	            {title : "标题",field : 'title', width:400},
@@ -66,7 +66,7 @@ var ZxEvent = {
 	            {title : "国家",field : 'country'},
 	            {title : "地区",field : 'region'},
 	            /*{title : "链接",field : 'link'},*/
-	            {title : "数据类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
+	            {title : "产品类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
 	            	return ZxEvent.formatByDicts("dataType", value);
 				}},
 				{title : "有效性",field : 'valid',formatter : function(value, rowData, rowIndex) {

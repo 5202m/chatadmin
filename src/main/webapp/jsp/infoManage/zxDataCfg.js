@@ -46,7 +46,7 @@ var ZxDataCfg = {
 	            {title : "重要指数",field : 'importanceLevel',formatter : function(value, rowData, rowIndex) {
 	            	return ZxDataCfg.formatByDicts("importanceLevel", value);
 				}},
-				{title : "数据类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
+				{title : "产品类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
 	            	return ZxDataCfg.formatByDicts("dataType", value);
 				}},
 				{title : "描述",field : 'description'},

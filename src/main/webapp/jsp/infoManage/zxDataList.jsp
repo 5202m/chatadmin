@@ -22,7 +22,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th width="10%">数据类型</th>
+						<th width="10%">产品类型</th>
 						<td>
 							<select id="zxData_dataType" name="dataType" style="width: 155px;">
 								<option value=""><spring:message code="common.pleaseselect" /></option>

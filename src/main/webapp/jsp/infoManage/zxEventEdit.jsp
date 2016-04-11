@@ -82,7 +82,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>数据类型</th>
+				<th>产品类型</th>
 				<td>
 					<select name="dataType">
 						<option value="0">所有</option>

@@ -66,7 +66,7 @@ var ZxData = {
 					return html.join("");
 				}},
 	            {title : "描述",field : 'description'},
-	            {title : "数据类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
+	            {title : "产品类型",field : 'dataType',formatter : function(value, rowData, rowIndex) {
 	            	return ZxData.formatByDicts("dataType", value);
 				}},
 				{title : "有效性",field : 'valid',formatter : function(value, rowData, rowIndex) {

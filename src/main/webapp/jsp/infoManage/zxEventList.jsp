@@ -16,7 +16,7 @@
 						<td width="23%">
 							<input type="text" name="country" style="width: 160px" />
 						</td>
-						<th width="10%">类型</th>
+						<th width="10%">事件类型</th>
 						<td>
 							<select id="zxEvent_type" name="type" style="width: 155px;">
 								<option value=""><spring:message code="common.pleaseselect" /></option>
@@ -27,7 +27,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th width="10%">数据类型</th>
+						<th width="10%">产品类型</th>
 						<td>
 							<select id="zxEvent_dataType" name="dataType" style="width: 155px;">
 								<option value=""><spring:message code="common.pleaseselect" /></option>
