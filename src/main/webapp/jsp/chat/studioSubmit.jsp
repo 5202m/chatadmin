@@ -129,7 +129,7 @@
 	          </td>
 	      </tr>
 	      <tr>
-	         <th width="15%">YY频道号</th>
+	         <th width="15%">主频道号</th>
 	         <td width="80%">
 	              <input type="text" name="chatStudio.yyChannel" value="${chatStudio.yyChannel}" style="width:250px;" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入YY频道号'"/>
 	         </td>
