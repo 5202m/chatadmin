@@ -55,6 +55,11 @@ public class ChatPushInfo extends BaseModel {
 	private Float onlineMin;
 	
 	/**
+	 * 间隔分钟数
+	 */
+	private Float intervalMin;
+	
+	/**
 	 * 推送有效时间  保存格式{beginDate:yyyy-MM-dd,endDate:yyyy-MM-dd,weekTime:[{week:0..6,beginTime:'HH:mm:ss',endTime:'HH:mm:ss'}]}
 	 */
 	private String pushDate;
@@ -142,6 +147,16 @@ public class ChatPushInfo extends BaseModel {
 
 	public void setOnlineMin(Float onlineMin) {
 		this.onlineMin = onlineMin;
+	}
+	
+	public Float getIntervalMin()
+	{
+		return intervalMin;
+	}
+
+	public void setIntervalMin(Float intervalMin)
+	{
+		this.intervalMin = intervalMin;
 	}
 
 	public String getPushDate() {

@@ -63,6 +63,8 @@ public class ChatPushInfoService{
     			return result.setCode(ResultCode.Error104);
     		}
     		BeanUtils.copyExceptNull(pushInfo, pushInfoParam);
+    		pushInfo.setOnlineMin(pushInfoParam.getOnlineMin());
+    		pushInfo.setIntervalMin(pushInfoParam.getIntervalMin());
     		chatPushInfoDao.update(pushInfo);
     	}else{
     		if(pushInfo!=null){

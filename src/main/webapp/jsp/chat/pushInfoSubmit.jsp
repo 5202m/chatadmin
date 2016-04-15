@@ -35,6 +35,7 @@
 	     UE.getEditor("chatPushInfoContentId",{
 		  		initialFrameWidth : '100%',
 		  		initialFrameHeight:'180',
+		  		zIndex : 10000,
 		  		toolbars:[[
 		  		             'undo', //撤销
 		  		             'redo', //重做
@@ -53,6 +54,8 @@
 		  		             'justifycenter', //居中对齐
 		  		             'justifyjustify', //两端对齐
 		  		             'imagecenter', //居中
+		  		             'link', //超链接
+		  		             'unlink', //取消超链接
 		  		             'source', //源代码
 		  		         ]
 		  		     ]
@@ -75,13 +78,14 @@
 	          <td width="23%">
 	            <select name="position" style="width:150px;">
 	               <!-- <option value="0">任务栏</option> -->
-	               <option value="1" selected="selected">私聊框</option>
+	               <option value="1"<c:if test="${chatPushInfo.position=='1'}"> selected="selected" </c:if>>私聊框</option>
 	               <!-- <option value="2">页面提示</option> -->
+	               <option value="3"<c:if test="${chatPushInfo.position=='3'}"> selected="selected" </c:if>>公聊框</option>
 	             </select>
 	          </td>
 	          <th width="10%">上线时长(分钟)</th>
 	          <td width="23%">
-	             <input type="number" name="onlineMin" value="${chatPushInfo.onlineMin}" min="0" id="onlineMinId"/>
+	             <input type="number" name="onlineMin" value="${chatPushInfo.onlineMin}" min="0" data-options="validType:'intOrFloat'"/>
 	          </td>
           </tr>
           <tr>
@@ -100,16 +104,20 @@
           </tr>
 	      <tr id="chatPushInfoCGTr">
 	          <th>客户组别</th>
-	          <td colspan="2">
+	          <td>
 	             <select class="easyui-combotree" id="chatPushInfoClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	             </select>
 	          </td>
 	          <th>是否延续推送</th>
-	          <td colspan="2">
+	          <td>
 	             <select name="replyRepeat" style="width:150px;">
 	               <option value="1" <c:if test="${chatPushInfo.replyRepeat==1}"> selected="selected" </c:if>>是</option>
 	               <option value="0" <c:if test="${chatPushInfo.replyRepeat==0}"> selected="selected" </c:if>>否</option>
 	             </select>
+	          </td>
+	          <th>间隔时间(分钟)</th>
+	          <td>
+	          	 <input type="number" name="intervalMin" value="${chatPushInfo.intervalMin}" min="0" data-options="validType:'intOrFloat'"/>
 	          </td>
 	      </tr>
 	      <tr>
