@@ -213,6 +213,7 @@ var chatPushInfo = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#chatPushInfoSubmitForm").form('validate')){
+					$("#chatPushInfo_pushDate").val($("#chatPushInfo_pushDate_div").dateTimeWeek("getData"));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatPushInfoSubmitForm',
