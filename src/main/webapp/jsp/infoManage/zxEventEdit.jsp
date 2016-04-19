@@ -98,6 +98,7 @@
 					<select name="valid">
 						<option value="1">有效</option>
 						<option value="0">无效</option>
+						<option value="2">接口删除</option>
 					</select>
 					<input type="hidden" value="${zxFinanceEvent.valid }">
 				</td>

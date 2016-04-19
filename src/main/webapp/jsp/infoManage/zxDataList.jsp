@@ -37,6 +37,7 @@
 								<option value=""><spring:message code="common.pleaseselect" /></option>
 								<option value="1" selected="selected">有效</option>
 								<option value="0">无效</option>
+								<option value="2">接口删除</option>
 							</select>
 						</td>
 						<th>发布时间</th>
