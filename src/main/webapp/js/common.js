@@ -741,6 +741,13 @@ function dateTimeWeekCheck(dateTime, nullResult){
     return weekTimePass;
 };
 /**
+ * 判断客户端是否手机
+ * @param userAgent
+ */
+function isMobile(userAgent){
+	return /(iphone|ipod|ipad|android|mobile|playbook|bb10|meego)/.test((userAgent || "").toLowerCase());
+};
+/**
  * 对象数组排序
  * @param key 对象的key值
  * @param desc true 为降序，false升序

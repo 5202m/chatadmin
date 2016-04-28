@@ -58,7 +58,7 @@ var chatVisitor = {
 						{title : '客户IP',field : 'ip'},
 						{title : '客户所在地',field : 'ipCity'},
 						{title : '使用设备',field : 'userAgent',formatter : function(value, rowData, rowIndex) {
-							return value;
+							return isMobile(value) ? "手机" : "PC";
 						}}
 			]],
 			toolbar : '#visitor_datagrid_toolbar'

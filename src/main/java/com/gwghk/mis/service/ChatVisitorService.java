@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -117,6 +118,11 @@ public class ChatVisitorService
 				}else{
 					criteria.and("loginDate").lte(DateUtil.parseDateSecondFormat(chatVisitor.getLoginDateEnd()));
 				}
+			}
+			if("pc".equalsIgnoreCase(chatVisitor.getUserAgent())){
+				criteria.and("userAgent").not().regex(Pattern.compile(".*?(iphone|ipod|ipad|android|mobile|playbook|bb10|meego).*", Pattern.CASE_INSENSITIVE));
+			}else if("mobile".equalsIgnoreCase(chatVisitor.getUserAgent())){
+				criteria.and("userAgent").regex(Pattern.compile(".*?(iphone|ipod|ipad|android|mobile|playbook|bb10|meego).*", Pattern.CASE_INSENSITIVE));
 			}
 			query.addCriteria(criteria);
 		}
