@@ -67,10 +67,6 @@ public class ChatGroup extends BaseModel{
 	 * 私聊角色（对应pm_chat的constant中roleUserType值),多个逗号分隔
 	 */
 	private String whisperRoles;
-	/**
-	 * 直播实体
-	 */
-	private ChatStudio chatStudio;
 	
 	/**
 	 * 聊天规则id(用于数据传输）
@@ -96,6 +92,24 @@ public class ChatGroup extends BaseModel{
 	/** 默认分析师（用户信息） */
 	private BoUser defaultAnalyst;
 	
+	/**
+	 * 客户组（对应的客户组,多个逗号分隔）
+	 */
+	private String clientGroup;
+	
+	/**
+	 * 房间备注/介绍
+	 */
+	private String remark;
+	
+	public String getClientGroup() {
+		return clientGroup;
+	}
+
+	public void setClientGroup(String clientGroup) {
+		this.clientGroup = clientGroup;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}
@@ -198,14 +212,6 @@ public class ChatGroup extends BaseModel{
 		this.tokenAccessId = tokenAccessId;
 	}
 
-	public ChatStudio getChatStudio() {
-		return chatStudio;
-	}
-
-	public void setChatStudio(ChatStudio chatStudio) {
-		this.chatStudio = chatStudio;
-	}
-	
 	public Integer getSequence() {
 		return sequence;
 	}
@@ -250,6 +256,14 @@ public class ChatGroup extends BaseModel{
 
 	public void setWhisperRoles(String whisperRoles) {
 		this.whisperRoles = whisperRoles;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 }

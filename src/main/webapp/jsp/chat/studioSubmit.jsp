@@ -148,7 +148,7 @@
 	         </td>
 	      </tr>
 	      <tr>
-	         <th width="15%">外接直播<a class="ope-add" id="addExStudioId"></a><a class="ope-remove" id="removeExStudioId"></a></th>
+	         <th width="15%">直播地址<a class="ope-add" id="addExStudioId"></a><a class="ope-remove" id="removeExStudioId"></a></th>
 	         <td width="80%">
 	            <input type="hidden" name="chatStudio.externalStudio"  id="chatStudio_externalStudio"/>
 	            <div id="externalStudioMainDiv" style="overflow-y:auto;height:300px;"></div>

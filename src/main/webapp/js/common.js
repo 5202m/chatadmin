@@ -759,6 +759,18 @@ function arraySort(key,desc){
     }
 }
 
+/**
+ * 包含字符，逗号分隔
+ * @param src
+ * @param subStr
+ */
+function containSplitStr(src,subStr){
+    if(isBlank(src)||isBlank(subStr)) {
+        return false;
+    }
+    return (','+src+',').indexOf((','+subStr+','))!=-1;
+}
+
 //语言类型
 var LOCALE_ZH_TW = "zh_TW";
 var LOCALE_ZH_CN = "zh_CN";

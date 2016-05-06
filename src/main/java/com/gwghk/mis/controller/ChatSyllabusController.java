@@ -25,6 +25,7 @@ import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
@@ -36,6 +37,7 @@ import com.gwghk.mis.service.ChatSyllabusService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -185,7 +187,6 @@ public class ChatSyllabusController extends BaseController
         syllabus.setUpdateUser(userParam.getUserNo());
         syllabus.setUpdateDate(currDate);
         syllabus.setUpdateIp(IPUtil.getClientIP(request));
-		
         return syllabusService.saveChatSyllabus(syllabus);
 	}
 
@@ -215,4 +216,32 @@ public class ChatSyllabusController extends BaseController
 		}
 		return j;
 	}
+	
+	 /**
+   	 * 功能：提取作者/分析师列表
+   	 */
+    @RequestMapping(value = "/chatSyllabusController/getAuthorList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+   	@ResponseBody
+    public String getAuthorList(HttpServletRequest request,ModelMap map) throws Exception {
+    	String groupType=request.getParameter("groupType"),groupId=request.getParameter("groupId"),authors=request.getParameter("authors");
+       	List<TreeBean> treeList=new ArrayList<TreeBean>();
+       	TreeBean tbean=null;
+       	List<BoUser> loc_authUsers = syllabusService.getAuthUsers(groupType,groupId);
+       	authors=StringUtils.isBlank(authors)?"":(",".concat(authors).concat(","));
+        if(loc_authUsers!=null && loc_authUsers.size()>0){
+        	
+           for(BoUser row:loc_authUsers){
+      		 tbean=new TreeBean();
+      		 tbean.setId(row.getUserNo());
+      		 tbean.setIconImg(row.getAvatar());
+      		 tbean.setText(row.getUserName());
+      		 if(authors.contains(",".concat(row.getUserNo()).concat(","))){
+   			   tbean.setChecked(true);
+   		     }
+      		 tbean.setParentId("");
+  			 treeList.add(tbean);
+          }
+        }
+       	return JsonUtil.formatListToTreeJson(treeList,false);
+     }
 }

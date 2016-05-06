@@ -5,6 +5,13 @@
 <script type="text/javascript">
 	//初始化
 	$(function() {
+		 $("#chatGroupTypeId").change(function(){
+			 if(this.value=='studio'){
+				 $("#clientGroupTreeId").show();
+			 }else{
+				 $("#clientGroupTreeId").hide();
+			 }
+		 }).trigger("change");
 		 var openDateTmp='${chatGroup.openDate}';
 		 $("#chatGroup_openDate_div").dateTimeWeek({data:(isValid(openDateTmp)?JSON.parse(openDateTmp):null)});
 		 getJson("<%=request.getContextPath()%>/chatGroupRuleController/getGroupRuleCombox.do",null,function(data){
@@ -77,7 +84,7 @@
           <tr>
 	          <th width="15%">房间类别</th>
 	          <td width="35%">
-	             <t:dictSelect  selectClass="width:170px;" id="chatGroupType" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	             <t:dictSelect  selectClass="width:170px;" id="chatGroupTypeId" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
 	          </td>
 	          <th width="15%">房间等级</th>
 	          <td width="35%">
@@ -94,6 +101,13 @@
 	         <td width="35%">
 	              <input type="text" name="name" value="${chatGroup.name}" class="easyui-validatebox" data-options="required:true,missingMessage:'请输入名称'" />
 	         </td>
+	      </tr>
+	       <tr id="clientGroupTreeId">
+	          <th width="15%">客户组别</th>
+	          <td colspan="3">
+	            <select class="easyui-combotree" name="clientGroupStr" style="width:250px;" data-options="url:'<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do?clientGroup=${chatGroup.clientGroup}',cascadeCheck:false" multiple>
+	            </select>
+	          </td>
 	      </tr>
 	      <tr>
 	          <th>聊天方式</th>
@@ -138,6 +152,12 @@
 	         <td colspan="3">
 	            <input type="hidden" name="openDate"  id="chatGroup_openDate"/>
 	            <div id="chatGroup_openDate_div"></div>
+	         </td>
+	      </tr>
+	      <tr>
+	         <th>房间介绍</th>
+	         <td colspan="3">
+	           <textarea rows="3" name="remark" style="width:100%;">${chatGroup.remark}</textarea>
 	         </td>
 	      </tr>
     </table>

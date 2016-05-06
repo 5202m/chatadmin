@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.gwghk.mis.common.model.ApiResult;
@@ -24,11 +23,9 @@ import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
-import com.gwghk.mis.model.ChatStudio;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
-import com.mongodb.WriteResult;
 
 /**
  * 聊天室组别管理服务类
@@ -290,77 +287,4 @@ public class ChatGroupService{
 		return chatGroupDao.findList(ChatGroup.class, query);
 	}
 
-	/**
-	 * 分页查询规则
-	 * @param dCriteria
-	 * @return
-	 */
-	public Page<ChatGroup> getChatStudioPage(
-			DetachedCriteria<ChatGroup> dCriteria) {
-		Criteria criter=new Criteria();
-		criter.and("valid").is(1);
-		criter.and("groupType").is("studio");
-		criter.and("chatStudio").exists(true);
-		ChatGroup model=dCriteria.getSearchModel();
-		if(model!=null){
-			ChatStudio studio=model.getChatStudio();
-			if(StringUtils.isNotBlank(model.getId())){
-				criter.and("id").regex(StringUtil.toFuzzyMatch(model.getId()));
-			}
-			if(StringUtils.isNotBlank(model.getName())){
-				criter.and("name").regex(StringUtil.toFuzzyMatch(model.getName()));
-			}
-			if(model.getStatus() != null){
-				criter.and("status").is(model.getStatus());
-			}
-			if(studio!=null){
-				if(StringUtils.isNotBlank(studio.getClientGroup())){
-					criter.and("chatStudio.clientGroup").regex(studio.getClientGroup().replaceAll(",","|"));
-				}
-			}
-		}
-		return chatGroupDao.findPage(ChatGroup.class, Query.query(criter), dCriteria);
-	}
-	
-	/**
-	 * 更新直播间
-	 * @param chatGroupParam
-	 * @return
-	 */
-	public ApiResult saveStudio(ChatGroup chatGroupParam,boolean isUpdate) {
-		ApiResult result=new ApiResult();
-		if(StringUtils.isBlank(chatGroupParam.getId()) || chatGroupParam.getChatStudio()==null){
-			return result.setCode(ResultCode.Error103);
-		}
-		ChatGroup group=getChatGroupById(chatGroupParam.getId());
-		ChatStudio studio=new ChatStudio();
-		if(group.getChatStudio()!=null){
-			if(!isUpdate){
-				return result.setCode(ResultCode.Error102);
-			}
-			studio=group.getChatStudio();
-			BeanUtils.copyExceptNull(studio, chatGroupParam.getChatStudio());
-		}else{
-			studio=chatGroupParam.getChatStudio();
-		}
-		group.setChatStudio(studio);
-		chatGroupDao.update(group);
-    	return result.setCode(ResultCode.OK);
-	}
-
-	/**
-	 * 删除直播间
-	 * 备注：直接从组别中移除直播间内容
-	 * @param ids
-	 * @return
-	 */
-	public ApiResult deleteStudio(Object[] ids) {
-		ApiResult result=new ApiResult();
-		Query query=new Query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("id").in(ids)));
-		WriteResult wr=chatGroupDao.getMongoTemplate().updateMulti(query,new Update().unset("chatStudio"),ChatGroup.class);
-		if(wr==null||wr.getN()==0){
-			return result.setCode(ResultCode.FAIL);
-		}
-		return result.setCode(ResultCode.OK);
-	}
 }

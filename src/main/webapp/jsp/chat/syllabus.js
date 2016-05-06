@@ -14,7 +14,8 @@ var Syllabus = {
 	gridId : 'syllabus_datagrid',
 	daysCN : ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'],
 	chatGroups : {},
-	
+	lecturerList:null,
+	coursesData:null,
 	init : function(){
 		this.initGrid();
 		this.initConst();
@@ -100,45 +101,241 @@ var Syllabus = {
 			$("#syllabus_queryForm")[0].reset();
 		});
 	},
-
+	/**
+	 * 设置作者/分析师
+	 */
+    setLecturerSelect:function(dom,data){
+		dom.find("select[id^='select_lecturer']").combotree({
+    		data:data,
+    		onLoadSuccess:function(node,param){
+    			for(var i in data){
+    				var dom=$(this).find(".tree-node[node-id="+data[i].id+"]");
+    				if(dom.length>0){
+    					var icn=$(dom.get(0)).css({height:"32px","margin":"2px 2px 0px"}).find(".tree-icon");
+    					icn.removeClass("tree-file").css({height:"32px",width:"32px",padding:"2px"});
+    					icn.append('<img src="'+(data[i].iconImg?data[i].iconImg:'')+'" style="height: 30px;width: 30px;">');
+    					var dt=dom.find(".tree-title");
+    					dt.text(dt.text()+"【"+data[i].id+"】");
+    				}
+    			}
+    		}
+		});
+    },
+   
+    /**
+     *  填充课程
+     * @param dom
+     * @param courses
+     */
+    fillCourses:function(dom,course){
+    	if(course){
+    		var selectDom=dom.find("select[name=status]").val(course.status);
+    		dom.find("select[name=courseType]").val(course.courseType);
+        	dom.find("input[name=title]").val(course.title);
+        	dom.find("textarea[name=context]").val(course.context);
+        	if(isValid(course.lecturerId)){
+        		var tmpList=JSON.parse(JSON.stringify(this.lecturerList));
+        		for(var i in tmpList){
+					if(containSplitStr(course.lecturerId,tmpList[i].id)){
+						tmpList[i].checked=true;
+					}
+				}
+        		this.setLecturerSelect(dom,tmpList);
+        	}else{
+        		this.setLecturerSelect(dom,this.lecturerList);
+        	}
+        	if("0"==course.status){
+        		selectDom.trigger("change");
+        	}
+    	}else{
+    		this.setLecturerSelect(dom,this.lecturerList);
+    	}
+    },
+    /**
+     * 提取分析师列表
+     */
+    getLecturerList:function(){
+    	var gtype=$("#syllabusEdit_groupType_select").val(),gId=$("#syllabusEdit_groupId_select").val()||$("#syllabusEdit_groupId_select").attr("tv");
+    	this.lecturerList=getJson(basePath +"/chatSyllabusController/getAuthorList.do",{groupType:gtype,groupId:gId});
+    	$("#panel_editSyllabus tbody:visible").each(function(){
+    		Syllabus.setLecturerSelect($(this).find(".main"),Syllabus.lecturerList);
+    	});
+    },
+    /**
+     * 设置房间组
+     */
+    setRoomSelect:function(groupType){
+    	if(isBlank(groupType)){
+    		return;
+    	}
+    	var data=getJson(basePath +"/chatGroupController/getGroupTreeList.do",{groupType:groupType});
+    	var selectDom=$("#syllabusEdit_groupId_select").html("").append('<option value="" >--请选择--</option>');
+    	for(var i in data){
+    		selectDom.append('<option value="'+data[i].id+'" '+(selectDom.attr("tv")==data[i].id?'selected="selected"':'')+'>'+data[i].text+'</option>');
+    	}
+    	Syllabus.getLecturerList();
+    },
+    /**
+     * 通过克隆方法填充元素
+     * @param timeBucket
+     * @param courses
+     */
+    setCourseByClone:function(timeBucket,courses){
+    	if(isBlank($("#syllabusEdit_groupType_select").val())){
+    		alert("房间组别不能为空");
+    		return;
+    	}
+    	if(isBlank($("#courses_hidden_id").val()) && isBlank($("#syllabusEdit_groupId_select").val())){
+    		alert("房间不能为空");
+    		return;
+    	}
+    	var cloneObj=$("#panel_editSyllabus table tbody:hidden").clone(true);
+     	var ltId="select_lecturer"+($("#panel_editSyllabus table tbody").length)+"_";
+     	cloneObj.find(".main").each(function(){
+     		$(this).find(".lecturerDiv").find("select").attr("id",ltId+$(this).index());
+     		 var loc_day = $(this).attr("dy");
+     	});
+     	cloneObj.find("input[name='startTime']").val(timeBucket&& isValid(timeBucket.startTime)?timeBucket.startTime:"00:00").timespinner({});
+        cloneObj.find("input[name='endTime']").val(timeBucket&& isValid(timeBucket.endTime)?timeBucket.endTime:"00:00").timespinner({});
+        $("#panel_editSyllabus table").append(cloneObj).find("tbody:last").show().find(".main").each(function(){
+     		 var loc_day = $(this).attr("dy");
+     		 $(this).find("select[name='status']").change(function () {
+         		var disable=this.value!="1";
+         		var pMain=$(this).parent().parent().parent();
+         		var txtEl=pMain.find("textarea,input[name=title],select[name=courseType]").prop("disabled", disable);
+         		if(disable){
+         			txtEl.val("");
+         			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+         		}else{
+         			pMain.find("select[id^='select_lecturer']").combotree("enable");
+         		}
+             });
+     		 Syllabus.fillCourses($(this),(courses&&courses.hasOwnProperty(loc_day)?courses[loc_day]:null));
+     	});
+    },
+    /**
+     * 设置直播链接
+     * @param val
+     */
+    setStudioLink:function(val){
+    	 if(val!="studio"){
+  	 	    $("#studioLinkLabel,#studioLinkSpan").hide();
+  	 	 }else{
+  	 	    $("#studioLinkLabel,#studioLinkSpan").show();
+  	 	    $("#studioLinkSelect").trigger("change");
+  	 	 }
+    },
+    /**
+     * 提取链接
+     */
+    getStudioLink:function(code){
+    	var hv=$("#studioLink_hidden_id").val();
+    	if(isValid(hv)){
+    		hv=JSON.parse(hv);
+    	}
+    	for(var i in hv){
+    		if(hv[i].code==code){
+    			return hv[i].url;
+    		}
+    	}
+    	return '';
+    },
     /**
      * 设置编辑事件
      */
     setEditEvent : function() {
-    	/**
-    	 * 房间选择处理
-    	 */
-    	if(!$("#form_editSyllabus input[name='id']").val())
-		{
-    		//新增
-    		$("#syllabusEdit_groupType_select").on("change",function(){
-    			var loc_val = $(this).val();
-    			var loc_target = $("#syllabusEdit_groupId_select");
-    			loc_target.find("option[t]").hide();
-    			if(loc_val)
-    			{
-    				loc_target.find("option[t='" + loc_val + "']").show();
-    			}
-    			loc_target.val("");
-    		});
-    		$("#syllabusEdit_groupType_select").trigger("change");
-		}
-    	else
-		{
-			//修改
-    		var loc_select = $("#syllabusEdit_groupType_select");
-    		loc_select.val(loc_select.attr("val"));
-    		loc_select.prop("disabled", true);
-    		loc_select = $("#syllabusEdit_groupId_select");
-    		loc_select.val(loc_select.attr("val"));
-    		loc_select.prop("disabled", true);
-		}
+    	this.setStudioLink($("#syllabusEdit_groupType_select").val());
+    	$("#studioLinkSelect").change(function(){
+    		var studioLinkVal=Syllabus.getStudioLink(this.value);
+    		if(isBlank(studioLinkVal)){
+    			if(this.value==1){
+        			studioLinkVal='http://yy.com/s/92628431/92628431/yyscene.swf';
+        		}
+        		if(this.value==2){
+        			studioLinkVal='http://www.one-tv.com/stream/live_mpegts.swf';
+        		}
+    		}
+    		$(this).parent().find('input[id^=studioLink_]').hide();
+    		$("#studioLink_"+this.value).val(studioLinkVal).show();
+    	});
+    	//头tab点击事件
+   	 	$("#panel_editSyllabus .courseThCls").click(function(){
+	   		$("#panel_editSyllabus .courseThCls").removeClass("clickThCls");
+	   		$(this).addClass("clickThCls");
+	   		$("#panel_editSyllabus td.main").removeClass("clickTdCls").hide();
+	   		$("#panel_editSyllabus td.main[tid=courseTd_"+$(this).index()+"]").addClass("clickTdCls").show();
+	   		var sdom=$(this).find("select[name=status]");
+	   		if(sdom.val()!="1"){
+   				sdom.trigger("change");
+   			}
+   	 	});
+   	 	//房间组及房间选择
+   	 	Syllabus.setRoomSelect($("#syllabusEdit_groupType_select").val());
+   	 	$("#syllabusEdit_groupType_select").change(function(){
+   		     Syllabus.setRoomSelect(this.value);
+   		     Syllabus.setStudioLink(this.value);
+	    });
+   	 	
+   	    /**
+         * 休市或无效(全天)
+         */
+        $("#panel_editSyllabus thead select[name='status']").change(function () {
+    		var disable=this.value!="1";
+    		var pMain=$("#panel_editSyllabus tbody:visible td.main[dy="+$(this).parent().attr("dy")+"]");
+    		var txtEl=pMain.find("select[name=status],select[name=courseType],textarea,input[name=title]").prop("disabled", disable);
+    		if(disable){
+    			txtEl.val("");
+     			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+    		}else{
+    			pMain.find("select[id^='select_lecturer']").combotree("enable");
+    		}
+        });
+        //新增默认状态为无效
+        if(isBlank($("#courses_hidden_id").val())){
+        	$("#panel_editSyllabus .courseThCls[dy=0] select[name=status],#panel_editSyllabus .courseThCls[dy=6] select[name=status]").val(2);
+        }
+    	this.coursesData=$("#courses_data_id").val();
+    	if(this.coursesData){
+    		this.coursesData=JSON.parse(this.coursesData);
+    		//设置星期的状态
+            var loc_days = this.coursesData.days || [];
+            $("#panel_editSyllabus table:first").find("thead tr th[dy]").each(function(){
+            	var hasRow=false;
+            	for(var i = 0, lenI = loc_days.length; i < lenI; i++)
+                {
+            		if($(this).attr("dy")==loc_days[i].day){
+            			$(this).find("select[name=status]").val(loc_days[i].status);
+            			hasRow=true;
+            			break;
+            		}
+                }
+            	if(!hasRow){
+            		$(this).find("select[name=status]").val("2");
+            	}
+        	});
+            //设置课程
+            if(this.coursesData.hasOwnProperty("timeBuckets"))
+            {
+                var loc_timeBuckets = this.coursesData.timeBuckets;
+                for(var i in loc_timeBuckets)
+                {  
+                	var timeBucket=loc_timeBuckets[i];
+                	var loc_courses = {},course=timeBucket.course;
+                    for(var k=0;k<course.length;k++)
+                    {
+                        loc_courses[loc_days[k].day + ""] = course[k];
+                    }
+                    Syllabus.setCourseByClone(timeBucket,loc_courses);
+                }
+            }
+            $("#panel_editSyllabus .courseThCls:first").click();
+    	 }
     	
         /**
          * 添加
          */
         $("#panel_editSyllabus table:first a.ope-add").bind("click", function () {
-            Syllabus.addTimeBucket($("#panel_editSyllabus table:first"), null, null);
+        	Syllabus.setCourseByClone(null,null);
         });
 
         /**
@@ -168,67 +365,6 @@ var Syllabus = {
             if (loc_next.is("tbody:visible")) {
                 loc_next.next(loc_tbody);
             }
-        });
-
-        /**
-         * 休市或无效(全天)
-         */
-        $("#panel_editSyllabus thead select[name='status']").each(function(index){
-        	$(this).bind("change", index, function (event) {
-        		var loc_this = $(this);
-                var loc_index = event.data;
-                var loc_panel = loc_this.parents("table:first");
-                var loc_size = loc_panel.find("tbody").size();
-                if((loc_this.val() !== "1")){
-                	//休市或无效
-                	var loc_statuses = loc_panel.find("tbody select[name='status']");
-                	var loc_status = null;
-                	for(var i = 0; i < loc_size; i++){
-                		loc_status = loc_statuses.eq(i * 7 + loc_index);
-                		loc_status.prop("disabled", true);
-                		loc_status.trigger("change", true);
-                	}
-                }else{
-                	//有效
-                	var loc_statuses = loc_panel.find("tbody select[name='status']");
-                	var loc_status = null;
-                	for(var i = 0; i < loc_size; i++){
-                		loc_status = loc_statuses.eq(i * 7 + loc_index);
-                		loc_status.prop("disabled", false);
-                		loc_status.trigger("change");
-                	}
-                }
-            });
-        });
-
-        /**
-         * 休市(单时段)
-         */
-        $("#panel_editSyllabus tbody select[name='lecturerSelect']").each(function(){
-        	$(this).bind("change", function () {
-        		var loc_lecturer = $(this).val();
-        		if(loc_lecturer)
-        		{
-        			var loc_input = $(this).siblings("textarea[name='lecturer']");
-        			loc_input.val((loc_input.val() ? (loc_input.val() + '&') : "") + loc_lecturer);
-        			$(this).val("");
-        		}
-            });
-        });
-        
-        /**
-         * 选择状态
-         */
-        $("#panel_editSyllabus tbody select[name='status']").each(function(index){
-        	$(this).bind("change", index, function (event, status) {
-        		var loc_this = $(this);
-                var loc_index = event.data;
-                var loc_disable = status || (loc_this.val() === "0");
-                var loc_panel = loc_this.parents("tbody:first"); 
-                loc_panel.find("textarea[name='lecturer']").eq(loc_index).prop("disabled", loc_disable);
-                loc_panel.find("select[name='lecturerSelect']").eq(loc_index).prop("disabled", loc_disable);
-                loc_panel.find("textarea[name='title']").eq(loc_index).prop("disabled", loc_disable);
-            });
         });
     },
 	
@@ -342,7 +478,8 @@ var Syllabus = {
 			href : loc_url,
 			iconCls : 'ope-edit',
 			handler : function(){
-				if(!$("#syllabusEdit_groupType_select").val()){
+				var gtype=$("#syllabusEdit_groupType_select").val();
+				if(!gtype){
 					$.messager.alert($.i18n.prop("common.operate.tips"),'房间组别不能为空！','error');
 					return ;
 				}
@@ -350,7 +487,12 @@ var Syllabus = {
 					$.messager.alert($.i18n.prop("common.operate.tips"),'发布时间不能为空！','error');
 					return ;
 				}
-				$("#form_editSyllabus input[name='courses']").val(Syllabus.getCoursesJson($("#panel_editSyllabus table:first")));
+				$("#form_editSyllabus input[name='courses']").val(Syllabus.getCoursesJson());
+				if(gtype=="studio"){
+					$("#studioLink_hidden_id").val(JSON.stringify($('#studioLinkSpan input[id^=studioLink_]').map(function(){
+						return {code:$(this).attr("t"),url:$(this).val()};
+					}).get()));
+				}
 				goldOfficeUtils.ajaxSubmitForm({
 					url : formatUrl(basePath + '/chatSyllabusController/edit.do'),
 					formId : 'form_editSyllabus',
@@ -369,38 +511,6 @@ var Syllabus = {
 			onLoad : function(){
 				var loc_panel = $("#panel_editSyllabus");
                 Syllabus.setEditEvent();
-                var loc_courses = $("#form_editSyllabus input[name='courses']").val();
-                if(!loc_courses){
-                    loc_courses = {days : [{day : 1, status : 1},{day : 2, status : 1},{day : 3, status : 1},{day : 4, status : 1},{day : 5, status : 1}], timeBuckets : []};
-                }else{
-                    loc_courses = JSON.parse(loc_courses);
-                }
-                var loc_days = loc_courses.days || [];
-                var loc_daysObj = {};
-                for(var i = 0, lenI = loc_days.length; i < lenI; i++)
-                {
-                    loc_daysObj[loc_days[i].day + ""] = loc_days[i];
-                }
-                loc_panel.find("thead th:gt(0)").each(function(){
-                    var loc_this = $(this);
-                    var loc_day = loc_this.find("input[name='day']").val();
-                    var loc_status = loc_daysObj.hasOwnProperty(loc_day) ? loc_daysObj[loc_day].status : 2;
-                    var loc_item = loc_this.find("select[name='status']");
-                    loc_item.val(loc_status);
-                    if(loc_status != 1)
-                    {
-                        loc_item.trigger("change");
-                    }
-                });
-
-                if(loc_courses.hasOwnProperty("timeBuckets"))
-                {
-                    var loc_timeBuckets = loc_courses.timeBuckets;
-                    for(var i = 0, lenI = !loc_timeBuckets ? 0 : loc_timeBuckets.length; i < lenI; i++)
-                    {
-                        Syllabus.addTimeBucket(loc_panel.find("table"), loc_timeBuckets[i], loc_courses.days);
-                    }
-                }
 			}
 		});
 	},
@@ -424,115 +534,44 @@ var Syllabus = {
 
     /**
      * 获取课程json字符串
-     * {days : [{day: Integer, status : Integer}], timeBuckets : [{startTime : String, endTime : String, course : [{lecturer : String, title : String, status : Integer}]}]}
-     * @param $panel
+     * {days : [{day: Integer, status : Integer}], timeBuckets : [{startTime : String, endTime : String, course : [{context : String, courseType : Integer,lecturer:String,lecturerId:String, title : String, status : Integer}]}]}
      */
-    getCoursesJson : function($panel)
+    getCoursesJson : function()
     {
+    	var $panel=$("#panel_editSyllabus table.tableForm_L"),allowDayTd="";
         //星期
-        var loc_days = [];
-        var loc_daysIndex = [];
-        $panel.find("thead th:gt(0)").each(function(index){
-            var loc_this = $(this);
-            var loc_val = {
-                day : loc_this.find("input[name='day']").val(),
-                status : loc_this.find("select[name='status']").val()
-            };
+        var weekArr=$panel.find("thead .courseThCls").map(function(){
+        	var status=$(this).find("select[name='status']").val();
             //仅记录有效或者休市的课程
-            if(loc_val.status !== "2"){
-                loc_daysIndex.push(index);
-                loc_days.push({
-                    day : parseInt(loc_val.day, 10),
-                    status : parseInt(loc_val.status, 10)
-                });
-            }
-        });
-
-        //课表
-        var lenI = loc_daysIndex.length;
-        var loc_timeBuckets = [];
-        var loc_course = null;
-        var loc_courses = null;
-        var loc_index = 0;
-        $panel.find("tbody:visible").each(function(){
-            var loc_this = $(this);
-            loc_course = {};
-            loc_course.startTime = loc_this.find("input[name='startTime']").timespinner('getValue');
-            loc_course.endTime = loc_this.find("input[name='endTime']").timespinner('getValue');
-            loc_courses = [];
-            for(var i = 0; i < lenI; i++)
-            {
-                loc_index = loc_daysIndex[i];
-                loc_courses.push({
-                    status : parseInt(loc_this.find("select[name='status']").eq(loc_index).val(), 10),
-                    lecturer : loc_this.find("textarea[name='lecturer']").eq(loc_index).val(),
-                    title : loc_this.find("textarea[name='title']").eq(loc_index).val()
-                });
-            }
-            loc_course.course = loc_courses;
-            loc_timeBuckets.push(loc_course);
-        });
-        var loc_result =
-        {
-            days : loc_days,
-            timeBuckets : loc_timeBuckets
-        };
-        return JSON.stringify(loc_result);
-    },
-	
-	/**
-	 * 增加一个时间段
-	 * @param $panel
-	 * @param timeBucket {{startTime:String, endTime:String, course:[{lecturer : String, title : String, status : Integer}]}}
-	 * @param days [{day: Integer, status : Integer}]
-	 */
-	addTimeBucket : function($panel, timeBucket, days){
-		if(!timeBucket)
-		{
-			timeBucket =
-			{
-				startTime : "00:00",
-				endTime : "00:00",
-				course : []
-			};
-		}
-		var loc_newTimeBucket = $panel.find("tbody:hidden").clone(true);
-        var loc_item = null;
-
-        //时间段
-        loc_item = loc_newTimeBucket.find("input[name='startTime']");
-        loc_item.val(timeBucket.startTime);
-        loc_item.timespinner({});
-        loc_item = loc_newTimeBucket.find("input[name='endTime']");
-        loc_item.val(timeBucket.endTime);
-        loc_item.timespinner({});
-
-        //课程
-        var loc_courses = {};
-        for(var i = 0, lenI = !days ? 0 : days.length; i < lenI; i++)
-        {
-            loc_courses[days[i].day + ""] = timeBucket.course[i];
+        	if(status!== "2"){
+        		var day=$(this).attr("dy");
+        		allowDayTd+=(allowDayTd?",":"")+".main[dy="+day+"]";//记录有效的td
+        		return {day:parseInt(day),status:parseInt(status)};
+        	}else{
+        		return null;
+        	}
+        }).get();
+        if(isValid(allowDayTd)){
+        	//课表
+        	var allTime=$panel.find("tbody:visible").map(function(){
+        		var courseArr=$(this).find(allowDayTd).map(function(){
+                	 var lectDom=$(this).find("select[id^='select_lecturer']");
+                     return {title:$(this).find("input[name='title']").val(), 
+    	    	        	 status:parseInt($(this).find("select[name='status']").val()),
+    	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
+    	    	        	 lecturer:lectDom.combotree("getText"),lecturerId:lectDom.combotree("getValues").join(","),
+    	    	        	 context : $(this).find("textarea[name='context']").val()};
+                }).get();
+        		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
+        	}).get();
+            return JSON.stringify({
+                days : weekArr,
+                timeBuckets : allTime
+            });
+        }else{
+        	return "";
         }
-        loc_newTimeBucket.find("td").each(function(index){
-            var loc_day = ((index + 1) % 7) + "";
-            if(loc_courses.hasOwnProperty(loc_day)){
-                var loc_course = loc_courses[loc_day];
-                if(index < 7){
-                    loc_item = $(this).find("select[name='status']");
-                    loc_item.val(loc_course.status);
-                    if(loc_course.status == "0"){
-                        loc_item.trigger("change", false);
-                    }
-                    $(this).find("textarea[name='lecturer']").val(loc_course.lecturer);
-                }else{
-                    $(this).find("textarea[name='title']").val(loc_course.title);
-                }
-            }
-        });
-        
-        $panel.append(loc_newTimeBucket);
-        loc_newTimeBucket.show();
-	},
+    },
 
     /**
      * 格式化显示课程安排表

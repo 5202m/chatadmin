@@ -147,6 +147,7 @@ public class ChatSyllabusService
 
 			ChatSyllabus loc_syllabus = this.getChatSyllabus(syllabus.getId());
 			//已经存在课程表，直接更新
+			loc_syllabus.setStudioLink(syllabus.getStudioLink());
 			loc_syllabus.setCourses(syllabus.getCourses());
 			loc_syllabus.setPublishStart(syllabus.getPublishStart());
 			loc_syllabus.setPublishEnd(syllabus.getPublishEnd());

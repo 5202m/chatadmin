@@ -15,6 +15,7 @@ public class TreeBean{
 	private String title;
 	private String state;
 	private String closed;
+	private String iconImg;
 	private JSONObject attributes;
 	private Boolean checked;
 	private List<TreeBean> child;
@@ -85,6 +86,12 @@ public class TreeBean{
 	}
 	public void setSort(int sort) {
 		this.sort = sort;
+	}
+	public String getIconImg() {
+		return iconImg;
+	}
+	public void setIconImg(String iconImg) {
+		this.iconImg = iconImg;
 	}
 	
 }
