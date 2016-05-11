@@ -229,14 +229,18 @@ var Syllabus = {
     /**
      * 提取链接
      */
-    getStudioLink:function(code){
+    getStudioLink:function(code,isSetVal){
     	var hv=Syllabus.studioLink;
     	if(isValid(hv)){
     		hv=JSON.parse(hv);
     		for(var i in hv){
-        		if(hv[i].code==code){
-        			return hv[i].url;
-        		}
+    			if(isSetVal){
+    				$("#studioLink_"+hv[i].code).val(hv[i].url);
+    			}else{
+    				if(hv[i].code==code){
+            			return hv[i].url;
+            		}
+    			}
         	}
     	}
     	return '';
@@ -245,6 +249,7 @@ var Syllabus = {
      * 设置编辑事件
      */
     setEditEvent : function() {
+    	Syllabus.getStudioLink(null,true);
     	$("#studioLinkSelect").change(function(){
     		var studioLinkVal=Syllabus.getStudioLink(this.value);
     		$(this).parent().find('input[id^=studioLink_]').hide();
