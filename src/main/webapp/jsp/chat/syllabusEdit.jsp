@@ -50,9 +50,10 @@ Syllabus.studioLink=${studioLinkStr};
 				<th><label id="studioLinkLabel">直播地址</label></th>
 				<td>
 				   <span id="studioLinkSpan">
-				   	<select id="studioLinkSelect"><option value="1" selected="selected">视频直播</option><option value="2">oneTV直播</option></select>
-				    <input  id="studioLink_1" style="width:300px;" t="1" value="" />
-				    <input  id="studioLink_2" style="display:none;width:300px;" t="1" value="" />
+				   	<select id="studioLinkSelect"><option value="1" selected="selected">视频直播(pc)</option><option value="3">视频直播(mb)</option><option value="2">oneTV直播</option></select>
+				    <input  id="studioLink_1" style="width:285px;" t="1" value="http://yy.com/s/92628431/92628431/yyscene.swf" />
+				    <input  id="studioLink_2" style="display:none;width:285px;" t="2" value="http://www.one-tv.com/stream/live_mpegts.swf" />
+				    <input  id="studioLink_3" style="display:none;width:285px;" t="3" value="http://ct.phgsa.cn:1935/live/01/playlist.m3u8" />
 				   </span>
 				</td>
 			</tr>

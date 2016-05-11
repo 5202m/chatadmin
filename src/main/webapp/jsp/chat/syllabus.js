@@ -256,6 +256,9 @@ var Syllabus = {
         		if(this.value==2){
         			studioLinkVal='http://www.one-tv.com/stream/live_mpegts.swf';
         		}
+        		if(this.value==3){
+        			studioLinkVal='http://ct.phgsa.cn:1935/live/01/playlist.m3u8';
+        		}
     		}
     		if(isBlank(valObj.val())){
     			valObj.val(studioLinkVal);
