@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -153,8 +154,10 @@ public class ChatSyllabusController extends BaseController
 		
 		DictConstant dict=DictConstant.getInstance();
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
-
 		map.addAttribute("syllabus", loc_syllabus);
+		JSONObject obj=new JSONObject();
+		obj.put("data", loc_syllabus.getStudioLink());
+		map.addAttribute("studioLinkStr",JSONObject.toJSONString(loc_syllabus.getStudioLink()));
 		map.put("publishStartStr", loc_syllabus.getPublishStart() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishStart(), "yyyy-MM-dd HH:mm:ss"));
 		map.put("publishEndStr", loc_syllabus.getPublishEnd() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishEnd(), "yyyy-MM-dd HH:mm:ss"));
 		map.addAttribute("days", new String[]{"星期一","星期二","星期三","星期四","星期五","星期六","星期天"});

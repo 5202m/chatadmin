@@ -15,6 +15,11 @@
 	#panel_editSyllabus .clickThCls{background-color: #E5F1D7;}
 	#panel_editSyllabus .clickTdCls{background-color: #E5F1D7;}
 </style>
+<script type="text/javascript">
+$(function() {
+Syllabus.studioLink=${studioLinkStr};
+});
+</script>
 <!-- 编辑框 -->
 <form id="form_editSyllabus" class="yxForm" method="post">
 	<table class="tableForm_L" border="0" cellpadding="0" cellspacing="1" style="margin-top: 5px;">
@@ -46,14 +51,14 @@
 				<td>
 				   <span id="studioLinkSpan">
 				   	<select id="studioLinkSelect"><option value="1" selected="selected">视频直播</option><option value="2">oneTV直播</option></select>
-				    <input  id="studioLink_1" style="width:300px;" t="1" value="http://yy.com/s/92628431/92628431/yyscene.swf" />
-				    <input  id="studioLink_2" style="display:none;width:300px;" t="1" value="http://www.one-tv.com/stream/live_mpegts.swf" />
+				    <input  id="studioLink_1" style="width:300px;" t="1" value="" />
+				    <input  id="studioLink_2" style="display:none;width:300px;" t="1" value="" />
 				   </span>
 				</td>
 			</tr>
 		</thead>
 	</table>
-	<input type="hidden" name="studioLink" id="studioLink_hidden_id" value="${syllabus.studioLink}">
+	<input type="hidden" name="studioLink" id="studioLink_hidden_id" value="">
 	<input type="hidden" name="id" id="courses_hidden_id" value="${syllabus.id}">
 	<input type="hidden" name="courses" id="courses_data_id" value='${syllabus.courses}'>
 </form>

@@ -16,6 +16,7 @@ var Syllabus = {
 	chatGroups : {},
 	lecturerList:null,
 	coursesData:null,
+	studioLink:null,
 	init : function(){
 		this.initGrid();
 		this.initConst();
@@ -229,14 +230,14 @@ var Syllabus = {
      * 提取链接
      */
     getStudioLink:function(code){
-    	var hv=$("#studioLink_hidden_id").val();
+    	var hv=Syllabus.studioLink;
     	if(isValid(hv)){
     		hv=JSON.parse(hv);
-    	}
-    	for(var i in hv){
-    		if(hv[i].code==code){
-    			return hv[i].url;
-    		}
+    		for(var i in hv){
+        		if(hv[i].code==code){
+        			return hv[i].url;
+        		}
+        	}
     	}
     	return '';
     },
@@ -244,9 +245,10 @@ var Syllabus = {
      * 设置编辑事件
      */
     setEditEvent : function() {
-    	this.setStudioLink($("#syllabusEdit_groupType_select").val());
     	$("#studioLinkSelect").change(function(){
     		var studioLinkVal=Syllabus.getStudioLink(this.value);
+    		$(this).parent().find('input[id^=studioLink_]').hide();
+    		var valObj=$("#studioLink_"+this.value);
     		if(isBlank(studioLinkVal)){
     			if(this.value==1){
         			studioLinkVal='http://yy.com/s/92628431/92628431/yyscene.swf';
@@ -255,9 +257,12 @@ var Syllabus = {
         			studioLinkVal='http://www.one-tv.com/stream/live_mpegts.swf';
         		}
     		}
-    		$(this).parent().find('input[id^=studioLink_]').hide();
-    		$("#studioLink_"+this.value).val(studioLinkVal).show();
+    		if(isBlank(valObj.val())){
+    			valObj.val(studioLinkVal);
+    		}
+    		valObj.show();
     	});
+    	this.setStudioLink($("#syllabusEdit_groupType_select").val());
     	//头tab点击事件
    	 	$("#panel_editSyllabus .courseThCls").click(function(){
 	   		$("#panel_editSyllabus .courseThCls").removeClass("clickThCls");
@@ -566,7 +571,7 @@ var Syllabus = {
         	}).get();
             return JSON.stringify({
                 days : weekArr,
-                timeBuckets : allTime
+                timeBuckets : allTime.sort(arraySort("startTime",false))
             });
         }else{
         	return "";
