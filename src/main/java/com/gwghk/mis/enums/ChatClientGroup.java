@@ -12,6 +12,8 @@ public enum ChatClientGroup
 {
 	vip("vip", "VIP客户，member中isVip=1"), 
 	real("real", "真实用户，已开立真实账户"), 
+	active("active", "真实用户，已激活真实账户"), 
+	notActive("notActive", "真实用户，未激活真实账户"), 
 	simulate("simulate", "模拟账户，已开立模拟账户"), 
 	register("register", "注册账户，仅注册了直播间，未开立账户"), 
 	visitor("visitor", "游客，未注册账户");

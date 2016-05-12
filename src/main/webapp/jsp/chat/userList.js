@@ -149,7 +149,7 @@ var chatUser = {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							//微解盘没有用户组别，用户级别为真实用户
 							var id = row.vipUser ? 'vip' : (!row.clientGroup ? "real" : row.clientGroup);
-							return name=$.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id));
+							return (id == "real") ? "真实" : $.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id));
 						}},
 						{title : '注册时间',field : 'loginPlatform.chatUserGroup.createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
