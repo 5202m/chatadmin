@@ -569,10 +569,14 @@ var Syllabus = {
         	var allTime=$panel.find("tbody:visible").map(function(){
         		var courseArr=$(this).find(allowDayTd).map(function(){
                 	 var lectDom=$(this).find("select[id^='select_lecturer']");
+                	 var txt=lectDom.combotree("getText");
+                	 if(txt){
+                		 txt=txt.replace("请选择","");
+                	 }
                      return {title:$(this).find("input[name='title']").val(), 
     	    	        	 status:parseInt($(this).find("select[name='status']").val()),
     	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
-    	    	        	 lecturer:lectDom.combotree("getText"),lecturerId:lectDom.combotree("getValues").join(","),
+    	    	        	 lecturer:txt,lecturerId:lectDom.combotree("getValues").join(","),
     	    	        	 context : $(this).find("textarea[name='context']").val()};
                 }).get();
         		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
