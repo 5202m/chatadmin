@@ -32,11 +32,17 @@ var chatVisitorRepO = {
 						{title : '比例', field : 'rate_vip', formatter : function(value, rowData, rowIndex) {
 							return chatVisitorRepO.getRate(rowData["vip"], rowData.statSum);
 						}},
-						{title : '真实用户', field : 'real', formatter : function(value, rowData, rowIndex) {
+						{title : '真实A用户', field : 'active', formatter : function(value, rowData, rowIndex) {
 							return value || 0;
 						}},
-						{title : '比例', field : 'rate_real', formatter : function(value, rowData, rowIndex) {
-							return chatVisitorRepO.getRate(rowData["real"], rowData.statSum);
+						{title : '比例', field : 'rate_active', formatter : function(value, rowData, rowIndex) {
+							return chatVisitorRepO.getRate(rowData["active"], rowData.statSum);
+						}},
+						{title : '真实N用户', field : 'notActive', formatter : function(value, rowData, rowIndex) {
+							return value || 0;
+						}},
+						{title : '比例', field : 'rate_notActive', formatter : function(value, rowData, rowIndex) {
+							return chatVisitorRepO.getRate(rowData["notActive"], rowData.statSum);
 						}},
 						{title : '模拟用户', field : 'simulate', formatter : function(value, rowData, rowIndex) {
 							return value || 0;
@@ -186,7 +192,8 @@ var chatVisitorRepO = {
 			var loc_title = {text : "各类在线人数统计——" + groupName + "(" + data.dataDate + ")"};
 			var loc_data = [
                             ['VIP用户',data.vip],
-                            ['真实用户',data.real],
+                            ['真实A用户',data.active],
+                            ['真实N用户',data.notActive],
                             ['模拟用户',data.simulate],
                             ['注册用户',data.register],
                             ['游客',data.visitor]
