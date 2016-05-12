@@ -399,7 +399,7 @@ public class ChatVisitorController extends BaseController
 					sum = loc_data.getInt("statSum");
 					for (ChatOnlineDuration duration : ChatOnlineDuration.values())
 					{
-						temp = loc_data.getInt(duration.name());
+						temp = loc_data.containsKey(duration.name()) ? loc_data.getInt(duration.name()) : 0;
 						row.set(duration.name(), temp);
 						row.set("rate_" + duration.name(), sum == 0 ? 0 : temp/sum);
 					}
@@ -467,7 +467,7 @@ public class ChatVisitorController extends BaseController
 					sum = loc_data.getInt("statSum");
 					for (ChatClientGroup group : ChatClientGroup.values())
 					{
-						temp = loc_data.getInt(group.name());
+						temp = loc_data.containsKey(group.name()) ? loc_data.getInt(group.name()) : 0;
 						row.set(group.name(), temp);
 						row.set("rate_" + group.name(), sum == 0 ? 0 : temp/sum);
 					}

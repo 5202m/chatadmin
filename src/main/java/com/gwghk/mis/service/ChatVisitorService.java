@@ -820,7 +820,9 @@ public class ChatVisitorService
 				loc_dbStatGroup = loc_dbStatGroups.get(j);
 				loc_statTemp = loc_dbStatGroup.getOnlineNum();
 				loc_stat.put(loc_dbStatGroup.getClientGroup(), loc_statTemp);
-				loc_usersMap.get(loc_dbStatGroup.getClientGroup()).addAll(loc_dbStatGroup.getUsers());
+				if(loc_usersMap.containsKey(loc_dbStatGroup.getClientGroup())){
+					loc_usersMap.get(loc_dbStatGroup.getClientGroup()).addAll(loc_dbStatGroup.getUsers());
+				}
 				loc_statSum += loc_statTemp;
 			}
 			loc_stat.put("dataDate", DateUtil.formatDate(loc_dbStat.getDataDate(), "yyyy-MM-dd"));
