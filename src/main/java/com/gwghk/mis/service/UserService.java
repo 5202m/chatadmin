@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -289,5 +290,24 @@ public class UserService{
 			userDao.update(bu);
 			return result.setCode(ResultCode.OK);
 		}
+	}
+	
+	/**
+	 * 
+	 * @function:  获取下一个手机号
+	 * @param pattern 正则
+	 * @return String   返回已处理好的下一个手机号，默认返回 13800138000
+	 * @exception 
+	 * @author:jade.zhu   
+	 * @since  1.0.0
+	 */
+	public String getNextUserPhone(Pattern pattern){
+		String nextPhone = "13800138000";
+		BoUser boUser = userDao.getNextUserPhone(pattern);
+		if(boUser!=null){
+			nextPhone = boUser.getTelephone();
+			nextPhone = StringUtil.createNextNum(nextPhone, 0, 8);
+		}
+		return nextPhone;
 	}
 }

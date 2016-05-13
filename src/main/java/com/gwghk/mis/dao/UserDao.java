@@ -1,10 +1,13 @@
 package com.gwghk.mis.dao;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.redis.connection.SortParameters.Order;
 import org.springframework.stereotype.Repository;
 
 import com.gwghk.mis.common.dao.MongoDBBaseDao;
@@ -157,5 +160,21 @@ public class UserDao extends MongoDBBaseDao{
 				Criteria.where("role.roleId").ne(roleId)));
 		WriteResult wr=this.mongoTemplate.updateMulti(query,new Update().set("role",role),BoUser.class);
 		return wr!=null&&wr.getN()>=0;
+	}
+	
+	/**
+	 * 
+	 * @function:  获取指定前缀手机号，并自增后几位
+	 * @param pattern 正则
+	 * @return BoUser   
+	 * @exception 
+	 * @author:jade.zhu   
+	 * @since  1.0.0
+	 */
+	public BoUser getNextUserPhone(Pattern pattern){
+		Query query = new Query(Criteria.where("telephone").regex(pattern));
+		query.with(new Sort(Sort.Direction.DESC, "telephone"));
+		query.limit(1);
+		return this.findOne(BoUser.class, query);
 	}
 }

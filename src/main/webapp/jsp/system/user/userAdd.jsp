@@ -87,8 +87,8 @@ $(function() {
       </tr>
       <tr>
         <th><spring:message code="user.phone" /><!-- 手机号 --><span class="red">*</span></th>
-        <td><input type="text" name="telephone" id="telephone" class="easyui-validatebox" 
-        				data-options="required:true,validType:'mobile',missingMessage:'<spring:message code="user.valid.phone" />'"/></td>
+        <td><input type="text" name="telephone" id="telephone" class="easyui-validatebox" readonly="readonly"
+        				data-options="required:true,validType:'mobile',missingMessage:'<spring:message code="user.valid.phone" />'" value="${telephone}" /></td>
         <th><spring:message code="user.email" /><!-- Email --></th>
         <td><input type="text" name="email" id="email" class="easyui-validatebox" 
         				data-options="required:true,validType:'email',missingMessage:'<spring:message code="user.valid.email" />'"/></td>

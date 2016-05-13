@@ -268,4 +268,61 @@ public class StringUtil {
         }
         return textStr;// 返回文本字符串
     }
+   
+   /**
+    * 字符串补齐
+    * @param source 源字符串
+    * @param fillLength 补齐长度
+    * @param fillChar 补齐的字符
+    * @param isLeftFill true为左补齐，false为右补齐
+    * @return  String
+    * @exception 
+    * @author:jade.zhu   
+    * @since  1.0.0
+    */
+   public static String stringFill(String source, int fillLength, char fillChar, boolean isLeftFill) {
+	   if (source == null || source.length() >= fillLength){ 
+		   return source;
+	   }
+	    
+	   StringBuilder result = new StringBuilder(fillLength);
+	   int len = fillLength - source.length();
+	   if (isLeftFill) {
+    	   for (; len > 0; len--) {
+    		   result.append(fillChar);
+    	   }
+    	   result.append(source);
+	   } 
+	   else {
+    	   result.append(source);
+    	   for (; len > 0; len--) {
+    		   result.append(fillChar);
+    	   }
+	   }
+	   return result.toString();
+   }
+   
+   /**
+    * 
+    * @function:  根据当前的数字字符串生成下一个自增的字符串
+    * @param currentNum 当前数字字符串
+    * @param start 开始截取位
+    * @param len 截取长度
+    * @return String   
+    * @exception 
+    * @author:jade.zhu   
+    * @since  1.0.0
+    */
+   public static String createNextNum(String currentNum, int start, int len){
+	   String currentPrefix = "";
+	   String currentSuffix = "";
+	   if(currentNum != "" && currentNum != null){
+		   currentPrefix = currentNum.substring(start, len);
+		   currentSuffix = currentNum.substring(len);
+		   int suffix = Integer.parseInt(currentSuffix);
+		   suffix = suffix + 1;
+		   currentSuffix = StringUtil.stringFill(Integer.toString(suffix), 3, '0', true);
+	   }
+	   return currentPrefix + currentSuffix;
+   }
 }

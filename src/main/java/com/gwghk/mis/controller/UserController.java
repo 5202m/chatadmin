@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,6 +108,8 @@ public class UserController extends BaseController{
     public String add(ModelMap map, String opType) throws Exception {
     	map.addAttribute("roleList",this.getAcceptRoles(opType));
     	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
+    	Pattern pattern = Pattern.compile("^13800138.*$", Pattern.CASE_INSENSITIVE);
+    	map.addAttribute("telephone", this.getNextPhone(pattern));
     	return "system/user/userAdd";
     }
     
@@ -318,4 +321,17 @@ public class UserController extends BaseController{
     	}
        	return JSONArray.toJSONString(allAnalysts);
      }
+    
+    /**
+     * 
+     * @function:  获取下一个手机号
+     * @param pattern 正则
+     * @return String   返回下一个手机号
+     * @exception 
+     * @author:jade.zhu   
+     * @since  1.0.0
+     */
+    private String getNextPhone(Pattern pattern){
+    	return userService.getNextUserPhone(pattern);
+    }
 }
