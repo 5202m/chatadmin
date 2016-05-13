@@ -56,7 +56,7 @@ var chatVisitor = {
 							return value&&value=='1'?'已登入':(rowData.loginTimes>0?'已登出':'从未登录');
 						}},
 						{title : '客户IP',field : 'ip'},
-						{title : '平台',field : 'platform'},
+						{title : '客户来源',field : 'platform'},
 						{title : '客户所在地',field : 'ipCity'},
 						{title : '使用设备',field : 'userAgent',formatter : function(value, rowData, rowIndex) {
 							return isMobile(value) ? "手机" : "PC";
