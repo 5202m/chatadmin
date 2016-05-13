@@ -55,8 +55,18 @@
 								<option value="mobile">手机</option>
 							</select>
 						</td>
+						<th>客户来源</th>
+						<td>
+							<select name="platform" style="width: 160px;">
+								<option value="">--请选择--</option>
+								<option value="studio">直播间</option>
+								<option value="pc">pc</option>
+								<option value="webui">webui</option>
+								<option value="app">app</option>
+							</select>
+						</td>
 						<th>登录时间</th>
-						<td colspan="3">
+						<td>
 							<input name="loginDateStart" id="visitor_loginDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_loginDateEnd\')}'})" style="width: 160px" />
 							 — 
 							 <input name="loginDateEnd" id="visitor_loginDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_loginDateStart\')}'})" style="width: 160px" />

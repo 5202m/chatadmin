@@ -76,6 +76,8 @@ public class ChatVisitor extends BaseModel
 	private String clientGroup;// 客户组
 
 	private String userAgent;// 用户客户端信息
+	
+	private String platform;// 用户来源
 
 	/**
 	 * @return the chatVisitorId
@@ -539,5 +541,19 @@ public class ChatVisitor extends BaseModel
 	public void setUserAgent(String userAgent)
 	{
 		this.userAgent = userAgent;
+	}
+
+	/**
+	 * @return the platform
+	 */
+	public String getPlatform() {
+		return platform;
+	}
+
+	/**
+	 * @param platform the platform to set
+	 */
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
 }

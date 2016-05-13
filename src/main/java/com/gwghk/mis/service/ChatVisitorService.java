@@ -124,6 +124,13 @@ public class ChatVisitorService
 			}else if("mobile".equalsIgnoreCase(chatVisitor.getUserAgent())){
 				criteria.and("userAgent").regex(Pattern.compile(".*?(iphone|ipod|ipad|android|mobile|playbook|bb10|meego).*", Pattern.CASE_INSENSITIVE));
 			}
+			if(StringUtils.isNotBlank(chatVisitor.getPlatform())){
+				if("studio".equalsIgnoreCase(chatVisitor.getPlatform())){
+					criteria.and("platform").in(null, "");
+				}else{
+					criteria.and("platform").is(chatVisitor.getPlatform());
+				}
+			}
 			query.addCriteria(criteria);
 		}
 		Page<ChatVisitor> loc_result = chatVisitorDao.queryChatVisitors(query, dCriteria);
