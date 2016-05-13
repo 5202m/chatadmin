@@ -33,8 +33,8 @@ var ZxEvent = {
 		goldOfficeUtils.dataGrid({
 			gridId : ZxEvent.gridId,
 			idField:"eventId",
-			sortName : 'date',
-			sortOrder : "desc",
+			sortName : '',//涉及到多字段排序，在controller中配置
+			//sortOrder : "desc",
 			url : basePath+'/zxEventController/datagrid.do',
 			queryParams : {
 				valid : 1

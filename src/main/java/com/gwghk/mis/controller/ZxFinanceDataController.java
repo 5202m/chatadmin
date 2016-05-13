@@ -22,8 +22,10 @@ import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
+import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.WebConstant;
+import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.ZxFinanceData;
 import com.gwghk.mis.model.ZxFinanceDataCfg;
 import com.gwghk.mis.service.ZxFinanceDataService;
@@ -67,7 +69,14 @@ public class ZxFinanceDataController extends BaseController{
 	@RequestMapping(value = "/zxDataController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ZxFinanceData data) {
-		Page<ZxFinanceData> page = dataService.getDatas(this.createDetachedCriteria(dataGrid, data));
+		DetachedCriteria<ZxFinanceData> detachedCriteria = this.createDetachedCriteria(dataGrid, data);
+		if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
+			HashMap<String, SortDirection> orderMap = new HashMap<String, SortDirection>();
+			orderMap.put("date", SortDirection.DESC);
+			orderMap.put("time", SortDirection.DESC);
+			detachedCriteria.setOrderbyMap(orderMap); 
+		}
+		Page<ZxFinanceData> page = dataService.getDatas(detachedCriteria);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
 		result.put("rows", null == page ? new ArrayList<ZxFinanceData>() : page.getCollection());

@@ -22,8 +22,10 @@ import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
+import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.WebConstant;
+import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.ZxFinanceEvent;
 import com.gwghk.mis.service.ZxFinanceEventService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -67,7 +69,14 @@ public class ZxFinanceEventController extends BaseController{
 	@RequestMapping(value = "/zxEventController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ZxFinanceEvent event) {
-		Page<ZxFinanceEvent> page = eventService.getEvents(this.createDetachedCriteria(dataGrid, event));
+		DetachedCriteria<ZxFinanceEvent> detachedCriteria = this.createDetachedCriteria(dataGrid, event);
+		if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
+			HashMap<String, SortDirection> orderMap = new HashMap<String, SortDirection>();
+			orderMap.put("date", SortDirection.DESC);
+			orderMap.put("time", SortDirection.DESC);
+			detachedCriteria.setOrderbyMap(orderMap); 
+		}
+		Page<ZxFinanceEvent> page = eventService.getEvents(detachedCriteria);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
 		result.put("rows", null == page ? new ArrayList<ZxFinanceEvent>() : page.getCollection());

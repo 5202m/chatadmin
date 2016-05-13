@@ -32,8 +32,8 @@ var ZxData = {
 		goldOfficeUtils.dataGrid({
 			gridId : ZxData.gridId,
 			idField:"dataId",
-			sortName : 'date',
-			sortOrder : "desc",
+			sortName : '', //涉及到多字段排序，在controller中配置
+			//sortOrder : "desc",
 			url : basePath+'/zxDataController/datagrid.do',
 			queryParams : {
 				valid : 1
