@@ -57,12 +57,12 @@
 						</td>
 						<th>客户来源</th>
 						<td>
-							<select name="platform" style="width: 160px;">
+							<select name="platform" id="visitorPlatform" style="width: 160px;">
 								<option value="">--请选择--</option>
 								<option value="studio">直播间</option>
-								<option value="pc">pc</option>
-								<option value="webui">webui</option>
-								<option value="app">app</option>
+								<option value="pc">PCUI</option>
+								<option value="webui">WEBUI</option>
+								<option value="app">APP</option>
 							</select>
 						</td>
 						<th>登录时间</th>
