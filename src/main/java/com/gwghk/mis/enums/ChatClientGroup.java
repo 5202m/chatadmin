@@ -76,10 +76,13 @@ public enum ChatClientGroup
 		if(StringUtils.isBlank(clientGroup)){
 			return -1;
 		}
-		
-		ChatClientGroup loc_clientGroup = ChatClientGroup.valueOf(clientGroup);
-		if(loc_clientGroup != null){
-			return loc_clientGroup.ordinal();
+		ChatClientGroup[] loc_clientGroups = ChatClientGroup.values();
+		ChatClientGroup loc_clientGroup = null;
+		for(int i = 0, lenI = loc_clientGroups.length; i < lenI; i++){
+			loc_clientGroup = loc_clientGroups[i];
+			if(clientGroup.equals(loc_clientGroup.getValue())){
+				return i;
+			}
 		}
 		return -1;
 	}
