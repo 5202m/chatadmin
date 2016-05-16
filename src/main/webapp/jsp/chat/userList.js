@@ -121,11 +121,18 @@ var chatUser = {
 								$(this).attr("memberId",rowData.memberId);
 								$(this).attr("mobilePhone",rowData.mobilePhone);
 								var ug=rowData.loginPlatform.chatUserGroup[0];
-								$(this).attr("groupType",ug.id);
-								$(this).attr("valueUser",ug.valueUser);
-								$(this).attr("vipUser",ug.vipUser);
-								$(this).attr("valueUserRemark",ug.valueUserRemark||'');
-								$(this).attr("vipUserRemark",ug.vipUserRemark||'');
+								console.log(ug.id + $(this).attr("t"));
+								if(ug.id != "studio" && $(this).attr("t") == '3'){
+									$(this).remove();
+								}else{
+									$(this).attr("groupType",ug.id);
+									$(this).attr("valueUser",ug.valueUser);
+									$(this).attr("vipUser",ug.vipUser);
+									$(this).attr("valueUserRemark",ug.valueUserRemark||'');
+									$(this).attr("vipUserRemark",ug.vipUserRemark||'');
+									$(this).attr("clientGroup",ug.clientGroup||'');
+									$(this).attr("accountNo",ug.accountNo||'');
+								}
 						    });
 							return $("#chatUser_datagrid_rowOperation").html();
 						}},
@@ -284,7 +291,8 @@ var chatUser = {
 		$("#chatUser_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/chatUserController/toUserSetting.do?type='+$(_this).attr("t")+"&groupType="+$(_this).attr("groupType")
 				+"&memberId="+$(_this).attr("memberId")+"&valueUser="+$(_this).attr("valueUser")+"&vipUser="+$(_this).attr("vipUser")
-				+"&valueUserRemark="+$(_this).attr("valueUserRemark")+"&vipUserRemark="+$(_this).attr("vipUserRemark"));
+				+"&valueUserRemark="+$(_this).attr("valueUserRemark")+"&vipUserRemark="+$(_this).attr("vipUserRemark")
+				+"&clientGroup="+$(_this).attr("clientGroup")+"&accountNo="+$(_this).attr("accountNo"));
 		var submitUrl =  formatUrl(basePath + '/chatUserController/userSetting.do');
 		goldOfficeUtils.openEditorDialog({
 			title : '用户设置',

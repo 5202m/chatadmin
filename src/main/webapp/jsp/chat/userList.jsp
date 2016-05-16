@@ -109,6 +109,7 @@
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" onclick="chatUser.userUnbind(this)">解除绑定</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="1" onclick="chatUser.userSetting(this)">价值用户</a>
       <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="2" onclick="chatUser.userSetting(this)">VIP用户</a>
+      <a class="easyui-linkbutton userSetting" data-options="plain:true,iconCls:'ope-save',disabled:false" t="3" onclick="chatUser.userSetting(this)">用户级别</a>
       <a class="easyui-linkbutton setGagTime" data-options="plain:true,iconCls:'ope-save',disabled:false" onclick="chatUser.setUserGag(this)">禁言</a>
   </div>
  

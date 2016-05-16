@@ -278,7 +278,9 @@ public class ChatUserController extends BaseController{
     			vipUser=request.getParameter("vipUser"),
     			type=request.getParameter("type"),
     	        valueUserRemark=request.getParameter("valueUserRemark"),
-    	        vipUserRemark=request.getParameter("vipUserRemark");
+    	        vipUserRemark=request.getParameter("vipUserRemark"),
+    	        clientGroup=request.getParameter("clientGroup"),
+    	        accountNo=request.getParameter("accountNo");
  		 map.put("memberId", memberId);
     	 map.put("groupType", groupType);
     	 map.put("valueUser", valueUser);
@@ -286,6 +288,9 @@ public class ChatUserController extends BaseController{
     	 map.put("type", type);
     	 map.put("valueUserRemark", valueUserRemark);
     	 map.put("vipUserRemark", vipUserRemark);
+    	 map.put("clientGroup", clientGroup);
+    	 map.put("accountNo", accountNo);
+     	 map.put("clientGroupList", chatClientGroupService.getClientGroupList());
     	 return "chat/userSetting";
     }
     
@@ -301,8 +306,10 @@ public class ChatUserController extends BaseController{
 				groupType = request.getParameter("groupType"),
 				type=request.getParameter("type"),
 				value=request.getParameter("value"),
-				remark=request.getParameter("remark");
-		ApiResult apiResult = memberService.saveUserSetting(memberId, groupType, type,Boolean.valueOf(value),remark);
+				remark=request.getParameter("remark"),
+				clientGroup=request.getParameter("clientGroup"),
+				accountNo=request.getParameter("accountNo");
+		ApiResult apiResult = memberService.saveUserSetting(memberId, groupType, type,Boolean.valueOf(value), remark, clientGroup, accountNo);
 		if(apiResult.isOk()){
 			j.setSuccess(true);
     		String message = "用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置用户成功";

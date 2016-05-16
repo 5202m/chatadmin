@@ -94,19 +94,21 @@ public class MemberDao extends MongoDBBaseDao{
      * 更新用户设置，包括设置用户为价值用户或vip用户, 用户解绑
      * @param memberId
      * @param groupId
-     * @param type 类型：1为价值用户，2为vip用户, unbind为用户解绑
+     * @param type 类型：1为价值用户，2为vip用户, 3为用户级别, unbind为用户解绑
      * @param isTrue
      * @return
      */
-	public boolean updateUserSetting(String memberId,String groupType,String type,Boolean isTrue,String remark){
+	public boolean updateUserSetting(String memberId,String groupType,String type,Boolean isTrue,String remark, String clientGroup, String accountNo){
 		Update update=new Update();
 		if("1".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.valueUser", isTrue);
 			update.set("loginPlatform.chatUserGroup.$.valueUserRemark", remark);
-		}
-		else if("2".equals(type)){
+		}else if("2".equals(type)){
 			update.set("loginPlatform.chatUserGroup.$.vipUser", isTrue);
 			update.set("loginPlatform.chatUserGroup.$.vipUserRemark", remark);
+		}else if("3".equals(type)){
+			update.set("loginPlatform.chatUserGroup.$.clientGroup", clientGroup);
+			update.set("loginPlatform.chatUserGroup.$.accountNo", accountNo);
 		}else if("unbind".equals(type)){
 			ChatUserGroup chatUserGroup = new ChatUserGroup();
 			chatUserGroup.setId(groupType);

@@ -34,6 +34,25 @@
 		          		   <td width="70%"><input type="text" name="remark" value="${vipUserRemark}" style="width:200px;"/></td>
 		                </tr>
 				    </c:when>
+				     <c:when test="${type==3}">
+				       <tr>
+				          <th width="30%">用户级别</th>
+				          <td width="70%"> 
+					     	<select name="clientGroup" id="userSetting_clientGroup" style="width: 160px;">
+									<option value="">--请选择--</option>
+									<c:forEach var="row" items="${clientGroupList}">
+										<c:if test="${row.id != 'visitor' }">
+											<option value="${row.id}" <c:if test="${row.id == clientGroup }"> selected="selected"</c:if>>${row.name}</option>
+										</c:if>
+									</c:forEach>
+							</select>
+						  </td>
+		               </tr>
+		                <tr>
+		                   <th>账号</th>
+		          		   <td><input type="text" name="accountNo" value="${accountNo}" style="width:200px;"/></td>
+		                </tr>
+				    </c:when>
 				    <c:otherwise>
 				    </c:otherwise>   
 				  </c:choose>

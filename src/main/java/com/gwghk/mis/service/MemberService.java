@@ -132,15 +132,18 @@ public class MemberService{
 	
 	
 	/**
-	 * 设置用户为vip或价值用户、用户解绑
+	 * 设置用户为vip或价值用户、用户解绑、用户级别设置
 	 * @param memberId
 	 * @param groupId
 	 * @param type
 	 * @param value
+	 * @param remark
+	 * @param clientGroup
+	 * @param accountNo
 	 * @return
 	 */
-	public ApiResult saveUserSetting(String memberId,String groupId,String type,boolean value,String remark){
-		boolean isOk=memberDao.updateUserSetting(memberId, groupId,type,value,remark);
+	public ApiResult saveUserSetting(String memberId,String groupId,String type,boolean value,String remark, String clientGroup, String accountNo){
+		boolean isOk=memberDao.updateUserSetting(memberId, groupId,type,value,remark, clientGroup, accountNo);
 		return new ApiResult().setCode(isOk?ResultCode.OK:ResultCode.FAIL);
 	}
 	
