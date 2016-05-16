@@ -123,7 +123,7 @@ var chatUser = {
 								var ug=rowData.loginPlatform.chatUserGroup[0];
 								console.log(ug.id + $(this).attr("t"));
 								if(ug.id != "studio" && $(this).attr("t") == '3'){
-									$(this).remove();
+									$(this).hide();
 								}else{
 									$(this).attr("groupType",ug.id);
 									$(this).attr("valueUser",ug.valueUser);
