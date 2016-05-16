@@ -302,27 +302,4 @@ public class StringUtil {
 	   return result.toString();
    }
    
-   /**
-    * 
-    * @function:  根据当前的数字字符串生成下一个自增的字符串
-    * @param currentNum 当前数字字符串
-    * @param start 开始截取位
-    * @param len 截取长度
-    * @return String   
-    * @exception 
-    * @author:jade.zhu   
-    * @since  1.0.0
-    */
-   public static String createNextNum(String currentNum, int start, int len){
-	   String currentPrefix = "";
-	   String currentSuffix = "";
-	   if(currentNum != "" && currentNum != null){
-		   currentPrefix = currentNum.substring(start, len);
-		   currentSuffix = currentNum.substring(len);
-		   int suffix = Integer.parseInt(currentSuffix);
-		   suffix = suffix + 1;
-		   currentSuffix = StringUtil.stringFill(Integer.toString(suffix), 3, '0', true);
-	   }
-	   return currentPrefix + currentSuffix;
-   }
 }

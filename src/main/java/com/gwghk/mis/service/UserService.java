@@ -305,8 +305,7 @@ public class UserService{
 		String nextPhone = "13800138000";
 		BoUser boUser = userDao.getNextUserPhone(pattern);
 		if(boUser!=null){
-			nextPhone = boUser.getTelephone();
-			nextPhone = StringUtil.createNextNum(nextPhone, 0, 8);
+			nextPhone = Long.toString((Long.valueOf(boUser.getTelephone()) + 1));
 		}
 		return nextPhone;
 	}
