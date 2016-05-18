@@ -158,8 +158,8 @@ public class ChatSyllabusController extends BaseController
 		JSONObject obj=new JSONObject();
 		obj.put("data", loc_syllabus.getStudioLink());
 		map.addAttribute("studioLinkStr",JSONObject.toJSONString(loc_syllabus.getStudioLink()));
-		map.put("publishStartStr", loc_syllabus.getPublishStart() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishStart(), "yyyy-MM-dd HH:mm:ss"));
-		map.put("publishEndStr", loc_syllabus.getPublishEnd() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishEnd(), "yyyy-MM-dd HH:mm:ss"));
+		map.put("publishStartStr", loc_syllabus.getPublishStart() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishStart(), "yyyy-MM-dd"));
+		map.put("publishEndStr", loc_syllabus.getPublishEnd() == null ? "" : DateUtil.formatDate(loc_syllabus.getPublishEnd(), "yyyy-MM-dd"));
 		map.addAttribute("days", new String[]{"星期一","星期二","星期三","星期四","星期五","星期六","星期天"});
 		map.addAttribute("authUsers", loc_authUsers);
 		
