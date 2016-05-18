@@ -143,8 +143,13 @@ var chatUser = {
 						}},
 						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
+							var oNickname = row.nickname || "";
+							var nNickname = oNickname;
+							if(!nNickname){
+								nNickname = "匿名_" + chatUser.formatMobileToUserId(rowData.mobilePhone.substring(7));
+							}
 							if(row.id=="studio"){
-								return '<input value="'+row.nickname+'" oldn="'+row.nickname+'"  gy="studio" mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
+								return '<input value="'+nNickname+'" oldn="'+oNickname+'"  gy="studio" mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
 							}
 							return row.nickname+"【"+row.userId+"】"; 
 						}},
@@ -234,6 +239,20 @@ var chatUser = {
 			}
 		});
 	},
+	/**
+     * 通过手机号码提取用户id
+     * @param mobilePhone
+     */
+    formatMobileToUserId:function(mobilePhone){
+    	mobilePhone=mobilePhone||"";
+        var str=[];
+        str[0]='p',str[1]='x',str[2]='i',str[3]='u',str[4]='d',str[5]='c',str[6]='v',str[7]='s',str[8]='n',str[9]='f';
+        var userId='';
+        for(var i=0;i<mobilePhone.length;i++){
+            userId+=str[parseInt(mobilePhone.charAt(i))];
+        }
+        return userId;
+    },
 	/**
 	 * 从下拉框中提取名称
 	 */
