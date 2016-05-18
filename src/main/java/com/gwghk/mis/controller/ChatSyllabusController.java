@@ -180,8 +180,8 @@ public class ChatSyllabusController extends BaseController
 	{
 		String publishStartDateStr = request.getParameter("publishStartStr");
 		String publishEndDateStr = request.getParameter("publishEndStr");
-		syllabus.setPublishStart(DateUtil.parseDateFormat(publishStartDateStr + "00:00:00"));
-		syllabus.setPublishEnd(DateUtil.parseDateFormat(publishEndDateStr + "23:59:59"));
+		syllabus.setPublishStart(DateUtil.parseDateFormat(publishStartDateStr + " 00:00:00"));
+		syllabus.setPublishEnd(DateUtil.parseDateFormat(publishEndDateStr + " 23:59:59"));
    	 
         Date currDate = new Date();
         syllabus.setCreateUser(userParam.getUserNo());
