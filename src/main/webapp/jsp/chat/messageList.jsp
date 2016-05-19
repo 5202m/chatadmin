@@ -26,6 +26,7 @@
               			<option value="${row.id}">&nbsp;&nbsp;&nbsp;&nbsp;${row.name}</option>
               		</c:if>
               	</c:forEach>
+          		<option value="-1">&nbsp;&nbsp;&nbsp;&nbsp;游客</option>
           		<option value="1">系统管理员</option>
           		<option value="2">分析师</option>
           		<option value="3">客服</option>

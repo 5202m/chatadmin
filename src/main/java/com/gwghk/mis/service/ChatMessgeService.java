@@ -120,7 +120,7 @@ public class ChatMessgeService{
 				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
 			}
 			if(StringUtils.isNotBlank(model.getClientGroup())){
-				if(Pattern.compile("\\d{1}").matcher(model.getClientGroup()).matches()){
+				if(Pattern.compile("-?\\d{1}").matcher(model.getClientGroup()).matches()){
 					criteria.and("userType").is(Integer.parseInt(model.getClientGroup()));
 				}else{
 					criteria.and("clientGroup").is(model.getClientGroup());
