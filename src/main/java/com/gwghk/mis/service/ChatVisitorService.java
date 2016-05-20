@@ -12,6 +12,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
+import com.gwghk.mis.controller.ChatVisitorController;
 import com.gwghk.mis.dao.ChatVisitorDao;
 import com.gwghk.mis.enums.ChatClientGroup;
 import com.gwghk.mis.enums.ChatOnlineDuration;
@@ -50,6 +53,8 @@ import com.gwghk.mis.util.IPParser;
 @Service
 public class ChatVisitorService
 {
+	private static final Logger logger = LoggerFactory.getLogger(ChatVisitorService.class);
+	
 	@Autowired
 	private ChatVisitorDao chatVisitorDao;
 	
@@ -154,7 +159,11 @@ public class ChatVisitorService
 		for (ChatVisitor loc_chatVisitor : chatVisitorPage.getCollection())
 		{
 			//解析IP
-			loc_chatVisitor.setIpCity(ipParser.getIPLocation(loc_chatVisitor.getIp()).getCountry());
+			try{
+				loc_chatVisitor.setIpCity(ipParser.getIPLocation(loc_chatVisitor.getIp()).getCountry());
+			}catch(Exception e){
+				logger.error("precessOfflineAndIp<< parse ip error:" + e);
+			}
 			//在线时长
 			if(loc_onlineFlag.equals(loc_chatVisitor.getOnlineStatus())){
 				//在线
