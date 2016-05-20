@@ -11,7 +11,8 @@
       </tr>
       <tr>
 		<th>作者</th>
-        <td><input type="text" name="author" style="width:600px"/></td>
+        <td><input type="hidden" name="author"/><input type="hidden" name="authorId"/><select name="authorAvatar" style="width:180px;"></select>
+        <!--input type="text" name="author" style="width:600px"/--></td>
       </tr>
       <tr>
 		<th width="15%">简介</th>
