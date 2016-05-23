@@ -19,6 +19,11 @@
 				$("#chatGroupRule_beforeRule_tbody").show();
 				$("#chatGroupRule_afterRule_tbody").show();
 			}
+			if(val == "visitor_filter"){
+				$("#chatGroupRule_beforeRule_tbody th:first").html("禁言游客的昵称(多个可以用逗号分隔)");
+			}else{
+				$("#chatGroupRule_beforeRule_tbody th:first").html("需要使用规则的值(多个可以用逗号分隔)");
+			}
 		}
 		selectVal();
 		$("#chatGroupRuleSubmitForm select[name=type]").change(function(){
