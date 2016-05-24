@@ -32,14 +32,6 @@ var articleAdd = {
 		    ]],
 		    onSelect:function(rowIndex, rowData){
 		       var lang=id.replace("authorList_","");
-		       /*var avatarTmp=rowData.avatar;
-		       if(isValid(avatarTmp)){
-				   avatarTmp=";"+avatarTmp;
-			   }else{
-				   avatarTmp=''; 
-			   }
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);*/
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=userId]').val(rowData.userNo);
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(rowData.userName);
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=position]').val(rowData.position);
@@ -50,7 +42,6 @@ var articleAdd = {
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
 		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(val);
-		 			    //$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
 			    	}
 		    	});
 		    }

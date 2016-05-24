@@ -105,14 +105,6 @@ var mediaAdd = {
 		    ]],
 		    onSelect:function(rowIndex, rowData){
 		       var lang=id.replace("authorList_","");
-		       /*var avatarTmp=rowData.avatar;
-		       if(isValid(avatarTmp)){
-				   avatarTmp=";"+avatarTmp;
-			   }else{
-				   avatarTmp=''; 
-			   }
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);*/
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=userId]').val(rowData.userNo);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(rowData.userName);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=position]').val(rowData.position);
@@ -123,11 +115,6 @@ var mediaAdd = {
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
 					   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(val);
-		    			/*$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=author]').val(val);
-		 			    $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=authorId]').val('');
-		 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=userId]').val(rowData.userNo);
-					   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=position]').val(rowData.position);
-					   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=avatar]').val(rowData.avatar);*/
 			    	}
 		    	});
 		    }

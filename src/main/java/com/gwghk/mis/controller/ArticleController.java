@@ -94,12 +94,9 @@ public class ArticleController extends BaseController{
     	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
     	 ArticleDetail detail=new ArticleDetail();
     	 ArticleAuthor author = new ArticleAuthor();
-    	 //author.setAvatar(request.getParameter("avatar"));
     	 author.setName(request.getParameter("author"));
-    	 //author.setPosition(request.getParameter("position"));
-    	 //author.setUserId(request.getParameter("userId"));
     	 detail.setTitle(request.getParameter("title"));
-    	 detail.setAuthor("");//detail.setAuthor(request.getParameter("author"));
+    	 detail.setAuthor("");
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 article.setDetailList(detailList);

@@ -31,18 +31,8 @@ var articleEdit = {
 	 * 设置作者列表
 	 */
 	setAuthorList:function(id){
-		//var authorVal=$('form[name=articleDetailForm] input[name=author]').val();
 		var avatar=$('form[name=articleDetailForm] input[name=avatar]').val();
 		var author=$('form[name=articleDetailForm] input[name=name]').val();
-		/*if(isValid(authorVal)){
-			if(authorVal.indexOf(";")!=-1){
-				var varArr=authorVal.split(";");
-				author=varArr[0];
-				avatar=varArr[1];
-			}else{
-				author=authorVal;
-			}
-		}*/
 		$('#'+id).combogrid({
 		    idField:'userName',
 		    textField:'userName',
@@ -64,14 +54,6 @@ var articleEdit = {
 		    ]],
 		    onSelect:function(rowIndex, rowData){
 		       var lang=id.replace("authorList_","");
-		       /*var avatarTmp=rowData.avatar;
-		       if(isValid(avatarTmp)){
-				   avatarTmp=";"+avatarTmp;
-			   }else{
-				   avatarTmp=''; 
-			   }
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);*/
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=userId]').val(rowData.userNo);
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(rowData.userName);
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=position]').val(rowData.position);
@@ -82,7 +64,6 @@ var articleEdit = {
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
 		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(val);
-		 			    //$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
 			    	}
 		    	});
 		    }

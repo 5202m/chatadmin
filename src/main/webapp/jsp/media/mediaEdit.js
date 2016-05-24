@@ -97,18 +97,8 @@ var mediaEdit = {
 	 * 设置作者列表
 	 */
 	setAuthorList:function(id){
-		//var authorVal=$('form[name=mediaDetailForm] input[name=name]').val();
 		var avatar=$('form[name=mediaDetailForm] input[name=avatar]').val();
 		var author=$('form[name=mediaDetailForm] input[name=name]').val();
-		/*if(isValid(authorVal)){
-			if(authorVal.indexOf(";")!=-1){
-				var varArr=authorVal.split(";");
-				author=varArr[0];
-				avatar=varArr[1];
-			}else{
-				author=authorVal;
-			}
-		}*/
 		$('#'+id).combogrid({
 		    idField:'userName',
 		    textField:'userName',
@@ -130,14 +120,6 @@ var mediaEdit = {
 		    ]],
 		    onSelect:function(rowIndex, rowData){
 		       var lang=id.replace("authorList_","");
-		       /*var avatarTmp=rowData.avatar;
-		       if(isValid(avatarTmp)){
-				   avatarTmp=";"+avatarTmp;
-			   }else{
-				   avatarTmp=''; 
-			   }
-			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
-			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=authorId]').val(rowData.userNo);*/
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=userId]').val(rowData.userNo);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(rowData.userName);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=position]').val(rowData.position);
@@ -148,8 +130,6 @@ var mediaEdit = {
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
 		    			$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(val);
-		    			/*$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=author]').val(val);
-		 			    $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=authorId]').val('');*/
 			    	}
 		    	});
 		    }

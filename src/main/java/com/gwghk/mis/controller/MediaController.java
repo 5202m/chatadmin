@@ -94,10 +94,7 @@ public class MediaController extends BaseController{
     	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
     	 ArticleDetail detail=new ArticleDetail();
     	 ArticleAuthor author = new ArticleAuthor();
-    	 //author.setAvatar(request.getParameter("avatar"));
     	 author.setName("");
-    	 //author.setPosition(request.getParameter("position"));
-    	 //author.setUserId(request.getParameter("userId"));
     	 detail.setTitle(request.getParameter("title"));
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
