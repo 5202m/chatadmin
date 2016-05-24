@@ -41,7 +41,7 @@
 					     	<select name="clientGroup" id="userSetting_clientGroup" style="width: 160px;">
 									<option value="">--请选择--</option>
 									<c:forEach var="row" items="${clientGroupList}">
-										<c:if test="${row.id != 'visitor' }">
+										<c:if test="${row.id != 'visitor' && row.id != 'vip' }">
 											<option value="${row.id}" <c:if test="${row.id == clientGroup }"> selected="selected"</c:if>>${row.name}</option>
 										</c:if>
 									</c:forEach>
