@@ -21,6 +21,7 @@ import com.gwghk.mis.dao.ArticleDao;
 import com.gwghk.mis.dao.CategoryDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.Article;
+import com.gwghk.mis.model.ArticleAuthor;
 import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.Category;
 import com.gwghk.mis.util.BeanUtils;
@@ -97,6 +98,9 @@ public class ArticleService{
 				}
 				if(StringUtils.isNotBlank(detail.getAuthor())){
 					detailCriteria.and("author").regex(StringUtil.toFuzzyMatch(detail.getAuthor()));
+				}
+				if(StringUtils.isNotBlank(detail.getAuthorInfo().getName())){
+					detailCriteria.and("authorinfo.name").regex(StringUtil.toFuzzyMatch(detail.getAuthorInfo().getName()));
 				}
 			}
 			criteria.and("detailList").elemMatch(detailCriteria);
@@ -232,6 +236,7 @@ public class ArticleService{
 			Article article=null;
 			ArticleDetail articleDetail=null;
 			List<ArticleDetail> detailList=null;
+			ArticleAuthor author = null;
 			String publishDateStr="",title="",content="",remark="";
 			int label=0,dbHasRecord=0,hasTitleIndex=0;
 			Long count=0L;
@@ -288,7 +293,12 @@ public class ArticleService{
 				}
 				remark=StringUtil.html2Text(content);
 				articleDetail.setTitle(title);
-				articleDetail.setAuthor(jo.getString("expertname")+(StringUtils.isBlank(jo.getString("expertpic"))?"":";"+jo.getString("expertpic")));
+				author.setName(jo.getString("expertname"));
+				author.setAvatar(jo.getString("expertpic"));
+				author.setPosition(jo.getString("expertposition"));
+				author.setUserId(jo.getString("expertuserid"));
+				//articleDetail.setAuthor(jo.getString("expertname")+(StringUtils.isBlank(jo.getString("expertpic"))?"":";"+jo.getString("expertpic")));
+				articleDetail.setAuthorInfo(author);
 				articleDetail.setContent(content);
 				articleDetail.setRemark(remark.length()>50?remark.substring(0, 50):remark);
 				detailList=new ArrayList<ArticleDetail>();

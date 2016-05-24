@@ -33,6 +33,7 @@ import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.Lang;
 import com.gwghk.mis.model.Article;
+import com.gwghk.mis.model.ArticleAuthor;
 import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
@@ -42,6 +43,7 @@ import com.gwghk.mis.service.CategoryService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.JSONHelper;
 import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
@@ -91,7 +93,13 @@ public class MediaController extends BaseController{
     	 media.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
     	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
     	 ArticleDetail detail=new ArticleDetail();
+    	 ArticleAuthor author = new ArticleAuthor();
+    	 //author.setAvatar(request.getParameter("avatar"));
+    	 author.setName("");
+    	 //author.setPosition(request.getParameter("position"));
+    	 //author.setUserId(request.getParameter("userId"));
     	 detail.setTitle(request.getParameter("title"));
+    	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 media.setDetailList(detailList);
 		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, media), 2);
@@ -181,6 +189,17 @@ public class MediaController extends BaseController{
     public String edit(@PathVariable String mediaId, ModelMap map) throws Exception {
     	setCommonShowModel(map);
     	Article media=articleService.getArticleById(mediaId);
+    	for(ArticleDetail detail : media.getDetailList()){
+    		if(!StringUtils.isBlank(detail.getAuthor()) && detail.getAuthorInfo() == null){
+    			String [] authorArr = StringUtils.split(detail.getAuthor(), ";");
+    			ArticleAuthor author = new ArticleAuthor(); 
+    			author.setName(authorArr[0]);
+    			author.setAvatar(authorArr[1]);
+    			author.setPosition("");
+    			author.setUserId("");
+    			detail.setAuthorInfo(author);
+    		}
+    	}
     	map.addAttribute("media",media);
 		return "media/mediaEdit";
     }
@@ -215,6 +234,7 @@ public class MediaController extends BaseController{
     		if(!j.isSuccess()){
     			return j;
     		}
+    		logger.info(JSONHelper.bean2json(media));
         	ApiResult result =articleService.addArticle(media);
         	if(result.isOk()){
         		j.setSuccess(true);

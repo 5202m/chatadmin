@@ -87,7 +87,15 @@ articleEdit.filePath='${filePath}';
 	      </tr>
 	       <tr>
 			<th>作者</th>
-        	<td><input type="hidden" name="author" value="${articleDetail.author}"/><input type="hidden" name="authorId" value="${articleDetail.authorId}"/><select name="authorAvatar" style="width:280px;"></select></td>
+        	<td>
+        	<!--input type="hidden" name="author" value=""/>
+        	<input type="hidden" name="authorId" value=""/-->
+	        <input type="hidden" name="userId" value="${articleDetail.authorInfo.userId }" />
+	        <input type="hidden" name="name" value="${articleDetail.authorInfo.name }" />
+	        <input type="hidden" name="position" value="${articleDetail.authorInfo.position }" />
+	        <input type="hidden" name="avatar" value="${articleDetail.authorInfo.avatar }" />
+        	<select name="authorAvatar" style="width:280px;"></select>
+        	</td>
            </tr>
            <tr>
 	       <tr>

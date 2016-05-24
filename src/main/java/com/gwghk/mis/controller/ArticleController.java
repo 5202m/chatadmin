@@ -33,6 +33,7 @@ import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.Lang;
 import com.gwghk.mis.model.Article;
+import com.gwghk.mis.model.ArticleAuthor;
 import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
@@ -92,8 +93,14 @@ public class ArticleController extends BaseController{
     	 article.setPublishEndDate(DateUtil.parseDateFormat(publishEndDateStr));
     	 List<ArticleDetail> detailList=new ArrayList<ArticleDetail>();
     	 ArticleDetail detail=new ArticleDetail();
+    	 ArticleAuthor author = new ArticleAuthor();
+    	 //author.setAvatar(request.getParameter("avatar"));
+    	 author.setName(request.getParameter("author"));
+    	 //author.setPosition(request.getParameter("position"));
+    	 //author.setUserId(request.getParameter("userId"));
     	 detail.setTitle(request.getParameter("title"));
-    	 detail.setAuthor(request.getParameter("author"));
+    	 detail.setAuthor("");//detail.setAuthor(request.getParameter("author"));
+    	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 article.setDetailList(detailList);
 		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, article), 1);
@@ -184,6 +191,17 @@ public class ArticleController extends BaseController{
     public String edit(@PathVariable String articleId, ModelMap map) throws Exception {
     	setCommonShowModel(map);
     	Article article=articleService.getArticleById(articleId);
+    	for(ArticleDetail detail : article.getDetailList()){
+    		if(!StringUtils.isBlank(detail.getAuthor()) && detail.getAuthorInfo() == null){
+    			String [] authorArr = StringUtils.split(detail.getAuthor(), ";");
+    			ArticleAuthor author = new ArticleAuthor(); 
+    			author.setName(authorArr[0]);
+    			author.setAvatar(authorArr[1]);
+    			author.setPosition("");
+    			author.setUserId("");
+    			detail.setAuthorInfo(author);
+    		}
+    	}
     	map.addAttribute("article",article);
 		return "article/articleEdit";
     }

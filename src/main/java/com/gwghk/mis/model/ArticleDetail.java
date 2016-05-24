@@ -61,6 +61,11 @@ public class ArticleDetail{
 	private String author;
 	
 	/**
+	 * 作者信息
+	 */
+	private ArticleAuthor authorInfo;
+	
+	/**
 	 * 作者id
 	 */
 	private String authorId;
@@ -162,6 +167,15 @@ public class ArticleDetail{
 	 */
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public ArticleAuthor getAuthorInfo() {
+		return authorInfo;
+	}
+
+	
+	public void setAuthorInfo(ArticleAuthor authorInfo) {
+		this.authorInfo = authorInfo;
 	}
 
 	public String getAuthorId() {

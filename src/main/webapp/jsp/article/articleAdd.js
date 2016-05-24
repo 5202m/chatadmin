@@ -22,6 +22,7 @@ var articleAdd = {
 					return 'author_Key_id';
 				}},
 		        {field : 'userName',title : '姓名',width:100},
+				{field : 'position', title : '职称', width:150},
 		        {field : 'avatar',title : '头像',width:40,formatter : function(value, rowData, rowIndex) {
 		        	if(isBlank(value)){
 		        		return '';
@@ -31,21 +32,25 @@ var articleAdd = {
 		    ]],
 		    onSelect:function(rowIndex, rowData){
 		       var lang=id.replace("authorList_","");
-		       var avatarTmp=rowData.avatar;
+		       /*var avatarTmp=rowData.avatar;
 		       if(isValid(avatarTmp)){
 				   avatarTmp=";"+avatarTmp;
 			   }else{
 				   avatarTmp=''; 
 			   }
 			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(rowData.userName+avatarTmp);
-			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val(rowData.userNo);*/
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=userId]').val(rowData.userNo);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(rowData.userName);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=position]').val(rowData.position);
+			   $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=avatar]').val(rowData.avatar);
 		    },
 		    onChange:function(val){
 		    	var lang=id.replace("authorList_","");
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
-		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=author]').val(val);
-		 			    $('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
+		    			$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=name]').val(val);
+		 			    //$('#article_detail_'+lang+' form[name=articleDetailForm] input[name=authorId]').val('');
 			    	}
 		    	});
 		    }
@@ -160,6 +165,26 @@ var articleAdd = {
 			this.checkClearAuthor();//清除无效的作者值
 			var serializeFormData = $("#articleBaseInfoForm").serialize();
 			var detaiInfo=formFieldsToJson($("#article_tab form[name=articleDetailForm]"));
+			var detaiInfoObj = eval("("+detaiInfo+")");
+			if($.isArray(detaiInfoObj)){
+				$.each(detaiInfoObj, function(key, value){
+					var authorInfo = {};
+					authorInfo.userId = value.userId;
+					authorInfo.avatar = value.avatar;
+					authorInfo.position = value.position;
+					authorInfo.name = value.name;
+					detaiInfoObj[key].authorInfo = authorInfo;
+				});
+			}
+			else{
+				var authorInfo = {};
+				authorInfo.userId = detaiInfoObj.userId;
+				authorInfo.avatar = detaiInfoObj.avatar;
+				authorInfo.position = detaiInfoObj.position;
+				authorInfo.name = detaiInfoObj.name;
+				detaiInfoObj.authorInfo = authorInfo;
+			}
+			detaiInfo = JSON.stringify(detaiInfoObj);
 			$.messager.progress();//提交时，加入进度框
 			var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 			getJson(formatUrl(basePath + '/articleController/create.do'),submitInfo,function(data){

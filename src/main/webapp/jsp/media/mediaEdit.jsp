@@ -145,7 +145,13 @@
 	       <tr>
 			<th>作者</th>
         	<td>
-        	<input type="hidden" name="author" value="${mediaDetail.author}"/><input type="hidden" name="authorId" value="${mediaDetail.authorId}"/><select name="authorAvatar" style="width:280px;"></select>
+        	<!--input type="hidden" name="author" value=""/>
+        	<input type="hidden" name="authorId" value=""/-->
+	        <input type="hidden" name="userId" value="${mediaDetail.authorInfo.userId }" />
+	        <input type="hidden" name="name" value="${mediaDetail.authorInfo.name }" />
+	        <input type="hidden" name="position" value="${mediaDetail.authorInfo.position }" />
+	        <input type="hidden" name="avatar" value="${mediaDetail.authorInfo.avatar }" />
+        	<select name="authorAvatar" style="width:280px;"></select>
         	<!--input type="text" name="author" value="${mediaDetail.author}" style="width:600px"/--></td>
            </tr>
 	       <tr>
