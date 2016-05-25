@@ -22,7 +22,7 @@ var articleAdd = {
 					return 'author_Key_id';
 				}},
 		        {field : 'userName',title : '姓名',width:100},
-				{field : 'position', title : '职称', width:150},
+				{field : 'position',hidden:true},
 		        {field : 'avatar',title : '头像',width:40,formatter : function(value, rowData, rowIndex) {
 		        	if(isBlank(value)){
 		        		return '';
