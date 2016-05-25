@@ -56,19 +56,9 @@ public class ArticleDetail{
 	private String linkUrl;
 	
 	/**
-	 * 作者昵称与头像
-	 */
-	private String author;
-	
-	/**
 	 * 作者信息
 	 */
 	private ArticleAuthor authorInfo;
-	
-	/**
-	 * 作者id
-	 */
-	private String authorId;
 	
 	/**
 	 * 标签
@@ -155,19 +145,6 @@ public class ArticleDetail{
 		this.tag = tag;
 	}
 
-	/**
-	 * @return the author
-	 */
-	public String getAuthor() {
-		return author;
-	}
-
-	/**
-	 * @param author the author to set
-	 */
-	public void setAuthor(String author) {
-		this.author = author;
-	}
 
 	public ArticleAuthor getAuthorInfo() {
 		return authorInfo;
@@ -178,12 +155,4 @@ public class ArticleDetail{
 		this.authorInfo = authorInfo;
 	}
 
-	public String getAuthorId() {
-		return authorId;
-	}
-
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
-	}
-	
 }

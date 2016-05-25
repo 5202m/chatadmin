@@ -96,11 +96,8 @@ public class ArticleService{
 				if(StringUtils.isNotBlank(detail.getTitle())){
 					detailCriteria.and("title").regex(StringUtil.toFuzzyMatch(detail.getTitle()));
 				}
-				if(StringUtils.isNotBlank(detail.getAuthor())){
-					detailCriteria.and("author").regex(StringUtil.toFuzzyMatch(detail.getAuthor()));
-				}
 				if(StringUtils.isNotBlank(detail.getAuthorInfo().getName())){
-					detailCriteria.and("authorinfo.name").regex(StringUtil.toFuzzyMatch(detail.getAuthorInfo().getName()));
+					detailCriteria.and("authorInfo.name").regex(StringUtil.toFuzzyMatch(detail.getAuthorInfo().getName()));
 				}
 			}
 			criteria.and("detailList").elemMatch(detailCriteria);
