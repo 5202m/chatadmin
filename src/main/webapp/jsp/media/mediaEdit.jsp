@@ -152,7 +152,7 @@
 	        <input type="hidden" name="position" value="${mediaDetail.authorInfo.position }" />
 	        <input type="hidden" name="avatar" value="${mediaDetail.authorInfo.avatar }" />
         	<select name="authorAvatar" style="width:280px;"></select>
-        	<!--input type="text" name="author" value="${mediaDetail.author}" style="width:600px"/--></td>
+        	<!--input type="text" name="author" value="" style="width:600px"/--></td>
            </tr>
 	       <tr>
 			<th width="15%">简介</th>

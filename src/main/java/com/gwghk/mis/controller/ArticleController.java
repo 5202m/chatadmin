@@ -96,7 +96,6 @@ public class ArticleController extends BaseController{
     	 ArticleAuthor author = new ArticleAuthor();
     	 author.setName(request.getParameter("author"));
     	 detail.setTitle(request.getParameter("title"));
-    	 detail.setAuthor("");
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 article.setDetailList(detailList);
@@ -188,17 +187,6 @@ public class ArticleController extends BaseController{
     public String edit(@PathVariable String articleId, ModelMap map) throws Exception {
     	setCommonShowModel(map);
     	Article article=articleService.getArticleById(articleId);
-    	for(ArticleDetail detail : article.getDetailList()){
-    		if(!StringUtils.isBlank(detail.getAuthor()) && detail.getAuthorInfo() == null){
-    			String [] authorArr = StringUtils.split(detail.getAuthor(), ";");
-    			ArticleAuthor author = new ArticleAuthor(); 
-    			author.setName(authorArr[0]);
-    			author.setAvatar(authorArr[1]);
-    			author.setPosition("");
-    			author.setUserId("");
-    			detail.setAuthorInfo(author);
-    		}
-    	}
     	map.addAttribute("article",article);
 		return "article/articleEdit";
     }

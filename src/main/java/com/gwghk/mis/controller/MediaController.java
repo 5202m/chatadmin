@@ -186,17 +186,6 @@ public class MediaController extends BaseController{
     public String edit(@PathVariable String mediaId, ModelMap map) throws Exception {
     	setCommonShowModel(map);
     	Article media=articleService.getArticleById(mediaId);
-    	for(ArticleDetail detail : media.getDetailList()){
-    		if(!StringUtils.isBlank(detail.getAuthor()) && detail.getAuthorInfo() == null){
-    			String [] authorArr = StringUtils.split(detail.getAuthor(), ";");
-    			ArticleAuthor author = new ArticleAuthor(); 
-    			author.setName(authorArr[0]);
-    			author.setAvatar(authorArr[1]);
-    			author.setPosition("");
-    			author.setUserId("");
-    			detail.setAuthorInfo(author);
-    		}
-    	}
     	map.addAttribute("media",media);
 		return "media/mediaEdit";
     }

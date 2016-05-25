@@ -69,7 +69,7 @@ function goBack(){
 	      </tr>
 	      <tr>
 			<th>作者</th>
-	        <td><span>${articleDetail.author}</span></td>
+	        <td><span></span></td>
 	      </tr>
 	      <tr>
 			<th width="15%">SEO标题</th>

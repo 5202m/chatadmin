@@ -63,7 +63,7 @@ function goBack(){
 	      </tr>
 	      <tr>
 			<th>作者</th>
-	        <td><span>${mediaDetail.author}</span></td>
+	        <td><span></span></td>
 	      </tr>
 	      <tr>
 	        <th width="15%">简介</th>

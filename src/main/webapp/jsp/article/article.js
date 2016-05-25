@@ -67,14 +67,7 @@ var article = {
 						{title : '作者',field : 'fieldvalue',formatter : function(value, rowData, rowIndex) {
 							var val=rowData.detailList[0].authorInfo;
 							if(isBlank(val)){
-								val=rowData.detailList[0].author;
-								if(isBlank(val)){
-									return '';
-								}
-								else{
-									var valArr=val.split(";");
-									return (valArr.length>1?'<img src="'+valArr[1]+'" style="width:30px;height:30px;" />':"")+valArr[0];
-								}
+								return '';
 							}
 							return '<img src="'+val.avatar+'" style="width:30px;height:30px;" />'+val.name;
 						}},
