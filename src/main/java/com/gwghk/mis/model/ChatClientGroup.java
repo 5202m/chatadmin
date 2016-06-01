@@ -10,9 +10,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ChatClientGroup extends BaseModel {
 	/**
-	 * 客户组id
+	 * 主键id
 	 */
 	private String id;
+	
+	/**
+	 * 客户组id
+	 */
+	private String clientGroupId;
+	
+	/**
+	 * 类别
+	 */
+	private String groupType;
 	
 	/**
 	 * 客户组名称
@@ -109,6 +119,22 @@ public class ChatClientGroup extends BaseModel {
 
 	public void setAuthorityDes(String authorityDes) {
 		this.authorityDes = authorityDes;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
+	}
+	
+	public String getClientGroupId() {
+		return clientGroupId;
+	}
+
+	public void setClientGroupId(String clientGroupId) {
+		this.clientGroupId = clientGroupId;
 	}
 	
 }

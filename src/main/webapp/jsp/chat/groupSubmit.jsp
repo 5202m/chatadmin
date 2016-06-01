@@ -6,11 +6,14 @@
 	//初始化
 	$(function() {
 		 $("#chatGroupTypeId").change(function(){
-			 if(this.value=='studio'){
+			 if(this.value.indexOf('studio')!=-1){
 				 $("#clientGroupTreeId").show();
 			 }else{
 				 $("#clientGroupTreeId").hide();
 			 }
+			 $("#clientGroupSelectId").combotree({
+				    data:getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",{clientGroup:"${chatGroup.clientGroup}",groupType:this.value}),
+				}); 
 		 }).trigger("change");
 		 var openDateTmp='${chatGroup.openDate}';
 		 $("#chatGroup_openDate_div").dateTimeWeek({data:(isValid(openDateTmp)?JSON.parse(openDateTmp):null)});
@@ -105,7 +108,9 @@
 	       <tr id="clientGroupTreeId">
 	          <th width="15%">客户组别</th>
 	          <td colspan="3">
-	            <select class="easyui-combotree" name="clientGroupStr" style="width:250px;" data-options="url:'<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do?clientGroup=${chatGroup.clientGroup}',cascadeCheck:false" multiple>
+	            <%-- <select class="easyui-combotree" name="clientGroupStr" style="width:250px;" data-options="url:'<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do?clientGroup=${chatGroup.clientGroup}',cascadeCheck:false" multiple>
+	            </select> --%>
+	            <select class="easyui-combotree" name="clientGroupStr" id="clientGroupSelectId" style="width:250px;" data-options="cascadeCheck:false" multiple>
 	            </select>
 	          </td>
 	      </tr>

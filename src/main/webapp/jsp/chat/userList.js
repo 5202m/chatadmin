@@ -284,8 +284,20 @@ var chatUser = {
 			if(isWeichat){
 				$("#userList_clientGroup").val("");
 			}
-			$("#userList_clientGroup").prop("disabled", isWeichat)
-			
+			$("#userList_clientGroup").prop("disabled", isWeichat);
+			 $("#userList_clientGroup option").show();
+			 if(this.value.indexOf("studio")!=-1){
+				 var val=this.value;
+				 $("#userList_clientGroup option[t]").each(function(){
+					 if(val.startsWith($(this).attr("t"))){
+						 $(this).show();
+					 }else{
+						 $(this).hide();
+					 }
+				 });
+			 }else{
+				 $("#userList_clientGroup option[t]").hide(); 
+			 }
 		});
 		$("#chatUserGroupId").trigger("change");
 	},

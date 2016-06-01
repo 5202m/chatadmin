@@ -72,16 +72,17 @@ public class ChatClientGroupController extends BaseController{
     @RequestMapping(value = "/chatClientGroupController/getClientGroupList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
    	@ResponseBody
     public String getClientGroupList(HttpServletRequest request,ModelMap map) throws Exception {
+    	String groupType=request.getParameter("groupType");
     	String clientGroup=request.getParameter("clientGroup");
        	List<TreeBean> treeList=new ArrayList<TreeBean>();
        	TreeBean tbean=null;
-       	List<ChatClientGroup> subList=chatClientGroupService.getClientGroupList();
+       	List<ChatClientGroup> subList=chatClientGroupService.getClientGroupList(groupType);
        	clientGroup=StringUtils.isBlank(clientGroup)?"":(",".concat(clientGroup).concat(","));
        	for(ChatClientGroup row:subList){
        		 tbean=new TreeBean();
-       		 tbean.setId(row.getId());
+       		 tbean.setId(row.getClientGroupId());
        		 tbean.setText(row.getName());
-       		 if(clientGroup.contains(",".concat(row.getId()).concat(","))){
+       		 if(clientGroup.contains(",".concat(row.getClientGroupId()).concat(","))){
     			tbean.setChecked(true);
     		 }
        		 tbean.setParentId("");

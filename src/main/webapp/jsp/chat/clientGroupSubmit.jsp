@@ -2,11 +2,18 @@
 <%@ include file="/jsp/common/common.jsp"%>
 <div style="padding:5px;overflow:hidden;">
   <form id="chatClientGroupSubmitForm" class="yxForm" method="post">
+    <input type="hidden" name="id" value="${clientGroup.id}"/>
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+          <tr>
+	          <th width="15%">类别</th>
+	          <td width="85%">
+	             <t:dictSelect  selectClass="width:170px;" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	          </td>
+	      </tr>
 	      <tr>
 	          <th width="15%">编号</th>
 	          <td width="85%">
-	             <input type="text" name="id" value="${clientGroup.id}" <c:if test="${not empty clientGroup.id}">readonly="readonly"</c:if> class="easyui-validatebox" data-options="required:true,missingMessage:'请输入编号'"/>
+	             <input type="text" name="clientGroupId" value="${clientGroup.clientGroupId}" <c:if test="${not empty clientGroup.id}">readonly="readonly"</c:if> class="easyui-validatebox" data-options="required:true,missingMessage:'请输入编号'"/>
 	          </td>
 	      </tr>
 	      <tr>

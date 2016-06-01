@@ -96,7 +96,7 @@ public class ChatMessageController extends BaseController{
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
-    	map.put("clientGroupList", chatClientGroupService.getClientGroupList());
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
 		logger.debug(">>start into chatMessageController.index() and url is /chatMessageController/index.do");
 		return "chat/messageList";
 	}

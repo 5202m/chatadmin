@@ -33,7 +33,6 @@ import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
-import com.gwghk.mis.model.ChatStudio;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.RoleService;

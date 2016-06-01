@@ -20,7 +20,7 @@ var chatClientGroup = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatClientGroupController/dataGrid.do',
+			url : basePath+'/chatClientGroupController/dataGrid.do?groupType='+$("#chatClientGroup_queryForm select[name=groupType]").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
@@ -29,9 +29,10 @@ var chatClientGroup = {
 						    });
 							return $("#chatClientGroup_datagrid_rowOperation").html();
 						}},
-			            {title : '编号',field : 'idStr',formatter : function(value, rowData, rowIndex) {
-							return rowData.id;
+						{title : '类别',field : 'groupTypeName',formatter : function(value, rowData, rowIndex) {
+							return chatClientGroup.getDictNameByCode("#chatClientGroup_queryForm select[name=groupType]",rowData.groupType);
 						}},
+			            {title : '编号',field : 'clientGroupId'},
 						{title : '名称',field : 'name'},
 						{title : '默认房间',field : 'defChatGroupId',formatter : function(value, rowData, rowIndex) {
 							return isBlank(value)?"":$("#chatGroupId").find("option[value='"+value+"']").text();
@@ -44,6 +45,12 @@ var chatClientGroup = {
 			]],
 			toolbar : '#chatClientGroup_datagrid_toolbar'
 		});
+	},
+	/**
+	 * 提取名称
+	 */
+	getDictNameByCode:function(id,code){
+		return $(id).find("option[value='"+code+"']").text();
 	},
 	setEvent:function(){
 		// 列表查询
@@ -79,7 +86,7 @@ var chatClientGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatClientGroupController/create.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
-			height : 240,
+			height : 270,
 			width:450,
 			href : url,
 			iconCls : 'pag-add',
@@ -118,7 +125,7 @@ var chatClientGroup = {
 		var submitUrl =  formatUrl(basePath + '/chatClientGroupController/update.do');
 		goldOfficeUtils.openEditorDialog({
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
-			height : 240,
+			height : 270,
 			width:450,
 			href : url,
 			iconCls : 'pag-edit',

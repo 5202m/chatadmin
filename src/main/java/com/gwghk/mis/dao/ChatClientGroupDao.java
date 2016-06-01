@@ -2,6 +2,7 @@ package com.gwghk.mis.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,12 @@ public class ChatClientGroupDao extends MongoDBBaseDao{
 	 * 查询列表
 	 * @return
 	 */
-	public List<ChatClientGroup> getList() {
-		return this.findList(ChatClientGroup.class, Query.query(Criteria.where("valid").is(1)));
+	public List<ChatClientGroup> getList(String groupType) {
+		Criteria criteria=new Criteria().and("valid").is(1);
+		if(StringUtils.isNotBlank(groupType)){
+			criteria.and("groupType").is(groupType);
+		}
+		return this.findList(ChatClientGroup.class, Query.query(criteria));
 	}
 	
 }

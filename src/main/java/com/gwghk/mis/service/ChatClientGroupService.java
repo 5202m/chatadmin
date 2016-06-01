@@ -32,8 +32,8 @@ public class ChatClientGroupService{
 	 * 查询列表
 	 * @return
 	 */
-	public List<ChatClientGroup> getClientGroupList() {
-		return chatClientGroupDao.getList();
+	public List<ChatClientGroup> getClientGroupList(String groupType) {
+		return chatClientGroupDao.getList(groupType);
 	}
 	
 	/**
@@ -57,17 +57,15 @@ public class ChatClientGroupService{
 		if(isUpdate && StringUtils.isBlank(clientGroupParam.getId())){
 			return result.setCode(ResultCode.Error103);
 		}
-		ChatClientGroup group=getById(clientGroupParam.getId());
     	if(isUpdate){
+    		ChatClientGroup group=getById(clientGroupParam.getId());
     		if(group==null){
     			return result.setCode(ResultCode.Error104);
     		}
     		BeanUtils.copyExceptNull(group, clientGroupParam);
     		chatClientGroupDao.update(group);
     	}else{
-    		if(group!=null){
-    			return result.setCode(ResultCode.Error102);
-    		}
+    		clientGroupParam.setId(null);
     		chatClientGroupDao.add(clientGroupParam);	
     	}
     	return result.setCode(ResultCode.OK);
@@ -95,6 +93,7 @@ public class ChatClientGroupService{
 		criter.and("valid").is(1);
 		ChatClientGroup model=dCriteria.getSearchModel();
 		if(model!=null){
+			criter.and("groupType").is(model.getGroupType());
 			if(StringUtils.isNotBlank(model.getId())){
 				criter.and("id").regex(StringUtil.toFuzzyMatch(model.getId()));
 			}

@@ -8,12 +8,16 @@
     <form class="yxForm" id="chatClientGroup_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
+          <th width="10%">类别</th>
+          <td width="15%">
+             <t:dictSelect  selectClass="width:150px;" defaultVal="studio" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+          </td>
           <th width="10%">编号</th>
-          <td width="20%"><input type="text" name="id" /></td>
+          <td width="15%"><input type="text" name="clientGroupId" /></td>
           <th width="10%">名称</th>
-          <td width="20%"><input type="text" name="name" /></td>
+          <td width="15%"><input type="text" name="name" /></td>
           <th width="10%">默认房间</th>
-          <td width="20%">
+          <td width="15%">
              <select name="defChatGroupId" id="chatGroupId" style="width:250px;">
 	              <option value="">--请选择--</option>
 	              <c:forEach var="row" items="${chatGroupList}">
@@ -30,7 +34,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="6" align="right">&nbsp;&nbsp;
+          <td colspan="8" align="right">&nbsp;&nbsp;
 			  <a href="#" class="easyui-linkbutton" id="chatClientGroup_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /></a> &nbsp;&nbsp; 
 			  <a href="#" class="easyui-linkbutton" id="chatClientGroup_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /> </a></td>
         </tr>

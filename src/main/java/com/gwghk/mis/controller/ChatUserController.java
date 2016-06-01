@@ -152,7 +152,7 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
-    	map.put("clientGroupList", chatClientGroupService.getClientGroupList());
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
@@ -290,7 +290,7 @@ public class ChatUserController extends BaseController{
     	 map.put("vipUserRemark", vipUserRemark);
     	 map.put("clientGroup", clientGroup);
     	 map.put("accountNo", accountNo);
-     	 map.put("clientGroupList", chatClientGroupService.getClientGroupList());
+     	 map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
     	 return "chat/userSetting";
     }
     
@@ -402,7 +402,7 @@ public class ChatUserController extends BaseController{
 			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 			List<Member>  memberList = page.getCollection();
 			List<ChatGroup> chatGroupList=chatGroupService.getChatGroupAllList("id","name");
-			List<ChatClientGroup> clientGroupList=chatClientGroupService.getClientGroupList();
+			List<ChatClientGroup> clientGroupList=chatClientGroupService.getClientGroupList(null);
 			ChatUserGroup userGroup=null;
 			Member cm=null;
 			if(memberList != null && memberList.size() > 0){
@@ -457,7 +457,7 @@ public class ChatUserController extends BaseController{
 				row.set("clientGroup", "VIP用户");
 			}else{
 				for(ChatClientGroup cg:clgList){
-					if(cg.getId().equals(userGroup.getClientGroup())){
+					if(cg.getClientGroupId().equals(userGroup.getClientGroup())){
 						row.set("clientGroup", cg.getName());
 					}
 				}

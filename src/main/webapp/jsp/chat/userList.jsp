@@ -53,7 +53,7 @@
           		<option value="">--请选择--</option>
               	<c:forEach var="row" items="${clientGroupList}">
               		<c:if test="${row.id != 'visitor' }">
-              			<option value="${row.id}">${row.name}</option>
+              			<option value="${row.id}" t="${row.groupType}">${row.name}</option>
               		</c:if>
               	</c:forEach>
 	          </select>

@@ -137,6 +137,23 @@ var chatMessage = {
 		$("#chatMessage_queryForm_reset").on("click",function(){
 			$("#chatMessage_queryForm")[0].reset();
 		});
+		$("#chatMessageGroupId").change(function(){
+			 $("#chatMessageUserType option").show();
+			 if(this.value.indexOf("studio")!=-1){
+				 var val=this.value;
+				 $("#chatMessageUserType option[t]").each(function(){
+					 if(val.startsWith($(this).attr("t"))){
+						 $(this).show();
+					 }else{
+						 $(this).hide();
+					 }
+				 });
+			 }else{
+				 $("#chatMessageUserType option[t]").hide(); 
+			 }
+			 
+		});
+		$("#chatMessageGroupId").trigger("change");
 	},
 	/**
 	 * 功能：刷新
