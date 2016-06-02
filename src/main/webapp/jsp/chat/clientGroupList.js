@@ -37,7 +37,6 @@ var chatClientGroup = {
 						{title : '默认房间',field : 'defChatGroupId',formatter : function(value, rowData, rowIndex) {
 							return isBlank(value)?"":$("#chatGroupId").find("option[value='"+value+"']").text();
 						}},
-						{title : '人数',field : 'clientNum',sortable: true},
 						{title : '排序号',field : 'sequence',sortable: true},
 						{title : '说明',field : 'remark'},
 						{title : '权限说明',field : 'authorityDes'}
