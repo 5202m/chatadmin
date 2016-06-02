@@ -290,7 +290,7 @@ public class ChatUserController extends BaseController{
     	 map.put("vipUserRemark", vipUserRemark);
     	 map.put("clientGroup", clientGroup);
     	 map.put("accountNo", accountNo);
-     	 map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
+     	 map.put("clientGroupList", chatClientGroupService.getClientGroupList(groupType));
     	 return "chat/userSetting";
     }
     
@@ -437,22 +437,19 @@ public class ChatUserController extends BaseController{
 	 * @param clgList
 	 */
 	private void setIRow(int index,DataRowSet dataSet,String mobilePhone,ChatUserGroup userGroup,ChatRoom room,List<ChatGroup> cgList,List<ChatClientGroup> clgList){
-		String groupName="";
+		String groupName=room.getId();
 		for(ChatGroup cg:cgList){
 			if(cg.getId().equals(room.getId())){
 				groupName=cg.getName();
 				break;
 			}
 		}
-		if(StringUtils.isBlank(groupName)){
-			return;
-		}
 		IRow row=dataSet.append();
 		row.set("no", index);
 		row.set("mobilePhone", mobilePhone);
-		row.set("accountNo", "studio".equals(userGroup.getId())?userGroup.getUserId():(StringUtils.isBlank(userGroup.getAccountNo())?userGroup.getUserId():userGroup.getAccountNo()));
+		row.set("accountNo", userGroup.getId().contains("studio")?userGroup.getUserId():(StringUtils.isBlank(userGroup.getAccountNo())?userGroup.getUserId():userGroup.getAccountNo()));
 		row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
-		if("studio".equals(userGroup.getId())){
+		if(userGroup.getId().contains("studio")){
 			if(userGroup.getVipUser()!=null && userGroup.getVipUser()){
 				row.set("clientGroup", "VIP用户");
 			}else{

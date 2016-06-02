@@ -219,7 +219,7 @@ var Syllabus = {
      * @param val
      */
     setStudioLink:function(val){
-    	 if(val!="studio"){
+    	 if(val.indexOf("studio")==-1){
   	 	    $("#studioLinkLabel,#studioLinkSpan").hide();
   	 	 }else{
   	 	    $("#studioLinkLabel,#studioLinkSpan").show();
@@ -501,7 +501,7 @@ var Syllabus = {
 					return ;
 				}
 				$("#form_editSyllabus input[name='courses']").val(Syllabus.getCoursesJson());
-				if(gtype=="studio"){
+				if(gtype.indexOf("studio")!=-1){
 					$("#studioLink_hidden_id").val(JSON.stringify($('#studioLinkSpan input[id^=studioLink_]').map(function(){
 						return {code:$(this).attr("t"),url:$(this).val()};
 					}).get()));

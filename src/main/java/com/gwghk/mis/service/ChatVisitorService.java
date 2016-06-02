@@ -130,7 +130,7 @@ public class ChatVisitorService
 				criteria.and("userAgent").regex(Pattern.compile(".*?(iphone|ipod|ipad|android|mobile|playbook|bb10|meego).*", Pattern.CASE_INSENSITIVE));
 			}
 			if(StringUtils.isNotBlank(chatVisitor.getPlatform())){
-				if("studio".equalsIgnoreCase(chatVisitor.getPlatform())){
+				if(chatVisitor.getPlatform().contains("studio")){
 					criteria.and("platform").in(null, "");
 				}else{
 					criteria.and("platform").is(chatVisitor.getPlatform());
@@ -356,7 +356,7 @@ public class ChatVisitorService
 		for (int i = 0, lenI = chatGroups == null ? 0 : chatGroups.size(); i < lenI; i++)
 		{
 			chatGroup = chatGroups.get(i);
-			if("studio".equals(chatGroup.getGroupType()))//目前只统计直播间
+			if(chatGroup.getGroupType().contains("studio"))//目前只统计直播间
 			{
 				if(chatGroup.getGroupType().equals(loc_groupType) == false){
 					//按房间组别分组合计数据
@@ -456,7 +456,7 @@ public class ChatVisitorService
 		for (int i = 0, lenI = chatGroups == null ? 0 : chatGroups.size(); i < lenI; i++)
 		{
 			chatGroup = chatGroups.get(i);
-			if("studio".equals(chatGroup.getGroupType()))//目前只统计直播间
+			if(chatGroup.getGroupType().contains("studio"))//目前只统计直播间
 			{
 				if(chatGroup.getGroupType().equals(loc_groupType) == false){
 					//按房间组别分组合计数据
@@ -620,7 +620,7 @@ public class ChatVisitorService
 		for (int i = 0, lenI = loc_groups == null ? 0 : loc_groups.size(); i < lenI; i++)
 		{
 			loc_group = loc_groups.get(i);
-			if("studio".equals(loc_group.getGroupType()))//目前只统计直播间
+			if(loc_group.getGroupType().contains("studio"))//目前只统计直播间
 			{
 				if(loc_group.getGroupType().equals(loc_groupType) == false){
 					//按房间组别分组合计数据
@@ -689,7 +689,7 @@ public class ChatVisitorService
 		for (int i = 0, lenI = loc_groups == null ? 0 : loc_groups.size(); i < lenI; i++)
 		{
 			loc_group = loc_groups.get(i);
-			if("studio".equals(loc_group.getGroupType()))//目前只统计直播间
+			if(loc_group.getGroupType().contains("studio"))//目前只统计直播间
 			{
 				if(loc_group.getGroupType().equals(loc_groupType) == false){
 					//按房间组别分组合计数据

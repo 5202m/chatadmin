@@ -121,8 +121,7 @@ var chatUser = {
 								$(this).attr("memberId",rowData.memberId);
 								$(this).attr("mobilePhone",rowData.mobilePhone);
 								var ug=rowData.loginPlatform.chatUserGroup[0];
-								console.log(ug.id + $(this).attr("t"));
-								if(ug.id != "studio" && $(this).attr("t") == '3'){
+								if(ug.id.indexOf("studio")==-1 && $(this).attr("t") == '3'){
 									$(this).hide();
 								}else{
 									$(this).attr("groupType",ug.id);
@@ -148,8 +147,8 @@ var chatUser = {
 							if(!nNickname){
 								nNickname = "匿名_" + chatUser.formatMobileToUserId(rowData.mobilePhone.substring(7));
 							}
-							if(row.id=="studio"){
-								return '<input value="'+nNickname+'" oldn="'+oNickname+'"  gy="studio" mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
+							if(row.id.indexOf("studio")!=-1){
+								return '<input value="'+nNickname+'" oldn="'+oNickname+'"  gy="'+row.id+'"  mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
 							}
 							return row.nickname+"【"+row.userId+"】"; 
 						}},

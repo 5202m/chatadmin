@@ -15,14 +15,14 @@
 		    data:getJson(basePath +"/chatClientGroupController/getClientGroupList.do?clientGroup=${clientGroupStr}")
 		 });
 		 var gTypeVal=$("#chatPushInfoGroupTypeId").val();
-		 if("studio"!=gTypeVal){
+		 if(gTypeVal.indexOf("studio")==-1){
 			 $("#chatPushInfoCGTr").hide();
 		 }
 		 $("#chatPushInfoRoomIds").combotree({
 			    data:getJson(basePath +"/chatGroupController/getGroupTreeList.do?groupType="+gTypeVal+"&groupId=${roomIdStr}")
 		 });
 	     $("#chatPushInfoGroupTypeId").change(function(){
-	    	 if("studio"!=$(this).val()){
+	    	 if($(this).val().indexOf("studio")==-1){
 				 $("#chatPushInfoCGTr").hide();
 			 }else{
 				 $("#chatPushInfoCGTr").show();
