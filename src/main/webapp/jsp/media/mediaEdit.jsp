@@ -171,7 +171,7 @@
 	        <td width="85%"><input type="text" name="seoKeyword" value="${mediaDetail.seoKeyword}" style="width:600px"/></td>
 	      </tr>
 	       <tr>
-			<th width="15%">SEO描述</th>
+			<th width="15%">描述</th>
 	        <td width="85%"><textarea rows="2" cols="6" name="seoDescription" style="width:600px">${mediaDetail.seoDescription}</textarea></td>
 	       </tr>
 	    </table>
