@@ -31,15 +31,15 @@
         <tr>
           <th>房间类别</th>
           <td>
-             <t:dictSelect  selectClass="width:150px;" id="chatPushInfoType" field="groupType" isEdit="false" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+             <t:dictSelect  selectClass="width:150px;" id="chatPushInfoGroupTypeId" field="groupType" isEdit="false" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
           </td>
           <th>所属房间</th>
           <td>
-             <select class="easyui-combotree" style="width:150px;" name="roomIds"  id="chatRoomIds" data-options="cascadeCheck:false" multiple></select>
+             <select class="easyui-combotree" style="width:150px;" name="roomIds"  id="chatPushInfoRoomIds" data-options="cascadeCheck:false" multiple></select>
           </td>
           <th>客户组别</th>
           <td>
-             <select class="easyui-combotree" id="chatClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
+             <select class="easyui-combotree" id="chatPushInfoClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	         </select>
           </td>
 	   </tr>

@@ -22,23 +22,20 @@ var chatPushInfo = {
 	 * 初始化规则下拉框
 	 */
 	intCombox:function(){
-		chatPushInfo.cGroupComboxData=getJson(basePath +"/chatClientGroupController/getClientGroupList.do");
-		//设置下拉框
-		$("#chatClientGroupId").combotree({
-		    data:chatPushInfo.cGroupComboxData
-		});
-		var gTypeVal=$("#chatPushInfoType").val();
-		chatPushInfo.roomsComboxData=getJson(basePath +"/chatGroupController/getGroupTreeList.do?groupType="+gTypeVal);
-		 $("#chatRoomIds").combotree({
-			 data:chatPushInfo.roomsComboxData
-		 });
-	     $("#chatPushInfoType").change(function(){
+	     chatPushInfo.cGroupComboxData=null;
+	     chatPushInfo.roomsComboxData=null;
+	     $("#chatPushInfoGroupTypeId").change(function(){
 	    	 chatPushInfo.roomsComboxData=getJson(basePath +"/chatGroupController/getGroupTreeList.do?groupType="+$(this).val());
 	    	 //设置房间下拉框
-	    	 $("#chatRoomIds").combotree({
-				  data:chatPushInfo.roomsComboxData
+			 $("#chatPushInfoRoomIds").combotree({
+			    data:chatPushInfo.roomsComboxData
 			 });
-	     });
+			 chatPushInfo.cGroupComboxData=getJson(basePath +"/chatClientGroupController/getClientGroupList.do",{clientGroup:"${chatGroup.clientGroupStr}",groupType:this.value})
+			//设置客户组下拉框
+			 $("#chatPushInfoClientGroupId").combotree({
+			    data:chatPushInfo.cGroupComboxData
+			 });
+	     }).trigger("change");
 	},
 	/**
 	 * 功能：dataGrid初始化
@@ -75,7 +72,7 @@ var chatPushInfo = {
 							return chatPushInfo.getDictNameByCode("#chatPushInfoStatus",rowData.status);
 						}},
 						{title : '房间类别',field : 'groupType',formatter : function(value, rowData, rowIndex) {
-							return chatPushInfo.getDictNameByCode("#chatPushInfoType",rowData.groupType);
+							return chatPushInfo.getDictNameByCode("#chatPushInfoGroupTypeId",rowData.groupType);
 						}},
 						{title : '所属房间',field : 'roomId',formatter : function(value, rowData, rowIndex) {
 							var nameArr=[],valTmp=rowData.roomIds?rowData.roomIds.toString():'',tmpData=null;

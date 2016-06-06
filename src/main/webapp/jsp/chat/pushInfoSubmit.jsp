@@ -6,32 +6,29 @@
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/dateTimeWeek.css" />
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/dateTimeWeek.js" charset="UTF-8"></script>
 <script type="text/javascript">
+    var initclientGroup="${clientGroupStr}",initgroupId="${roomIdStr}";
 	//初始化
 	$(function() {
 		 var pushDateTmp='${chatPushInfo.pushDate}';
 		 $("#chatPushInfo_pushDate_div").dateTimeWeek({data:(isValid(pushDateTmp)?JSON.parse(pushDateTmp):null)});
-		 //设置下拉框
-		 $("#chatPushInfoClientGroupId").combotree({
-		    data:getJson(basePath +"/chatClientGroupController/getClientGroupList.do?clientGroup=${clientGroupStr}")
-		 });
-		 var gTypeVal=$("#chatPushInfoGroupTypeId").val();
-		 if(gTypeVal.indexOf("studio")==-1){
-			 $("#chatPushInfoCGTr").hide();
-		 }
-		 $("#chatPushInfoRoomIds").combotree({
-			    data:getJson(basePath +"/chatGroupController/getGroupTreeList.do?groupType="+gTypeVal+"&groupId=${roomIdStr}")
-		 });
-	     $("#chatPushInfoGroupTypeId").change(function(){
+	     $("#chatPushInfoSMGroupTypeId").change(function(){
 	    	 if($(this).val().indexOf("studio")==-1){
 				 $("#chatPushInfoCGTr").hide();
 			 }else{
 				 $("#chatPushInfoCGTr").show();
 			 }
 	    	 //设置房间下拉框
-			 $("#chatPushInfoRoomIds").combotree({
-			    data:getJson(basePath +"/chatGroupController/getGroupTreeList.do?groupType="+$(this).val())
+			 $("#chatPushInfoSMRoomIds").combotree({
+			    data:getJson(basePath +"/chatGroupController/getGroupTreeList.do",{groupType:this.value,groupId:initgroupId})
 			 });
-	     });
+			//设置客户组下拉框
+			 $("#chatPushInfoSMClientGroupId").combotree({
+			    data:getJson(basePath +"/chatClientGroupController/getClientGroupList.do",{clientGroup:initclientGroup,groupType:this.value})
+			 });
+			 initclientGroup='';
+			 initgroupId='';
+	     }).trigger("change");
+	     
 	     UE.getEditor("chatPushInfoContentId",{
 		  		initialFrameWidth : '100%',
 		  		initialFrameHeight:'180',
@@ -91,11 +88,11 @@
           <tr>
 	          <th width="10%">房间类别</th>
 	          <td width="23%">
-	             <t:dictSelect  id="chatPushInfoGroupTypeId" selectClass="width:150px;" defaultVal="${chatPushInfo.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	             <t:dictSelect  id="chatPushInfoSMGroupTypeId" selectClass="width:150px;" defaultVal="${chatPushInfo.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
 	          </td>
 	          <th width="10%">所属房间</th>
 	          <td width="23%">
-	            <select class="easyui-combotree" style="width:150px;" name="roomIds"  id="chatPushInfoRoomIds" data-options="cascadeCheck:false" multiple></select>
+	            <select class="easyui-combotree" style="width:150px;" name="roomIds"  id="chatPushInfoSMRoomIds" data-options="cascadeCheck:false" multiple></select>
 	          </td>
 	          <th width="10%">状态</th>
 	          <td width="23%">
@@ -105,7 +102,7 @@
 	      <tr id="chatPushInfoCGTr">
 	          <th>客户组别</th>
 	          <td>
-	             <select class="easyui-combotree" id="chatPushInfoClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
+	             <select class="easyui-combotree" id="chatPushInfoSMClientGroupId" name="clientGroup" style="width:200px;" data-options="cascadeCheck:false" multiple>
 	             </select>
 	          </td>
 	          <th>是否延续推送</th>
