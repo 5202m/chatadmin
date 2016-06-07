@@ -168,6 +168,7 @@ var chatGroup = {
 						return;
 					}
 					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek("getData"));
+					$('#chatGroupSubmitForm textarea[name="remark"]').val($('#chatGroupSubmitForm textarea[name="remark"]').val().replace(/[\r\n]/g,""));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -208,6 +209,7 @@ var chatGroup = {
 						return;
 					}
 					$("#chatGroup_openDate").val($("#chatGroup_openDate_div").dateTimeWeek("getData"));
+					$('#chatGroupSubmitForm textarea[name="remark"]').val($('#chatGroupSubmitForm textarea[name="remark"]').val().replace(/[\r\n]/g,""));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',

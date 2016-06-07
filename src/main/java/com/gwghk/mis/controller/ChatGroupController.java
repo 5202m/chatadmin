@@ -46,7 +46,7 @@ import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
 /**
- * 聊天室组别管理
+ * 聊天室房间管理
  * @author Alan.wu
  * @date   2015/04/02
  */
@@ -85,7 +85,7 @@ public class ChatGroupController extends BaseController{
 	}
 	
 	/**
-	 * 功能：聊天室组别管理-首页
+	 * 功能：聊天室房间管理-首页
 	 */
 	@RequestMapping(value = "/chatGroupController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map){
@@ -158,7 +158,7 @@ public class ChatGroupController extends BaseController{
      }
 	
 	/**
-	 * 功能：聊天室组别管理-新增
+	 * 功能：聊天室房间管理-新增
 	 */
     @RequestMapping(value="/chatGroupController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
@@ -172,7 +172,7 @@ public class ChatGroupController extends BaseController{
     }
     
 	/**
-	 * 功能：聊天室组别管理-修改
+	 * 功能：聊天室房间管理-修改
 	 */
     @RequestMapping(value="/chatGroupController/{chatGroupId}/edit", method = RequestMethod.GET)
     @ActionVerification(key="edit")
@@ -207,7 +207,7 @@ public class ChatGroupController extends BaseController{
     }
 
 	/**
-	 * 功能：聊天室组别管理-跳转用户授权界面
+	 * 功能：聊天室房间管理-跳转用户授权界面
 	 */
 	@RequestMapping(value = "/chatGroupController/{chatGroupId}/preAuthUser", method = RequestMethod.GET)
 	@ActionVerification(key = "assignUser")
@@ -243,7 +243,7 @@ public class ChatGroupController extends BaseController{
 	}
     
 	/**
-	 * 功能：聊天室组别管理-保存更新
+	 * 功能：聊天室房间管理-保存更新
 	 * 
 	 * @param request
 	 * @param response
@@ -278,7 +278,7 @@ public class ChatGroupController extends BaseController{
 	}
     
 	  /**
-   	 * 功能：聊天室组别管理-保存新增
+   	 * 功能：聊天室房间管理-保存新增
    	 */
     @RequestMapping(value="/chatGroupController/create",method=RequestMethod.POST)
    	@ResponseBody
@@ -308,14 +308,14 @@ public class ChatGroupController extends BaseController{
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, false, false);
     	if(result.isOk()){
     		j.setSuccess(true);
-    		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增聊天室组别："+chatGroup.getName();
+    		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增聊天室房间："+chatGroup.getName();
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<method:create()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增聊天室组别："+chatGroup.getName()+" 失败";
+    		String message = "用户：" + chatGroup.getCreateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增聊天室房间："+chatGroup.getName()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:create()|"+message+",ErrorMsg:"+result.toString());
@@ -324,7 +324,7 @@ public class ChatGroupController extends BaseController{
     }
    
    /**
-   	* 功能：聊天室组别管理-保存更新
+   	* 功能：聊天室房间管理-保存更新
    	*/
     @RequestMapping(value="/chatGroupController/update",method=RequestMethod.POST)
    	@ResponseBody
@@ -354,14 +354,14 @@ public class ChatGroupController extends BaseController{
     	ApiResult result =chatGroupService.saveChatGroup(chatGroup, true, true);
     	if(result.isOk()){
     		j.setSuccess(true);
-    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改聊天室组别："+chatGroup.getId();
+    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改聊天室房间："+chatGroup.getId();
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<--method:update()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改聊天室组别："+chatGroup.getId()+" 失败";
+    		String message = "用户：" + chatGroup.getUpdateUser() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改聊天室房间："+chatGroup.getId()+" 失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
@@ -370,7 +370,7 @@ public class ChatGroupController extends BaseController{
      }
     
    /**
-  	* 功能：聊天室组别管理-删除
+  	* 功能：聊天室房间管理-删除
   	*/
     @RequestMapping(value="/chatGroupController/del",method=RequestMethod.POST)
     @ResponseBody
@@ -385,14 +385,14 @@ public class ChatGroupController extends BaseController{
     	ApiResult result =chatGroupService.deleteChatGroup(delIds.split(","));
     	if(result.isOk()){
     		j.setSuccess(true);
-    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室组别成功";
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室房间成功";
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<method:batchDel()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室组别失败";
+    		String message = "用户：" + boUser.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除聊天室房间失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());

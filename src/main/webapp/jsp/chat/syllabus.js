@@ -577,7 +577,7 @@ var Syllabus = {
     	    	        	 status:parseInt($(this).find("select[name='status']").val()),
     	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
     	    	        	 lecturer:txt,lecturerId:lectDom.combotree("getValues").join(","),
-    	    	        	 context : $(this).find("textarea[name='context']").val()};
+    	    	        	 context : $(this).find("textarea[name='context']").val().replace(/[\r\n]/g,"")};
                 }).get();
         		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
         	}).get();
