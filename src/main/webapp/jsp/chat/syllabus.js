@@ -573,11 +573,13 @@ var Syllabus = {
                 	 if(txt){
                 		 txt=txt.replace("请选择","");
                 	 }
+                	 var currContent=$(this).find("textarea[name='context']").val();
+                	 currContent=isValid(currContent)?currContent.replace(/[\r\n]/g,""):'';
                      return {title:$(this).find("input[name='title']").val(), 
     	    	        	 status:parseInt($(this).find("select[name='status']").val()),
     	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
     	    	        	 lecturer:txt,lecturerId:lectDom.combotree("getValues").join(","),
-    	    	        	 context : $(this).find("textarea[name='context']").val().replace(/[\r\n]/g,"")};
+    	    	        	 context : currContent};
                 }).get();
         		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
         	}).get();
