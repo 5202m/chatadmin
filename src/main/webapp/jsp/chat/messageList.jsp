@@ -23,7 +23,7 @@
           		<option value="0">普通会员</option>
           		<c:forEach var="row" items="${clientGroupList}">
               		<c:if test="${row.clientGroupId != 'visitor' }">
-              			<option value="${row.id}" t="${row.groupType}">&nbsp;&nbsp;&nbsp;&nbsp;${row.name}</option>
+              			<option value="${row.clientGroupId}" t="${row.groupType}">&nbsp;&nbsp;&nbsp;&nbsp;${row.name}</option>
               		</c:if>
               	</c:forEach>
           		<option value="-1">&nbsp;&nbsp;&nbsp;&nbsp;游客</option>

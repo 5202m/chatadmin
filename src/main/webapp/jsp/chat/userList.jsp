@@ -52,8 +52,8 @@
 	          <select name="loginPlatform.chatUserGroup[0].clientGroup" id="userList_clientGroup" style="width:160px;">
           		<option value="">--请选择--</option>
               	<c:forEach var="row" items="${clientGroupList}">
-              		<c:if test="${row.id != 'visitor' }">
-              			<option value="${row.id}" t="${row.groupType}">${row.name}</option>
+              		<c:if test="${row.clientGroupId != 'visitor' }">
+              			<option value="${row.clientGroupId}" t="${row.groupType}">${row.name}</option>
               		</c:if>
               	</c:forEach>
 	          </select>
