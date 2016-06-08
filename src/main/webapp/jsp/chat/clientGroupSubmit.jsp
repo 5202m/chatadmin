@@ -7,7 +7,7 @@
           <tr>
 	          <th width="15%">类别</th>
 	          <td width="85%">
-	             <t:dictSelect  selectClass="width:170px;" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
+	             <t:dictSelect  selectClass="width:170px;" defaultVal="${clientGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
 	          </td>
 	      </tr>
 	      <tr>
