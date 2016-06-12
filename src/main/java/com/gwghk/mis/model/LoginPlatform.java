@@ -13,24 +13,11 @@ public class LoginPlatform{
 	 */
 	private List<ChatUserGroup> chatUserGroup;
 	
-	/**
-	 * 投资社区登录平台信息
-	 */
-	private FinancePlatForm financePlatForm;
-	
 	public List<ChatUserGroup> getChatUserGroup() {
 		return chatUserGroup;
 	}
 
 	public void setChatUserGroup(List<ChatUserGroup> chatUserGroup) {
 		this.chatUserGroup = chatUserGroup;
-	}
-
-	public FinancePlatForm getFinancePlatForm() {
-		return financePlatForm;
-	}
-
-	public void setFinancePlatForm(FinancePlatForm financePlatForm) {
-		this.financePlatForm = financePlatForm;
 	}
 }
