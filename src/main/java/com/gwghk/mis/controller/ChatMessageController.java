@@ -160,7 +160,9 @@ public class ChatMessageController extends BaseController{
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatMessage cm : chatMessageList){
 					IRow row = dataSet.append();
-					row.set("userId", cm.getGroupType().contains("studio")?cm.getUserId():(StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo()));
+					
+					//row.set("userId", cm.getGroupType().contains("studio")?cm.getUserId():(StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo()));
+					row.set("userId", StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo());
 					String userTypeVal = "";
 					Integer userType = cm.getUserType();
 					if(userType == 1){
