@@ -1,6 +1,6 @@
 package com.gwghk.mis.controller;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +46,28 @@ public	class BaseController{
 		 dCriteria.setPageSize(dataGrid.getRows());
 		 if(StringUtils.isNotEmpty(dataGrid.getSort())){
 			 SortDirection sd = "asc".equalsIgnoreCase(dataGrid.getOrder()) ? SortDirection.ASC : SortDirection.DESC;
-			 HashMap<String,SortDirection> orderMap = new  HashMap<String,SortDirection>();
-			 orderMap.put(dataGrid.getSort(), sd);
+			 LinkedHashMap<String,SortDirection> orderMap = new  LinkedHashMap<String,SortDirection>();
+			 /**
+			  * 混合排序开始
+			  */
+			 String sortStr = dataGrid.getSort();
+			 if(sortStr.contains(",")){
+				 String[] sortSubs = sortStr.split(",");
+				 for (String sub : sortSubs) {
+					 //子排序
+					 if(sub.contains("-")){
+						 String[] iSubs = sub.split("-");
+						 orderMap.put(iSubs[0] , "asc".equalsIgnoreCase(iSubs[1]) ? SortDirection.ASC : SortDirection.DESC);
+					 }else{
+						 orderMap.put(sub, sd); 
+					 }
+				 }
+			 }else{
+				 orderMap.put(sortStr, sd); 
+			 }
+			 /**
+			  * 混合排序结束
+			  */
 			 dCriteria.setOrderbyMap(orderMap); 
 		 }
 		 return dCriteria;

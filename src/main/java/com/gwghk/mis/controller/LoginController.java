@@ -2,6 +2,7 @@ package com.gwghk.mis.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,7 +117,7 @@ public class LoginController extends BaseController{
 	 */
 	@RequestMapping(value="/main",method=RequestMethod.GET)
 	public ModelAndView main(){
-		HashMap<String,SortDirection> dictMap = new HashMap<String,SortDirection>();
+		LinkedHashMap<String,SortDirection> dictMap = new LinkedHashMap<String,SortDirection>();
 		dictMap.put("id", SortDirection.ASC);
 		dictMap.put("sort", SortDirection.ASC);
 		DetachedCriteria<BoDict> detachedCriteria = new DetachedCriteria<BoDict>();

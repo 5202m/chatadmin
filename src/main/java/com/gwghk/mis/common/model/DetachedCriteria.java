@@ -2,6 +2,7 @@ package com.gwghk.mis.common.model;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
@@ -18,7 +19,7 @@ public class DetachedCriteria<T> implements Serializable{
 	private int pageSize;//每页大小
 	private int currRecordSize;//当前记录数
 	private T searchModel;//查询对象
-	private HashMap<String,SortDirection> orderbyMap;//排序对象
+	private LinkedHashMap<String,SortDirection> orderbyMap;//排序对象
 	
 	public int getPageNo() {
 		return pageNo;
@@ -41,7 +42,8 @@ public class DetachedCriteria<T> implements Serializable{
 	public HashMap<String, SortDirection> getOrderbyMap() {
 		return orderbyMap;
 	}
-	public void setOrderbyMap(HashMap<String, SortDirection> orderbyMap) {
+	
+	public void setOrderbyMap(LinkedHashMap<String, SortDirection> orderbyMap) {
 		this.orderbyMap = orderbyMap;
 	}
 	

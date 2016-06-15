@@ -30,7 +30,7 @@ var Syllabus = {
 		goldOfficeUtils.dataGrid({
 			gridId : Syllabus.gridId,
 			idField:"id",
-			sortName : 'publishStart',
+			sortName : 'groupType-asc,groupId-asc,publishStart', //
 			sortOrder : "desc",
 			url : basePath+'/chatSyllabusController/datagrid.do',
 			columns : [[
