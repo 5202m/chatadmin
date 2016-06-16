@@ -20,9 +20,10 @@
           <td width="20%">
               <select name="position" style="width:150px;">
                   <option value="">--请选择--</option>
-	              <option value="0">任务栏</option>
+	              <!--  <option value="0">任务栏</option>-->
 	              <option value="1">私聊框</option>
-	              <option value="2">页面提示</option>
+	              <!--  <option value="2">页面提示</option> -->
+	              <option value="3">公聊框</option>
 	          </select>
 	       </td>
           <th width="10%">状态</th>
