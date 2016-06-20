@@ -3,6 +3,7 @@ package com.gwghk.mis.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +72,7 @@ public class ZxFinanceEventController extends BaseController{
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ZxFinanceEvent event) {
 		DetachedCriteria<ZxFinanceEvent> detachedCriteria = this.createDetachedCriteria(dataGrid, event);
 		if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
-			HashMap<String, SortDirection> orderMap = new HashMap<String, SortDirection>();
+			LinkedHashMap<String, SortDirection> orderMap = new LinkedHashMap<String, SortDirection>();
 			orderMap.put("date", SortDirection.DESC);
 			orderMap.put("time", SortDirection.DESC);
 			detachedCriteria.setOrderbyMap(orderMap); 
