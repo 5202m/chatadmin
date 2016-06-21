@@ -30,6 +30,7 @@ import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
+import com.gwghk.mis.model.ChatClientGroup;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatMessage;
 import com.gwghk.mis.model.ChatMsgToUser;
@@ -156,6 +157,11 @@ public class ChatMessageController extends BaseController{
 			List<ChatMessage>  chatMessageList = page.getCollection();
 			ChatMsgToUser toUser=null;
 			String toUserName="房间所有人";
+			List<ChatClientGroup> clientGroups = chatClientGroupService.getClientGroupList(chatMessage.getGroupId().replaceAll("[,_].*$", ""));
+			Map<String, String> clientGroupMap = new HashMap<String, String>();
+			for(ChatClientGroup cg : clientGroups){
+				clientGroupMap.put(cg.getId(), cg.getName());
+			}
 			if(chatMessageList != null && chatMessageList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatMessage cm : chatMessageList){
@@ -164,15 +170,20 @@ public class ChatMessageController extends BaseController{
 					//row.set("userId", cm.getGroupType().contains("studio")?cm.getUserId():(StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo()));
 					row.set("userId", StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo());
 					String userTypeVal = "";
-					Integer userType = cm.getUserType();
-					if(userType == 1){
+					String userType = cm.getUserType() == null ? "0" : cm.getUserType().toString();
+					if("1".equals(userType)){
 						userTypeVal = "管理员";
-					}else if("2".equals(userTypeVal)){
+					}else if("2".equals(userType)){
 						userTypeVal = "分析师";
-					}else if("3".equals(userTypeVal)){
+					}else if("3".equals(userType)){
 						userTypeVal = "客服";
+					}else if("-1".equals(userType)){
+						userTypeVal = "游客";
 					}else{
-						userTypeVal = "普通会员";
+						userTypeVal = "真实";
+						if(clientGroupMap.containsKey(cm.getClientGroup())){
+							userTypeVal = clientGroupMap.get(cm.getClientGroup());
+						}
 					}
 					row.set("mobilePhone", cm.getMobilePhone());
 					row.set("nickname", cm.getNickname());

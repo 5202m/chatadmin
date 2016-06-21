@@ -62,9 +62,13 @@ var chatMessage = {
 						{title : '用户类型',field : 'typeName',formatter : function(value, rowData, rowIndex) {
 							var loc_val = rowData.userType;
 							if(loc_val === 0){
-								loc_val = !rowData.clientGroup ? 'real' : rowData.clientGroup;
+								if(!rowData.clientGroup){
+									return "真实";
+								}else{
+									loc_val = rowData.clientGroup;
+								}
 							}
-							return $.trim(chatMessage.getComboxNameByCode("#chatMessageUserType",loc_val));
+							return $.trim(chatMessage.getComboxNameByCode("#chatMessageUserType",loc_val, "[s='1']"));
 						}},
 			            {title : '房间名称',field : 'groupName',formatter : function(value, rowData, rowIndex) {
 							return $.trim(chatMessage.getComboxNameByCode("#chatMessageGroupId",rowData.groupId));
@@ -109,8 +113,8 @@ var chatMessage = {
 	/**
 	 * 从下拉框中提取名称
 	 */
-	getComboxNameByCode:function(domId,code){
-		return $(domId).find("option[value='"+code+"']").text();
+	getComboxNameByCode:function(domId,code, filter){
+		return $(domId).find("option[value='"+code+"']" + (filter || "")).text();
 	},
 	setEvent:function(){
 		// 列表查询
@@ -138,18 +142,18 @@ var chatMessage = {
 			$("#chatMessage_queryForm")[0].reset();
 		});
 		$("#chatMessageGroupId").change(function(){
-			 $("#chatMessageUserType option").show();
+			 $("#chatMessageUserType option").show().attr("s", "1");
 			 if(this.value.indexOf("studio")!=-1){
 				 var val=this.value;
 				 $("#chatMessageUserType option[t]").each(function(){
 					 if(val.startsWith($(this).attr("t"))){
-						 $(this).show();
+						 $(this).show().attr("s", "1");
 					 }else{
-						 $(this).hide();
+						 $(this).hide().attr("s", "0");
 					 }
 				 });
 			 }else{
-				 $("#chatMessageUserType option[t]").hide(); 
+				 $("#chatMessageUserType option[t]").hide().attr("s", "0"); 
 			 }
 			 
 		});
