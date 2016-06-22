@@ -60,9 +60,10 @@ var chatVisitor = {
 							return chatVisitor.getComboxNameByCode("#visitorPlatform",value || "studio");
 						}},
 						{title : '客户所在地',field : 'ipCity'},
-						{title : '使用设备',field : 'userAgent',formatter : function(value, rowData, rowIndex) {
-							return isMobile(value) ? "手机" : "PC";
-						}}
+						{title : '使用设备',field : 'userAgents',formatter : function(value, rowData, rowIndex) {
+							return isMobile(rowData.userAgent) ? "手机" : "PC";
+						}},
+						{title : '使用设备详情',field : 'userAgent'}
 			]],
 			toolbar : '#visitor_datagrid_toolbar'
 		});
