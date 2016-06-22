@@ -111,6 +111,18 @@ $(function() {
          	</select>
         </td>
       </tr>
+      
+      <tr>
+        <th>微信<!-- 微信--></th>
+        <td>
+         	<input type="text" name="wechatCode" id="wechatCode" value="${wechatCode}" />
+        </td>
+        <th>胜率<!-- 胜率 --></th>
+        <td>
+        	<input type="text" name="winRate" id="winRate" value="${winRate}" />
+        </td>
+      </tr>
+      
       <tr>
         <th><spring:message code="user.position" /><!-- 职位 --><span class="red">*</span></th>
         <td colspan="3"><input type="text" name="position" id="position" class="easyui-validatebox" 

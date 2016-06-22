@@ -97,8 +97,32 @@ public class BoUser extends BaseModel{
 	 * 用户名或用户号，用于权限类别中用户的查询
 	 */
     private String userNoOrName;
+    /**
+     * 微信号
+     */
+    private String wechatCode; 
+    /**
+     * 胜率
+     */
+    private String winRate;
     
     
+	public String getWechatCode() {
+		return wechatCode;
+	}
+
+	public void setWechatCode(String wechatCode) {
+		this.wechatCode = wechatCode;
+	}
+
+	public String getWinRate() {
+		return winRate;
+	}
+
+	public void setWinRate(String winRate) {
+		this.winRate = winRate;
+	}
+
 	public String getAvatar() {
 		return avatar;
 	}
