@@ -26,7 +26,7 @@
           <td width="23%">
           <!--  <input type="text" name="userNo" id="userNo" style="width:160px"/>-->
           
-          <div id="selectUserArea">
+          <div id="authorList_Area">
 	        <input type="hidden" name="userNo" id="userNo"/>
 	        <input type="hidden" name="name" />
 	        <input type="hidden" name="position" />

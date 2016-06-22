@@ -86,7 +86,7 @@ $(function() {
       
         <th width="15%">分析师账号<span class="red">*</span></th>
         <td>
-        <div id="selectUserArea">
+        <div id="authorAdd_Area">
 	        <input type="hidden" name="userNo" id="userNo" />
 	        <input type="hidden" name="name" />
 	        <input type="hidden" name="position" />

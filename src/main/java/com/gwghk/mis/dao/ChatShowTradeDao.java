@@ -41,7 +41,6 @@ public class ChatShowTradeDao extends MongoDBBaseDao{
 		
 		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("_id").in(tradeIds))
 				   , Update.update("valid", 0), ChatShowTrade.class);
-		//WriteResult wr = this.mongoTemplate.remove(Query.query(Criteria.where("_id").in((Object[])tradeIds)), ChatShowTrade.class);
 		return wr != null && wr.getN() > 0;
 	}
 	public ChatShowTrade getTradeById(String tradeId){

@@ -86,7 +86,7 @@ $(function() {
       
         <th width="15%"><spring:message code="user.no" /><!-- 账号 --><span class="red">*</span></th>
         <td width="35%">
-        <div id="selectUserArea">
+        <div id="authorEdit_Area">
 	        <input type="hidden" name="userNo" id="userNo" />
 	        <input type="hidden" name="name" />
 	        <input type="hidden" name="position" />

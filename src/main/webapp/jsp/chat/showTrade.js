@@ -259,11 +259,12 @@ var chatShowTrade = {
 				}}
 		    ]],
 		    onSelect:function(rowIndex, rowData){
+		
 		       var lang=id.replace("authorList_","");
-			   $('#selectUserArea input[name=userNo]').val(rowData.userNo);
-			   $('#selectUserArea input[name=name]').val(rowData.userName);
-			   $('#selectUserArea input[name=position]').val(rowData.position);
-			   $('#selectUserArea input[name=avatar]').val(rowData.avatar);
+			   $('#'+id+'Area input[name=userNo]').val(rowData.userNo);
+			   $('#'+id+'Area input[name=name]').val(rowData.userName);
+			   $('#'+id+'Area input[name=position]').val(rowData.position);
+			   $('#'+id+'Area input[name=avatar]').val(rowData.avatar);
 		    },
 		    onChange:function(val){
 		    	$('#selectUserArea input[name=userNo]').val(val);

@@ -203,33 +203,40 @@ public class ChatShowTradeController extends BaseController{
     @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,ChatShowTrade chatShowtrade){
     	String userNo = request.getParameter("userNo");
+    	
     	BoUser user=userService.getUserByNo(userNo);
     	
-    	BoUser newUser=new BoUser();
-    	newUser.setAvatar(user.getAvatar());
-    	newUser.setUserName(user.getUserName());
-    	newUser.setUserNo(user.getUserNo());
-    	newUser.setUserId(user.getUserId());
-    	newUser.setWechatCode(user.getWechatCode());
-    	newUser.setWinRate(user.getWinRate());
-    	
-    	chatShowtrade.setShowDate(new Date());
-    	chatShowtrade.setValid(1);
-    	
-    	chatShowtrade.setBoUser(newUser);
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, false);
-    	if(result.isOk()){
-    		j.setSuccess(true);
+    	if(user.getUserId() != null){
+    		BoUser newUser=new BoUser();
+        	newUser.setAvatar(user.getAvatar());
+        	newUser.setUserName(user.getUserName());
+        	newUser.setUserNo(user.getUserNo());
+        	newUser.setUserId(user.getUserId());
+        	newUser.setWechatCode(user.getWechatCode());
+        	newUser.setWinRate(user.getWinRate());
+        	
+        	chatShowtrade.setShowDate(new Date());
+        	chatShowtrade.setValid(1);
+        	chatShowtrade.setBoUser(newUser);
+        	
+        	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, false);
+        	if(result.isOk()){
+        		j.setSuccess(true);
+        		
+        		logger.info("<<method:create()|isOK");
+        	}else{
+        		j.setSuccess(false);
+        		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+        		logger.error("<<method:create()|ErrorMsg:"+result.toString());
+        	}
     		
-    		logger.info("<<method:create()|isOK");
     	}else{
     		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		logger.error("<<method:create()|ErrorMsg:"+result.toString());
+    		logger.error("<<method:create()|ErrorMsg:");
     	}
-		return j;
-
+    	return j;
+    	
     }
        
    /**
@@ -241,26 +248,36 @@ public class ChatShowTradeController extends BaseController{
     public AjaxJson update(HttpServletRequest request,ChatShowTrade chatShowtrade){
     	String userNo = request.getParameter("userNo");
     	BoUser user=userService.getUserByNo(userNo);
-    	
-    	BoUser newUser=new BoUser();
-    	newUser.setAvatar(user.getAvatar());
-    	newUser.setUserName(user.getUserName());
-    	newUser.setUserNo(user.getUserNo());
-    	newUser.setUserId(user.getUserId());
-    	newUser.setWechatCode(user.getWechatCode());
-    	newUser.setWinRate(user.getWinRate());
-    	
-    	chatShowtrade.setBoUser(newUser);
+    	 	
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, true);
-    	if(result.isOk()){
-    		j.setSuccess(true);
-    		logger.info("<--method:update()|isOK");
+    	if(user.getUserId() != null){
+    		BoUser newUser=new BoUser();
+        	newUser.setAvatar(user.getAvatar());
+        	newUser.setUserName(user.getUserName());
+        	newUser.setUserNo(user.getUserNo());
+        	newUser.setUserId(user.getUserId());
+        	newUser.setWechatCode(user.getWechatCode());
+        	newUser.setWinRate(user.getWinRate());
+        	
+        	//chatShowtrade.setShowDate(new Date());
+        	chatShowtrade.setValid(1);
+        	chatShowtrade.setBoUser(newUser);
+        	
+        	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, true);
+        	if(result.isOk()){
+        		j.setSuccess(true);
+        		
+        		logger.info("<<method:update()|isOK");
+        	}else{
+        		j.setSuccess(false);
+        		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+        		logger.error("<<method:update()|ErrorMsg:"+result.toString());
+        	}
+    		
     	}else{
     		j.setSuccess(false);
-    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		logger.error("<--method:update()|ErrorMsg:"+result.toString());
+    		logger.error("<<method:update()|ErrorMsg:");
     	}
-   		return j;
+    	return j;
      }
 }
