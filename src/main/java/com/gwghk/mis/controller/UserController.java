@@ -31,6 +31,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoRole;
 import com.gwghk.mis.model.BoUser;
+import com.gwghk.mis.service.ChatShowTradeService;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
@@ -56,6 +57,9 @@ public class UserController extends BaseController{
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private ChatShowTradeService chatShowTradeService;
 	
 	/**
 	 * 功能：用户管理-首页
@@ -180,6 +184,7 @@ public class UserController extends BaseController{
     	AjaxJson j = new AjaxJson();
     	ApiResult result =userService.saveUser(user, true);
     	if(result.isOk()){
+    		chatShowTradeService.asyncTradeByBoUser(user);
     		j.setSuccess(true);
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改用户："+user.getUserNo();
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE

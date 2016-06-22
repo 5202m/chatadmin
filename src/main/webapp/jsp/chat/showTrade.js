@@ -51,7 +51,7 @@ var chatShowTrade = {
 						}},
 						
 						{title : "胜率",field : 'boUser.winRate',sortable : true ,formatter : function(value, rowData, rowIndex) {
-							return rowData.boUser.wechatCode;
+							return rowData.boUser.winRate;
 						}},
 			            
 						{title : "获利",field : 'profit',sortable : true , formatter : function(value, rowData, rowIndex) {
@@ -132,7 +132,7 @@ var chatShowTrade = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			width : 650,
-			height : 260,
+			height : 300,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -167,7 +167,7 @@ var chatShowTrade = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			width : 650,
-			height : 260,
+			height : 300,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理

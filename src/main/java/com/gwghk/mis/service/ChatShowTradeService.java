@@ -13,6 +13,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatShowTradeDao;
 
 import com.gwghk.mis.enums.ResultCode;
+import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatShowTrade;
 import com.gwghk.mis.util.StringUtil;
 
@@ -30,7 +31,6 @@ public class ChatShowTradeService{
 	public ApiResult saveTrade(ChatShowTrade showTrade, boolean isUpdate) {
 		ApiResult result=new ApiResult();
     	if(isUpdate){
-    		
     		chatShowTradeDao.updateTrade(showTrade);
     	}
     	else if(StringUtils.isNotBlank(showTrade.getId())){
@@ -48,17 +48,16 @@ public class ChatShowTradeService{
 		
 		Query query=new Query();
 		ChatShowTrade chatShowTrade=dCriteria.getSearchModel();
+		Criteria criteria = Criteria.where("valid").is(1);
 		if(chatShowTrade!=null){
-			Criteria criteria = new Criteria();
 			if(StringUtils.isNotBlank(chatShowTrade.getGroupType())){
 				criteria.and("groupType").regex(StringUtil.toFuzzyMatch(chatShowTrade.getGroupType()));
 			}
 			if(chatShowTrade.getBoUser()!=null && StringUtils.isNotBlank(chatShowTrade.getBoUser().getUserNo())){
 				criteria.and("boUser.userNo").regex(StringUtil.toFuzzyMatch(chatShowTrade.getBoUser().getUserNo()));
 			}
-			
-			query.addCriteria(criteria);
 		}
+		query.addCriteria(criteria);
 		return chatShowTradeDao.getShowTradePage(query,dCriteria);
 	}
 
@@ -70,6 +69,11 @@ public class ChatShowTradeService{
 	
 	public ChatShowTrade getTradeById(String tradeId) {
 		return chatShowTradeDao.getTradeById(tradeId);
+	}
+	
+	public ApiResult asyncTradeByBoUser(BoUser user){
+		ApiResult result=new ApiResult();
+    	return result.setCode(chatShowTradeDao.updateTradeByBoUser(user)?ResultCode.OK:ResultCode.FAIL);
 	}
 	
 	

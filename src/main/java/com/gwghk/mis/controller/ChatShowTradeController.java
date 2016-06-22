@@ -214,6 +214,7 @@ public class ChatShowTradeController extends BaseController{
     	newUser.setWinRate(user.getWinRate());
     	
     	chatShowtrade.setShowDate(new Date());
+    	chatShowtrade.setValid(1);
     	
     	chatShowtrade.setBoUser(newUser);
     	AjaxJson j = new AjaxJson();

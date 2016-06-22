@@ -1,6 +1,5 @@
 package com.gwghk.mis.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
@@ -18,6 +17,7 @@ public class ChatShowTrade extends BaseModel
 {
 	@Id
 	private String id;//ObjectId
+	@Indexed
 	private String groupType;
 	@Indexed
 	private BoUser boUser; //分析师
@@ -25,6 +25,14 @@ public class ChatShowTrade extends BaseModel
 	private String tradeImg; //晒单图片
 	private String profit; //获利
 	private String remark;
+	private Integer valid;
+	
+	public Integer getValid() {
+		return valid;
+	}
+	public void setValid(Integer valid) {
+		this.valid = valid;
+	}
 	public String getRemark() {
 		return remark;
 	}
@@ -67,7 +75,5 @@ public class ChatShowTrade extends BaseModel
 	public void setProfit(String profit) {
 		this.profit = profit;
 	}
-	
-	
 	
 }
