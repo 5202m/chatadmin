@@ -399,6 +399,8 @@ public class ChatUserController extends BaseController{
 				 createDateEnd=DateUtil.parseDateSecondFormat(createDateEndStr);
 			 }
 			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.CHAT_USER_RECORDS_TEMPLATE_PATH)));
+			String pwd=StringUtil.random(6);
+			builder.getHSSFWorkbook().getSheetAt(0).protectSheet(pwd);
 			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 			List<Member>  memberList = page.getCollection();
 			List<ChatGroup> chatGroupList=chatGroupService.getChatGroupAllList("id","name");
@@ -421,6 +423,7 @@ public class ChatUserController extends BaseController{
 			builder.parse();
 			ExcelUtil.wrapExcelExportResponse("成员记录", request, response);
 			builder.write(response.getOutputStream());
+    		logService.addLog("用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 导出成员记录操作成功,excel密码【"+pwd+"】", WebConstant.Log_Leavel_INFO, WebConstant.LOG_TYPE_EXPORT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 		}catch(Exception e){
 			logger.error("<<method:exportRecord()|chat user export error!",e);
 		}
@@ -447,8 +450,8 @@ public class ChatUserController extends BaseController{
 		IRow row=dataSet.append();
 		row.set("no", index);
 		row.set("mobilePhone", mobilePhone);
-		row.set("accountNo", userGroup.getId().contains("studio")?userGroup.getUserId():(StringUtils.isBlank(userGroup.getAccountNo())?userGroup.getUserId():userGroup.getAccountNo()));
-		row.set("nicknameStr",userGroup.getNickname()+"【"+userGroup.getUserId()+"】");
+		row.set("accountNo", userGroup.getAccountNo());
+		row.set("nicknameStr",userGroup.getNickname()!=null?userGroup.getNickname():("匿名_"+userGroup.getUserId().substring(8,12)));
 		if(userGroup.getId().contains("studio")){
 			if(userGroup.getVipUser()!=null && userGroup.getVipUser()){
 				row.set("clientGroup", "VIP用户");

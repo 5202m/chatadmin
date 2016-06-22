@@ -49,7 +49,7 @@ var smsInfo = {
 	            {title : "应用点",field : 'useType',formatter : function(value, rowData, rowIndex) {
 	            	return smsInfo.formatByDicts("useType", value);
 				}},
-	            {title : "手机号",field : 'mobilePhone'},
+	            /* {title : "手机号",field : 'mobilePhone'},*/
 	            {title : "ip/mac",field : 'deviceKey'},
 	            {title : "短信内容",field : 'content'},
 	            {title : "状态",field : 'status',formatter : function(value, rowData, rowIndex) {

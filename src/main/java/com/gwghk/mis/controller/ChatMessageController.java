@@ -166,7 +166,6 @@ public class ChatMessageController extends BaseController{
 				DataRowSet dataSet = new DataRowSet();
 				for(ChatMessage cm : chatMessageList){
 					IRow row = dataSet.append();
-					
 					//row.set("userId", cm.getGroupType().contains("studio")?cm.getUserId():(StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo()));
 					row.set("userId", StringUtils.isBlank(cm.getAccountNo())?cm.getUserId():cm.getAccountNo());
 					String userTypeVal = "";
@@ -215,6 +214,7 @@ public class ChatMessageController extends BaseController{
 			builder.parse();
 			ExcelUtil.wrapExcelExportResponse("聊天记录", request, response);
 			builder.write(response.getOutputStream());
+			logService.addLog("用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 导出聊天记录操作成功！", WebConstant.Log_Leavel_INFO, WebConstant.LOG_TYPE_EXPORT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 		}catch(Exception e){
 			logger.error("<<method:exportRecord()|chat message export error!",e);
 		}

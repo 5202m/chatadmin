@@ -31,9 +31,17 @@ var systemLog = {
 						return $.i18n.prop("syslog.del");
 					} else if(value == 5){
 						return $.i18n.prop("syslog.edit");
-					} else {
+					} else if(value == 6){
 						return $.i18n.prop("syslog.other");
-					}}
+					} else if(value == 7){
+						return '审批';
+					} else if(value == 8){
+						return '取消审批';
+					} else if(value == 9){
+						return '导出记录';
+					}
+					return '';
+				  }
 	            },
 				{title : $.i18n.prop("syslog.operatedate"),field : 'operateDate',width:100,sortable : true,formatter : function(value, rowData, rowIndex) {  /**操作时间*/
 					return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';

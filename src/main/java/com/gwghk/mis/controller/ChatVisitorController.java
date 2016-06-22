@@ -169,6 +169,8 @@ public class ChatVisitorController extends BaseController
 			List<ChatVisitor> list = page.getCollection();
 			List<ChatGroup> groupList = chatGroupService.getChatGroupList("id", "name", "groupType");
 			int totalOnline = 0, totalLogin = 0, totalNeverLogin = 0, totalRegist = 0, totalHasLogin = 0;
+			String[] strAgentArr={"iphone","ipod","ipad","android","mobile","playbook","bb10","meego"};
+			String agentStr="PC";
 			if (list != null && list.size() > 0)
 			{
 				DataRowSet dataSet = new DataRowSet();
@@ -226,7 +228,16 @@ public class ChatVisitorController extends BaseController
 					}
 					row.set("ip", cm.getIp());
 					row.set("ipCity", cm.getIpCity());
-					row.set("userAgent", cm.getUserAgent());
+					agentStr="PC";
+					if(cm.getUserAgent()!=null){
+						for(String str :strAgentArr){
+							if(cm.getUserAgent().toLowerCase().contains(str)){
+								agentStr="手机";
+								break;
+							}
+						}
+					}
+					row.set("userAgent", agentStr);
 				}
 				builder.put("rowSet", dataSet);
 			}
@@ -242,6 +253,7 @@ public class ChatVisitorController extends BaseController
 			builder.parse();
 			ExcelUtil.wrapExcelExportResponse("访客记录", request, response);
 			builder.write(response.getOutputStream());
+			logService.addLog("用户：" + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 导出访客记录操作成功", WebConstant.Log_Leavel_INFO, WebConstant.LOG_TYPE_EXPORT,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
 		}
 		catch (Exception e)
 		{

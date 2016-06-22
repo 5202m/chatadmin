@@ -49,6 +49,7 @@ public class WebConstant {
 	 public final static String Log_Type_OTHER = "6"; //其他
 	 public final static String LOG_TYPE_APPROVE = "7"; //审批
 	 public final static String LOG_TYPE_CANCEL_APPROVE = "8"; //取消审批
+	 public final static String LOG_TYPE_EXPORT = "9"; //导出记录
 	 
 	 /**登录用户的session key*/
 	 public final static String SESSION_LOGIN_FLAG_KEY = "SESSION_LOGIN_FLAG_KEY";

@@ -138,19 +138,19 @@ var chatUser = {
 						/*{title : '手机号码',field : 'mobilePhone'},*/
 						{title : '账号',field : 'userIds',formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
-							return isBlank(row.accountNo)?row.userId:row.accountNo;
+							return isBlank(row.accountNo)?'':row.accountNo;
 						}},
-						{title : '昵称【ID号】',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
+						{title : '昵称',field : 'nicknameStr', formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							var oNickname = row.nickname || "";
 							var nNickname = oNickname;
 							if(!nNickname){
-								nNickname = "匿名_" + chatUser.formatMobileToUserId(rowData.mobilePhone.substring(7));
+								nNickname = "匿名_" + row.userId.substring(8,12);
 							}
 							if(row.id.indexOf("studio")!=-1){
 								return '<input value="'+nNickname+'" oldn="'+oNickname+'"  gy="'+row.id+'"  mb="'+rowData.mobilePhone+'" readOnly="readOnly" style="width:120px;border:none;" /><a href="javascript:" class="modifyName"  style="margin-left:5px;color:#464343" t="modify" onclick="chatUser.modifyName(this);">修改</a>&nbsp;';
 							}
-							return row.nickname+"【"+row.userId+"】"; 
+							return row.nickname; 
 						}},
 						{title : '价值用户',field : 'loginPlatform.chatUserGroup.valueUser',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];

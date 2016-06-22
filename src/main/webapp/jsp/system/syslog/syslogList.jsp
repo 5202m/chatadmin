@@ -11,7 +11,19 @@
           <th width="10%"><spring:message code="user.no" /><!-- 账号 --></th>
           <td width="23%"><input type="text" name="userNo" id="userNo" style="width:160px"/></td>
           <th width="10%"><spring:message code="syslog.operatetype" /><!-- 操作类型 --></th>
-          <td width="23%"><input type="text" name="operateType" id="operateType" style="width:160px"/></td>
+          <td width="23%">
+          <select name="operateType" id="operateType" style="width:160px">
+            <option value="1">登陆</option>
+            <option value="2">退出</option>
+            <option value="3">新增</option>
+            <option value="4">删除</option>
+            <option value="5">更新</option>
+            <option value="6">其他</option>
+            <option value="7">审批</option>
+            <option value="8">取消审批</option>
+            <option value="9">导出记录</option>
+          </select>
+          </td>
         </tr>
          <tr>
           <th width="10%"><spring:message code="syslog.operatedate" /><!-- 操作日期 --></th>
