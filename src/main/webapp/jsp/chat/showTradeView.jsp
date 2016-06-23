@@ -28,7 +28,12 @@
         <th width="15%">胜率</th>
         <td width="35%"><span>${chatTrade.boUser.winRate}</span></td>
         <th width="15%">获利</th>
-        <td width="35%"><c:if test="${null==chatTrade.groupType}">持仓中</c:if>${chatTrade.profit}</td>
+        <td width="35%">
+        <c:choose>
+         	<c:when test="${null==chatTrade.groupType}">持仓中</c:when>
+         	<c:otherwise>${chatTrade.profit}</c:otherwise>
+		</c:choose>
+		</td>
       </tr>
       
       
@@ -43,6 +48,17 @@
         <th>晒单时间</th>
         <td colspan="3"><span>${showDateFormat}</span></td>
       </tr>
+      
+      <tr>
+        <th>微信二维码</th>
+        <td colspan="3">
+        <c:choose>
+         	<c:when test="${chatTrade.boUser.wechatCodeImg == null}">未上传</c:when>
+         	<c:otherwise><a href="${chatTrade.boUser.wechatCodeImg}" target="_blank"><img src="${chatTrade.boUser.wechatCodeImg}" style="max-width:80px;" alt="二维码"/></a></c:otherwise>
+		</c:choose>
+		</td>
+      </tr>
+      
       <tr>
         <th>备注</th>
         <td colspan="3"><span>${chatTrade.remark}</span></td>
