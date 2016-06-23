@@ -50,7 +50,7 @@
         <th>微信二维码</th>
         <td colspan="3">
         <c:choose>
-         	<c:when test="${mngUser.wechatCodeImg == null}">未上传</c:when>
+         	<c:when test="${empty mngUser.wechatCodeImg}">未上传</c:when>
          	<c:otherwise><a href="${mngUser.wechatCodeImg}" target="_blank"><img src="${mngUser.wechatCodeImg}" style="max-width:80px;" alt="二维码"/></a></c:otherwise>
 		</c:choose>
 	            

@@ -30,7 +30,7 @@
         <th width="15%">获利</th>
         <td width="35%">
         <c:choose>
-         	<c:when test="${null==chatTrade.groupType}">持仓中</c:when>
+         	<c:when test="${empty chatTrade.profit}">持仓中</c:when>
          	<c:otherwise>${chatTrade.profit}</c:otherwise>
 		</c:choose>
 		</td>
@@ -53,7 +53,7 @@
         <th>微信二维码</th>
         <td colspan="3">
         <c:choose>
-         	<c:when test="${chatTrade.boUser.wechatCodeImg == null}">未上传</c:when>
+         	<c:when test="${empty chatTrade.boUser.wechatCodeImg}">未上传</c:when>
          	<c:otherwise><a href="${chatTrade.boUser.wechatCodeImg}" target="_blank"><img src="${chatTrade.boUser.wechatCodeImg}" style="max-width:80px;" alt="二维码"/></a></c:otherwise>
 		</c:choose>
 		</td>
