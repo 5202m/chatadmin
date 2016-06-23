@@ -84,7 +84,7 @@ $(function() {
 				</c:forEach>
 			</select>
       
-        <th width="15%">分析师账号<span class="red">*</span></th>
+        <th width="15%">分析师<span class="red">*</span></th>
         <td>
         <input type="hidden" name="userNo" id="chatTradeAddUserNoInput">
         <select  id="chatTradeAddUserNo" style="width:280px;"></select>

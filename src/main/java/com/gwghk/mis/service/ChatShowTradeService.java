@@ -83,10 +83,10 @@ public class ChatShowTradeService{
 		Criteria criteria = Criteria.where("valid").is(1);
 		if(chatShowTrade!=null){
 			if(StringUtils.isNotBlank(chatShowTrade.getGroupType())){
-				criteria.and("groupType").regex(StringUtil.toFuzzyMatch(chatShowTrade.getGroupType()));
+				criteria.and("groupType").is(chatShowTrade.getGroupType());
 			}
 			if(chatShowTrade.getBoUser()!=null && StringUtils.isNotBlank(chatShowTrade.getBoUser().getUserNo())){
-				criteria.and("boUser.userNo").regex(StringUtil.toFuzzyMatch(chatShowTrade.getBoUser().getUserNo()));
+				criteria.and("boUser.userNo").is(chatShowTrade.getBoUser().getUserNo());
 			}
 		}
 		query.addCriteria(criteria);

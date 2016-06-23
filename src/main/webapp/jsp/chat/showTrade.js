@@ -18,7 +18,7 @@ var chatShowTrade = {
 	initGrid : function(){
 		goldOfficeUtils.dataGrid({
 			gridId : chatShowTrade.gridId,
-			idField:"userId",
+			idField:"id",
 			sortName : 'createDate',
 			sort:'desc',
 			singleSelect : false,
@@ -70,7 +70,7 @@ var chatShowTrade = {
 	setEvent:function(){
 		// 列表查询
 		$("#show_trade_queryForm_search").on("click",function(){
-			var userNo = $('#chatTradeSearchUserNo').combogrid('getValue');                     //账号
+			var userNo = $("#chatTradeSearchUserNoInput").val(); 
 			if(userNo == '请选择'){
 				userNo = '';
 			}
@@ -216,7 +216,7 @@ var chatShowTrade = {
 	 */
 	batchDel : function(){
 		var url = formatUrl(basePath + '/chatShowTradeController/batchDel.do');
-		goldOfficeUtils.deleteBatch('show_trade_datagrid',url,"id");	
+		goldOfficeUtils.deleteBatch('show_trade_datagrid',url);	
 	},
 	/**
 	 * 功能：删除单行

@@ -83,9 +83,9 @@ $(function() {
 				</c:forEach>
 			</select>
       
-        <th width="15%"><spring:message code="user.no" /><!-- 账号 --><span class="red">*</span></th>
+        <th width="15%">分析师<span class="red">*</span></th>
         <td>
-        <input type="hidden" name="userNo" id="chatTradeEditUserNoInput">
+        <input type="hidden" name="userNo" id="chatTradeEditUserNoInput" value="${chatTrade.boUser.userNo}">
         <select  id="chatTradeEditUserNo" style="width:280px;"></select>
        </td>
       </tr>
@@ -120,4 +120,4 @@ $(function() {
     <input type="hidden" name="id" value="${chatTrade.id}"/>
   </form>
 </div>
-<script>chatShowTrade.setUserEdit('${chatTrade.boUser.userNo}');</script>
+<script>chatShowTrade.setUserEdit('${chatTrade.boUser.userName}');</script>

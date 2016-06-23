@@ -22,7 +22,7 @@
 					</c:forEach>
 				</select>
 		</td>
-          <th width="10%">分析师账号--</th>
+          <th width="10%">分析师</th>
           <td width="23%">
           	<input type="hidden" name="userNo" id="chatTradeSearchUserNoInput">
             <select id="chatTradeSearchUserNo" style="width:280px;"></select>
