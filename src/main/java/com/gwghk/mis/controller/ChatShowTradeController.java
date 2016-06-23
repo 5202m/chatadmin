@@ -199,8 +199,9 @@ public class ChatShowTradeController extends BaseController{
     	DictConstant dict=DictConstant.getInstance();
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
     	
+    	map.put("showDateFormat" ,DateUtil.formatDate(chatTrade.getShowDate(), "yyyy-MM-dd HH:mm:ss"));
     	
-    	return "chat/showTradeAdd";
+    	return "chat/showTradeView";
     }
 	
     @ActionVerification(key="edit")

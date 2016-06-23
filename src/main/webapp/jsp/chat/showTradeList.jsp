@@ -49,16 +49,13 @@
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatShowTrade.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="chatShowTrade.batchDel();"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="chatShowTrade.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
-    <a class="easyui-linkbutton exitRoom" data-options="plain:true,iconCls:'ope-cancel',disabled:false"   onclick="chatShowTrade.exitChatRoom();">退出房间</a>
   </div> 
   
   <!-- datagrid-操作按钮 -->
   <div id="show_trade_datagrid_rowOperation">
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatShowTrade.edit(this.id)"><spring:message code="common.buttons.edit" /><!-- 修改 --></a>
-	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="chatShowTrade.view(this.id)"><spring:message code="common.buttons.view" /><!-- 查看 --></a>
-	  <a class="easyui-linkbutton resetPwd" data-options="plain:true,iconCls:'ope-redo',disabled:false" onclick="chatShowTrade.resetPwd(this.id)"><spring:message code="user.resetpwd" /><!-- 重设密码 --></a>
+	  <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="chatShowTrade.view(this.id)"><spring:message code="common.buttons.view" /><!-- 查看 --></a>
 	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatShowTrade.del(this.id)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
   </div>
   
-  <input style="display: none;" type="hidden" name="opType" id="userOpType" value="${opType }">
 </div>

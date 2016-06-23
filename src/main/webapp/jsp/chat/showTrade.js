@@ -108,7 +108,7 @@ var chatShowTrade = {
 		var url = formatUrl(basePath + '/chatShowTradeController/'+recordId+'/view.do');
 		goldOfficeUtils.openSimpleDialog({
 			title : $.i18n.prop("common.operatetitle.view"),       /**查看记录*/
-			height : 300 ,
+			height : 500 ,
 			href : url ,
 			iconCls : 'pag-view'
 		});
