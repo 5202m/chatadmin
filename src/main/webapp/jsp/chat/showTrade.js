@@ -57,7 +57,7 @@ var chatShowTrade = {
 						{title : "获利",field : 'profit',sortable : true , formatter : function(value, rowData, rowIndex) {
 							return rowData.profit == '' ? '持仓中' : rowData.profit}},		
 						{title : "晒单图片",field : 'tradeImg' , formatter : function(value, rowData, rowIndex) {
-							return rowData.tradeImg ? '<img src="'+rowData.tradeImg+'" style="height:60px;">' : '没有图片'}},
+							return rowData.tradeImg ? '<a href="'+rowData.tradeImg+'" alt="image"><img src="'+rowData.tradeImg+'" style="height:60px;"></a>' : '没有图片'}},
 						{title : "晒单时间", field : 'showDate' , formatter : function(value, rowData, rowIndex) {
 							return rowData.showDate ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
