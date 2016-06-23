@@ -102,9 +102,23 @@ public class BoUser extends BaseModel{
      */
     private String wechatCode; 
     /**
+     * 微信二维码
+     */
+    private String wechatCodeImg;
+    public String getWechatCodeImg() {
+		return wechatCodeImg;
+	}
+
+	public void setWechatCodeImg(String wechatCodeImg) {
+		this.wechatCodeImg = wechatCodeImg;
+	}
+
+	/**
      * 胜率
      */
     private String winRate;
+    
+    
     
     
 	public String getWechatCode() {

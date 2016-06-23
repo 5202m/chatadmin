@@ -19,7 +19,7 @@ var chatShowTrade = {
 		goldOfficeUtils.dataGrid({
 			gridId : chatShowTrade.gridId,
 			idField:"id",
-			sortName : 'createDate',
+			sortName : 'showDate',
 			sort:'desc',
 			singleSelect : false,
 			url : basePath+'/chatShowTradeController/datagrid.do?opType=' + chatShowTrade.opType,
@@ -42,15 +42,15 @@ var chatShowTrade = {
 							return chatShowTrade.getDictNameByCode("#showTrade_groupType_select",rowData.groupType);
 						}},
 						
-			            {title : "头像",field : 'boUser.avatar',sortable : true ,formatter : function(value, rowData, rowIndex) {
+			            {title : "头像",field : 'boUser.avatar' ,formatter : function(value, rowData, rowIndex) {
 							return '<img src="'+rowData.boUser.avatar+'" style="height:60px;">';
 						}},
 						
-						{title : "微信号",field : 'boUser.wechatCode',sortable : true ,formatter : function(value, rowData, rowIndex) {
+						{title : "微信号",field : 'boUser.wechatCode' ,formatter : function(value, rowData, rowIndex) {
 							return rowData.boUser.wechatCode;
 						}},
 						
-						{title : "胜率",field : 'boUser.winRate',sortable : true ,formatter : function(value, rowData, rowIndex) {
+						{title : "胜率",field : 'boUser.winRate' ,formatter : function(value, rowData, rowIndex) {
 							return rowData.boUser.winRate;
 						}},
 			            
@@ -58,7 +58,7 @@ var chatShowTrade = {
 							return rowData.profit == '' ? '持仓中' : rowData.profit}},		
 						{title : "晒单图片",field : 'tradeImg' , formatter : function(value, rowData, rowIndex) {
 							return rowData.tradeImg ? '<a href="'+rowData.tradeImg+'" alt="image" target="_blank"><img src="'+rowData.tradeImg+'" style="height:60px;"></a>' : '没有图片'}},
-						{title : "晒单时间", field : 'showDate' , formatter : function(value, rowData, rowIndex) {
+						{title : "晒单时间", field : 'showDate' ,sortable : true, formatter : function(value, rowData, rowIndex) {
 							return rowData.showDate ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
 						{title : "备注", field : 'remark'}

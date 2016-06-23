@@ -63,6 +63,28 @@ $(function() {
 			}
 		}
 	});
+	//微信二维码
+	goldOfficeUtils.uploadFile({
+		'fileId' : 'wechatCodeImgFile',
+		'formData' : {'fileDir' : 'pic'},
+		'fileSizeLimit' : 10*1024*1024,
+		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
+		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
+		'uploader' : basePath+'/uploadController/upload.do',
+		'onUploadSuccess' : function(file, data, response){
+			var d = eval("("+data+")");			//转换为json对象 
+			if(d.success){
+				alert(file.name + ' 上传成功！');
+				if(d.obj != null){
+					$("#wechatCodeImgPath").val(d.obj);
+					$("#wechatCodeImgPathSrc").val(d.obj);
+					$("#wechatCodeImgPathCut").val(d.obj);
+				}
+			}else{
+				alert(file.name + d.msg);
+			}
+		}
+	});
 });
 </script>
 
@@ -113,7 +135,7 @@ $(function() {
       </tr>
       
       <tr>
-        <th>微信<!-- 微信--></th>
+        <th>微信号</th>
         <td>
          	<input type="text" name="wechatCode" id="wechatCode" value="${wechatCode}" />
         </td>
@@ -192,6 +214,24 @@ $(function() {
             </div>
         </td>
       </tr>
+      <tr>
+        <th>微信二维码</th>
+        <td colspan="3">
+        	<div>图片路径：<input type="text" id="wechatCodeImgPath" name="wechatCodeImg" style="width:350px;margin-top:5px;"/>
+	        	<input type="file"  id="wechatCodeImgFile" style="width:155px">
+	        	<!-- 原图片路径 -->
+	        	<input type="hidden" id="wechatCodeImgPathSrc"/>
+	        	<!-- 裁剪后图片的路径 -->
+	        	<input type="hidden" id="wechatCodeImgPathCut"/>
+	        	<!-- 表单提交时保存到数据库的字段-->
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#wechatCodeImgFile').uploadify('upload', '*');">上传文件</a> 
+	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#wechatCodeImgFile').uploadify('cancel', '*');">停止上传</a> 
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-view',disabled:false"  onclick="goldOfficeUtils.onViewImage('#wechatCodeImgPathCut')">预览</a>
+                <a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cut',disabled:false"  onclick="goldOfficeUtils.onCutImage('#wechatCodeImgPathSrc','#wechatCodeImgPathCut','cut','#wechatCodeImgPath')">裁剪</a> 
+            </div>
+        </td>
+      </tr>
+      
       <tr>
         <th>备注</th>
         <td colspan="3"><input type="text" name="remark" size="100"/></td>

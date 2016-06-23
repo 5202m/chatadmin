@@ -87,7 +87,7 @@ var systemUser = {
 		var url = formatUrl(basePath + '/userController/'+recordId+'/view.do');
 		goldOfficeUtils.openSimpleDialog({
 			title : $.i18n.prop("common.operatetitle.view"),       /**查看记录*/
-			height : 300 ,
+			height : 320 ,
 			href : url ,
 			iconCls : 'pag-view'
 		});
@@ -148,7 +148,7 @@ var systemUser = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			width : 800,
-			height : 600,
+			height : 720,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -183,7 +183,7 @@ var systemUser = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			width : 800,
-			height : 600,
+			height : 700,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理

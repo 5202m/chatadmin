@@ -28,6 +28,12 @@
         </td>
       </tr>
       <tr>
+        <th width="15%">微信号</th>
+        <td width="35%"><span>${mngUser.wechatCode}</span></td>
+        <th width="15%">胜率</th>
+        <td width="35%"><span>${mngUser.winRate}</span></td>
+      </tr>
+      <tr>
         <th><spring:message code="user.position" /><!-- 职位 --></th>
         <td colspan="3"><span>${mngUser.position}</span></td>
       </tr>
@@ -38,6 +44,17 @@
       <tr>
         <th>简介</th>
         <td colspan="3"><span>${mngUser.introduction}</span></td>
+      </tr>
+      
+      <tr>
+        <th>微信二维码</th>
+        <td colspan="3">
+        <c:choose>
+         	<c:when test="${mngUser.wechatCodeImg == null}">未上传</c:when>
+         	<c:otherwise><a href="${mngUser.wechatCodeImg}" target="_blank"><img src="${mngUser.wechatCodeImg}" style="max-width:80px;" alt="二维码"/></a></c:otherwise>
+		</c:choose>
+	            
+        </td>
       </tr>
     </table>
 </div>
