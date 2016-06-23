@@ -27,7 +27,7 @@ import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
-
+import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
@@ -35,6 +35,9 @@ import com.gwghk.mis.model.ChatShowTrade;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatShowTradeService;
 import com.gwghk.mis.service.UserService;
+import com.gwghk.mis.util.BrowserUtils;
+import com.gwghk.mis.util.DateUtil;
+import com.gwghk.mis.util.IPUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
 
@@ -55,11 +58,10 @@ public class ChatShowTradeController extends BaseController{
 	@Autowired
 	private ChatGroupService chatGroupService;
 	
-	@Autowired
-	private UserService userService;
+
 	
 	/**
-	 * 功能：用户管理-首页
+	 * 功能：晒单管理-首页
 	 */
 	@RequestMapping(value = "/chatShowTradeController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map, String opType){
@@ -104,10 +106,10 @@ public class ChatShowTradeController extends BaseController{
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatShowTrade chatShowTrade, String opType){
 		 String userNo = request.getParameter("userNo");
 		 if(userNo != null){
-		     BoUser user=userService.getUserByNo(userNo);
+		     BoUser user=new BoUser();
+		     user.setUserNo(userNo);
 		     chatShowTrade.setBoUser(user);
 		 }
-		
 		 Page<ChatShowTrade> page = chatShowTradeService.getShowTradePage(this.createDetachedCriteria(dataGrid, chatShowTrade));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
@@ -116,59 +118,77 @@ public class ChatShowTradeController extends BaseController{
 	     return result;
 	}
 	/**
-	 * 功能：用户管理-新增
+	 * 功能：晒单管理-新增
 	 */
     @RequestMapping(value="/chatShowTradeController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
     public String add(ModelMap map, String opType) throws Exception {
     	DictConstant dict=DictConstant.getInstance();
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
-    	return "chat/showTradeSubmit";
+    	return "chat/showTradeAdd";
     }
     
     /**
-  	* 功能：用户管理-单条记录删除
+  	* 功能：晒单管理-单条记录删除
   	*/
     @RequestMapping(value="/chatShowTradeController/oneDel",method=RequestMethod.POST)
     @ResponseBody
     @ActionVerification(key="delete")
     public AjaxJson oneDel(HttpServletRequest request,HttpServletResponse response){
     	
+  		BoUser userParam = ResourceUtil.getSessionUser();
     	String delId = request.getParameter("id");
     	AjaxJson j = new AjaxJson();
     	ApiResult result = chatShowTradeService.deleteTrade(new String[]{delId});
     	if(result.isOk()){
           	j.setSuccess(true);
-    		logger.info("<<method:oneDel()|OK:"+ delId);
+          	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户成功";
+          	logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+          					 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:oneDel()|"+message);
     	}else{
     		j.setSuccess(false);
-    		logger.error("<<method:oneDel()|error:"+delId);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:oneDel()|"+message+",ErrorMsg:"+result.toString());
     	}
   		return j;
+  		
     }
     /**
-  	* 功能：用户管理-多条记录删除
+  	* 功能：晒单管理-多条记录删除
   	*/
     @RequestMapping(value="/chatShowTradeController/batchDel",method=RequestMethod.POST)
     @ResponseBody
     @ActionVerification(key="delete")
     public AjaxJson batchDel(HttpServletRequest request,HttpServletResponse response){
     	
+  		BoUser userParam = ResourceUtil.getSessionUser();
     	String delIds = request.getParameter("ids");
     	AjaxJson j = new AjaxJson();
     	ApiResult result = chatShowTradeService.deleteTrade(delIds.contains(",")?delIds.split(","):new String[]{delIds});
     	if(result.isOk()){
-          	j.setSuccess(true);
-    		logger.info("<<method:oneDel()|OK:"+ delIds);
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除用户成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:batchDel()|"+message);
     	}else{
     		j.setSuccess(false);
-    		logger.error("<<method:oneDel()|error:"+delIds);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除用户失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
     	}
   		return j;
+  		
     }
     
     /**
-	 * 功能：用户管理-查看
+	 * 功能：晒单管理-查看
 	 */
     @RequestMapping(value="/chatShowTradeController/{showTradeId}/view", method = RequestMethod.GET)
     @ActionVerification(key="view")
@@ -180,7 +200,7 @@ public class ChatShowTradeController extends BaseController{
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
     	
     	
-    	return "chat/showTradeSubmit";
+    	return "chat/showTradeAdd";
     }
 	
     @ActionVerification(key="edit")
@@ -192,92 +212,79 @@ public class ChatShowTradeController extends BaseController{
     	DictConstant dict=DictConstant.getInstance();
     	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
     	
-		return "chat/showTradeSubmitEdit";
+		return "chat/showTradeEdit";
     }
     
     /**
-   	 * 功能：用户管理-保存新增
+   	 * 功能：晒单管理-保存新增
    	 */
     @RequestMapping(value="/chatShowTradeController/create",method=RequestMethod.POST)
    	@ResponseBody
     @ActionVerification(key="add")
-    public AjaxJson create(HttpServletRequest request,ChatShowTrade chatShowtrade){
-    	String userNo = request.getParameter("userNo");
-    	
-    	BoUser user=userService.getUserByNo(userNo);
-    	
+    public AjaxJson create(HttpServletRequest request,ChatShowTrade chatShowTrade){
+    	BoUser userParam = ResourceUtil.getSessionUser();
+    	chatShowTrade.setCreateUser(userParam.getUserNo());
+    	chatShowTrade.setCreateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();
-    	if(user.getUserId() != null){
-    		BoUser newUser=new BoUser();
-        	newUser.setAvatar(user.getAvatar());
-        	newUser.setUserName(user.getUserName());
-        	newUser.setUserNo(user.getUserNo());
-        	newUser.setUserId(user.getUserId());
-        	newUser.setWechatCode(user.getWechatCode());
-        	newUser.setWinRate(user.getWinRate());
-        	
-        	chatShowtrade.setShowDate(new Date());
-        	chatShowtrade.setValid(1);
-        	chatShowtrade.setBoUser(newUser);
-        	
-        	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, false);
-        	if(result.isOk()){
-        		j.setSuccess(true);
-        		
-        		logger.info("<<method:create()|isOK");
-        	}else{
-        		j.setSuccess(false);
-        		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-        		logger.error("<<method:create()|ErrorMsg:"+result.toString());
-        	}
-    		
+    	
+    	String userNo = request.getParameter("userNo");
+		 if(userNo != null){
+		     BoUser user=new BoUser();
+		     user.setUserNo(userNo);
+		     chatShowTrade.setBoUser(user);
+		 }
+    	
+    	ApiResult result =chatShowTradeService.saveTrade(chatShowTrade, false);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增晒单："+userParam.getUserNo();
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_INSERT
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:create()|"+message);
     	}else{
     		j.setSuccess(false);
-    		logger.error("<<method:create()|ErrorMsg:");
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 新增晒单："+userParam.getUserNo()+" 失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:create()|"+message+",ErrorMsg:"+result.toString());
     	}
-    	return j;
-    	
+		return j;
     }
        
    /**
-   	* 功能：用户管理-保存更新
+   	* 功能：晒单管理-保存更新
    	*/
     @RequestMapping(value="/chatShowTradeController/update",method=RequestMethod.POST)
    	@ResponseBody
     @ActionVerification(key="edit")
-    public AjaxJson update(HttpServletRequest request,ChatShowTrade chatShowtrade){
-    	String userNo = request.getParameter("userNo");
-    	BoUser user=userService.getUserByNo(userNo);
-    	 	
+    public AjaxJson update(HttpServletRequest request,ChatShowTrade chatShowTrade){
+    	BoUser userParam = ResourceUtil.getSessionUser();
+    	chatShowTrade.setUpdateUser(userParam.getUserNo());
+    	chatShowTrade.setUpdateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();
-    	if(user.getUserId() != null){
-    		BoUser newUser=new BoUser();
-        	newUser.setAvatar(user.getAvatar());
-        	newUser.setUserName(user.getUserName());
-        	newUser.setUserNo(user.getUserNo());
-        	newUser.setUserId(user.getUserId());
-        	newUser.setWechatCode(user.getWechatCode());
-        	newUser.setWinRate(user.getWinRate());
-        	
-        	//chatShowtrade.setShowDate(new Date());
-        	chatShowtrade.setValid(1);
-        	chatShowtrade.setBoUser(newUser);
-        	
-        	ApiResult result =chatShowTradeService.saveTrade(chatShowtrade, true);
-        	if(result.isOk()){
-        		j.setSuccess(true);
-        		
-        		logger.info("<<method:update()|isOK");
-        	}else{
-        		j.setSuccess(false);
-        		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-        		logger.error("<<method:update()|ErrorMsg:"+result.toString());
-        	}
-    		
+    	String userNo = request.getParameter("userNo");
+		 if(userNo != null){
+		     BoUser user=new BoUser();
+		     user.setUserNo(userNo);
+		     chatShowTrade.setBoUser(user);
+		 }
+    	
+    	ApiResult result =chatShowTradeService.saveTrade(chatShowTrade, true);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功修改晒单："+userParam.getUserNo();
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<--method:update()|"+message);
     	}else{
     		j.setSuccess(false);
-    		logger.error("<<method:update()|ErrorMsg:");
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改晒单："+userParam.getUserNo()+" 失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
     	}
-    	return j;
+   		return j;
      }
 }

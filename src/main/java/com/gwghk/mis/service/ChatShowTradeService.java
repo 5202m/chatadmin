@@ -1,6 +1,8 @@
 package com.gwghk.mis.service;
 
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,6 +17,7 @@ import com.gwghk.mis.dao.ChatShowTradeDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatShowTrade;
+import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -28,19 +31,48 @@ public class ChatShowTradeService{
 	@Autowired
 	private ChatShowTradeDao chatShowTradeDao;
 
+	@Autowired
+	private UserService userService;
+    /**
+     * 新赠和更新
+     * @param showTrade
+     * @param isUpdate
+     * @return
+     */
 	public ApiResult saveTrade(ChatShowTrade showTrade, boolean isUpdate) {
 		ApiResult result=new ApiResult();
+		/**
+		 * 新赠和修改(更改分析师)
+		 */
+		BoUser user=userService.getUserByNo(showTrade.getBoUser().getUserNo());
+		if(user==null){
+			return result.setCode(ResultCode.Error104);
+		}
+		BoUser newUser=new BoUser();
+    	newUser.setAvatar(user.getAvatar());
+    	newUser.setUserName(user.getUserName());
+    	newUser.setUserNo(user.getUserNo());
+    	newUser.setWechatCode(user.getWechatCode());
+    	newUser.setWinRate(user.getWinRate());
+    	
+    	showTrade.setValid(1);
+    	showTrade.setBoUser(newUser);
+    	
     	if(isUpdate){
-    		chatShowTradeDao.updateTrade(showTrade);
-    	}
-    	else if(StringUtils.isNotBlank(showTrade.getId())){
-			return result.setCode(ResultCode.Error103);
-		}else{
+    		ChatShowTrade trade=chatShowTradeDao.getById(showTrade.getId());
+    		if(trade==null){
+    			return result.setCode(ResultCode.Error104);
+    		}
+    		BeanUtils.copyExceptNull(trade, showTrade);
+    		chatShowTradeDao.updateTrade(trade);
+    	}else{
+    		showTrade.setId(null);
+    		showTrade.setShowDate(new Date());
 			chatShowTradeDao.addTrade(showTrade);
 		}
-		
     	return result.setCode(ResultCode.OK);
 	}
+	
 	/**
 	 * 功能：分页查询晒单数据
 	 */
@@ -60,17 +92,29 @@ public class ChatShowTradeService{
 		query.addCriteria(criteria);
 		return chatShowTradeDao.getShowTradePage(query,dCriteria);
 	}
-
+	/**
+	 * 删除
+	 * @param tradeIds
+	 * @return
+	 */
 	public ApiResult deleteTrade(String[] tradeIds){
     	ApiResult api=new ApiResult();
     	boolean isSuccess=chatShowTradeDao.deleteTrade(tradeIds);
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
     }
-	
+	/**
+	 * 获取数据
+	 * @param tradeId
+	 * @return
+	 */
 	public ChatShowTrade getTradeById(String tradeId) {
 		return chatShowTradeDao.getTradeById(tradeId);
 	}
-	
+	/**
+	 * 被动同步更新用户明细
+	 * @param user
+	 * @return
+	 */
 	public ApiResult asyncTradeByBoUser(BoUser user){
 		ApiResult result=new ApiResult();
     	return result.setCode(chatShowTradeDao.updateTradeByBoUser(user)?ResultCode.OK:ResultCode.FAIL);

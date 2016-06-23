@@ -70,11 +70,10 @@ var chatShowTrade = {
 	setEvent:function(){
 		// 列表查询
 		$("#show_trade_queryForm_search").on("click",function(){
-			var userNo = $("#userNo").val();                     //账号
+			var userNo = $('#chatTradeSearchUserNo').combogrid('getValue');                     //账号
 			if(userNo == '请选择'){
 				userNo = '';
 			}
-			
 			var groupType = $("#showTrade_groupType_select").val();  
 			var queryParams = $('#'+chatShowTrade.gridId).datagrid('options').queryParams;
 			queryParams['userNo'] = userNo;
@@ -91,20 +90,14 @@ var chatShowTrade = {
 	},
 	//显示用户列表
 	setUserList:function(){
-		var authorListId="authorList_";
-	     $("select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
-	     chatShowTrade.setAuthorList(authorListId);
+	     chatShowTrade.setAuthorList("chatTradeSearchUserNo");
 	},
 	setUserEdit:function(value){
-		var authorListId="authorEdit_";
-	     $("select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
-	     chatShowTrade.setAuthorList(authorListId);
-	     $('#'+authorListId).combogrid('setValue', value);
+	     chatShowTrade.setAuthorList("chatTradeEditUserNo");
+	     $('#chatTradeEditUserNo').combogrid('setValue', value);
 	},
 	setUserAdd:function(){
-		var authorListId="authorAdd_";
-	     $("select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
-	     chatShowTrade.setAuthorList(authorListId);
+		chatShowTrade.setAuthorList("chatTradeAddUserNo");
 	},
 	/**
 	 * 功能：查看
@@ -147,7 +140,7 @@ var chatShowTrade = {
 								chatShowTrade.refresh();
 								$.messager.alert("操作提示",'新增晒单成功');
 							}else{
-								$.messager.alert('新增晒单失败，原因：'+d.msg,'error');
+								$.messager.alert('错误提示','新增晒单失败，原因：分析师'+d.msg);
 							}
 						}
 					});
@@ -182,7 +175,7 @@ var chatShowTrade = {
 								chatShowTrade.refresh();
 								$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.editsuccess"),'info');/**操作提示  修改成功!*/
 							}else{
-								$.messager.alert($.i18n.prop("common.operate.tips"),'修改失败，原因：'+d.msg,'error');  /**操作提示  修改失败!*/
+								$.messager.alert($.i18n.prop("common.operate.tips"),'修改失败','error');  /**操作提示  修改失败!*/
 							}
 						}
 					});
@@ -239,7 +232,6 @@ var chatShowTrade = {
 	 * @param id
 	 */
 	setAuthorList:function(id){
-		
 		$('#'+id).combogrid({
 		    idField:'userName',
 		    textField:'userName',
@@ -259,15 +251,10 @@ var chatShowTrade = {
 				}}
 		    ]],
 		    onSelect:function(rowIndex, rowData){
-		
-		       var lang=id.replace("authorList_","");
-			   $('#'+id+'Area input[name=userNo]').val(rowData.userNo);
-			   $('#'+id+'Area input[name=name]').val(rowData.userName);
-			   $('#'+id+'Area input[name=position]').val(rowData.position);
-			   $('#'+id+'Area input[name=avatar]').val(rowData.avatar);
-		    },
+				   $('#'+id+'Input').val(rowData.userNo);
+			},
 		    onChange:function(val){
-		    	$('#selectUserArea input[name=userNo]').val(val);
+		    	$('#'+id+'Input').val(val);
 		    }
 		}); 
 	},

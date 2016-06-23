@@ -65,51 +65,46 @@ $(function() {
 	});
 });
 </script>
-
 <div style="padding:5px;overflow:hidden;">
-  <form id="showTradeEditFrom" class="yxForm" method="post">
+  <form id="showTradeAddFrom" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
       
       <th width="10%">房间组别<span class="red">*</span></th>
-		<td width="25%">
-			<select name="groupType" id="syllabus_groupType_select" style="width: 160px;">
+		<td width="35%">
+			<select name="groupType" id="syllabus_groupType_select" style="width: 160px;"
+			class="easyui-validatebox" data-options="required:true">
 				<option value="">--请选择--</option>
 				<c:forEach var="row" items="${chatGroupList}">
 					<c:if test="${empty row.id}">
-						<option value="${row.groupType}" <c:if test="${row.groupType==chatTrade.groupType}">selected="selected"</c:if>>
+						<option value="${row.groupType }">
 							${row.name}
 						</option>
 					</c:if>
 				</c:forEach>
 			</select>
       
-        <th width="15%"><spring:message code="user.no" /><!-- 账号 --><span class="red">*</span></th>
-        <td width="35%">
-        <div id="authorEdit_Area">
-	        <input type="hidden" name="userNo" id="userNo" />
-	        <input type="hidden" name="name" />
-	        <input type="hidden" name="position" />
-	        <input type="hidden" name="avatar" />
-        	<select name="authorAvatar" style="width:280px;"></select>
-          </div>
-          </td>
+        <th width="15%">分析师账号<span class="red">*</span></th>
+        <td>
+        <input type="hidden" name="userNo" id="chatTradeAddUserNoInput">
+        <select  id="chatTradeAddUserNo" style="width:280px;"></select>
+         </td>
       </tr>
       
       <tr>
         <th>获利</th>
-        <td colspan="3"><input type="text" name="profit" id="profit" value="${chatTrade.profit}" /></td>
+        <td colspan="3"><input type="text" name="profit" id="profit" /></td>
       </tr>
       
       <tr>
-        <th>晒单图片</th>
+        <th>晒单图片<span class="red">*</span></th>
         <td colspan="3">
-        	<div>图片路径：<input type="text" id="tradeImgPath" name="tradeImg" style="width:350px;margin-top:5px;" value="${chatTrade.tradeImg}"/>
+        	<div>图片路径：<input type="text" id="tradeImgPath" name="tradeImg" class="easyui-validatebox" data-options="required:true" style="width:350px;margin-top:5px;"/>
 	        	<input type="file"  id="tradeImgFile" style="width:155px">
 	        	<!-- 原图片路径 -->
-	        	<input type="hidden" id="tradeImgPathSrc" value="${chatTrade.tradeImg}"/>
+	        	<input type="hidden" id="tradeImgPathSrc"/>
 	        	<!-- 裁剪后图片的路径 -->
-	        	<input type="hidden" id="tradeImgPathCut" value="${chatTrade.tradeImg}"/>
+	        	<input type="hidden" id="tradeImgPathCut"/>
 	        	<!-- 表单提交时保存到数据库的字段-->
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-upload',disabled:false"  onclick="javascript:$('#tradeImgFile').uploadify('upload', '*');">上传文件</a> 
 	        	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'ope-cancel',disabled:false"  onclick="javascript:$('#tradeImgFile').uploadify('cancel', '*');">停止上传</a> 
@@ -120,10 +115,9 @@ $(function() {
       </tr>
       <tr>
         <th>备注</th>
-        <td colspan="3"><input type="text" name="remark" style="width:80%" value="${chatTrade.remark}"/></td>
+        <td colspan="3"><input type="text" name="remark" style="width:80%"/></td>
       </tr>
     </table>
-    <input type="hidden" name="id" value="${chatTrade.id}"/>
   </form>
 </div>
-<script>chatShowTrade.setUserEdit('${chatTrade.boUser.userNo}');</script>
+<script>chatShowTrade.setUserAdd();</script>

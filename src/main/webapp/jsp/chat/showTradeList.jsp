@@ -24,20 +24,10 @@
 		</td>
           <th width="10%">分析师账号--</th>
           <td width="23%">
-          <!--  <input type="text" name="userNo" id="userNo" style="width:160px"/>-->
-          
-          <div id="authorList_Area">
-	        <input type="hidden" name="userNo" id="userNo"/>
-	        <input type="hidden" name="name" />
-	        <input type="hidden" name="position" />
-	        <input type="hidden" name="avatar" />
-        	<select name="authorAvatar" style="width:280px;"></select>
-          </div>
-          
+          	<input type="hidden" name="userNo" id="chatTradeSearchUserNoInput">
+            <select id="chatTradeSearchUserNo" style="width:280px;"></select>
           </td>
-          
         </tr>
-       
         <tr>
           	<td colspan="4" align="right">&nbsp;&nbsp;
 	        	<a href="#" class="easyui-linkbutton" id="show_trade_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
