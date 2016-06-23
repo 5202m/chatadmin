@@ -105,6 +105,12 @@ public class BoUser extends BaseModel{
      * 微信二维码
      */
     private String wechatCodeImg;
+    
+	/**
+     * 胜率
+     */
+    private String winRate;
+    
     public String getWechatCodeImg() {
 		return wechatCodeImg;
 	}
@@ -112,19 +118,9 @@ public class BoUser extends BaseModel{
 	public void setWechatCodeImg(String wechatCodeImg) {
 		this.wechatCodeImg = wechatCodeImg;
 	}
-
-	/**
-     * 胜率
-     */
-    private String winRate;
-    
-    
-    
-    
 	public String getWechatCode() {
 		return wechatCode;
 	}
-
 	public void setWechatCode(String wechatCode) {
 		this.wechatCode = wechatCode;
 	}
