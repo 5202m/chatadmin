@@ -134,11 +134,15 @@ public class ChatMessgeService{
 				}
 			}
 			if(model.getContent()!=null){
-				if(StringUtils.isNotBlank(model.getContent().getMsgType())){
+				String msgType=model.getContent().getMsgType();
+				boolean isImg=false;
+				if(StringUtils.isNotBlank(msgType)){
+					if(msgType.equals("img")){
+						isImg=true;
+					}
 					criteria.and("content.msgType").is(model.getContent().getMsgType());
 				}
-				if(StringUtils.isNotBlank(model.getContent().getValue())){
-					criteria.and("content.msgType").is("text");
+				if(!isImg && StringUtils.isNotBlank(model.getContent().getValue())){
 					criteria.and("content.value").regex(StringUtil.toFuzzyMatch(model.getContent().getValue()));
 				}
 			}
