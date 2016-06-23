@@ -34,7 +34,6 @@ import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatShowTrade;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatShowTradeService;
-import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;

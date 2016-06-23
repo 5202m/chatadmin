@@ -18,7 +18,6 @@ import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatShowTrade;
 import com.gwghk.mis.util.BeanUtils;
-import com.gwghk.mis.util.StringUtil;
 
 /**
  * 晒单管理服务类
