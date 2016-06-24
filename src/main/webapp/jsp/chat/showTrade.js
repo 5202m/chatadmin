@@ -100,6 +100,23 @@ var chatShowTrade = {
 		chatShowTrade.setAuthorList("chatTradeAddUserNo");
 	},
 	/**
+	 * 验证数字
+	 */
+	validProfit:function(){
+		if(!$('#profit').val()){
+			return true;
+		}
+		var profit_float = parseFloat($('#profit').val());
+		if(isNaN(profit_float)){
+			$.messager.alert("提示信息","获利为有效的数字(两位小数)");
+			$('#profit').focus();
+			return false;
+		}else{
+			$('#profit').val(profit_float.toFixed(2));
+			return true;
+		}
+	},
+	/**
 	 * 预览图片
 	 */
 	setViewImage:function(obj){
@@ -143,6 +160,9 @@ var chatShowTrade = {
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
 				if($("#showTradeAddFrom").form('validate')){
+					if(chatShowTrade.validProfit() == false){
+						return ;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'showTradeAddFrom',
@@ -158,6 +178,9 @@ var chatShowTrade = {
 						}
 					});
 				}
+			},
+			onLoad : function(){
+				chatShowTrade.setUserAdd();
 			}
 		});
 	},
@@ -178,6 +201,9 @@ var chatShowTrade = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#showTradeEditFrom").form('validate')){
+					if(chatShowTrade.validProfit() == false){
+						return ;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'showTradeEditFrom',
@@ -195,19 +221,7 @@ var chatShowTrade = {
 				}
 			},
 			onLoad : function(){
-				var avatarSrc=$("#currentAvatarPath").val();
-				var loc_defaultFlag = false;
-				if(isValid(avatarSrc)){
-					$("#user_header_default div img").each(function(){
-						if(this.src==avatarSrc){
-							$("#user_header_default div input[name=defaultHeader][t="+$(this).attr("t")+"]").click();
-							loc_defaultFlag = true;
-						}
-					});
-					if(!loc_defaultFlag){
-						$("#user_header_tab").tabs("select", "本地上传");
-					}
-				}
+				chatShowTrade.setUserEdit($('#chatTradeEditUserNoInput').attr('data-userName'));
 			}
 		});
 	},

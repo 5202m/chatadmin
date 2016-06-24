@@ -15,11 +15,10 @@
 <script type="text/javascript">
 //初始化
 $(function() {
-	
 	//晒单图片
 	goldOfficeUtils.uploadFile({
 		'fileId' : 'tradeImgFile',
-		'formData' : {'fileDir' : 'pic', 'saveSrc':'1'},
+		'formData' : {'fileDir' : 'pic'},
 		'fileSizeLimit' : 10*1024*1024,
 		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
@@ -60,7 +59,7 @@ $(function() {
       
         <th width="15%">分析师<span class="red">*</span></th>
         <td>
-        <input type="hidden" name="userNo" id="chatTradeEditUserNoInput" value="${chatTrade.boUser.userNo}">
+        <input type="hidden" name="userNo" id="chatTradeEditUserNoInput" value="${chatTrade.boUser.userNo}" data-userName="${chatTrade.boUser.userName}">
         <select  id="chatTradeEditUserNo" style="width:280px;"></select>
        </td>
       </tr>
@@ -68,7 +67,7 @@ $(function() {
       <tr>
         <th>获利</th>
         <td colspan="3"><input type="text" name="profit" id="profit" value="${chatTrade.profit}" />
-        	<span class="red"> ( 若不填值视为"持仓中" )</span>
+        <span class="red"> ( 若不填值视为"持仓中" )</span>
         </td>
       </tr>
       
@@ -97,4 +96,3 @@ $(function() {
     <input type="hidden" name="id" value="${chatTrade.id}"/>
   </form>
 </div>
-<script>chatShowTrade.setUserEdit('${chatTrade.boUser.userName}');</script>

@@ -75,7 +75,7 @@ $(function() {
       <tr>
         <th>晒单图片<span class="red">*</span></th>
         <td colspan="3">
-        	<div>图片路径：<input type="text" id="tradeImgPath" name="tradeImg" class="easyui-validatebox" data-options="required:true" style="width:350px;margin-top:5px;"/>
+        	<div>图片路径：<input type="text" id="tradeImgPath" name="tradeImg" class="easyui-validatebox" data-options="required:true,missingMessage:'请上传晒单图片'" style="width:350px;margin-top:5px;"/>
 	        	<input type="file"  id="tradeImgFile" style="width:155px">
 	        	<!-- 原图片路径 -->
 	        	<input type="hidden" id="tradeImgPathSrc"/>
@@ -96,4 +96,3 @@ $(function() {
     </table>
   </form>
 </div>
-<script>chatShowTrade.setUserAdd();</script>

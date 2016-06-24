@@ -153,6 +153,9 @@ var systemUser = {
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
 				if($("#userAddForm").form('validate')){
+					if(systemUser.validWinRate() == false){
+						return ;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'userAddForm',
@@ -188,6 +191,9 @@ var systemUser = {
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
 				if($("#userEditForm").form('validate')){
+					if(systemUser.validWinRate() == false){
+						return ;
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'userEditForm',
@@ -259,6 +265,34 @@ var systemUser = {
 				}
 			}
 		});
+	},
+	/**
+	 * 验证数字
+	 */
+	validWinRate:function(){
+		var winRate = $('#winRate').val();
+		if(!winRate){
+			return true;
+		}
+		if(winRate.indexOf('%')!=-1){
+			winRate = winRate.replace('%','');
+		}else{
+			$.messager.alert("提示信息","胜率为有效的百分比(两位小数),例如75.00%");
+			$('#winRate').focus();
+			return false;
+		}
+		winRate = parseFloat(winRate);
+		if(isNaN(winRate)){
+			$.messager.alert("提示信息","胜率为有效的百分比(两位小数),例如75.00%");
+			$('#winRate').focus();
+			return false;
+		}else{
+			if(winRate<1){
+				winRate = winRate * 100;
+			}
+			$('#winRate').val((winRate).toFixed(2) + '%');
+			return true;
+		}
 	},
 	/**
 	 * 功能：批量删除
