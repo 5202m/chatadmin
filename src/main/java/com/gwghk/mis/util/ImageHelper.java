@@ -376,7 +376,7 @@ public class ImageHelper {
 	 * @param uploadFileInfo 文件上传对象
 	 * @return ApiResult 结果对象
 	 */
-	public static ApiResult uploadImage(UploadFileInfo uploadFileInfo){
+	public static ApiResult uploadImage(UploadFileInfo uploadFileInfo, boolean isCompress){
 		FileUtils.createFilePath(uploadFileInfo);//创建文件路径
 		String fileName=uploadFileInfo.getFileName();
 		String tempDestFilePath = fileName+"_temp"+"." + uploadFileInfo.getFileExt();	
@@ -385,14 +385,20 @@ public class ImageHelper {
 		ApiResult result = new ApiResult();
 		MultipartFile srcFile = uploadFileInfo.getSrcFile();
 		try{
-			File  tempDestfile = new File(realPath + tempDestFilePath);
-			//通过复制创建新的临时图片
-			FileCopyUtils.copy(srcFile.getBytes(), tempDestfile);
-			//按指定的宽度和高度压缩临时图片，并生成指定想要的图片
-			ImageHelper.scaleWithWidthHeight(realPath + tempDestFilePath, realPath + realDestFilePath
-					   ,uploadFileInfo.getDefaultHeight(), uploadFileInfo.getDefaultWidth());
-			//删除临时压缩的图片
-			FileUtils.delete(tempDestfile);
+			if(isCompress){
+				File  tempDestfile = new File(realPath + tempDestFilePath);
+				//通过复制创建新的临时图片
+				FileCopyUtils.copy(srcFile.getBytes(), tempDestfile);
+				//按指定的宽度和高度压缩临时图片，并生成指定想要的图片
+				ImageHelper.scaleWithWidthHeight(realPath + tempDestFilePath, realPath + realDestFilePath
+						,uploadFileInfo.getDefaultHeight(), uploadFileInfo.getDefaultWidth());
+				//删除临时压缩的图片
+				FileUtils.delete(tempDestfile);
+			}else{
+				File  realDestfile = new File(realPath + realDestFilePath);
+				//通过复制创建新的临时图片
+				FileCopyUtils.copy(srcFile.getBytes(), realDestfile);
+			}
 			result.setCode(ResultCode.OK);
 			result.setReturnObj(new Object[]{uploadFileInfo.getFilePath()+realDestFilePath});
 		}catch(IOException e){

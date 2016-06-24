@@ -77,6 +77,7 @@ public class UploadController extends BaseController{
 		System.out.println("uploadFile->request:"+request.getParameter("fileDir"));
 		AjaxJson result = new AjaxJson();
 		String fileDir = request.getParameter("fileDir");
+		boolean isCompress = !"1".equals(request.getParameter("saveSrc"));
 		if(StringUtils.isBlank(fileDir)){					//action字段为ueditor编辑器上传视频默认字段
 			fileDir=request.getParameter("action");
 		}
@@ -101,7 +102,7 @@ public class UploadController extends BaseController{
                 		if(!validImage(file,result)){    //如果图片不符合规则，直接返回错误
                          	return result;
                         }
-                     	apiResult = ImageHelper.uploadImage(fileInfo); //开始上传图片
+                     	apiResult = ImageHelper.uploadImage(fileInfo, isCompress); //开始上传图片
                     }else{
                     	apiResult = FileUtils.uploadFile(fileInfo);   //开始上传文件
                     }
