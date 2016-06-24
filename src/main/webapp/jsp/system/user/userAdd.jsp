@@ -66,7 +66,7 @@ $(function() {
 	//微信二维码
 	goldOfficeUtils.uploadFile({
 		'fileId' : 'wechatCodeImgFile',
-		'formData' : {'fileDir' : 'pic'},
+		'formData' : {'fileDir' : 'pic', 'saveSrc':'1'},
 		'fileSizeLimit' : 10*1024*1024,
 		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
 		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
