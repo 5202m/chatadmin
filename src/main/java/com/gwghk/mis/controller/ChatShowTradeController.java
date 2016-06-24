@@ -141,14 +141,14 @@ public class ChatShowTradeController extends BaseController{
     	ApiResult result = chatShowTradeService.deleteTrade(new String[]{delId});
     	if(result.isOk()){
           	j.setSuccess(true);
-          	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户成功";
+          	String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除晒单成功";
           	logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
           					 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<method:oneDel()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除用户失败";
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 删除晒单失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:oneDel()|"+message+",ErrorMsg:"+result.toString());
@@ -170,14 +170,14 @@ public class ChatShowTradeController extends BaseController{
     	ApiResult result = chatShowTradeService.deleteTrade(delIds.contains(",")?delIds.split(","):new String[]{delIds});
     	if(result.isOk()){
     		j.setSuccess(true);
-    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除用户成功";
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除晒单成功";
     		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.info("<<method:batchDel()|"+message);
     	}else{
     		j.setSuccess(false);
     		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
-    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除用户失败";
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量删除晒单失败";
     		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
     						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
