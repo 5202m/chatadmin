@@ -57,7 +57,7 @@ var chatShowTrade = {
 						{title : "获利",field : 'profit',sortable : true , formatter : function(value, rowData, rowIndex) {
 							return rowData.profit == '' ? '持仓中' : rowData.profit}},		
 						{title : "晒单图片",field : 'tradeImg' , formatter : function(value, rowData, rowIndex) {
-							return rowData.tradeImg ? '<a href="'+rowData.tradeImg+'" alt="image" target="_blank"><img src="'+rowData.tradeImg+'" style="height:60px;"></a>' : '没有图片'}},
+							return rowData.tradeImg ? '<a onclick="return chatShowTrade.setViewImage($(this));" class="chatShowTradePreImage" href="'+rowData.tradeImg+'" alt="image" target="_blank"><img src="'+rowData.tradeImg+'" style="height:60px;"></a>' : '没有图片'}},
 						{title : "晒单时间", field : 'showDate' ,sortable : true, formatter : function(value, rowData, rowIndex) {
 							return rowData.showDate ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
@@ -98,6 +98,19 @@ var chatShowTrade = {
 	},
 	setUserAdd:function(){
 		chatShowTrade.setAuthorList("chatTradeAddUserNo");
+	},
+	/**
+	 * 预览图片
+	 */
+	setViewImage:function(obj){
+		var id = '#showTradeListImgView';
+	    $(id).val('');
+		var imgPath = obj.children('img').attr('src');
+		if(imgPath){
+			$(id).val(imgPath);
+			goldOfficeUtils.onViewImage(id);
+		}
+		return false;
 	},
 	/**
 	 * 功能：查看

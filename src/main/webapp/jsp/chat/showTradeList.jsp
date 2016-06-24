@@ -26,6 +26,7 @@
           <td width="23%">
           	<input type="hidden" name="userNo" id="chatTradeSearchUserNoInput">
             <select id="chatTradeSearchUserNo" style="width:280px;"></select>
+            <input type="text" id="showTradeListImgView">
           </td>
         </tr>
         <tr>
