@@ -40,7 +40,7 @@
       <tr>
         <th>晒单图片</th>
         <td colspan="3"><span>
-        <a href="${chatTrade.tradeImg}" target="_blank"><img src="${chatTrade.tradeImg}" style="width:100%;max-height:500px;" alt="晒单图片">
+        <a href="${chatTrade.tradeImg}" target="_blank"><img src="${chatTrade.tradeImg}" style="width:100%;max-height:500px;min-height:175px;" alt="晒单图片">
         </a>
         </span></td>
       </tr>

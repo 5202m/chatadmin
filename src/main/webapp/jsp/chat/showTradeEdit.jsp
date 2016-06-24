@@ -15,33 +15,8 @@
 <script type="text/javascript">
 //初始化
 $(function() {
-	//图片地址
-	goldOfficeUtils.uploadFile({
-		'fileId' : 'avatarId',
-		'formData' : {'fileDir' : 'pic/header/chat'},
-		'fileSizeLimit' : 10*1024*1024,
-		'fileTypeDesc': '只能上传*.jpg;*.gif;*.png;*.jpeg类型的图片',
-		'fileTypeExts' : '*.jpg;*.gif;*.png;*.jpeg',
-		'uploader' : basePath+'/uploadController/upload.do',
-		'onUploadSuccess' : function(file, data, response){
-			var d = eval("("+data+")");			//转换为json对象 
-			if(d.success){
-				alert(file.name + ' 上传成功！');
-				if(d.obj != null){
-					$("#currentAvatarPath").val(d.obj);
-					$("#sourceAvatarPath").val(d.obj);
-					$("#cutedAvatarPath").val(d.obj);
-				}
-			}else{
-				alert(file.name + d.msg);
-			}
-		}
-	});
-	$("#user_header_default div input[name=defaultHeader]").click(function(){
-		$("#currentAvatarPath").val($("#user_header_default div img[t="+$(this).attr("t")+"]").attr("src"));
-	});
 	
-	//简介图片
+	//晒单图片
 	goldOfficeUtils.uploadFile({
 		'fileId' : 'tradeImgFile',
 		'formData' : {'fileDir' : 'pic'},
@@ -92,7 +67,9 @@ $(function() {
       
       <tr>
         <th>获利</th>
-        <td colspan="3"><input type="text" name="profit" id="profit" value="${chatTrade.profit}" /></td>
+        <td colspan="3"><input type="text" name="profit" id="profit" value="${chatTrade.profit}" />
+        	<span class="red"> ( 若不填值视为"持仓中" )</span>
+        </td>
       </tr>
       
       <tr>

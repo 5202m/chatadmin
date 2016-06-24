@@ -121,7 +121,7 @@ var chatShowTrade = {
 		var url = formatUrl(basePath + '/chatShowTradeController/'+recordId+'/view.do');
 		goldOfficeUtils.openSimpleDialog({
 			title : $.i18n.prop("common.operatetitle.view"),       /**查看记录*/
-			height : 540 ,
+			height : 575 ,
 			href : url ,
 			iconCls : 'pag-view'
 		});
@@ -248,7 +248,7 @@ var chatShowTrade = {
 		$('#'+id).combogrid({
 		    idField:'userName',
 		    textField:'userName',
-		    url:basePath+'/userController/getAnalystList.do?hasOther=true',
+		    url:basePath+'/userController/getAnalystList.do',
 		    columns:[[
 		        {field : 'userNo', hidden:true},
 		        {field : 'author_Key_id',hidden:true,formatter : function(value, rowData, rowIndex) {
