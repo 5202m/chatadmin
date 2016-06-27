@@ -35,6 +35,14 @@ var chatGroupRule = {
 			            {title : '需要使用规则的值',field : 'beforeRuleVal'},
 						{title : '使用规则后的值',field : 'afterRuleVal'},
 						{title : '执行规则后的提示语',field : 'afterRuleTips'},
+						{title : '规则时间(红色当前生效)',field : 'periodDate',formatter : function(value, rowData, rowIndex) {
+							if(!value){
+								return "";
+							}else{
+								return "<font " + (dateTimeWeekCheck(value, true) ? "style='color:red;'" : "") + " >" + formatDateWeekTime(value) + "</font>"
+							}
+						}},
+						
 						{title : '修改人',field : 'updateUser'},
 						{title : '修改时间',field : 'updateDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
