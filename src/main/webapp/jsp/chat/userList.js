@@ -260,7 +260,7 @@ var chatUser = {
 	 * 从下拉框中提取名称
 	 */
 	getComboxNameByCode:function(domId,code){
-		return $(domId).find("option[value='"+code+"']").text();
+		return $(domId).find("option[value='"+code+"']:visible").text();
 	},
 	setEvent:function(){
 		// 列表查询
