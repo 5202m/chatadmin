@@ -160,20 +160,14 @@ public class MemberDao extends MongoDBBaseDao{
     	 List<ChatUserGroup> userGroupList = member.getLoginPlatform().getChatUserGroup();
     	 //groupId为空时，针对用户组别设置禁言。
     	 boolean isSet4Group = StringUtils.isEmpty(groupId);
-    	 
     	 //当前是否禁言,暂时是考虑当前的禁言
     	 boolean isAddGagTimes = DateUtil.dateTimeWeekCheck(gagDate, true);
-    	 int gatTimes;
-    	 
  		 if(userGroupList != null && userGroupList.size() > 0){
  			for(ChatUserGroup cg : userGroupList){
- 				
  				// 如果当前禁言并且禁言时间有变动则+1
-				if(isAddGagTimes && !"".equals(gagDate) && ("".equals(cg.getGagDate()) || !cg.getGagDate().equals(gagDate))){
-					gatTimes = (cg.getGagTimes() == null) ? 0 : cg.getGagTimes();
-					cg.setGagTimes( gatTimes + 1);
+				if(isAddGagTimes && StringUtils.isNotBlank(gagDate) && (StringUtils.isBlank(cg.getGagDate()) || !cg.getGagDate().equals(gagDate))){
+					cg.setGagTimes(((cg.getGagTimes() == null) ? 0 : cg.getGagTimes()) + 1);
 				}
-				
  				if(cg.getId().equals(groupType)){
  					if(isSet4Group){
 						cg.setGagTips(tip);
