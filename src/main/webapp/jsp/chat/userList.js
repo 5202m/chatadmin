@@ -314,8 +314,11 @@ var chatUser = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
+		var groupType = $("#userList_clientGroup option:visible").eq(1).attr('t');
+		groupType = '&groupType='+( groupType == undefined ? '' : groupType);
+		
 		var loc_params = $('#'+chatUser.gridId).datagrid('options').queryParams;
-		var path = basePath+ '/chatUserController/exportRecord.do?'+$.param(loc_params);
+		var path = basePath+ '/chatUserController/exportRecord.do?'+$.param(loc_params) + groupType;
 		window.location.href = path;
 	},
 	/**

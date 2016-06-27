@@ -376,6 +376,7 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/exportRecord", method = RequestMethod.GET)
 	@ActionVerification(key="export")
 	public void exportRecord(HttpServletRequest request, HttpServletResponse response,Member member){
+		String groupType = request.getParameter("groupType");
 		try{
 			DataGrid dataGrid = new DataGrid();
 			dataGrid.setPage(0);
@@ -404,7 +405,7 @@ public class ChatUserController extends BaseController{
 			Page<Member> page = memberService.getChatUserPage(this.createDetachedCriteria(dataGrid, member),onlineStartDate,onlineEndDate,createDateStart,createDateEnd);
 			List<Member>  memberList = page.getCollection();
 			List<ChatGroup> chatGroupList=chatGroupService.getChatGroupAllList("id","name");
-			List<ChatClientGroup> clientGroupList=chatClientGroupService.getClientGroupList(null);
+			List<ChatClientGroup> clientGroupList=chatClientGroupService.getClientGroupList(groupType);
 			ChatUserGroup userGroup=null;
 			Member cm=null;
 			if(memberList != null && memberList.size() > 0){
