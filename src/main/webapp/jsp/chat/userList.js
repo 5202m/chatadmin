@@ -219,6 +219,10 @@ var chatUser = {
 							}
 							return tds;
 						}},
+						{title : '禁言次数',field : 'loginPlatform.chatUserGroup.gagTimes',sortable : true,formatter : function(value, rowData, rowIndex) {
+							var row=rowData.loginPlatform.chatUserGroup[0];
+							return row.gagTimes;
+						}},
 						{title : '最后修改时间',field : 'updateDate', formatter : function(value, rowData, rowIndex) {
 							return value ? timeObjectUtil.formatterDateTime(value) : '';
 						}}

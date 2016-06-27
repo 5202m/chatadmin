@@ -91,6 +91,11 @@ public class ChatUserGroup {
 	private String gagDate;
 	
 	/**
+	 * 禁言次数
+	 */
+	private Integer gagTimes;
+	
+	/**
      * 禁言提示语
      */
 	private String gagTips; 
@@ -235,6 +240,14 @@ public class ChatUserGroup {
 	 */
 	public void setGagDate(String gagDate) {
 		this.gagDate = gagDate;
+	}
+	
+	public Integer getGagTimes() {
+		return gagTimes;
+	}
+
+	public void setGagTimes(Integer gagTimes) {
+		this.gagTimes = gagTimes;
 	}
 
 	/**
