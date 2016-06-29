@@ -452,6 +452,7 @@ public class ChatUserController extends BaseController{
 		row.set("no", index);
 		row.set("mobilePhone", mobilePhone);
 		row.set("accountNo", userGroup.getAccountNo());
+		row.set("userId",userGroup.getUserId());
 		row.set("nicknameStr",userGroup.getNickname()!=null?userGroup.getNickname():("匿名_"+userGroup.getUserId().substring(8,12)));
 		if(userGroup.getId().contains("studio")){
 			if(userGroup.getVipUser()!=null && userGroup.getVipUser()){
