@@ -40,11 +40,17 @@
 							</select>
 						</td>
 						<th>上线时间</th>
-						<td colspan="3">
-							<input name="onlineDateStart" id="visitor_onlineDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_onlineDateEnd\')}'})" style="width: 160px" />
+						<td>
+							<input name="onlineDateStart" id="visitor_onlineDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_onlineDateEnd\')}'})" style="width: 45%" />
 							 — 
-							 <input name="onlineDateEnd" id="visitor_onlineDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_onlineDateStart\')}'})" style="width: 160px" />
+							 <input name="onlineDateEnd" id="visitor_onlineDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_onlineDateStart\')}'})" style="width: 45%" />
 						</td>
+						
+						<th>昵称</th>
+						<td>
+							<input type="text" name="nickname">
+						</td>
+						
 					</tr>
 					<tr>
 						<th>客户设备</th>
@@ -68,9 +74,9 @@
 						</td>
 						<th>登录时间</th>
 						<td>
-							<input name="loginDateStart" id="visitor_loginDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_loginDateEnd\')}'})" style="width: 160px" />
+							<input name="loginDateStart" id="visitor_loginDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_loginDateEnd\')}'})" style="width: 45%" />
 							 — 
-							 <input name="loginDateEnd" id="visitor_loginDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_loginDateStart\')}'})" style="width: 160px" />
+							 <input name="loginDateEnd" id="visitor_loginDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_loginDateStart\')}'})" style="width: 45%" />
 						</td>
 					</tr>
 					<tr>

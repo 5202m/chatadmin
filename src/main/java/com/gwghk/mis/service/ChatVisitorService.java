@@ -37,6 +37,7 @@ import com.gwghk.mis.model.ChatVisitorStatData;
 import com.gwghk.mis.model.ChatVisitorStatGroup;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPParser;
+import com.gwghk.mis.util.StringUtil;
 
 /**
  * 聊天室访客记录service<BR>
@@ -135,6 +136,10 @@ public class ChatVisitorService
 				}else{
 					criteria.and("platform").is(chatVisitor.getPlatform());
 				}
+			}
+			if (StringUtils.isNotBlank(chatVisitor.getNickname()))
+			{
+				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(chatVisitor.getNickname()));
 			}
 			query.addCriteria(criteria);
 		}
