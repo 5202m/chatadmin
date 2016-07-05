@@ -14,9 +14,7 @@
 						<td width="23%">
 							<select name="roomId" id="visitorGroupId" style="width: 160px;">
 								<c:forEach var="row" items="${chatGroupList}">
-									<c:if test="${row.groupType=='studio' or row.id=='studio' or row.groupType=='fxstudio' or row.id=='fxstudio'}">
-										<option value="${row.id}<c:if test="${empty row.groupType}">,</c:if>">${row.name}</option>
-									</c:if>
+									<option value="${row.id}<c:if test="${empty row.groupType}">,</c:if>">${row.name}</option>
 								</c:forEach>
 							</select>
 						</td>
