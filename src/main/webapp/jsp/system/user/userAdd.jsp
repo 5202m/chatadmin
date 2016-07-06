@@ -215,10 +215,6 @@ $(function() {
 				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst10.png" t="14"/>
 				       <label><input type="radio" name="defaultHeader" t="14"/></label>
 			     	</div>
-			     	<div>
-				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_visitor1.png" t="15"/>
-				       <label><input type="radio" name="defaultHeader" t="15"/></label>
-			     	</div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
 			        <div>图片路径：<input type="text" id="currentAvatarPath" name="avatar" style="width:350px;margin-top:5px;"/>
