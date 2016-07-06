@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
 <style type="text/css">
-   .header_default div label{
-      margin-right: 20px;
-      margin-left: 20px;
+   .header_default div{
+      margin: 15px 25px 0 0;
       width: 33px;
+      height: 55px;
+      float: left;
    }
    .header_default div img{
-      margin-right:10px;
-      margin-left: 10px;
+      width: 33px;
+      height: 46px;
+   }
+   .header_default div label{
+      margin:0 10px;
       width: 33px;
    }
 </style>
@@ -157,26 +161,66 @@ $(function() {
         <td width="35%" colspan="3">
           <div id="user_header_tab" class="easyui-tabs" data-options="fit:true" style="height:180px;width:300px;margin-top:2px;">
 			   <div id="user_header_default" title="选择默认" style="padding:0px;height:180px;" class="header_default">
-			     <div style="margin-top:15px;">
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin1.png"   t="1"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin2.png"   t="2"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst1.png" t="3"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst2.png" t="4"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst3.png" t="5"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst4.png" t="6"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst5.png" t="7"/>
-			       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst6.png" t="8"/>
-			     </div>
-			      <div>
-			       <label><input type="radio" name="defaultHeader" t="1"/></label>
-			       <label><input type="radio" name="defaultHeader" t="2"/></label>
-			       <label><input type="radio" name="defaultHeader" t="3"/></label>
-			       <label><input type="radio" name="defaultHeader" t="4"/></label>
-			       <label><input type="radio" name="defaultHeader" t="5"/></label>
-			       <label><input type="radio" name="defaultHeader" t="6"/></label>
-			       <label><input type="radio" name="defaultHeader" t="7"/></label>
-			       <label><input type="radio" name="defaultHeader" t="8"/></label>
-			     </div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin1.png"   t="1"/>
+				       <label><input type="radio" name="defaultHeader" t="1"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin2.png"   t="2"/>
+				       <label><input type="radio" name="defaultHeader" t="2"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst1.png" t="3"/>
+				       <label><input type="radio" name="defaultHeader" t="3"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst2.png" t="4"/>
+				       <label><input type="radio" name="defaultHeader" t="4"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst3.png" t="5"/>
+				       <label><input type="radio" name="defaultHeader" t="5"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst4.png" t="6"/>
+				       <label><input type="radio" name="defaultHeader" t="6"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst5.png" t="7"/>
+				       <label><input type="radio" name="defaultHeader" t="7"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst6.png" t="8"/>
+				       <label><input type="radio" name="defaultHeader" t="8"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin3.png"   t="9"/>
+				       <label><input type="radio" name="defaultHeader" t="9"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin4.png"   t="10"/>
+				       <label><input type="radio" name="defaultHeader" t="10"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst7.png" t="11"/>
+				       <label><input type="radio" name="defaultHeader" t="11"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst8.png" t="12"/>
+				       <label><input type="radio" name="defaultHeader" t="12"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst9.png" t="13"/>
+				       <label><input type="radio" name="defaultHeader" t="13"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_analyst10.png" t="14"/>
+				       <label><input type="radio" name="defaultHeader" t="14"/></label>
+			     	</div>
+			     	<div>
+				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_visitor1.png" t="15"/>
+				       <label><input type="radio" name="defaultHeader" t="15"/></label>
+			     	</div>
 			   </div>
 			  <div id="user_header_upload" title="本地上传" style="padding:0px;height:180px;">
 			        <div>图片路径：<input type="text" name="avatar" id="currentAvatarPath" value="${mngUser.avatar}" style="width:350px;margin-top:5px;"/>
