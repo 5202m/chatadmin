@@ -23,14 +23,14 @@
         <div id="input_body">
           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="login_table">
             <tr>
-              <td><input id="userNo" name="userNo" type="text" class="login_input"/></td>
+              <td><input id="userNo" name="userNo" type="text" class="login_input" placeholder="账号"/></td>
             </tr>
             <tr>
-              <td><input id="password" name="password" type="password"  class="login_input"/></td>
+              <td><input id="password" name="password" type="password"  class="login_input" placeholder="密码"/></td>
             </tr>
             <tr>
             	<td>
-            		<input type="text"  name="code" id="code" title="请输入验证码" class="login_input login_input-wid"/>
+            		<input type="text"  name="code" id="code" title="请输入验证码" class="login_input login_input-wid" style="width:90px;" placeholder="验证码"/>
             		<img src="<%=request.getContextPath()%>/captchaController/get.do" id="p_captcha_img" title="点击刷新" style="cursor: pointer;" onclick="login.refreshCaptcha();" width="148" height="30" class="yxmimg">
             	</td>
             </tr>
@@ -56,7 +56,7 @@
         </div>
       </div>
       <p class="gw_browser" style="color: red;"><spring:message code="login.broswer" /></p>
-      <p class="gw_copyright">Copyright &copy; 2009-2015 <spring:message code="login.copyright" /></p>
+      <p class="gw_copyright">Copyright &copy; 2009-2015 金道贵金属有限公司</p>
     </div>
   </form>
 <script type="text/javascript" charset="UTF-8">

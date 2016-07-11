@@ -18,7 +18,7 @@ var mediaEdit = {
 				var title=$(this).attr("tv"),lang=this.value;
 				var tabId="media_detail_"+lang;
 				var tabTid="#"+tabId;
-				var authorListId="authorList_"+lang;
+				var authorListId="media_authorList_"+lang;
 			    $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
 			    mediaEdit.setAuthorList(authorListId);
 			}
@@ -119,14 +119,14 @@ var mediaEdit = {
 				}}
 		    ]],
 		    onSelect:function(rowIndex, rowData){
-		       var lang=id.replace("authorList_","");
+		       var lang=id.replace("media_authorList_","");
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=userId]').val(rowData.userNo);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(rowData.userName);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=position]').val(rowData.position);
 			   $('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=avatar]').val(rowData.avatar);
 		    },
 		    onChange:function(val){
-		    	var lang=id.replace("authorList_","");
+		    	var lang=id.replace("media_authorList_","");
 		    	$("td[field=author_Key_id]").parent().parent().find("td div").each(function(){
 		    		if(val!=$(this).text()){
 		    			$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=name]').val(val);
@@ -227,7 +227,7 @@ var mediaEdit = {
 	                  content:$("#mediaDetailTemp").html()
 		         });
 			     $(tabTid+" form[name=mediaDetailForm] input[type=hidden][name=lang]").val(lang);
-			     var authorListId="authorList_"+lang;
+			     var authorListId="media_authorList_"+lang;
 			     $(tabTid+" select[name=authorAvatar]").attr("id",authorListId).attr("name",authorListId);
 			     mediaEdit.setAuthorList(authorListId);
 			}else{
@@ -291,8 +291,8 @@ var mediaEdit = {
 	 * 清除无效的作者值
 	 */
 	checkClearAuthor:function(){
-		$("input[type=hidden][name^=authorList_]").each(function(){
-			 var lang=this.name.replace("authorList_","");
+		$("input[type=hidden][name^=media_authorList_]").each(function(){
+			 var lang=this.name.replace("media_authorList_","");
 			 var authorDom=$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=author]');
 			 if(isBlank(this.value)){
 				 authorDom.val('');
