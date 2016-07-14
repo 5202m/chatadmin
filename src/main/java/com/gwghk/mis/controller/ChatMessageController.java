@@ -160,7 +160,7 @@ public class ChatMessageController extends BaseController{
 			List<ChatClientGroup> clientGroups = chatClientGroupService.getClientGroupList(chatMessage.getGroupId().replaceAll("[,_].*$", ""));
 			Map<String, String> clientGroupMap = new HashMap<String, String>();
 			for(ChatClientGroup cg : clientGroups){
-				clientGroupMap.put(cg.getId(), cg.getName());
+				clientGroupMap.put(cg.getClientGroupId(), cg.getName());
 			}
 			if(chatMessageList != null && chatMessageList.size() > 0){
 				DataRowSet dataSet = new DataRowSet();
