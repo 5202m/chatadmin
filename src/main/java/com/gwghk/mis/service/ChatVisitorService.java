@@ -131,7 +131,7 @@ public class ChatVisitorService
 				criteria.and("userAgent").regex(Pattern.compile(".*?(iphone|ipod|ipad|android|mobile|playbook|bb10|meego).*", Pattern.CASE_INSENSITIVE));
 			}
 			if(StringUtils.isNotBlank(chatVisitor.getPlatform())){
-				if(chatVisitor.getPlatform().contains("studio")){
+				if(chatVisitor.getPlatform().equals("studio")){
 					criteria.and("platform").in(null, "");
 				}else{
 					criteria.and("platform").is(chatVisitor.getPlatform());
@@ -139,7 +139,7 @@ public class ChatVisitorService
 			}
 			if (StringUtils.isNotBlank(chatVisitor.getNickname()))
 			{
-				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(chatVisitor.getNickname()));
+				criteria.and("nickname").regex("(?i)" + StringUtil.toFuzzyMatch(chatVisitor.getNickname()));
 			}
 			query.addCriteria(criteria);
 		}

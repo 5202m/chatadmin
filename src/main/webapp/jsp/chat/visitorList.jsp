@@ -63,8 +63,7 @@
 						<td>
 							<select name="platform" id="visitorPlatform" style="width: 160px;">
 								<option value="">--请选择--</option>
-								<option value="studio">PM直播间</option>
-								<option value="fxstudio">FX直播间</option>
+								<option value="studio">直播间</option>
 								<option value="pc">PCUI</option>
 								<option value="webui">WEBUI</option>
 								<option value="app">APP</option>

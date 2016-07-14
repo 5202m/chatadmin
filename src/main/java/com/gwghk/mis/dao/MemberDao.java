@@ -164,12 +164,13 @@ public class MemberDao extends MongoDBBaseDao{
     	 boolean isAddGagTimes = DateUtil.dateTimeWeekCheck(gagDate, true);
  		 if(userGroupList != null && userGroupList.size() > 0){
  			for(ChatUserGroup cg : userGroupList){
- 				// 如果当前禁言并且禁言时间有变动则+1
-				if(isAddGagTimes && StringUtils.isNotBlank(gagDate) && (StringUtils.isBlank(cg.getGagDate()) || !cg.getGagDate().equals(gagDate))){
-					cg.setGagTimes(((cg.getGagTimes() == null) ? 0 : cg.getGagTimes()) + 1);
-				}
+ 				
  				if(cg.getId().equals(groupType)){
  					if(isSet4Group){
+ 						// 如果当前禁言并且禁言时间有变动则+1
+ 						if(isAddGagTimes && StringUtils.isNotBlank(gagDate) && (StringUtils.isBlank(cg.getGagDate()) || !cg.getGagDate().equals(gagDate))){
+ 							cg.setGagTimes(((cg.getGagTimes() == null) ? 0 : cg.getGagTimes()) + 1);
+ 						}
 						cg.setGagTips(tip);
 						cg.setGagRemark(remark);
 						cg.setGagDate(gagDate);
@@ -177,6 +178,10 @@ public class MemberDao extends MongoDBBaseDao{
  						List<ChatRoom> roomList=cg.getRooms();
  						for(ChatRoom room:roomList){
  							if(room.getId().equals(groupId)){
+ 								// 如果当前禁言并且禁言时间有变动则+1
+ 								if(isAddGagTimes && StringUtils.isNotBlank(gagDate) && (StringUtils.isBlank(room.getGagDate()) || !room.getGagDate().equals(gagDate))){
+ 									cg.setGagTimes(((cg.getGagTimes() == null) ? 0 : cg.getGagTimes()) + 1);
+ 								}
  								room.setGagDate(gagDate);
  								room.setGagTips(tip);
  								room.setGagRemark(remark);
