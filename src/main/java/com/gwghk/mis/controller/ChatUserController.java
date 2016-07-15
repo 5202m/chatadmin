@@ -458,9 +458,11 @@ public class ChatUserController extends BaseController{
 			if(userGroup.getVipUser()!=null && userGroup.getVipUser()){
 				row.set("clientGroup", "VIP用户");
 			}else{
+				row.set("clientGroup", "真实用户");
 				for(ChatClientGroup cg:clgList){
 					if(cg.getClientGroupId().equals(userGroup.getClientGroup())){
 						row.set("clientGroup", cg.getName());
+						break;
 					}
 				}
 			}

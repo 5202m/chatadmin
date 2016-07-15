@@ -159,7 +159,7 @@ $(function() {
         <td colspan="3">
           <div id="user_header_tab" class="easyui-tabs" data-options="fit:true" style="height:180px;width:300px;margin-top:2px;">
 			   <div id="user_header_default" title="选择默认" style="padding:0px;height:180px;" class="header_default">
-			     <div>
+			     	<div>
 				       <img src="${filePath}/upload/pic/header/chat/201508/20150817140000_admin1.png"   t="1"/>
 				       <label><input type="radio" name="defaultHeader" t="1"/></label>
 			     	</div>

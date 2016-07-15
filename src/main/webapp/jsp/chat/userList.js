@@ -31,7 +31,7 @@ var chatUser = {
 	   if(!result){
 		   result = $("#chatUserGroupId").val()==room.id;
 	   }else{
-		  if(isBlank(this.getComboxNameByCode($("#chatUserGroupId"),room.id))){
+		  if(isBlank(this.getComboxNameByCode("#chatUserGroupId",room.id))){
 			  return false;
 		  }
 	   }
@@ -160,7 +160,7 @@ var chatUser = {
 							var row=rowData.loginPlatform.chatUserGroup[0];
 							//微解盘没有用户组别，用户级别为真实用户
 							var id = row.vipUser ? 'vip' : (!row.clientGroup ? "real" : row.clientGroup);
-							return (id == "real") ? "真实" : $.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id));
+							return (id == "real") ? "真实" : $.trim(chatUser.getComboxNameByCode("#userList_clientGroup", id, "[s='1']"));
 						}},
 						{title : '注册时间',field : 'loginPlatform.chatUserGroup.createDate',sortable : true,formatter : function(value, rowData, rowIndex) {
 							var row=rowData.loginPlatform.chatUserGroup[0];
@@ -259,8 +259,8 @@ var chatUser = {
 	/**
 	 * 从下拉框中提取名称
 	 */
-	getComboxNameByCode:function(domId,code){
-		return $(domId).find("option[value='"+code+"']:visible").text();
+	getComboxNameByCode:function(domId,code,filter){
+		return $(domId).find("option[value='"+code+"']" + (filter || "")).text();
 	},
 	setEvent:function(){
 		// 列表查询
@@ -288,14 +288,14 @@ var chatUser = {
 				$("#userList_clientGroup").val("");
 			}
 			$("#userList_clientGroup").prop("disabled", isWeichat);
-			 $("#userList_clientGroup option").show();
+			 $("#userList_clientGroup option").show().attr("s", "1");
 			 if(this.value.indexOf("studio")!=-1){
 				 var val=this.value;
 				 $("#userList_clientGroup option[t]").each(function(){
 					 if(val.startsWith($(this).attr("t"))){
-						 $(this).show();
+						 $(this).show().attr("s", "1");;
 					 }else{
-						 $(this).hide();
+						 $(this).hide().attr("s", "0");;
 					 }
 				 });
 			 }else{
@@ -314,7 +314,7 @@ var chatUser = {
 	 * 功能：导出记录
 	 */
 	exportRecord : function(){
-		var groupType = $("#userList_clientGroup option:visible").eq(1).attr('t');
+		var groupType = $("#userList_clientGroup option[s='1']").eq(1).attr('t');
 		groupType = '&groupType='+( groupType == undefined ? '' : groupType);
 		
 		var loc_params = $('#'+chatUser.gridId).datagrid('options').queryParams;

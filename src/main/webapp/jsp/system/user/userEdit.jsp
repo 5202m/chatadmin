@@ -90,7 +90,6 @@ $(function() {
 			}
 		}
 	});
-	
 });
 </script>
 

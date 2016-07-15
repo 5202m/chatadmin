@@ -171,6 +171,11 @@ var systemUser = {
 						}
 					});
 				}
+			},
+			onLoad : function(){
+				if(window.location.href.indexOf("24k.hk") != -1){
+					$("#user_header_default>div:gt(7)").remove();
+				}
 			}
 		});
 	},
@@ -211,6 +216,9 @@ var systemUser = {
 				}
 			},
 			onLoad : function(){
+				if(window.location.href.indexOf("24k.hk") != -1){
+					$("#user_header_default>div:gt(7)").remove();
+				}
 				var avatarSrc=$("#currentAvatarPath").val();
 				var loc_defaultFlag = false;
 				if(isValid(avatarSrc)){
