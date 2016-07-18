@@ -26,7 +26,28 @@ public class ChatShowTrade extends BaseModel
 	private String profit; //获利
 	private String remark;
 	private Integer valid;
+	private String title;//标题
+	private Integer tradeType;//类别：1 分析师晒单，2 客户晒单
+	private Integer status;//状态：0 待审核， 1 审核通过， -1 审核不通过
 	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public Integer getTradeType() {
+		return tradeType;
+	}
+	public void setTradeType(Integer tradeType) {
+		this.tradeType = tradeType;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 	public Integer getValid() {
 		return valid;
 	}

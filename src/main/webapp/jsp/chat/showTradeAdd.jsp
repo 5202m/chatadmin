@@ -42,6 +42,27 @@ $(function() {
 <div style="padding:5px;overflow:hidden;">
   <form id="showTradeAddFrom" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+    	<tr>
+    		<th>标题<span class="red">*</span></th>
+    		<td colspan="3">
+    		<input type="text" name="title" id="title" class="easyui-validatebox" data-options="required:true" style="width:350px;" />
+    		</td>
+    	</tr>
+    	<tr>
+    		<th>类别</th>
+    		<td>
+    			<label><input type="radio" name="tradeType" value="1" checked="checked" />分析师晒单</label>
+    			<label><input type="radio" name="tradeType" value="2" />客户晒单</label>
+    		</td>
+    		<th>状态</th>
+    		<td>
+    			<select name="status" id="status">
+    				<option value="1">通过</option>
+    				<option value="0">待审核</option>
+    				<option value="-1">未通过</option>
+    			</select>
+    		</td>
+    	</tr>
       <tr>
       
       <th width="10%">房间组别<span class="red">*</span></th>

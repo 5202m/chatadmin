@@ -42,6 +42,25 @@ $(function() {
 <div style="padding:5px;overflow:hidden;">
   <form id="showTradeEditFrom" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
+    	<tr>
+    		<th>标题<span class="red">*</span></th>
+    		<td colspan="3"><input type="text" name="title" id="title" style="width:350px;" value="${chatTrade.title}" class="easyui-validatebox" data-options="required:true" /></td>
+    	</tr>
+    	<tr>
+    		<th>类别</th>
+    		<td>
+    			<label><input type="radio" name="tradeType" value="1"<c:if test="${chatTrade.tradeType==1 || chatTrade.groupType!=''}"> checked="checked"</c:if> />分析师晒单</label>
+    			<label><input type="radio" name="tradeType" value="2"<c:if test="${chatTrade.tradeType==2 || chatTrade.groupType==''}"> checked="checked"</c:if> />客户晒单</label>
+    		</td>
+    		<th>状态</th>
+    		<td>
+    			<select name="status" id="status">
+    				<option value="1"<c:if test="${chatTrade.status==1}"> selected="selected"</c:if>>通过</option>
+    				<option value="0"<c:if test="${chatTrade.status==0}"> selected="selected"</c:if>>待审核</option>
+    				<option value="-1"<c:if test="${chatTrade.status==-1}"> selected="selected"</c:if>>未通过</option>
+    			</select>
+    		</td>
+    	</tr>
       <tr>
       
       <th width="10%">房间组别<span class="red">*</span></th>

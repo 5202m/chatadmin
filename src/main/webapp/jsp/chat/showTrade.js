@@ -61,6 +61,15 @@ var chatShowTrade = {
 						{title : "晒单时间", field : 'showDate' ,sortable : true, formatter : function(value, rowData, rowIndex) {
 							return rowData.showDate ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
+						{title:'审核状态',field : 'status' ,formatter : function(value, rowData, rowIndex) {
+							if(rowData.status==1){
+								return '通过';
+							}else if(rowData.status==0){
+								return '待审核';
+							}else{
+								return '不通过';
+							}
+						}},
 						{title : "备注", field : 'remark'}
 						
 			]],
@@ -155,7 +164,7 @@ var chatShowTrade = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.add"),			/**添加记录*/
 			width : 650,
-			height : 300,
+			height : 350,
 			href : url,
 			iconCls : 'pag-add',
 			handler : function(){   //提交时处理
@@ -196,7 +205,7 @@ var chatShowTrade = {
 			dialogId : "editWindow",
 			title : $.i18n.prop("common.operatetitle.edit"),   /**修改记录*/
 			width : 650,
-			height : 300,
+			height : 350,
 			href : url,
 			iconCls : 'pag-edit',
 			handler : function(){    //提交时处理
