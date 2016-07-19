@@ -29,7 +29,14 @@ public class ChatShowTrade extends BaseModel
 	private String title;//标题
 	private Integer tradeType;//类别：1 分析师晒单，2 客户晒单
 	private Integer status;//状态：0 待审核， 1 审核通过， -1 审核不通过
+	private Integer praise;//点赞
 	
+	public Integer getPraise() {
+		return praise;
+	}
+	public void setPraise(Integer praise) {
+		this.praise = praise;
+	}
 	public String getTitle() {
 		return title;
 	}
