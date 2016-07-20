@@ -43,20 +43,22 @@ public class ChatShowTradeService{
 		/**
 		 * 新赠和修改(更改分析师)
 		 */
-		BoUser user=userService.getUserByNo(showTrade.getBoUser().getUserNo());
-		if(user==null){
-			return result.setCode(ResultCode.Error104);
+		if(showTrade.getTradeType()==1){
+			BoUser user=userService.getUserByNo(showTrade.getBoUser().getUserNo());
+			if(user==null){
+				return result.setCode(ResultCode.Error104);
+			}
+			BoUser newUser=new BoUser();
+	    	newUser.setAvatar(user.getAvatar());
+	    	newUser.setUserName(user.getUserName());
+	    	newUser.setUserNo(user.getUserNo());
+	    	newUser.setWechatCode(user.getWechatCode());
+	    	newUser.setWechatCodeImg(user.getWechatCodeImg());
+	    	newUser.setWinRate(user.getWinRate());
+	    	
+	    	showTrade.setBoUser(newUser);
 		}
-		BoUser newUser=new BoUser();
-    	newUser.setAvatar(user.getAvatar());
-    	newUser.setUserName(user.getUserName());
-    	newUser.setUserNo(user.getUserNo());
-    	newUser.setWechatCode(user.getWechatCode());
-    	newUser.setWechatCodeImg(user.getWechatCodeImg());
-    	newUser.setWinRate(user.getWinRate());
-    	
     	showTrade.setValid(1);
-    	showTrade.setBoUser(newUser);
     	
     	if(isUpdate){
     		ChatShowTrade trade=chatShowTradeDao.getById(showTrade.getId());
@@ -87,6 +89,9 @@ public class ChatShowTradeService{
 			}
 			if(chatShowTrade.getBoUser()!=null && StringUtils.isNotBlank(chatShowTrade.getBoUser().getUserNo())){
 				criteria.and("boUser.userNo").is(chatShowTrade.getBoUser().getUserNo());
+			}
+			if(chatShowTrade.getStatus() != null && StringUtils.isNotBlank(String.valueOf(chatShowTrade.getStatus()))){
+				criteria.and("status").is(chatShowTrade.getStatus());
 			}
 		}
 		query.addCriteria(criteria);
@@ -120,5 +125,16 @@ public class ChatShowTradeService{
     	return result.setCode(chatShowTradeDao.updateTradeByBoUser(user)?ResultCode.OK:ResultCode.FAIL);
 	}
 	
+	/**
+	 * 批量更新状态
+	 * @param tradeIds
+	 * @param status
+	 * @return
+	 */
+	public ApiResult modifyTradeStatusByIds(String[] tradeIds, int status){
+		ApiResult api=new ApiResult();
+    	boolean isSuccess=chatShowTradeDao.modifyTradeStatusByIds(tradeIds, status);
+    	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
+	}
 	
 }

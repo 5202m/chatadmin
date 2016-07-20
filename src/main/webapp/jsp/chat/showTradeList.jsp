@@ -30,6 +30,17 @@
           </td>
         </tr>
         <tr>
+        <th width="10%">状态</th>
+        <td colspan="3">
+        	<select name="status" id="showTrade_status_select">
+   				<option value="">--请选择--</option>
+   				<option value="1">通过</option>
+   				<option value="0">待审核</option>
+   				<option value="-1">未通过</option>
+   			</select>
+        </td>
+        </tr>
+        <tr>
           	<td colspan="4" align="right">&nbsp;&nbsp;
 	        	<a href="#" class="easyui-linkbutton" id="show_trade_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
 	        	&nbsp;&nbsp; <a href="#" class="easyui-linkbutton" id="show_trade_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>
@@ -49,7 +60,9 @@
   <div id="show_trade_datagrid_toolbar">
     <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatShowTrade.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="chatShowTrade.batchDel();"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
-    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="chatShowTrade.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a> 
+    <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="chatShowTrade.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a>
+    <a class="easyui-linkbutton setStatus" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatShowTrade.setStatus(1)">审核通过 </a>
+    <a class="easyui-linkbutton setStatus" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatShowTrade.setStatus(-1)">审核不通过 </a> 
   </div> 
   
   <!-- datagrid-操作按钮 -->

@@ -32,11 +32,18 @@ var chatShowTrade = {
 							return $("#show_trade_datagrid_rowOperation").html();
 						}},
 						
-			            {title : '分析师账号',field : 'boUser.userNo',formatter : function(value, rowData, rowIndex) {
+			            {title : '晒单人账号',field : 'boUser.userNo',formatter : function(value, rowData, rowIndex) {
 							return rowData.boUser.userNo;
 						}},                   	
 			            {title : $.i18n.prop("user.name"),field : 'boUser.userName',sortable : true,formatter : function(value, rowData, rowIndex) {
 							return rowData.boUser.userName;
+						}},
+						{title:'类别',field:'tradeType', formatter:function(value, rowData, rowIndex){
+							if(rowData.tradeType==1){
+								return '分析师晒单';
+							}else if(rowData.tradeType==2){
+								return '客户晒单';
+							}
 						}},
 						{title : '房间类别',field : 'groupTypeName',formatter : function(value, rowData, rowIndex) {
 							return chatShowTrade.getDictNameByCode("#showTrade_groupType_select",rowData.groupType);
@@ -84,9 +91,11 @@ var chatShowTrade = {
 				userNo = '';
 			}
 			var groupType = $("#showTrade_groupType_select").val();  
+			var status = $('#showTrade_status_select').val();
 			var queryParams = $('#'+chatShowTrade.gridId).datagrid('options').queryParams;
 			queryParams['userNo'] = userNo;
 			queryParams['groupType'] = groupType;
+			queryParams['status'] = status;
 			$('#'+chatShowTrade.gridId).datagrid({
 				url : basePath+'/chatShowTradeController/datagrid.do?opType=' + chatShowTrade.opType,
 				pageNumber : 1
@@ -293,6 +302,38 @@ var chatShowTrade = {
 		    	$('#'+id+'Input').val(val);
 		    }
 		}); 
+	},
+	setStatus:function(status){
+		var url = formatUrl(basePath + '/chatShowTradeController/batchSetStatus.do');
+		var rows = $("#"+chatShowTrade.gridId).datagrid('getSelections');
+		if(!rows || rows.length == 0) {
+			$.messager.alert($.i18n.prop("common.operate.tips"), '请选择记录进行操作!', 'warning');
+			return;
+		}
+		var message = '您确定要审核通过选中的晒单吗？';
+		if(status==-1){
+			message = '您确定要审核不通过选中的晒单吗？' ;
+		}
+		$.messager.confirm("操作提示", message, function(r) {
+			if (r) {
+				var tradeIds = [];
+				for(var i = 0; i < rows.length; i++) {
+					tradeIds.push(rows[i].id);
+				}
+				goldOfficeUtils.ajax({
+					url : url,
+					data: {tradeIds : tradeIds.join(','),status : status},
+					success : function(data){   
+						if (data.success) {
+							$('#'+chatShowTrade.gridId).datagrid('reload');
+							$.messager.alert("操作提示","审核成功!",'info');
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'修改失败','error');  /**操作提示  修改失败!*/
+						}
+					}
+				});
+			}
+		});
 	},
 };
 		

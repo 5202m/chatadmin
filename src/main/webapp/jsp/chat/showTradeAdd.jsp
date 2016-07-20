@@ -42,7 +42,7 @@ $(function() {
 <div style="padding:5px;overflow:hidden;">
   <form id="showTradeAddFrom" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-    	<tr>
+    	<!--tr>
     		<th>标题<span class="red">*</span></th>
     		<td colspan="3">
     		<input type="text" name="title" id="title" class="easyui-validatebox" data-options="required:true" style="width:350px;" />
@@ -62,7 +62,8 @@ $(function() {
     				<option value="-1">未通过</option>
     			</select>
     		</td>
-    	</tr>
+    	</tr-->
+    	<input type="hidden" name="tradeType" value="1" />
       <tr>
       
       <th width="10%">房间组别<span class="red">*</span></th>

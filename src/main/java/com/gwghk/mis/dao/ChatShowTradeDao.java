@@ -80,4 +80,16 @@ public class ChatShowTradeDao extends MongoDBBaseDao{
 	public ChatShowTrade getById(String id) {
 		return this.mongoTemplate.findById(id, ChatShowTrade.class);
 	}
+	
+	/**
+	 * 批量更新状态
+	 * @param ids
+	 * @param status
+	 * @return
+	 */
+	public boolean modifyTradeStatusByIds(Object[] ids, int status){
+		WriteResult wr = this.mongoTemplate.updateMulti(Query.query(Criteria.where("_id").in(ids))
+				   , Update.update("status", status), ChatShowTrade.class);
+		return wr != null && wr.getN() > 0;
+	}
 }

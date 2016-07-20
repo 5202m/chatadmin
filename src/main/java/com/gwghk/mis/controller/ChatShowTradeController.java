@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.alibaba.druid.util.StringUtils;
 import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
@@ -267,6 +267,14 @@ public class ChatShowTradeController extends BaseController{
 		 if(userNo != null){
 		     BoUser user=new BoUser();
 		     user.setUserNo(userNo);
+		     if(chatShowTrade.getTradeType()==2){
+		    	 String avatar = request.getParameter("avatar");
+		    	 String userName = request.getParameter("userName");
+		    	 userNo = request.getParameter("userId");
+		    	 user.setUserNo(userNo);
+		    	 user.setAvatar(avatar);
+		    	 user.setUserName(userName);
+		     }
 		     chatShowTrade.setBoUser(user);
 		 }
     	
@@ -287,4 +295,36 @@ public class ChatShowTradeController extends BaseController{
     	}
    		return j;
      }
+    
+    /**
+     * 批量审核晒单状态
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value="/chatShowTradeController/batchSetStatus",method=RequestMethod.POST)
+    @ResponseBody
+    @ActionVerification(key="setStatus")
+    public AjaxJson modifyTradeStatus(HttpServletRequest request, HttpServletResponse response){
+    	BoUser userParam = ResourceUtil.getSessionUser();
+    	String tradeIds = request.getParameter("tradeIds");
+    	int status = StringUtils.stringToInteger(request.getParameter("status"));
+    	AjaxJson j = new AjaxJson();
+    	ApiResult result = chatShowTradeService.modifyTradeStatusByIds(tradeIds.contains(",")?tradeIds.split(","):new String[]{tradeIds}, status);
+    	if(result.isOk()){
+    		j.setSuccess(true);
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量审核晒单成功";
+    		logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.info("<<method:batchDel()|"+message);
+    	}else{
+    		j.setSuccess(false);
+    		j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+    		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 批量审核晒单失败";
+    		logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_DEL
+    						 ,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+    		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
+    	}
+  		return j;
+    }
 }

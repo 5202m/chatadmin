@@ -42,15 +42,19 @@ $(function() {
 <div style="padding:5px;overflow:hidden;">
   <form id="showTradeEditFrom" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-    	<tr>
+    	<tr<c:if test="${chatTrade.tradeType==1}"> style="display:none"</c:if>>
     		<th>标题<span class="red">*</span></th>
     		<td colspan="3"><input type="text" name="title" id="title" style="width:350px;" value="${chatTrade.title}" class="easyui-validatebox" data-options="required:true" /></td>
     	</tr>
-    	<tr>
+    	<tr<c:if test="${chatTrade.tradeType==1}"> style="display:none"</c:if>>
     		<th>类别</th>
     		<td>
-    			<label><input type="radio" name="tradeType" value="1"<c:if test="${chatTrade.tradeType==1 || chatTrade.groupType!=''}"> checked="checked"</c:if> />分析师晒单</label>
-    			<label><input type="radio" name="tradeType" value="2"<c:if test="${chatTrade.tradeType==2 || chatTrade.groupType==''}"> checked="checked"</c:if> />客户晒单</label>
+    			<label><input type="radio" name="trade_Type" disabled="disabled" value="1"<c:if test="${chatTrade.tradeType==1 || chatTrade.groupType!=''}"> checked="checked"</c:if> />分析师晒单</label>
+    			<label><input type="radio" name="trade_Type" disabled="disabled" value="2"<c:if test="${chatTrade.tradeType==2 || chatTrade.groupType==''}"> checked="checked"</c:if> />客户晒单</label>
+    			<input type="hidden" name="tradeType" value="${chatTrade.tradeType}" />
+    			<input type="hidden" name="avatar" value="${chatTrade.boUser.avatar}" />
+    			<input type="hidden" name="userName" value="${chatTrade.boUser.userName}" />
+    			<input type="hidden" name="userId" value="${chatTrade.boUser.userNo}" />
     		</td>
     		<th>状态</th>
     		<td>
@@ -64,7 +68,7 @@ $(function() {
       <tr>
       
       <th width="10%">房间组别<span class="red">*</span></th>
-		<td width="35%">
+		<td colspan="3">
 			<select name="groupType" id="syllabus_groupType_select" style="width: 160px;">
 				<option value="">--请选择--</option>
 				<c:forEach var="row" items="${chatGroupList}">
@@ -75,15 +79,16 @@ $(function() {
 					</c:if>
 				</c:forEach>
 			</select>
-      
-        <th width="15%">分析师<span class="red">*</span></th>
-        <td>
+      </td>
+      </tr>
+      <tr<c:if test="${chatTrade.tradeType==2}"> style="display:none"</c:if>>
+        <th width="10%">分析师<span class="red">*</span></th>
+        <td colspan="3">
         <input type="hidden" name="userNo" id="chatTradeEditUserNoInput" value="${chatTrade.boUser.userNo}" data-userName="${chatTrade.boUser.userName}">
         <select  id="chatTradeEditUserNo" style="width:280px;"></select>
        </td>
       </tr>
-      
-      <tr>
+      <tr<c:if test="${chatTrade.tradeType==2}"> style="display:none"</c:if>>
         <th>获利</th>
         <td colspan="3"><input type="text" name="profit" id="profit" value="${chatTrade.profit}" />
         <span class="red"> ( 若不填值视为"持仓中" )</span>
