@@ -7,7 +7,7 @@
 	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a{float: left; display: block; color: #757575; font-size: 12pt; font-weight: bold; padding: 6px 0px 6px 0px; text-align: center; text-decoration: none; lin}
 	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a span{margin-top: 5px; font-size:12px; font-weight: normal;}
 	#panel_viewSyllabus .syllabus .sy_panel .sy_nav a.active{ color: #a17d20; background: #f6f6f6;}
-	#panel_viewSyllabus .syllabus .sy_panel .sy_cont{padding-top: 45px;}
+	#panel_viewSyllabus .syllabus .sy_panel .sy_cont{padding-top: 31px;}
 	#panel_viewSyllabus .syllabus .sy_panel .sy_cont div{padding-top: 5px; background-color: #f6f6f6;}
 	#panel_viewSyllabus .syllabus .sy_panel table{width: 600px;}
 	#panel_viewSyllabus .syllabus .sy_panel table tbody{display: none;}
