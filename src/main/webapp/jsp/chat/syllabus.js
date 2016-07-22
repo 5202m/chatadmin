@@ -654,7 +654,7 @@ var Syllabus = {
                                         + (loc_date.getMonth() < 9 ? "0" : "") + (loc_date.getMonth() + 1) + "-"
                                         + (loc_date.getDate() < 10 ? "0" : "") + loc_date.getDate();
                             loc_activeCls = (loc_courses.days[i].day == currTime.day) ? ' class="active"' : "";
-                            loc_html.push('<a href="javascript:void(0)" d="' + loc_courses.days[i].day + '"' + loc_activeCls + loc_width + '>' + loc_constants.dayCN[loc_courses.days[i].day] + '<br/><span>' + loc_dateStr + '</span></a>');
+                            loc_html.push('<a href="javascript:void(0)" d="' + loc_courses.days[i].day + '"' + loc_activeCls + loc_width + '>' + loc_constants.dayCN[loc_courses.days[i].day] + '<br/></a>');
                         }
                         loc_html.push('</div>');
                         //课程
