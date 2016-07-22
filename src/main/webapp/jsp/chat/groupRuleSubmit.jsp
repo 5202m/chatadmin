@@ -12,7 +12,7 @@
 		function selectVal(){
 			var val=$("#chatGroupRuleSubmitForm select[name=type]").find("option:selected").val();
 			$("tbody[id^=chatGroupRule_]").hide();
-			if(val.indexOf("_filter")!=-1||val.indexOf("url_")!=-1){
+			if(val.indexOf("_set")!=-1||val.indexOf("_filter")!=-1||val.indexOf("url_")!=-1){
 				$("#chatGroupRule_beforeRule_tbody").show();
 			}
 			if(val.indexOf("_replace")!=-1){
@@ -21,6 +21,8 @@
 			}
 			if(val == "visitor_filter"){
 				$("#chatGroupRule_beforeRule_tbody th:first").html("禁言游客的昵称(多个可以用逗号分隔)");
+			}else if(val == "login_time_set"){
+				$("#chatGroupRule_beforeRule_tbody th:first").html("登录框弹出时间(分钟)");
 			}else{
 				$("#chatGroupRule_beforeRule_tbody th:first").html("需要使用规则的值(多个可以用逗号分隔)");
 			}
