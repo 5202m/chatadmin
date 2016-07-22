@@ -190,7 +190,10 @@ public class ChatSyllabusController extends BaseController
         syllabus.setUpdateUser(userParam.getUserNo());
         syllabus.setUpdateDate(currDate);
         syllabus.setUpdateIp(IPUtil.getClientIP(request));
-        return syllabusService.saveChatSyllabus(syllabus);
+        ApiResult result = syllabusService.saveChatSyllabus(syllabus);
+        String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 修改课程表:[id=" + syllabus.getId() + ", groupType=" + syllabus.getGroupType() + ", groupId=" + syllabus.getGroupId() + "]!";
+		logger.info("<<edit()|"+message);
+        return result;
 	}
 
 	/**
