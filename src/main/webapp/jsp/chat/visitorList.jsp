@@ -39,9 +39,9 @@
 						</td>
 						<th>上线时间</th>
 						<td>
-							<input name="onlineDateStart" id="visitor_onlineDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_onlineDateEnd\')}'})" style="width: 45%" />
+							<input name="onlineDateStart" id="visitor_onlineDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_onlineDateEnd\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width: 45%" />
 							 — 
-							 <input name="onlineDateEnd" id="visitor_onlineDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_onlineDateStart\')}'})" style="width: 45%" />
+							 <input name="onlineDateEnd" id="visitor_onlineDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_onlineDateStart\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" style="width: 45%" />
 						</td>
 						
 						<th>昵称</th>
@@ -74,6 +74,20 @@
 							<input name="loginDateStart" id="visitor_loginDateStart" class="Wdate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'visitor_loginDateEnd\')}'})" style="width: 45%" />
 							 — 
 							 <input name="loginDateEnd" id="visitor_loginDateEnd" class="Wdate" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'visitor_loginDateStart\')}'})" style="width: 45%" />
+						</td>
+					</tr>
+					<tr>
+						<th>用户级别</th>
+						<td colspan="5">
+							<select name="clientGroup" id="clientGroup">
+								<option value="">--请选择--</option>
+								<option value="vip">vip</option>
+								<option value="active">真实激活</option>
+								<option value="notactive">真实未激活</option>
+								<option value="simulate">模拟</option>
+								<option value="register">注册</option>
+								<option value="visitor">游客</option>
+							</select>
 						</td>
 					</tr>
 					<tr>

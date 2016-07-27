@@ -104,11 +104,15 @@ public class ChatShowTradeController extends BaseController{
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatShowTrade chatShowTrade, String opType){
 		 String userNo = request.getParameter("userNo");
+		 String userName = request.getParameter("userName");
+		 BoUser user=new BoUser();
 		 if(userNo != null){
-		     BoUser user=new BoUser();
 		     user.setUserNo(userNo);
-		     chatShowTrade.setBoUser(user);
 		 }
+		 if(userName != null){
+			 user.setUserName(userName);
+		 }
+	     chatShowTrade.setBoUser(user);
 		 Page<ChatShowTrade> page = chatShowTradeService.getShowTradePage(this.createDetachedCriteria(dataGrid, chatShowTrade));
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());

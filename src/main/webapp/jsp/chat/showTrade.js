@@ -93,9 +93,13 @@ var chatShowTrade = {
 			var groupType = $("#showTrade_groupType_select").val();  
 			var status = $('#showTrade_status_select').val();
 			var queryParams = $('#'+chatShowTrade.gridId).datagrid('options').queryParams;
+			var userName = $('#userName').val();
+			var tradeType = $('#tradeType').val();
 			queryParams['userNo'] = userNo;
 			queryParams['groupType'] = groupType;
 			queryParams['status'] = status;
+			queryParams['tradeType'] = tradeType;
+			queryParams['userName'] = userName;
 			$('#'+chatShowTrade.gridId).datagrid({
 				url : basePath+'/chatShowTradeController/datagrid.do?opType=' + chatShowTrade.opType,
 				pageNumber : 1

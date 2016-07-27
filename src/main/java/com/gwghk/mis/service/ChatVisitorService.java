@@ -141,6 +141,9 @@ public class ChatVisitorService
 			{
 				criteria.and("nickname").regex("(?i)" + StringUtil.toFuzzyMatch(chatVisitor.getNickname()));
 			}
+			if(StringUtils.isNotBlank(chatVisitor.getClientGroup())){
+				criteria.and("clientGroup").is(chatVisitor.getClientGroup());
+			}
 			query.addCriteria(criteria);
 		}
 		Page<ChatVisitor> loc_result = chatVisitorDao.queryChatVisitors(query, dCriteria);

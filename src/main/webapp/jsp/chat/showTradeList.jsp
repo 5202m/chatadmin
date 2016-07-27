@@ -9,6 +9,18 @@
     <form class="yxForm" id="show_trade_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
+        	<th>姓名</th>
+        	<td><input type="text" name="userName" id="userName" /></td>
+        	<th>晒单类别</th>
+        	<td>
+	        	<select id="tradeType" name="tradeType">
+	        		<option value="0">--请选择--</option>
+	        		<option value="1">分析师晒单</option>
+	        		<option value="2">客户晒单</option>
+	        	</select>
+        	</td>
+        </tr>
+        <tr>
           <th width="10%">房间组别</th>
 			<td width="23%">
 				<select name="groupType" id="showTrade_groupType_select" style="width: 160px;">

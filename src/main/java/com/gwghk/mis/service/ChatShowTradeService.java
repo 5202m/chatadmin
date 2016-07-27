@@ -90,8 +90,14 @@ public class ChatShowTradeService{
 			if(chatShowTrade.getBoUser()!=null && StringUtils.isNotBlank(chatShowTrade.getBoUser().getUserNo())){
 				criteria.and("boUser.userNo").is(chatShowTrade.getBoUser().getUserNo());
 			}
+			if(chatShowTrade.getBoUser()!=null && StringUtils.isNotBlank(chatShowTrade.getBoUser().getUserName())){
+				criteria.and("boUser.userName").is(chatShowTrade.getBoUser().getUserName());
+			}
 			if(chatShowTrade.getStatus() != null && StringUtils.isNotBlank(String.valueOf(chatShowTrade.getStatus()))){
 				criteria.and("status").is(chatShowTrade.getStatus());
+			}
+			if(chatShowTrade.getTradeType() > 0){
+				criteria.and("tradeType").is(chatShowTrade.getTradeType());
 			}
 		}
 		query.addCriteria(criteria);
