@@ -254,17 +254,6 @@ var Syllabus = {
     		var studioLinkVal=Syllabus.getStudioLink(this.value);
     		$(this).parent().find('input[id^=studioLink_]').hide();
     		var valObj=$("#studioLink_"+this.value);
-    		if(isBlank(studioLinkVal)){
-    			if(this.value==1){
-        			studioLinkVal='http://yy.com/s/92628431/92628431/yyscene.swf';
-        		}
-        		if(this.value==2){
-        			studioLinkVal='http://www.one-tv.com/stream/live_mpegts.swf';
-        		}
-        		if(this.value==3){
-        			studioLinkVal='http://ct.phgsa.cn:1935/live/01/playlist.m3u8';
-        		}
-    		}
     		if(isBlank(valObj.val())){
     			valObj.val(studioLinkVal);
     		}
