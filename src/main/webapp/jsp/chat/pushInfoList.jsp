@@ -13,7 +13,7 @@
              <select name="pushType" style="width:150px;">
                  <option value="">--请选择--</option>
 	             <option value="0">预定义</option>
-	               <!-- <option value="1">即时执行</option> -->
+	             <option value="1">即时执行</option>
 	         </select>
 	       </td>
           <th width="10%">推送位置</th>
@@ -24,6 +24,7 @@
 	              <option value="1">私聊框</option>
 	              <!--  <option value="2">页面提示</option> -->
 	              <option value="3">公聊框</option>
+	              <option value="4">视频框</option>
 	          </select>
 	       </td>
           <th width="10%">状态</th>

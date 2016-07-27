@@ -67,8 +67,8 @@
 	          <th width="10%">推送方式</th>
 	          <td width="23%">
 	             <select name="pushType" style="width:150px;">
-	               <option value="0">预定义</option>
-	               <!-- <option value="1">即时执行</option> -->
+	               <option value="0"<c:if test="${chatPushInfo.pushType=='0'}"> selected="selected" </c:if>>预定义</option>
+	               <option value="1"<c:if test="${chatPushInfo.pushType=='1'}"> selected="selected" </c:if>>即时执行</option>
 	             </select>
 	          </td>
 	          <th width="10%">推送位置</th>
@@ -78,6 +78,7 @@
 	               <option value="1"<c:if test="${chatPushInfo.position=='1'}"> selected="selected" </c:if>>私聊框</option>
 	               <!-- <option value="2">页面提示</option> -->
 	               <option value="3"<c:if test="${chatPushInfo.position=='3'}"> selected="selected" </c:if>>公聊框</option>
+	             	<option value="4"<c:if test="${chatPushInfo.position=='4'}"> selected="selected" </c:if>>视频框</option>
 	             </select>
 	          </td>
 	          <th width="10%">上线时长(分钟)</th>
@@ -115,6 +116,12 @@
 	          <th>间隔时间(分钟)</th>
 	          <td>
 	          	 <input type="number" name="intervalMin" value="${chatPushInfo.intervalMin}" min="0" data-options="validType:'intOrFloat'"/>
+	          </td>
+	      </tr>
+	      <tr>
+	          <th>推送标题</th>
+	          <td colspan="6" tid="title">
+	             <input type="text" name="title" value="${chatPushInfo.title}" style="width:80%"/>
 	          </td>
 	      </tr>
 	      <tr>

@@ -22,6 +22,13 @@ public class ChatPushInfoDao extends MongoDBBaseDao{
 	public ChatPushInfo getById(String infoId){
 		return this.findById(ChatPushInfo.class, infoId);
 	}
+	/**
+	 * 通过ids找对应记录
+	 * @return
+	 */
+   public <T> List<T> getListByIds(Class<T> entityClass,Object[] ids,String ...include){
+	 return this.findListInclude(entityClass, Query.query(Criteria.where("id").in(ids)),include);
+   }
 	
 	/**
 	 * 查询列表

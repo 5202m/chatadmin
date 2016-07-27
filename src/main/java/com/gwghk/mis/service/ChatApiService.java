@@ -99,4 +99,45 @@ public class ChatApiService{
     		return api.setCode(ResultCode.FAIL).setErrorMsg(e.getMessage());
     	}
     }
+    /**
+     * 新赠或修改字母通知
+     * @param ids
+     * @return
+     */
+	public boolean submitPushInfo(String ids){
+	  	 Map<String, String> paramMap=new HashMap<String, String>();
+	  	 paramMap.put("ids", ids);
+	       try {
+			String str=HttpClientUtils.httpPostString(formatUrl("submitPushInfo"),paramMap);
+			if(StringUtils.isNotBlank(str)){
+				JSONObject obj=JSON.parseObject(str);
+				return obj.getBoolean("isOK");
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	/**
+	 * 删除字幕通知
+	 * @param ids
+	 * @return
+	 */
+    public boolean removePushInfo(String roomIds , String ids){
+     	 Map<String, String> paramMap=new HashMap<String, String>();
+     	 paramMap.put("ids", ids);
+     	 paramMap.put("roomIds", roomIds);
+          try {
+  			String str=HttpClientUtils.httpPostString(formatUrl("removePushInfo"),paramMap);
+  			if(StringUtils.isNotBlank(str)){
+  				JSONObject obj=JSON.parseObject(str);
+  				return obj.getBoolean("isOK");
+  			}else{
+  				return false;
+  			}
+  		} catch (Exception e) {
+  			return false;
+  		}
+    }
 } 

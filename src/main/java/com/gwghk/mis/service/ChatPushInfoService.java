@@ -15,6 +15,7 @@ import com.gwghk.mis.dao.ChatPushInfoDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.ChatPushInfo;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
 
 /**
@@ -27,7 +28,8 @@ public class ChatPushInfoService{
 
 	@Autowired
 	private ChatPushInfoDao chatPushInfoDao;
-	
+	@Autowired
+	private ChatApiService chatApiService;
 	/**
 	 * 查询列表
 	 * @return
@@ -66,11 +68,23 @@ public class ChatPushInfoService{
     		pushInfo.setOnlineMin(pushInfoParam.getOnlineMin());
     		pushInfo.setIntervalMin(pushInfoParam.getIntervalMin());
     		chatPushInfoDao.update(pushInfo);
+    		if(pushInfo.getPushType().equals(1) && pushInfo.getPosition().equals(4) && pushInfo.getValid().equals(1) && pushInfo.getStatus().equals(1)){
+    			boolean isPushDate = DateUtil.dateTimeWeekCheck(pushInfo.getPushDate(), true);
+    			if(isPushDate){
+    				chatApiService.submitPushInfo(pushInfo.getId());//视频通知到客服端
+    			}
+    		}
     	}else{
     		if(pushInfo!=null){
     			return result.setCode(ResultCode.Error102);
     		}
     		chatPushInfoDao.add(pushInfoParam);	
+    		if(pushInfoParam.getPushType().equals(1) && pushInfoParam.getPosition().equals(4) && pushInfoParam.getValid().equals(1) && pushInfoParam.getStatus().equals(1)){
+    			boolean isPushDate = DateUtil.dateTimeWeekCheck(pushInfoParam.getPushDate(), true);
+    			if(isPushDate){
+    				chatApiService.submitPushInfo(pushInfoParam.getId());//视频通知到客服端
+    			}
+    		}
     	}
     	return result.setCode(ResultCode.OK);
 	}
@@ -82,7 +96,46 @@ public class ChatPushInfoService{
 	 */
 	public ApiResult delete(String[] ids) {
 		ApiResult api=new ApiResult();
-    	boolean isSuccess = chatPushInfoDao.softDelete(ChatPushInfo.class,ids);
+    	boolean isSuccess =  chatPushInfoDao.softDelete(ChatPushInfo.class,ids);
+    	if(isSuccess){
+	    	int size=0;
+	    	StringBuffer idsBuffer=new StringBuffer();
+	    	for(int i =0;i<ids.length;i++){
+	    		idsBuffer.append(ids[i]);
+				if(i!=ids.length-1){
+					idsBuffer.append(",");
+    			}
+			}
+	    	ChatPushInfo row ;
+	    	StringBuffer buffer=new StringBuffer();
+	    	List<ChatPushInfo> list=chatPushInfoDao.getListByIds(ChatPushInfo.class,ids, "id","roomIds" ,"pushType","position","valid" , "status" , "pushDate");
+	    	
+	    	if(list!=null && (size=list.size())>0){
+	    		boolean isPushDate;
+	    		for(int i=0;i<size;i++){
+	    			isPushDate = false;
+	    			row = list.get(i);
+	    			if(row.getPushType().equals(1) && row.getPosition().equals(4) && row.getValid().equals(1) && row.getStatus().equals(1)){
+	    				isPushDate = DateUtil.dateTimeWeekCheck(row.getPushDate(), true);
+	    			}
+	    			if(isPushDate == false){
+	    				continue;
+	    			}
+	    			if(row.getRoomIds() != null && row.getRoomIds().length>0){
+	    				for(int j=0;j<row.getRoomIds().length;j++){
+	    					if(buffer.indexOf(row.getRoomIds()[j] + ',')==-1){
+	    						buffer.append(row.getRoomIds()[j]);
+				    			buffer.append((j==row.getRoomIds().length-1 && i==size-1) ? "" :",");
+	    					}
+		    			}
+	    			}
+	    		}
+		    }
+	    	//通知聊天室客户端移除对应记录
+    		if(idsBuffer.length()>0 && buffer.length()>0){
+    			chatApiService.removePushInfo(buffer.toString() , idsBuffer.toString());
+    		}
+    	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
 
@@ -115,6 +168,10 @@ public class ChatPushInfoService{
 			if(model.getRoomIds()!=null && model.getRoomIds().length>0){
 				criter.and("roomIds").in((Object[])model.getRoomIds());
 			}
+			if(model.getPushType()!=null){
+				criter.and("pushType").is(model.getPushType());
+			}
+			
 		}
 		return chatPushInfoDao.findPage(ChatPushInfo.class, Query.query(criter), dCriteria);
 	}

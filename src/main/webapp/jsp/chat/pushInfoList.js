@@ -11,7 +11,8 @@ var chatPushInfo = {
 		"0" : "任务栏",
 		"1" : "私聊框",
 		"2" : "页面提示",
-		"3" : "公聊框"
+		"3" : "公聊框",
+		"4" : "视频框",
 	},
 	init : function(){
 		this.intCombox();
@@ -63,6 +64,7 @@ var chatPushInfo = {
 							return chatPushInfo.position[value + ""] || "";
 						}},
 						{title : '上线时长(分钟)',field : 'onlineMin'},
+						{title : '推送标题',field : 'title'},
 						{title : '推送内容',field : 'content'},
 						{title:'是否延续推送',field : 'replyRepeat',formatter : function(value, rowData, rowIndex) {
 							return (!value||0==value)?"否":"是";

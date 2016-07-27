@@ -14,6 +14,7 @@ public class ChatPushInfo extends BaseModel {
 	 */
 	private String id;
 	
+	private String title;
 	/**
 	 * 信息内容
 	 */
@@ -205,6 +206,14 @@ public class ChatPushInfo extends BaseModel {
 
 	public void setReplyRepeat(Integer replyRepeat) {
 		this.replyRepeat = replyRepeat;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 }
