@@ -96,7 +96,7 @@ public class ChatShowTradeService{
 			if(chatShowTrade.getStatus() != null && StringUtils.isNotBlank(String.valueOf(chatShowTrade.getStatus()))){
 				criteria.and("status").is(chatShowTrade.getStatus());
 			}
-			if(chatShowTrade.getTradeType() > 0){
+			if(chatShowTrade.getTradeType() != null && chatShowTrade.getTradeType() > 0){
 				criteria.and("tradeType").is(chatShowTrade.getTradeType());
 			}
 		}

@@ -69,12 +69,16 @@ var chatShowTrade = {
 							return rowData.showDate ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
 						}},
 						{title:'审核状态',field : 'status' ,formatter : function(value, rowData, rowIndex) {
-							if(rowData.status==1){
+							if(rowData.tradeType==1){
 								return '通过';
-							}else if(rowData.status==0){
-								return '待审核';
 							}else{
-								return '不通过';
+								if(rowData.status==1){
+									return '通过';
+								}else if(rowData.status==0){
+									return '待审核';
+								}else{
+									return '不通过';
+								}
 							}
 						}},
 						{title : "备注", field : 'remark'}
