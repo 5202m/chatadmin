@@ -30,6 +30,13 @@ public class ChatPushInfoDao extends MongoDBBaseDao{
 	 return this.findListInclude(entityClass, Query.query(Criteria.where("id").in(ids)),include);
    }
 	
+   /**
+	 * 通过ids,自定义参数找对应记录
+	 * @return
+	 */
+  public <T> List<T> getListByIdsAndVideoPushParam(Class<T> entityClass,Object[] ids,String ...include){
+	 return this.findListInclude(entityClass, Query.query(Criteria.where("id").in(ids).and("status").is(1).and("position").is(4).and("pushType").is(1)),include);
+  }
 	/**
 	 * 查询列表
 	 * @return

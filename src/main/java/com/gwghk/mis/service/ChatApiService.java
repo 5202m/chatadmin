@@ -104,9 +104,10 @@ public class ChatApiService{
      * @param ids
      * @return
      */
-	public boolean submitPushInfo(String ids){
+	public boolean submitPushInfo(String infoStr,boolean isValid){
 	  	 Map<String, String> paramMap=new HashMap<String, String>();
-	  	 paramMap.put("ids", ids);
+	  	 paramMap.put("infoStr", infoStr);
+	  	 paramMap.put("isValid", isValid?"true":"false");
 	       try {
 			String str=HttpClientUtils.httpPostString(formatUrl("submitPushInfo"),paramMap);
 			if(StringUtils.isNotBlank(str)){
@@ -124,8 +125,9 @@ public class ChatApiService{
 	 * @param ids
 	 * @return
 	 */
-    public boolean removePushInfo(String roomIds , String ids){
+    public boolean removePushInfo(int position,String roomIds , String ids){
      	 Map<String, String> paramMap=new HashMap<String, String>();
+     	 paramMap.put("position", String.valueOf(position));
      	 paramMap.put("ids", ids);
      	 paramMap.put("roomIds", roomIds);
           try {

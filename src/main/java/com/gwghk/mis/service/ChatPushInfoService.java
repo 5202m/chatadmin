@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -68,11 +69,9 @@ public class ChatPushInfoService{
     		pushInfo.setOnlineMin(pushInfoParam.getOnlineMin());
     		pushInfo.setIntervalMin(pushInfoParam.getIntervalMin());
     		chatPushInfoDao.update(pushInfo);
-    		if(pushInfo.getPushType().equals(1) && pushInfo.getPosition().equals(4) && pushInfo.getValid().equals(1) && pushInfo.getStatus().equals(1)){
-    			boolean isPushDate = DateUtil.dateTimeWeekCheck(pushInfo.getPushDate(), true);
-    			if(isPushDate){
-    				chatApiService.submitPushInfo(pushInfo.getId());//视频通知到客服端
-    			}
+    		if(pushInfo.getPushType().equals(1) && pushInfo.getPosition().equals(4)){
+    			boolean isPushDate = DateUtil.dateTimeWeekCheck(pushInfo.getPushDate(), true) && pushInfo.getStatus().equals(1);
+    			chatApiService.submitPushInfo(JSON.toJSONString(pushInfo),isPushDate);//视频通知到客服端
     		}
     	}else{
     		if(pushInfo!=null){
@@ -82,7 +81,7 @@ public class ChatPushInfoService{
     		if(pushInfoParam.getPushType().equals(1) && pushInfoParam.getPosition().equals(4) && pushInfoParam.getValid().equals(1) && pushInfoParam.getStatus().equals(1)){
     			boolean isPushDate = DateUtil.dateTimeWeekCheck(pushInfoParam.getPushDate(), true);
     			if(isPushDate){
-    				chatApiService.submitPushInfo(pushInfoParam.getId());//视频通知到客服端
+    				chatApiService.submitPushInfo(JSON.toJSONString(pushInfoParam),true);//视频通知到客服端
     			}
     		}
     	}
@@ -96,45 +95,26 @@ public class ChatPushInfoService{
 	 */
 	public ApiResult delete(String[] ids) {
 		ApiResult api=new ApiResult();
-    	boolean isSuccess =  chatPushInfoDao.softDelete(ChatPushInfo.class,ids);
+    	boolean isSuccess = chatPushInfoDao.softDelete(ChatPushInfo.class,ids);
     	if(isSuccess){
 	    	int size=0;
-	    	StringBuffer idsBuffer=new StringBuffer();
-	    	for(int i =0;i<ids.length;i++){
-	    		idsBuffer.append(ids[i]);
-				if(i!=ids.length-1){
-					idsBuffer.append(",");
-    			}
-			}
-	    	ChatPushInfo row ;
-	    	StringBuffer buffer=new StringBuffer();
-	    	List<ChatPushInfo> list=chatPushInfoDao.getListByIds(ChatPushInfo.class,ids, "id","roomIds" ,"pushType","position","valid" , "status" , "pushDate");
-	    	
+	    	List<ChatPushInfo> list=chatPushInfoDao.getListByIdsAndVideoPushParam(ChatPushInfo.class,ids, "id","roomIds","position");
 	    	if(list!=null && (size=list.size())>0){
-	    		boolean isPushDate;
+	    		String[] strRmIdArr=new String[size];
+	    		String[] strIdArr=new String[size];
+	    		int position=0;
+	    		ChatPushInfo row=null;
 	    		for(int i=0;i<size;i++){
-	    			isPushDate = false;
-	    			row = list.get(i);
-	    			if(row.getPushType().equals(1) && row.getPosition().equals(4) && row.getValid().equals(1) && row.getStatus().equals(1)){
-	    				isPushDate = DateUtil.dateTimeWeekCheck(row.getPushDate(), true);
-	    			}
-	    			if(isPushDate == false){
-	    				continue;
-	    			}
-	    			if(row.getRoomIds() != null && row.getRoomIds().length>0){
-	    				for(int j=0;j<row.getRoomIds().length;j++){
-	    					if(buffer.indexOf(row.getRoomIds()[j] + ',')==-1){
-	    						buffer.append(row.getRoomIds()[j]);
-				    			buffer.append((j==row.getRoomIds().length-1 && i==size-1) ? "" :",");
-	    					}
-		    			}
-	    			}
+	    			row=list.get(i);
+	    			position=row.getPosition();
+	    			strRmIdArr[i]=StringUtils.join(row.getRoomIds(), ",");
+	    			strIdArr[i]=row.getId();
+	    		}
+	    		//通知聊天室客户端移除对应记录
+	    		if(strRmIdArr.length>0 && strIdArr.length>0){
+	    			chatApiService.removePushInfo(position,StringUtils.join(strRmIdArr, "|") ,StringUtils.join(strIdArr, "|"));
 	    		}
 		    }
-	    	//通知聊天室客户端移除对应记录
-    		if(idsBuffer.length()>0 && buffer.length()>0){
-    			chatApiService.removePushInfo(buffer.toString() , idsBuffer.toString());
-    		}
     	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
