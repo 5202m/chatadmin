@@ -177,7 +177,9 @@ public class ChatVisitorController extends BaseController
 				for (ChatVisitor cm : list)
 				{
 					IRow row = dataSet.append();
-					row.set("userId", cm.getUserId());
+					row.set("userId", StringUtils.isBlank(cm.getUserId())?cm.getVisitorId():cm.getUserId());
+					row.set("accountNo", cm.getAccountNo());
+					row.set("nickname", cm.getNickname());
 					row.set("mobile", cm.getMobile());
 					row.set("roomId", "");
 					for (ChatGroup rg : groupList)
