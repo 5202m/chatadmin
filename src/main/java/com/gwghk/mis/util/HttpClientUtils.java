@@ -65,7 +65,7 @@ public class HttpClientUtils {
 	}
 	
 	public static String httpPostString(String url, Map<String, String> parameters) throws HttpException, IOException{
-		return httpPostString(url, parameters, null, null); 
+		return httpPostString(url, parameters, null, "UTF-8"); 
 	}
 	
 	public static String httpPostString(String url, 
@@ -76,6 +76,10 @@ public class HttpClientUtils {
 		String result = null;
 		BufferedReader reader = null;
 		PostMethod postMethod = new PostMethod(url);
+		//设置编码
+		if(StringUtils.isNotEmpty(charset)){
+			postMethod.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, charset);
+		}
 
 		if(parameters != null){
 			for(String key : parameters.keySet() ){
@@ -90,7 +94,7 @@ public class HttpClientUtils {
 			for(String key : headerValues.keySet() ){
 				String value = headerValues.get(key);
 				postMethod.addRequestHeader(key, value);	
-			}			
+			}
 		}
 		
 		try {
