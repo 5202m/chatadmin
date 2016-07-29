@@ -224,6 +224,7 @@ var Syllabus = {
   	 	 }else{
   	 	    $("#studioLinkLabel,#studioLinkSpan").show();
   	 	    $("#studioLinkSelect").trigger("change");
+
   	 	 }
     },
     /**
@@ -251,7 +252,7 @@ var Syllabus = {
     setEditEvent : function() {
     	Syllabus.getStudioLink(null,true);
     	$("#studioLinkSelect").change(function(){
-    		if(this.value=='3'){
+    		if(this.value=='3' || this.value=='4'){
 				$('#studiolinkAddr').empty();
 				$('#studiolinkAddr').append('<option value="">请选择</option>');
     			var gtype = $.trim($('#syllabusEdit_groupType_select').val());
@@ -264,7 +265,15 @@ var Syllabus = {
     					$('#studiolinkAddr').append('<option value="'+(i+1)+'">'+(i+1)+'</option>');
     				}
     			}
-    			$('#studiolinkAddr').show();
+				var studioLinkVal = $('#studioLink_'+$("#studioLinkSelect").val()).val();
+    			if(this.value=='3' && isValid(studioLinkVal)){
+    				studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
+    				studioLinkVal = studioLinkVal.substring(1);
+    			}else if(this.value=='4' && isValid(studioLinkVal)){
+	    			studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
+					studioLinkVal = studioLinkVal.substring(1);
+    			}
+    			$('#studiolinkAddr').val(studioLinkVal).show();
     		}else{
     			$('#studiolinkAddr').hide();
     		}
@@ -277,9 +286,13 @@ var Syllabus = {
     		valObj.show();
     	});
     	$('#studiolinkAddr').change(function(){
-    		if(this.value!=''){
+    		if(isValid(this.value)){
     			var link = $(this).attr('link');
-    			link = link.formatStr(this.value);
+    			if($("#studioLinkSelect").val()=='3'){
+    				link = link.formatStr(this.value);
+    			}else if($("#studioLinkSelect").val()=='4'){
+    				link = link.formatStr(this.value+'A');
+    			}
     			$('#studioLink_'+$("#studioLinkSelect").val()).val(link);
     		}else{
     			$('#studioLink_'+$("#studioLinkSelect").val()).val('');
