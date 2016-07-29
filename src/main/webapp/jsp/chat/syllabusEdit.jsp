@@ -26,7 +26,7 @@ Syllabus.studioLink=${studioLinkStr};
 		<thead>
 			<tr>
 				<th width="10%">房间组别</th>
-				<td width="40%">
+				<td width="36%">
 					<select name="groupType" id="syllabusEdit_groupType_select" style="width: 160px;" <c:if test="${not empty syllabus.id }">disabled="disabled"</c:if>">
 						<option value="">--请选择--</option>
 						<c:forEach var="row" items="${chatGroupList}">
@@ -37,7 +37,7 @@ Syllabus.studioLink=${studioLinkStr};
 					</select>
 				</td>
 				<th width="10%">房间</th>
-				<td width="40%">
+				<td width="44%">
 					<select  name="groupId" id="syllabusEdit_groupId_select" <c:if test="${not empty syllabus.id }">disabled="disabled"</c:if>" style="width: 160px;" tv="${syllabus.groupId}"></select>
 				</td>
 			</tr>
@@ -50,16 +50,17 @@ Syllabus.studioLink=${studioLinkStr};
 				<th><label id="studioLinkLabel">直播地址</label></th>
 				<td>
 				   <span id="studioLinkSpan">
-				   	<select id="studioLinkSelect">
+				   	<select id="studioLinkSelect" style="width:103px">
 					   	<option value="1" selected="selected">视频直播(pc)</option>
 					   	<option value="3">视频直播(mb)</option>
 					   	<option value="2">oneTV直播</option>
 					   	<option value="4">音频直播(mb)</option>
 				   	</select>
-				    <input  id="studioLink_1" style="width:285px;" t="1" value="" />
-				    <input  id="studioLink_2" style="display:none;width:285px;" t="2" value="" />
-				    <input  id="studioLink_3" style="display:none;width:285px;" t="3" value="" />
-				    <input  id="studioLink_4" style="display:none;width:285px;" t="4" value="http://ct.phgsa.cn:1935/live/01/playlist.m3u8" />
+				    <input  id="studioLink_1" style="width:265px;" t="1" value="" />
+				    <input  id="studioLink_2" style="display:none;width:265px;" t="2" value="" />
+				    <input  id="studioLink_3" style="display:none;width:265px;" t="3" value="" />
+				    <input  id="studioLink_4" style="display:none;width:265px;" t="4" value="" />
+				    <select id="studiolinkAddr" style="display:none;width:60px;" link="http://html1.phgse.cn:1935/live/{0}/playlist.m3u8"></select>
 				   </span>
 				</td>
 			</tr>

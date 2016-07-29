@@ -251,6 +251,23 @@ var Syllabus = {
     setEditEvent : function() {
     	Syllabus.getStudioLink(null,true);
     	$("#studioLinkSelect").change(function(){
+    		if(this.value=='3'){
+				$('#studiolinkAddr').empty();
+				$('#studiolinkAddr').append('<option value="">请选择</option>');
+    			var gtype = $.trim($('#syllabusEdit_groupType_select').val());
+    			if(gtype=="studio"||gtype=="fxstudio"){
+    				for(var i=0; i<9; i++){
+    					$('#studiolinkAddr').append('<option value="0'+(i+1)+'">0'+(i+1)+'</option>');
+    				}
+    			}else{
+    				for(var i=9; i<15; i++){
+    					$('#studiolinkAddr').append('<option value="'+(i+1)+'">'+(i+1)+'</option>');
+    				}
+    			}
+    			$('#studiolinkAddr').show();
+    		}else{
+    			$('#studiolinkAddr').hide();
+    		}
     		var studioLinkVal=Syllabus.getStudioLink(this.value);
     		$(this).parent().find('input[id^=studioLink_]').hide();
     		var valObj=$("#studioLink_"+this.value);
@@ -258,6 +275,15 @@ var Syllabus = {
     			valObj.val(studioLinkVal);
     		}
     		valObj.show();
+    	});
+    	$('#studiolinkAddr').change(function(){
+    		if(this.value!=''){
+    			var link = $(this).attr('link');
+    			link = link.formatStr(this.value);
+    			$('#studioLink_'+$("#studioLinkSelect").val()).val(link);
+    		}else{
+    			$('#studioLink_'+$("#studioLinkSelect").val()).val('');
+    		}
     	});
     	this.setStudioLink($("#syllabusEdit_groupType_select").val());
     	//头tab点击事件

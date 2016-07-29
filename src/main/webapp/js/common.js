@@ -771,6 +771,15 @@ function containSplitStr(src,subStr){
     return (','+src+',').indexOf((','+subStr+','))!=-1;
 }
 
+/*替换字符串中占位符 扩展方法 begin*/
+String.prototype.formatStr=function() {
+    if(arguments.length==0) return this;
+    for(var s=this, i=0; i<arguments.length; i++)
+        s=s.replace(new RegExp("\\{"+i+"\\}","g"), (arguments[i] == null || arguments[i] == undefined) ? "" : arguments[i]);
+    return s;
+};
+/*替换字符串中占位符 扩展方法 end*/
+
 //语言类型
 var LOCALE_ZH_TW = "zh_TW";
 var LOCALE_ZH_CN = "zh_CN";
