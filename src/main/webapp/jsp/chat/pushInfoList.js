@@ -48,7 +48,7 @@ var chatPushInfo = {
 			sortName : 'id',
 			sortOrder : 'desc',
 			singleSelect : false,
-			url : basePath+'/chatPushInfoController/datagrid.do?groupType='+$("#chatPushInfoType").val(),
+			url : basePath+'/chatPushInfoController/datagrid.do?groupType='+$("#chatPushInfoGroupTypeId").val(),
 			columns : [[
 			            {title : 'id',field : 'id',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {		/**操作*/
