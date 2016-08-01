@@ -239,6 +239,8 @@ public class ChatGroupRuleController extends BaseController{
     	String[] clientGroupArr=request.getParameterValues("clientGroupStr");
        	if(clientGroupArr!=null){
        		chatGroupRule.setClientGroup(StringUtils.join(clientGroupArr, ","));
+       	}else{
+       		chatGroupRule.setClientGroup("");
        	}
     }
 }
