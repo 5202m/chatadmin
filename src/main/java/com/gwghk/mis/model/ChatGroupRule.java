@@ -53,6 +53,19 @@ public class ChatGroupRule extends BaseModel{
      */
 	private Integer valid;
 	
+	/**
+	 * 客户组（对应的客户组,多个逗号分隔）
+	 */
+	private String clientGroup;
+	
+
+	public String getClientGroup() {
+		return clientGroup;
+	}
+
+	public void setClientGroup(String clientGroup) {
+		this.clientGroup = clientGroup;
+	}
 
 	public String getId() {
 		return id;

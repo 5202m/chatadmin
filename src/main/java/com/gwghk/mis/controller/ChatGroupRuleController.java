@@ -152,6 +152,7 @@ public class ChatGroupRuleController extends BaseController{
    	@ResponseBody
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,false);
+    	setCommonChatGroupRuleParam(request, chatGroupRule);
     	AjaxJson j = new AjaxJson();
     	ApiResult result =chatGroupRuleService.saveChatGroupRule(chatGroupRule, false);
     	if(result.isOk()){
@@ -178,6 +179,7 @@ public class ChatGroupRuleController extends BaseController{
    	@ResponseBody
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatGroupRule chatGroupRule){
     	setBaseInfo(chatGroupRule,request,true);
+    	setCommonChatGroupRuleParam(request, chatGroupRule);
     	AjaxJson j = new AjaxJson();
     	ApiResult result =chatGroupRuleService.saveChatGroupRule(chatGroupRule, true);
     	if(result.isOk()){
@@ -226,5 +228,17 @@ public class ChatGroupRuleController extends BaseController{
     		logger.error("<<method:batchDel()|"+message+",ErrorMsg:"+result.toString());
     	}
   		return j;
+    }
+    
+    /**
+     * 设置规则通用参数
+     * @param request
+     * @param chatGroup
+     */
+    private void setCommonChatGroupRuleParam(HttpServletRequest request, ChatGroupRule chatGroupRule){
+    	String[] clientGroupArr=request.getParameterValues("clientGroupStr");
+       	if(clientGroupArr!=null){
+       		chatGroupRule.setClientGroup(StringUtils.join(clientGroupArr, ","));
+       	}
     }
 }

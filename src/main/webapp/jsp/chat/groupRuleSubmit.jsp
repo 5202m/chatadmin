@@ -19,6 +19,12 @@
 				$("#chatGroupRule_beforeRule_tbody").show();
 				$("#chatGroupRule_afterRule_tbody").show();
 			}
+			if(val.indexOf('img')!=-1){
+				$("#clientGroupSelectId").combotree({
+					data:getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",{clientGroup:"${chatGroupRule.clientGroup}",groupType:"studio"}),
+				}); 
+				$('#chatGroupRule_clientGroup_tbody').show();
+			}
 			if(val == "visitor_filter"){
 				$("#chatGroupRule_beforeRule_tbody th:first").html("禁言游客的昵称(多个可以用逗号分隔)");
 			}else if(val == "login_time_set"){
@@ -34,7 +40,6 @@
 			});
 			selectVal();
 		});
-         
 	});
 </script>
 <div style="padding:5px;overflow:hidden;">
@@ -61,6 +66,15 @@
 	             <input type="text" name="name" value="${chatGroupRule.name}"/>
 	          </td>
 	      </tr>
+	      </tbody>
+	      <tbody id="chatGroupRule_clientGroup_tbody">
+	      	<tr>
+	      		<th>客户组别</th>
+	      		<td>
+	      			<select class="easyui-combotree" name="clientGroupStr" id="clientGroupSelectId" style="width:250px;" data-options="cascadeCheck:false" multiple>
+	            	</select>
+	      		</td>
+	      	</tr>
 	      </tbody>
 	      <tbody id="chatGroupRule_beforeRule_tbody">
 		       <tr>
