@@ -28,10 +28,12 @@ import com.gwghk.mis.authority.ActionVerification;
 import com.gwghk.mis.common.model.AjaxJson;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DataGrid;
+import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.enums.Lang;
+import com.gwghk.mis.enums.SortDirection;
 import com.gwghk.mis.model.Article;
 import com.gwghk.mis.model.ArticleAuthor;
 import com.gwghk.mis.model.ArticleDetail;
@@ -99,7 +101,14 @@ public class MediaController extends BaseController{
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 media.setDetailList(detailList);
-		 Page<Article> page = articleService.getArticlePage(this.createDetachedCriteria(dataGrid, media), 2);
+    	 DetachedCriteria<Article> detachedCriteria = this.createDetachedCriteria(dataGrid, media);
+    	 if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
+			LinkedHashMap<String, SortDirection> orderMap = new LinkedHashMap<String, SortDirection>();
+			orderMap.put("sequence", SortDirection.DESC);
+			orderMap.put("publishStartDate", SortDirection.DESC);
+			detachedCriteria.setOrderbyMap(orderMap); 
+    	 }
+		 Page<Article> page = articleService.getArticlePage(detachedCriteria, 2);
 		 Map<String, Object> result = new HashMap<String, Object>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());
