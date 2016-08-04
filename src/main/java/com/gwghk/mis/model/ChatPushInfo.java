@@ -85,6 +85,19 @@ public class ChatPushInfo extends BaseModel {
 	 * 是否有效
 	 */
 	private Integer valid;
+	
+	/**
+	 * 跳转链接
+	 */
+	private String url;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public String getId() {
 		return id;

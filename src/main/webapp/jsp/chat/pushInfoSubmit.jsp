@@ -125,6 +125,12 @@
 	          </td>
 	      </tr>
 	      <tr>
+	          <th>跳转链接</th>
+	          <td colspan="6" tid="url">
+	             <input type="text" name="url" value="${chatPushInfo.url}" style="width:80%"/>
+	          </td>
+	      </tr>
+	      <tr>
 	          <th>推送内容</th>
 	          <td colspan="6" tid="content">
 	             <script  id="chatPushInfoContentId" name="content" type="text/plain">${chatPushInfo.content}</script>
