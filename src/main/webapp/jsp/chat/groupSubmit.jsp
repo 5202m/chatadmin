@@ -79,6 +79,12 @@
 		$("#chatWhisperRoleId").combotree({
 		    data:whisperRoleData
 		});
+		var defTemplate = $('#defTemplate').val();
+		if(isValid(defTemplate)){
+			defTemplate = JSON.parse(defTemplate);
+			$('#theme').val(defTemplate.theme);
+			$('#style').val(defTemplate.style);
+		}
 	});
 </script>
 <div style="padding:5px;overflow:hidden;">
@@ -151,6 +157,20 @@
 	          <td>
 	              <input name="sequence" value="${chatGroup.sequence}" class="easyui-validatebox" data-options="required:true"/>
 	          </td>
+	      </tr>
+	      <tr>
+	      	<th>默认皮肤</th>
+	      	<td colspan="3">
+	      		<select name="theme" id="theme">
+	      			<option value="theme1">主题1</option>
+	      		</select>
+	      		<select name="style" id="style">
+	      			<c:forEach var="v" begin="0" end="5">
+	      			<option value="index${v}">样式${v}</option>
+	      			</c:forEach>
+	      		</select>
+	      		<input type="hidden" name="defTemplate" id="defTemplate" value='${chatGroup.defTemplate}' />
+	      	</td>
 	      </tr>
 	      <tr>
 	         <th>开放时间</th>

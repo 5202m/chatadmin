@@ -102,6 +102,19 @@ public class ChatGroup extends BaseModel{
 	 */
 	private String remark;
 	
+	/**
+	 * 房间默认皮肤
+	 */
+	private String defTemplate;
+	
+	public String getDefTemplate() {
+		return defTemplate;
+	}
+
+	public void setDefTemplate(String defTemplate) {
+		this.defTemplate = defTemplate;
+	}
+
 	public String getClientGroup() {
 		return clientGroup;
 	}

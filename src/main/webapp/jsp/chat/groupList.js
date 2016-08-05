@@ -171,6 +171,8 @@ var chatGroup = {
 					var reVal=$('#chatGroupSubmitForm textarea[name="remark"]').val();
 					reVal=isValid(reVal)?reVal.replace(/[\r\n]/g,""):'';
 					$('#chatGroupSubmitForm textarea[name="remark"]').val(reVal);
+					var defTemplate = {'theme':$('#theme').val(),'style':$('#style').val()};
+					$('#defTemplate').val(JSON.stringify(defTemplate));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -214,6 +216,8 @@ var chatGroup = {
 					var reVal=$('#chatGroupSubmitForm textarea[name="remark"]').val();
 					reVal=isValid(reVal)?reVal.replace(/[\r\n]/g,""):'';
 					$('#chatGroupSubmitForm textarea[name="remark"]').val(reVal);
+					var defTemplate = {'theme':$('#theme').val(),'style':$('#style').val()};
+					$('#defTemplate').val(JSON.stringify(defTemplate));
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
