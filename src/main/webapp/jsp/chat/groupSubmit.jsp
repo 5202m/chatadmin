@@ -162,9 +162,11 @@
 	      	<th>默认皮肤</th>
 	      	<td colspan="3">
 	      		<select name="theme" id="theme">
+	      			<option value="">请选择</option>
 	      			<option value="theme1">主题1</option>
 	      		</select>
 	      		<select name="style" id="style">
+	      			<option value="">请选择</option>
 	      			<c:forEach var="v" begin="0" end="5">
 	      			<option value="index${v}">样式${v}</option>
 	      			</c:forEach>

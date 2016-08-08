@@ -172,7 +172,11 @@ var chatGroup = {
 					reVal=isValid(reVal)?reVal.replace(/[\r\n]/g,""):'';
 					$('#chatGroupSubmitForm textarea[name="remark"]').val(reVal);
 					var defTemplate = {'theme':$('#theme').val(),'style':$('#style').val()};
-					$('#defTemplate').val(JSON.stringify(defTemplate));
+					if(isValid($('#theme').val()) && isValid($('#style').val())){
+						$('#defTemplate').val(JSON.stringify(defTemplate));
+					}else{
+						$('#defTemplate').val('');
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
@@ -217,7 +221,11 @@ var chatGroup = {
 					reVal=isValid(reVal)?reVal.replace(/[\r\n]/g,""):'';
 					$('#chatGroupSubmitForm textarea[name="remark"]').val(reVal);
 					var defTemplate = {'theme':$('#theme').val(),'style':$('#style').val()};
-					$('#defTemplate').val(JSON.stringify(defTemplate));
+					if(isValid($('#theme').val()) && isValid($('#style').val())){
+						$('#defTemplate').val(JSON.stringify(defTemplate));
+					}else{
+						$('#defTemplate').val('');
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupSubmitForm',
