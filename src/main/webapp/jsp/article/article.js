@@ -150,7 +150,13 @@ var article = {
 	 * @param recordId   dataGrid行Id
 	 */
 	view : function(recordId){
-		jumpRequestPage(formatUrl(basePath + '/articleController/'+recordId+'/view.do'));
+		var loc_url = formatUrl(basePath + '/articleController/'+recordId+'/view.do');
+		goldOfficeUtils.openSimpleDialog({
+			href:loc_url,
+			title : '文档预览',
+			width : 1050,
+			height : 560
+		});
 	},
 	/**
 	 * 功能：增加

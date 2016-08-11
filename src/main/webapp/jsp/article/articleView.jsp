@@ -1,20 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/jsp/common/common.jsp" %>
-<script type="text/javascript">
-function goBack(){
-  jumpRequestPage(basePath + '/articleController/index.do');
-}
-</script>
 <!-- 文章基本信息 -->
 <div>
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-     <tr>
-        <th width="100%" colspan="6">
-        	<div>
-    			<a href="#" onclick="goBack();" class="easyui-linkbutton" style="float:right;" data-options="iconCls:'ope-previous'" >返回</a>
-			</div>
-        </th>
-     </tr>
      <tr>
         <th width="15%">栏目</th>
         <td width="35%"><span>${categoryTxt}</span></td>
