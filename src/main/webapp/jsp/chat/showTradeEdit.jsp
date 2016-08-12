@@ -44,7 +44,7 @@ $(function() {
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
     	<tr<c:if test="${chatTrade.tradeType==1}"> style="display:none"</c:if>>
     		<th>标题<span class="red">*</span></th>
-    		<td colspan="3"><input type="text" name="title" id="title" style="width:350px;" value="${chatTrade.title}" class="easyui-validatebox" data-options="required:true" /></td>
+    		<td colspan="3"><input type="text" name="title" id="title" style="width:350px;" value="${chatTrade.title}" class="easyui-validatebox"<c:if test="${chatTrade.tradeType==2}"> data-options="required:true"</c:if> /></td>
     	</tr>
     	<tr<c:if test="${chatTrade.tradeType==1}"> style="display:none"</c:if>>
     		<th>类别</th>

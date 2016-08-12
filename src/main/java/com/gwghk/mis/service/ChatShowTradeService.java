@@ -55,6 +55,7 @@ public class ChatShowTradeService{
 	    	newUser.setWechatCode(user.getWechatCode());
 	    	newUser.setWechatCodeImg(user.getWechatCodeImg());
 	    	newUser.setWinRate(user.getWinRate());
+	    	newUser.setIntroductionImg(user.getIntroductionImg());
 	    	
 	    	showTrade.setBoUser(newUser);
 		}
