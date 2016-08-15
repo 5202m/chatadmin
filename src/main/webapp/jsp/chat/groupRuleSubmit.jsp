@@ -29,6 +29,8 @@
 				$("#chatGroupRule_beforeRule_tbody th:first").html("禁言游客的昵称(多个可以用逗号分隔)");
 			}else if(val == "login_time_set"){
 				$("#chatGroupRule_beforeRule_tbody th:first").html("登录框弹出时间(分钟)");
+			}else if(val == "speak_num_set"){
+				$("#chatGroupRule_beforeRule_tbody th:first").html("发言次数限制 (次)");
 			}else{
 				$("#chatGroupRule_beforeRule_tbody th:first").html("需要使用规则的值(多个可以用逗号分隔)");
 			}
