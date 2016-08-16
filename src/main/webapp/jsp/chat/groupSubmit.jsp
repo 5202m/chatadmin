@@ -167,9 +167,14 @@
 	      		</select>
 	      		<select name="style" id="style">
 	      			<option value="">请选择</option>
-	      			<c:forEach var="v" begin="0" end="5">
+	      			<option value="light">清新蓝</option>
+	      			<option value="dark">炫酷黑</option>
+	      			<!--option value="">橘子橙</option>
+	      			<option value="">星空蓝</option>
+	      			<option value="">雅金</option-->
+	      			<%-- <c:forEach var="v" begin="0" end="5">
 	      			<option value="index${v}">样式${v}</option>
-	      			</c:forEach>
+	      			</c:forEach> --%>
 	      		</select>
 	      		<input type="hidden" name="defTemplate" id="defTemplate" value='${chatGroup.defTemplate}' />
 	      	</td>
