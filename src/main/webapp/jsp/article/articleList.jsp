@@ -58,7 +58,7 @@ var articlePlatformStr='${articlePlatformJson}';
   
    <!-- datagrid-toolbar -->
   <div id="article_datagrid_toolbar">
-    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="article.add();">新增<!-- 新增 --></a> 
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="article.getArticleInfo('C', '');">新增<!-- 新增 --></a> 
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="article.batchDel();">删除<!-- 删除 --></a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="article.refresh();">刷新<!-- 刷新 --></a> 
     <a class="ope-undo setStatus">状态设置【<t:dictSelect id="article_setStatusSelect" isEdit="false" isShowPleaseSelected="true" dataList="${dictMap[dictConstant.DICT_USE_STATUS]}" selectClass="width:80px;"/>】</a>
@@ -67,8 +67,8 @@ var articlePlatformStr='${articlePlatformJson}';
   
   <!-- datagrid-操作按钮 -->
   <div id="article_datagrid_rowOperation">
-	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="article.edit(this.id)">修改<!-- 修改 --></a>
-	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="article.view(this.id)">查看<!-- 查看 --></a>
+	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="article.getArticleInfo('U', this.id);">修改<!-- 修改 --></a>
+	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="article.getArticleInfo('R', this.id);">查看<!-- 查看 --></a>
 	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="article.del(this.id)">删除<!-- 删除 --></a>
   </div>
   

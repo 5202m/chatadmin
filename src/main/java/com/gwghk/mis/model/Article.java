@@ -21,6 +21,11 @@ public class Article extends BaseModel{
 	private String id;
 	
 	/**
+     * 模板
+     */
+	private String template;
+	
+	/**
      * 栏目id
      */
 	@Indexed
@@ -71,6 +76,12 @@ public class Article extends BaseModel{
 	 * 发布时间
 	 */
 	public Date publishEndDate;
+	
+	/**
+	 * 点赞数
+	 */
+	public Integer praise;
+	
 	 /**
      * 文章详细信息
      */
@@ -97,6 +108,20 @@ public class Article extends BaseModel{
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	/**
+	 * @return the template
+	 */
+	public String getTemplate() {
+		return template;
+	}
+
+	/**
+	 * @param template the template to set
+	 */
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 
 	public String getCategoryId() {
@@ -153,6 +178,20 @@ public class Article extends BaseModel{
 
 	public void setPublishEndDate(Date publishEndDate) {
 		this.publishEndDate = publishEndDate;
+	}
+	
+	/**
+	 * @return the praise
+	 */
+	public Integer getPraise() {
+		return praise;
+	}
+
+	/**
+	 * @param praise the praise to set
+	 */
+	public void setPraise(Integer praise) {
+		this.praise = praise;
 	}
 
 	public String getCategoryNamePath() {

@@ -146,31 +146,6 @@ var article = {
 		});
 	},
 	/**
-	 * 功能：查看
-	 * @param recordId   dataGrid行Id
-	 */
-	view : function(recordId){
-		var loc_url = formatUrl(basePath + '/articleController/'+recordId+'/view.do');
-		goldOfficeUtils.openSimpleDialog({
-			href:loc_url,
-			title : '文档预览',
-			width : 1050,
-			height : 560
-		});
-	},
-	/**
-	 * 功能：增加
-	 */
-	add : function(){
-		jumpRequestPage(formatUrl(basePath + '/articleController/add.do'));
-	},
-	/**
-	 * 功能：修改
-	 */
-	edit : function(recordId){
-		jumpRequestPage(formatUrl(basePath + '/articleController/'+recordId+'/edit.do'));
-	},
-	/**
 	 * 功能：刷新
 	 */
 	refresh : function(){
@@ -191,6 +166,70 @@ var article = {
 		$("#article_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/articleController/del.do');
 		goldOfficeUtils.deleteOne('article_datagrid',recordId,url);
+	},
+	/**
+	 * 跳转到预览、编辑、新增页面
+	 * @param opType
+	 * @param articleId
+	 */
+	getArticleInfo:function(opType, articleId){
+		var title = {"C":"新增文档","U":"修改文档","R":"文档预览"}[opType];
+		var buttons;
+		if(opType=="R"){
+			buttons = [{
+				text : '关闭',
+				iconCls : "ope-close",
+				handler : function() {
+					$(this).parents(".easyui-dialog:first").dialog("close");
+				}
+			}];
+		}
+		goldOfficeUtils.openEditorDialog({
+			title : title,
+			width : 1500,
+			height : 800,
+			href : formatUrl(basePath + '/articleController/articleInfo.do?articleId=' + articleId + "&opType=" + opType),
+			iconCls : 'ope-import',
+			buttons : buttons,
+			handler : function(){
+				var articleInfo = ArticleTemplate.getArticle();
+				if(!articleInfo){
+					return;
+				}
+				var template = $("#aTempTd input:checked").val();
+				if(opType == "C"){
+					article.createArticle(articleInfo, template);
+				}else if(opType == "U"){
+					article.updateArticle(articleInfo, template);
+				}
+			}
+		});
+	},
+	/**创建文档信息*/
+	createArticle : function(articleInfo, template){
+		getJson(formatUrl(basePath + '/articleController/create.do?template=' + template),articleInfo,function(data){
+			$.messager.progress('close');
+			if(data.success){
+				$("#myWindow").dialog("close");
+				article.refresh();
+				$.messager.alert($.i18n.prop("common.operate.tips"),'添加成功！','info');
+			}else{
+				$.messager.alert($.i18n.prop("common.operate.tips"),'新增文档失败，错误信息：' + data.msg,'error');
+			}
+		},true);
+	},
+	/**修改文档信息*/
+	updateArticle : function(articleInfo, template){
+		getJson(formatUrl(basePath + '/articleController/update.do?template=' + template),articleInfo,function(data){
+			$.messager.progress('close');
+			if(data.success){
+				$("#myWindow").dialog("close");
+				article.refresh();
+				$.messager.alert($.i18n.prop("common.operate.tips"),'更新文档成功！','info');
+			}else{
+				$.messager.alert($.i18n.prop("common.operate.tips"),'更新文档成功，错误信息：' + data.msg,'error');
+			}
+		},true);
 	},
 	/**
 	 * 交易策略提取

@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,9 +39,10 @@ import com.gwghk.mis.model.ArticleDetail;
 import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.Category;
-import com.gwghk.mis.model.ZxFinanceData;
+import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.service.ArticleService;
 import com.gwghk.mis.service.CategoryService;
+import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
@@ -50,6 +50,7 @@ import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.PropertiesUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+import com.gwghk.mis.util.StringUtil;
 
 /**
  * 摘要：文章管理
@@ -67,6 +68,10 @@ public class ArticleController extends BaseController{
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private ChatGroupService chatGroupService;
+
 	/**
 	 * 功能：文章管理-首页
 	 */
@@ -115,16 +120,6 @@ public class ArticleController extends BaseController{
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());
 	     return result;
 	}
-	
-	/**
-	 * 功能：文章管理-新增
-	 */
-    @RequestMapping(value="/articleController/add", method = RequestMethod.GET)
-    @ActionVerification(key="add")
-    public String add(ModelMap map) throws Exception {
-    	setCommonShowModel(map);
-    	return "article/articleAdd";
-    }
     
     /**
      * 设置通用的输出
@@ -141,34 +136,6 @@ public class ArticleController extends BaseController{
     	map.put("dictMap", ResourceUtil.getDictListByLocale(new String[]{dict.DICT_USE_STATUS}));
     	map.put("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     }
-    
-    /**
-	 * 功能：文章管理-查看
-	 */
-    @RequestMapping(value="/articleController/{articleId}/view", method = RequestMethod.GET)
-    @ActionVerification(key="view")
-    public String view(@PathVariable String articleId , ModelMap map) throws Exception {
-    	setCommonShowModel(map);
-    	Article article=articleService.getArticleById(articleId);
-    	setCategoryTxt(article.getCategoryId(),map);
-    	//平台类型转成中文显示
-    	List<BoDict> subList=ResourceUtil.getSubDictListByParentCode(DictConstant.getInstance().DICT_PLATFORM);
-    	String platform=article.getPlatform(),articlePlatform="";
-    	int size=0;
-    	if(StringUtils.isNotBlank(platform) && subList!=null && (size=subList.size())>0){
-	    	platform=",".concat(platform).concat(",");
-	    	BoDict row=null;
-	    	for(int i=0;i<size;i++){
-	    		 row=subList.get(i);
-				 if(platform.contains(",".concat(row.getCode()).concat(","))){
-					 articlePlatform+=(StringUtils.isBlank(articlePlatform)?"":"，")+row.getNameCN();
-				 }
-	   		}
-    	}
-    	map.addAttribute("article",article);
-    	map.addAttribute("articlePlatform",articlePlatform);
-		return "article/articleView";
-    }
 	
     /**
      * 设置栏目名称
@@ -176,7 +143,7 @@ public class ArticleController extends BaseController{
      * @param map
      * @return
      */
-    private void setCategoryTxt(String categoryId, ModelMap map){
+    private String getCategoryTxt(String categoryId){
     	Category category=categoryService.getCategoryById(categoryId);
     	String namePath="";
     	if(category!=null){
@@ -187,18 +154,7 @@ public class ArticleController extends BaseController{
     			namePath=category.getName();
     		}
     	}
-    	map.addAttribute("categoryTxt",namePath.replaceAll(",", "-"));
-    }
-	/**
-	 * 功能：文章管理-修改
-	 */
-    @ActionVerification(key="edit")
-    @RequestMapping(value="/articleController/{articleId}/edit", method = RequestMethod.GET)
-    public String edit(@PathVariable String articleId, ModelMap map) throws Exception {
-    	setCommonShowModel(map);
-    	Article article=articleService.getArticleById(articleId);
-    	map.addAttribute("article",article);
-		return "article/articleEdit";
+    	return namePath.replaceAll(",", "-");
     }
     
     /**
@@ -416,5 +372,94 @@ public class ArticleController extends BaseController{
     		logger.error("<<method:tradeStrateGet()|"+message+",ErrorMsg:"+apiResult.toString());
 		}
   		return j;
+    }
+    
+	/**
+	 * 格式成树形列表
+	 * 
+	 * @param dictList
+	 * @return
+	 */
+	private List<ChatGroup> formatTreeList(List<BoDict> dictList)
+	{
+		List<ChatGroup> nodeList = new ArrayList<ChatGroup>();
+		List<ChatGroup> groupList = chatGroupService.getChatGroupList("id", "name", "groupType");
+		ChatGroup tbean = null;
+		for (BoDict dict : dictList)
+		{
+			tbean = new ChatGroup();
+			tbean.setId(dict.getCode());
+			tbean.setName(dict.getNameCN());
+			nodeList.add(tbean);
+			for (ChatGroup group : groupList)
+			{
+				if (group.getGroupType().equals(dict.getCode()))
+				{
+					group.setName(StringUtil.fillChar('　', 1) + group.getName());
+					nodeList.add(group);
+				}
+			}
+		}
+		return nodeList;
+	}
+	/**
+	 * 功能：文章管理-新增、修改、预览
+	 */
+	@ActionVerification(key="view")
+    @RequestMapping(value="/articleController/articleInfo", method = RequestMethod.GET)
+    public String articleInfo(HttpServletRequest request,HttpServletResponse response, ModelMap map) throws Exception {
+    	String articleId = request.getParameter("articleId");
+    	setCommonShowModel(map);
+    	String opType = request.getParameter("opType");
+    	map.addAttribute("opType", opType);
+    	Article article=articleService.getArticleById(articleId);
+    	if("R".equals(opType)){//预览
+    		article.setCategoryId(getCategoryTxt(article.getCategoryId()));
+        	//平台类型转成中文显示
+        	List<BoDict> subList=ResourceUtil.getSubDictListByParentCode(DictConstant.getInstance().DICT_PLATFORM);
+        	String platform=article.getPlatform(),articlePlatform="";
+        	int size=0;
+        	if(StringUtils.isNotBlank(platform) && subList!=null && (size=subList.size())>0){
+    	    	platform=",".concat(platform).concat(",");
+    	    	BoDict row=null;
+    	    	for(int i=0;i<size;i++){
+    	    		 row=subList.get(i);
+    				 if(platform.contains(",".concat(row.getCode()).concat(","))){
+    					 articlePlatform+=(StringUtils.isBlank(articlePlatform)?"":"，")+row.getNameCN();
+    				 }
+    	   		}
+        	}
+        	article.setPlatform(articlePlatform);
+    	}
+    	map.addAttribute("article",JSON.toJSONString(article));
+		return "article/articleInfo";
+    }
+    /**
+     * 功能：文章管理-加载文档模板
+     */
+    @RequestMapping(value="/articleController/loadTemp", method = RequestMethod.GET)
+    public String loadTemp(HttpServletRequest request,HttpServletResponse response, ModelMap map) throws Exception {
+    	String template = request.getParameter("template");
+    	DictConstant dict = DictConstant.getInstance();
+    	Map<String, Object> config = new HashMap<String, Object>();
+    	Map<String,String> langMap=new LinkedHashMap<String,String>();
+    	for(Lang lang:Lang.values()){
+    		langMap.put(lang.getCode(), lang.getText());
+    	}
+    	config.put("langMap", langMap);
+    	config.put("dictConstant", dict);
+    	config.put("dictMap", ResourceUtil.getDictListByLocale(new String[]{dict.DICT_USE_STATUS}));
+    	config.put("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
+    	
+    	String view = null;
+    	if("note".equals(template)){
+    		config.put("chatGroupList", this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    		config.put("pmApiCourseUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/getCourse");
+    		view = "article_note";
+    	}else{//normal
+    		view = "article_normal";
+    	}
+    	map.addAttribute("config", JSON.toJSONString(config));
+		return "article/" + view;
     }
 }

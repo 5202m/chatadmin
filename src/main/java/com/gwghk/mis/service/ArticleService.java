@@ -44,6 +44,9 @@ public class ArticleService{
 	
 	@Autowired
 	private PmApiService pmApiService;
+
+	@Autowired
+	private ChatApiService chatApiService;
 	/**
 	 * 分页查询文章
 	 * @param detachedCriteria
@@ -148,14 +151,18 @@ public class ArticleService{
 	/**
 	 * 新增文章记录
 	 * @param article
-	 * @param b
+	 * @param syncArticle
 	 * @return
 	 */
 	public ApiResult addArticle(Article article) {
 		ApiResult result=new ApiResult();
 		try {
 			article.setValid(1);
+			article.setPraise(0);
 			articleDao.addArticle(article);
+			if("class_note".equals(article.getCategoryId())){
+				chatApiService.noticeArticle(article, "C");
+			}
 		} catch (Exception e) {
 			return result.setCode(ResultCode.FAIL);
 		}
@@ -290,6 +297,7 @@ public class ArticleService{
 				}
 				remark=StringUtil.html2Text(content);
 				articleDetail.setTitle(title);
+				author = new ArticleAuthor();
 				author.setName(jo.getString("expertname"));
 				author.setAvatar(jo.getString("expertpic"));
 				author.setPosition(jo.getString("expertposition"));

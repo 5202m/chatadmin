@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.enums.ResultCode;
+import com.gwghk.mis.model.Article;
 import com.gwghk.mis.util.HttpClientUtils;
 import com.gwghk.mis.util.PropertiesUtil;
 
@@ -100,7 +101,7 @@ public class ChatApiService{
     	}
     }
     /**
-     * 新赠或修改字母通知
+     * 新增或修改字幕通知
      * @param ids
      * @return
      */
@@ -141,5 +142,28 @@ public class ChatApiService{
   		} catch (Exception e) {
   			return false;
   		}
+    }
+    
+    /**
+     * socket通知客户端
+     * @param article
+     * @param opType
+     * @return
+     */
+    public boolean noticeArticle(Article article,String opType){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	paramMap.put("article", JSON.toJSONString(article));
+	  	paramMap.put("isValid", opType);
+		try {
+			String str = HttpClientUtils.httpPostString(formatUrl("noticeArticle"), paramMap);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getBoolean("isOK");
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
     }
 } 
