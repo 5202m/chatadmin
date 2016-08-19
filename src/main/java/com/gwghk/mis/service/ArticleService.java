@@ -160,7 +160,8 @@ public class ArticleService{
 			article.setValid(1);
 			article.setPraise(0);
 			articleDao.addArticle(article);
-			if("class_note".equals(article.getCategoryId())){
+			if("class_note".equals(article.getCategoryId()) ||
+					"trade_strategy_article".equals(article.getCategoryId())){
 				chatApiService.noticeArticle(article, "C");
 			}
 		} catch (Exception e) {

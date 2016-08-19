@@ -153,7 +153,7 @@ public class ChatApiService{
     public boolean noticeArticle(Article article,String opType){
     	Map<String, String> paramMap=new HashMap<String, String>();
     	paramMap.put("article", JSON.toJSONString(article));
-	  	paramMap.put("isValid", opType);
+	  	paramMap.put("opType", opType);
 		try {
 			String str = HttpClientUtils.httpPostString(formatUrl("noticeArticle"), paramMap);
 			if (StringUtils.isNotBlank(str)) {
