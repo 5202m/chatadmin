@@ -238,6 +238,10 @@ $(function() {
         <td colspan="3"><textarea name="introduction" rows="5" cols="76"></textarea></td>
       </tr>
       <tr>
+        <th>简介图片跳转链接</th>
+        <td colspan="3"><input type="text" id="introductionImgLink" name="introductionImgLink" style="width:350px;margin-top:5px;"/></td>
+      </tr>
+      <tr>
         <th>简介图片</th>
         <td colspan="3">
         	<div>图片路径：<input type="text" id="introductionImgPath" name="introductionImg" style="width:350px;margin-top:5px;"/>

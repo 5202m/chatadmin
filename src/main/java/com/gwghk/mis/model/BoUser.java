@@ -111,7 +111,20 @@ public class BoUser extends BaseModel{
      */
     private String winRate;
     
-    public String getWechatCodeImg() {
+    /**
+     * 简介图片跳转链接
+     */
+    private String introductionImgLink;
+    
+    public String getIntroductionImgLink() {
+		return introductionImgLink;
+	}
+
+	public void setIntroductionImgLink(String introductionImgLink) {
+		this.introductionImgLink = introductionImgLink;
+	}
+
+	public String getWechatCodeImg() {
 		return wechatCodeImg;
 	}
 
