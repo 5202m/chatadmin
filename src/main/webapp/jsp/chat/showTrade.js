@@ -286,7 +286,7 @@ var chatShowTrade = {
 	 */
 	setAuthorList:function(id){
 		$('#'+id).combogrid({
-		    idField:'userName',
+		    idField:'userNo',
 		    textField:'userName',
 		    url:basePath+'/userController/getAnalystList.do',
 		    columns:[[

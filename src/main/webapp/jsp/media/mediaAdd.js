@@ -86,7 +86,7 @@ var mediaAdd = {
 	 */
 	setAuthorList:function(id){
 		$('#'+id).combogrid({
-		    idField:'userName',
+		    idField:'userNo',
 		    textField:'userName',
 		    url:basePath+'/userController/getAnalystList.do?hasOther=true',
 		    columns:[[

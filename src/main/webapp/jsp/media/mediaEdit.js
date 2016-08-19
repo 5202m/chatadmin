@@ -100,7 +100,7 @@ var mediaEdit = {
 		var avatar=$('form[name=mediaDetailForm] input[name=avatar]').val();
 		var author=$('form[name=mediaDetailForm] input[name=name]').val();
 		$('#'+id).combogrid({
-		    idField:'userName',
+		    idField:'userNo',
 		    textField:'userName',
 		    value:author,
 		    url:basePath+'/userController/getAnalystList.do?hasOther=true',

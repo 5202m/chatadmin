@@ -1,5 +1,6 @@
 var ArticleTemplate = {
 	config : {},
+	editorMap : {},
 	/**
 	 * 预览
 	 * @param article
@@ -105,6 +106,12 @@ var ArticleTemplate = {
 		var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 		return submitInfo;
 	},
+	/**销毁页面编辑器*/
+	destroy : function(){
+		for(var k in ArticleTemplate.editorMap){
+			ArticleTemplate.editorMap[k].destroy();
+		}
+	},
 	/**
 	 * 校验数据
 	 */
@@ -205,7 +212,7 @@ var ArticleTemplate = {
 			    	 $(tabTid+" td[tid=content]").html(content);
 			     }else{
 			    	 $(tabTid+" td[tid=content]").html('<script id="'+editorId+'" name="content" type="text/plain" style="width:auto;height:auto;">' + content + '</script>');
-				     UE.getEditor(editorId,{
+			    	 ArticleTemplate.editorMap[editorId] = UE.getEditor(editorId,{
 					  		initialFrameWidth : '100%',
 					  		initialFrameHeight:'200'
 				  	  });
@@ -225,12 +232,14 @@ var ArticleTemplate = {
 					   if(r){
 						   $("#article_tab").tabs("close",title);
 						   UE.delEditor(editorId);
+						   delete ArticleTemplate.editorMap[editorId];
 						}else{
 						   _this.checked=true;
 						}
 					});
 				 }else{
 					UE.delEditor(editorId);
+					delete ArticleTemplate.editorMap[editorId];
 					$("#article_tab").tabs("close",title);
 				 }
 			}

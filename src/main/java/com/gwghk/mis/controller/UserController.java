@@ -320,7 +320,8 @@ public class UserController extends BaseController{
         	for(int i=0;i<nameArr.length;i++){
         		user=new BoUser();
         		user.setAvatar(path+(i==1?"/headimg51_2.jpg":"/headimg61_"+(i+1)+".jpg"));
-        	    user.setUserName(nameArr[i]);
+        		user.setUserNo("gw_analyst_" + i);
+        		user.setUserName(nameArr[i]);
         	    user.setPosition("金道研究院");
         		allAnalysts.add(user);
         	}

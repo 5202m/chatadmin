@@ -21,6 +21,8 @@
 				<label for="articleTemp1">普通</label>
 				<input type="radio" name="template" value="note" id="articleTemp2">
 				<label for="articleTemp2">课堂笔记</label>
+				<input type="radio" name="template" value="live" id="articleTemp3">
+				<label for="articleTemp3">实盘直播(网站)</label>
 			</td>
 		</tr>
 	</table>

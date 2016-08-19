@@ -456,6 +456,8 @@ public class ArticleController extends BaseController{
     		config.put("chatGroupList", this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
     		config.put("pmApiCourseUrl", PropertiesUtil.getInstance().getProperty("pmApiUrl")+"/common/getCourse");
     		view = "article_note";
+    	}else if("live".equals(template)){
+    		view = "article_live";
     	}else{//normal
     		view = "article_normal";
     	}

@@ -44,6 +44,9 @@ var ArticleEdit = {
 	 * 加载模板
 	 */
 	loadTemplate : function(temp){
+		if(typeof ArticleTemplate == "object" && typeof ArticleTemplate.destroy == "function"){
+			ArticleTemplate.destroy();
+		}
 		$("#articleTempPanel").empty().load(formatUrl(basePath + '/articleController/loadTemp.do?template=' + temp), function(){
 			
 		});

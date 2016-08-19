@@ -14,8 +14,6 @@ var ArticleTemplate = {
 		this.initView(detail.content, true);
 		var articleInfo = ArticleEdit.article;
 		var $form = $("#articleBaseInfoForm");
-		$form.find("#publishStartDate").val(timeObjectUtil.longMsTimeConvertToDateTime(articleInfo.publishStartDate));
-		$form.find("#publishEndDate").val(timeObjectUtil.longMsTimeConvertToDateTime(articleInfo.publishEndDate));
 		$form.find("#articleStatus").val(articleInfo.status);
 		$form.find("#platformTxt").text(articleInfo.platform);
 		$form.find("#articleSeq").val(articleInfo.sequence);
@@ -23,6 +21,7 @@ var ArticleTemplate = {
 			var $detailForm = $("#article_detail_zh");
 			$detailForm.find("input[name='title']").val(detail.title);
 			$detailForm.find("#authorList_zh").html("<option>" + (detail.authorInfo ? detail.authorInfo.name : "") + "</option>");
+			$detailForm.find("select[name='tag']").val(detail.tag);
 		}
 		$("#articleBasePanel").find("input,select,textarea").prop("disabled", true);
 	},
@@ -32,6 +31,10 @@ var ArticleTemplate = {
 	 */
 	preAdd : function(){
 		this.initView('', false);
+		var $form = $("#articleBaseInfoForm");
+		var timeStr = timeObjectUtil.longMsTimeConvertToDateTime(new Date());
+		$form.find("#publishStartDate").val(timeStr);
+		$form.find("#publishEndDate").val(timeStr);
 	},
 	/**
 	 * 编辑初始化
@@ -55,6 +58,7 @@ var ArticleTemplate = {
 			var $detailForm = $("#article_detail_zh");
 			$detailForm.find("input[name='title']").val(detail.title);
 			$detailForm.find("#authorList_zh").combogrid('setValue', detail.authorInfo ? detail.authorInfo.userId : "");
+			$detailForm.find("select[name='tag']").val(detail.tag);
 		}
 	},
 	/**
@@ -100,25 +104,17 @@ var ArticleTemplate = {
 	 * 校验数据
 	 */
 	validate : function(){
-	    var isPass=true;
-		$("#articleBaseInfoForm input,#articleBaseInfoForm select").each(function(){
-			if(isBlank($(this).val())){
-				if($(this).attr("name")=="publishStartDateStr"||$(this).attr("name")=="publishEndDateStr"){
-					alert("发布时间不能为空！");
-					isPass=false;
-					return false;
-				}
-				if($(this).attr("name")=="platformStr"){
-					alert("应用位置不能为空！");
-					isPass=false;
-					return false;
-				}
-			}
-		});
-		if(isPass){
-			isPass = $("#article_detail_zh").form('validate');
+		var valTmp = $("#article_detail_zh select[name='tag']").val();
+		if(isBlank(valTmp)){
+			alert("产品不能为空！");
+			return false;
 		}
-		return isPass;
+		var valTmp = $("#article_detail_zh input[name='userId']").val();
+		if(isBlank(valTmp)){
+			alert("作者不能为空！");
+			return false;
+		}
+		return $("#article_detail_zh").form('validate');
 	},
 	/**初始化元素*/
 	initView : function(content, isView){
@@ -138,24 +134,9 @@ var ArticleTemplate = {
 		
 		content = content || "";
 		if(isView){
-			$("#tradeNodeRoomId").before("--").remove();
 			//编辑器
 			$("#article_detail_zh td[tid=content]").html(content)
 		}else{
-			//初始化房间
-			var chatGroupList = ArticleTemplate.config.chatGroupList;
-			html = [];
-			for(var i in chatGroupList){
-				html.push('<option value="' + chatGroupList[i].id + '" gt="' + (chatGroupList[i].groupType || '') + '">' + chatGroupList[i].name + '</option>')
-			}
-			$("#tradeNodeRoomId").append(html.join(""));
-			
-			//选择房间，拉取课程表信息
-			$("#tradeNodeRoomId").bind("change", function(){
-				var ops = $(this).find(":selected");
-				ArticleTemplate.getSingleCourse(ops.attr("gt"), ops.val());
-			});
-			
 			//作者
 			ArticleTemplate.setAuthorList('authorList_zh');
 			
@@ -164,32 +145,6 @@ var ArticleTemplate = {
 			ArticleTemplate.editor = UE.getEditor("article_editor_zh", {
 				initialFrameWidth : '100%',
 				initialFrameHeight : '400'
-			});
-		}
-	},
-	/**
-	 * 拉取课程表信息
-	 * @param groupType
-	 * @param groupId
-	 */
-	getSingleCourse:function(groupType, groupId){
-		if(groupType && groupId){
-			var loc_url = ArticleTemplate.config.pmApiCourseUrl + "?flag=S&groupType=" + groupType + "&groupId=" + groupId;
-			$.getJSON(loc_url,function(data){
-				if(data && data.result == "0" && data.data && data.data.length > 0){
-					var course = data.data[0];
-					var $form = $("#articleBaseInfoForm");
-					var dateStr = timeObjectUtil.longMsTimeConvertToDate(course.date);
-					$form.find("#publishStartDate").val(dateStr + " " + course.startTime + ":00");
-					$form.find("#publishEndDate").val(dateStr + " " + course.endTime + ":00");
-					$form.find("#platformStr").combotree('setValue', groupId);
-					$form = $("#article_detail_zh");
-					$form.find("input[name='title']").val(course.title);
-					$form.find("#authorList_zh").combogrid('setValue', course.lecturerId);
-				}else{
-					alert("未找到相应课程信息！");
-					$("#tradeNodeRoomId option:first").prop("selected", true);
-				}
 			});
 		}
 	},

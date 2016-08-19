@@ -6,7 +6,7 @@
 #aEditPanel.retrieve #articleBasePanel .combo{display: none;}
 </style>
 <!-- 文章基本信息 -->
-<div style="height: 900px;" id="articleBasePanel">
+<div style="height: 700px;" id="articleBasePanel">
 	<form id="articleBaseInfoForm" class="yxForm" method="post">
 		<input type="hidden" name="id" id="articleId"/>
 		<table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
@@ -14,7 +14,7 @@
 				<th width="15%">栏目<span class="red">*</span></th>
 				<td width="35%">
 					<input type="hidden" name="categoryId" id="categoryId" value="class_note" />
-					<span>直播精华</span>
+					<span>课堂笔记</span>
 				</td>
 				<th width="15%">所属房间</th>
 		     	<td width="35%">
