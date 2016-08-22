@@ -17,7 +17,7 @@ var article = {
 		goldOfficeUtils.dataGrid({
 			gridId : article.gridId,
 			idField : 'id',
-			sortName : 'id',
+			sortName : 'createDate',
 			sortOrder : 'desc',
 			singleSelect : false,
 			url : basePath+'/articleController/datagrid.do',
