@@ -213,7 +213,7 @@ function formFieldsToJson(formIds,concatValArr) {
 		 }).get().join(",");
 		area=$("textarea[name]", $(formId)).map(function () {
 			if(isValid(this.value)){
-				this.value=this.value.replace(/\"/g,"\\\"").replace(/&nbsp;/g,"  ");
+				this.value=this.value.replace(/\"/g,"\\\"").replace(/&nbsp;/g,"  ").replace(/[\f\n\r\t\v]/g, "");
 			}
 		    return "\""+this.name+"\":\""+nullValToEmpty(this.value)+"\"";
 		 }).get().join(",");

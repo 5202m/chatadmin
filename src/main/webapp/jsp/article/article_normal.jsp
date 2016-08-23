@@ -6,7 +6,7 @@
 #aEditPanel.retrieve #articleBasePanel .combo{display: none;}
 </style>
 <!-- 文章基本信息 -->
-<div style="height: 750px;" id="articleBasePanel">
+<div style="height: 800px;" id="articleBasePanel">
 	<form id="articleBaseInfoForm" class="yxForm" method="post">
 		<input type="hidden" name="id" id="articleId"/>
 		<table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
@@ -51,10 +51,10 @@
 		</table>
 	</form>
 	<!-- 文章详细信息 -->
-	<div id="article_tab" class="easyui-tabs" style="height: 710px; width: 100%;"></div>
+	<div id="article_tab" class="easyui-tabs" style="height: 680px; width: 100%;"></div>
 </div>
 <div id="articleDetailTemp" style="display: none;">
-	<div style="padding: 0px; overflow-x: hidden; height: 600px; width: 100%;">
+	<div style="padding: 0px; overflow-x: hidden; width: 100%;">
 		<form name="articleDetailForm" id="articleDetailForm" class="yxForm">
 			<input type="hidden" name="lang" />
 			<table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
