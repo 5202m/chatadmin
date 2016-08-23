@@ -186,8 +186,8 @@ var article = {
 		}
 		goldOfficeUtils.openEditorDialog({
 			title : title,
-			width : 1500,
-			height : 800,
+			width : 900,
+			height : 600,
 			href : formatUrl(basePath + '/articleController/articleInfo.do?articleId=' + articleId + "&opType=" + opType),
 			iconCls : 'ope-import',
 			buttons : buttons,
