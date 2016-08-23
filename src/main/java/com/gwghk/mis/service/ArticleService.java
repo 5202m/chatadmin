@@ -76,7 +76,10 @@ public class ArticleService{
 			if(ids.isEmpty() == false){
 				criteria.and("categoryId").in(ids.toArray());
 			}
-			
+
+			if(StringUtils.isNotBlank(article.getId())){
+				criteria.and("_id").is(article.getId());
+			}
 			if(StringUtils.isNotBlank(article.getPlatform())){
 				criteria.and("platform").regex(article.getPlatform().replaceAll(",","|"));
 			}
