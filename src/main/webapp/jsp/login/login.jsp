@@ -66,7 +66,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/login/login.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js" charset="UTF-8"></script>
 <script type="text/javascript">
-	if(common.isPlatform("HX")){
+	if(isPlatform("HX")){
 		$("#compName").text("恒信");
 		$("#container").width(620);
 		$("#login_center").css({
