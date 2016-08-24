@@ -85,7 +85,7 @@
 		}else if(/pmmis\.24k\.hk/.test(url)){
 			type = "GW";
 		}
-		return type != platform.toUpperCase();
+		return type == platform.toUpperCase();
 	}
 
 	if(isPlatform("HX")){
