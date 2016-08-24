@@ -64,8 +64,26 @@
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/login/login.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js" charset="UTF-8"></script>
 <script type="text/javascript">
+	
+	/**
+	 * 判定平台
+	 * @param platform GW-PM+FX HX-HX
+	 */
+	function isPlatform(platform){
+		if(!platform){
+			return false;
+		}
+		var type = "GW";
+		var url = location.href;
+		if(/handanadmin\.hx9999\.com/.test(url)){
+			type = "HX";
+		}else if(/pmmis\.24k\.hk/.test(url)){
+			type = "GW";
+		}
+		return type == platform.toUpperCase();
+	}
+
 	if(isPlatform("HX")){
 		$("#compName").text("恒信");
 		$("#container").width(620);
