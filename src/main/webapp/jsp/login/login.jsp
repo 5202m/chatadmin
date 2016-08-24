@@ -13,7 +13,7 @@
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/base/css/login.css?timestamp=<%=(int)(Math.random() *100)%>" />
 <style>
 	#container.hx{width:620px;}
-	#container.hx #login_center{background:url(../base/images/login/gwhx_login_bg.jpg) no-repeat 0 0;border : 1px solid #fbf3f3;}
+	#container.hx #login_center{background:url(base/images/login/gwhx_login_bg.jpg) no-repeat 0 0;border : 1px solid #fbf3f3;}
 </style>
 </head>
 <body style="text-align: center;">
