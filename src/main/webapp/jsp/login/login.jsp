@@ -11,6 +11,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>直播室管理后台-登录</title>
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/base/css/login.css?timestamp=<%=(int)(Math.random() *100)%>" />
+<style>
+	#container.hx{width:620px;}
+	#container.hx #login_center{background:url(../base/images/login/gwhx_login_bg.jpg) no-repeat 0 0;border : 1px solid #fbf3f3;}
+</style>
 </head>
 <body style="text-align: center;">
    <div id="loading" style="width:120px;z-index:10000;position:absolute;margin-top:180px;left:52%;display:none;">
@@ -81,16 +85,12 @@
 		}else if(/pmmis\.24k\.hk/.test(url)){
 			type = "GW";
 		}
-		return type == platform.toUpperCase();
+		return type != platform.toUpperCase();
 	}
 
 	if(isPlatform("HX")){
 		$("#compName").text("恒信");
-		$("#container").width(620);
-		$("#login_center").css({
-			background : "background: url(../base/images/login/gwhx_login_bg.jpg) no-repeat 0 0;",
-			border : "1px solid #fbf3f3;"
-		});
+		$("#container").addClass("hx");
 	}
 </script>
 </body>
