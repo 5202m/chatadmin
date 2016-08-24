@@ -760,6 +760,24 @@ function arraySort(key,desc){
 }
 
 /**
+ * 判定平台
+ * @param platform GW-PM+FX HX-HX
+ */
+function isPlatform(platform){
+	if(!platform){
+		return false;
+	}
+	var type = "GW";
+	var url = location.href;
+	if(/handanadmin\.hx9999\.com/.test(url)){
+		type = "HX";
+	}else if(/pmmis\.24k\.hk/.test(url)){
+		type = "GW";
+	}
+	return type == platform.toUpperCase();
+}
+
+/**
  * 包含字符，逗号分隔
  * @param src
  * @param subStr

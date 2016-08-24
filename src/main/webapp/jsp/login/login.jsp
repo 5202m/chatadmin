@@ -9,7 +9,7 @@
 <meta http-equiv="Cache-Control" content="no-cache"/>
 <meta name="description" content="overview & stats" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title><spring:message code="login.title" /></title>
+<title>直播室管理后台-登录</title>
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/base/css/login.css?timestamp=<%=(int)(Math.random() *100)%>" />
 </head>
 <body style="text-align: center;">
@@ -56,7 +56,7 @@
         </div>
       </div>
       <p class="gw_browser" style="color: red;"><spring:message code="login.broswer" /></p>
-      <p class="gw_copyright">Copyright &copy; 2009-2015 金道贵金属有限公司</p>
+      <p class="gw_copyright">Copyright &copy; 2009-2015 <span id="compName">金道</span>贵金属有限公司</p>
     </div>
   </form>
 <script type="text/javascript" charset="UTF-8">
@@ -64,5 +64,16 @@
 </script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/base/js/jquery/jquery.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/jsp/login/login.js?timestamp=<%=(int)(Math.random() *100)%>" charset="UTF-8"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	if(common.isPlatform("HX")){
+		$("#compName").text("恒信");
+		$("#container").width(620);
+		$("#login_center").css({
+			background : "background: url(../base/images/login/gwhx_login_bg.jpg) no-repeat 0 0;",
+			border : "1px solid #fbf3f3;"
+		});
+	}
+</script>
 </body>
 </html>
