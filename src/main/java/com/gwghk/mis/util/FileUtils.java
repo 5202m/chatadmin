@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,8 @@ import com.gwghk.mis.enums.ResultCode;
  * @date 2014-11-11
  */
 public class FileUtils {
+
+	private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 	
 	/**
 	 * 功能：获取文件扩展名(例如：E:/a.ext --> ext)
@@ -121,6 +125,14 @@ public class FileUtils {
 		File file = new File(realPath);
 		if (!file.exists()) {
 			file.mkdirs();
+		}
+		if(System.getProperty("os.name").equals("Linux")){
+			//文件夹授权，api会通过ftp方式上传，需要ftpuser的写权限
+			try {
+				Runtime.getRuntime().exec("chmod 777 " + realPath);
+			} catch (IOException e) {
+				logger.error("chmod error:" + e.getMessage());
+			}
 		}
 		//重新命名新图片的名字(当前时间+随机8位数字+文件后缀名)
 		String destBaseName = DateUtil.toYyyymmddHhmmss() +"_"+ StringUtil.randomNum(8);
