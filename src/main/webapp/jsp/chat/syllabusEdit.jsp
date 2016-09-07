@@ -56,10 +56,10 @@ Syllabus.studioLink=${studioLinkStr};
 					   	<option value="2">oneTV直播</option>
 					   	<option value="4">音频直播(mb)</option>
 				   	</select>
-				    <input  id="studioLink_1" style="width:265px;" t="1" value="" />
+				    <input  id="studioLink_1" style="width:265px;" t="1" value="" link="rtmp://h6.phgse.cn/live/{0}" />
 				    <input  id="studioLink_2" style="display:none;width:265px;" t="2" value="" />
-				    <input  id="studioLink_3" style="display:none;width:265px;" t="3" value="" />
-				    <input  id="studioLink_4" style="display:none;width:265px;" t="4" value="" />
+				    <input  id="studioLink_3" style="display:none;width:265px;" t="3" value="" link="http://h5.phgse.cn/live/{0}/index.m3u8" />
+				    <input  id="studioLink_4" style="display:none;width:265px;" t="4" value="" link="http://h5.phgse.cn/live/{0}/index.m3u8" />
 				    <select id="studiolinkAddr" style="display:none;width:60px;" link="http://html1.phgse.cn:1935/live/{0}/playlist.m3u8"></select>
 				   </span>
 				</td>

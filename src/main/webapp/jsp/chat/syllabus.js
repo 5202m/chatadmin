@@ -252,7 +252,7 @@ var Syllabus = {
     setEditEvent : function() {
     	Syllabus.getStudioLink(null,true);
     	$("#studioLinkSelect").change(function(){
-    		if(this.value=='3' || this.value=='4'){
+    		if(this.value=='3' || this.value=='4' || this.value=='1'){
 				$('#studiolinkAddr').empty();
 				$('#studiolinkAddr').append('<option value="">请选择</option>');
     			var gtype = $.trim($('#syllabusEdit_groupType_select').val());
@@ -266,7 +266,10 @@ var Syllabus = {
     				}
     			}
 				var studioLinkVal = $('#studioLink_'+$("#studioLinkSelect").val()).val();
-    			if(this.value=='3' && isValid(studioLinkVal)){
+				if(this.value=='1' && isValid(studioLinkVal)){
+    				studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
+    				studioLinkVal = studioLinkVal.substring(1);
+    			}else if(this.value=='3' && isValid(studioLinkVal)){
     				studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
     				studioLinkVal = studioLinkVal.substring(1);
     			}else if(this.value=='4' && isValid(studioLinkVal)){
@@ -287,8 +290,10 @@ var Syllabus = {
     	});
     	$('#studiolinkAddr').change(function(){
     		if(isValid(this.value)){
-    			var link = $(this).attr('link');
-    			if($("#studioLinkSelect").val()=='3'){
+    			var link = $('#studioLink_'+$("#studioLinkSelect").val()).attr('link');//$(this).attr('link');
+    			if($("#studioLinkSelect").val()=='1'){
+    				link = link.formatStr(this.value);
+    			}else if($("#studioLinkSelect").val()=='3'){
     				link = link.formatStr(this.value);
     			}else if($("#studioLinkSelect").val()=='4'){
     				link = link.formatStr(this.value+'A');
