@@ -42,7 +42,7 @@ var Syllabus = {
 	            	return Syllabus.chatGroups[value + ","];
 				}},
 				{title : "应用房间",field : 'groupId',formatter : function(value, rowData, rowIndex) {
-					return value ? Syllabus.chatGroups[rowData.groupType + "," + value] : value;
+					return value ? (Syllabus.chatGroups[rowData.groupType + "," + value] || value) : "";
 				}},
 	            {title : "发布开始时间",field : 'publishStart',formatter : function(value, rowData, rowIndex) {
 	            	return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
