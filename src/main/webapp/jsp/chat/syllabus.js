@@ -42,7 +42,7 @@ var Syllabus = {
 	            	return Syllabus.chatGroups[value + ","];
 				}},
 				{title : "应用房间",field : 'groupId',formatter : function(value, rowData, rowIndex) {
-					return value ? Syllabus.chatGroups[rowData.groupType + "," + value] : "";
+					return value ? Syllabus.chatGroups[rowData.groupType + "," + value] : value;
 				}},
 	            {title : "发布开始时间",field : 'publishStart',formatter : function(value, rowData, rowIndex) {
 	            	return value ? timeObjectUtil.longMsTimeConvertToDateTime(value) : '';
@@ -425,7 +425,7 @@ var Syllabus = {
 		var loc_result = Syllabus.chatGroups[chatGroupType + ","];
 		if(!!chatGroupId)
 		{
-			loc_result += "-" + Syllabus.chatGroups[chatGroupType + "," + chatGroupId];
+			loc_result += "-" + (Syllabus.chatGroups[chatGroupType + "," + chatGroupId] || chatGroupId);
 		}
 		return loc_result; 
 	},
