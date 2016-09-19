@@ -166,4 +166,26 @@ public class ChatApiService{
 			return false;
 		}
     }
+    
+    /**
+     * socket通知客户端,晒单审核完成后，通知到客户端
+     * @param sendData
+     * @return
+     */
+    public boolean showTradeNotice(String tradeInfo){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	paramMap.put("tradeInfo", tradeInfo);
+		try {
+			String url = formatUrl("showTradeNotice");
+			String str = HttpClientUtils.httpPostString(url, paramMap);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getBoolean("isOK");
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+    }
 } 

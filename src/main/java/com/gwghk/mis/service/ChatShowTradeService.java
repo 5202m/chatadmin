@@ -2,6 +2,7 @@ package com.gwghk.mis.service;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.ChatShowTradeDao;
-
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatShowTrade;
 import com.gwghk.mis.util.BeanUtils;
+import com.gwghk.mis.util.JSONHelper;
 
 /**
  * 晒单管理服务类
@@ -32,6 +33,9 @@ public class ChatShowTradeService{
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ChatApiService chatApiService;
     /**
      * 新赠和更新
      * @param showTrade
@@ -140,6 +144,11 @@ public class ChatShowTradeService{
 	public ApiResult modifyTradeStatusByIds(String[] tradeIds, int status){
 		ApiResult api=new ApiResult();
     	boolean isSuccess=chatShowTradeDao.modifyTradeStatusByIds(tradeIds, status);
+    	
+    	List<ChatShowTrade> ChatShowTradeList = chatShowTradeDao.findList(ChatShowTrade.class, Query.query(Criteria.where("_id").in(tradeIds)));
+    	String tradeInfo = JSONHelper.toJSONString(ChatShowTradeList);
+    	chatApiService.showTradeNotice(tradeInfo);
+    	
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
 	
