@@ -150,6 +150,10 @@ public class ChatMessgeService{
 			if(toUser!=null){
 				if(toUser.getTalkStyle()==1){
 					criteria.and("toUser.talkStyle").is(1);
+					if(StringUtils.isNotBlank(model.getNickname())){
+						criteria.orOperator(criteria.and("toUser.toUser").is(model.getNickname()),
+								criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname())));
+					}		
 				}else if(toUser.getTalkStyle()==2){
 					criteria.and("toUser.talkStyle").is(0).and("toUser.userId").nin("",null);
 				}else{
