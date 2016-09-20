@@ -116,9 +116,7 @@ public class ChatMessgeService{
 			if(model.getStatus()!=null){
 				criteria.and("status").is(model.getStatus());
 			}
-			if(StringUtils.isNotBlank(model.getNickname())){
-				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
-			}
+			
 			if(StringUtils.isNotBlank(model.getClientGroup())){
 				if(Pattern.compile("-?\\d{1}").matcher(model.getClientGroup()).matches()){
 					criteria.and("userType").is(Integer.parseInt(model.getClientGroup()));
@@ -150,10 +148,8 @@ public class ChatMessgeService{
 			if(toUser!=null){
 				if(toUser.getTalkStyle()==1){
 					criteria.and("toUser.talkStyle").is(1);
-					if(StringUtils.isNotBlank(model.getNickname())){
-						criteria.orOperator(criteria.and("toUser.toUser").is(model.getNickname()),
-								criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname())));
-					}		
+					criteria.orOperator(Criteria.where("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname())),
+							Criteria.where("toUser.nickname").regex(StringUtil.toFuzzyMatch(model.getNickname())));	
 				}else if(toUser.getTalkStyle()==2){
 					criteria.and("toUser.talkStyle").is(0).and("toUser.userId").nin("",null);
 				}else{
@@ -175,6 +171,10 @@ public class ChatMessgeService{
 					criteria.and("createDate").lte(DateUtil.parseDateSecondFormat(model.getPublishEndDateStr()));
 				}
 			}
+			
+			if(StringUtils.isNotBlank(model.getNickname()) && (toUser==null || (toUser!=null && toUser.getTalkStyle()!=1))){
+				criteria.and("nickname").regex(StringUtil.toFuzzyMatch(model.getNickname()));
+			}		
 		}
 		if(year<2005){
 			return new Page<ChatMessage>();
