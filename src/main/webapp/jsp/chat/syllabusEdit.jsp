@@ -105,7 +105,7 @@ Syllabus.studioLink=${studioLinkStr};
 					<td colspan="7" class="main <c:if test="${status.index==0}">clickTdCls</c:if>" dy="${(status.index + 1) % 7 }" tid="courseTd_${status.index+1}" <c:if test="${status.index>0}">style="display:none;"</c:if>>
 						<div>
 						   <span><label>状态：</label><select name="status"><option value="1">有效</option><option value="0">休市</option></select></span>
-						   <span><label>类型：</label><select name="courseType"><option value="0">文字直播</option><option value="1" selected="selected">视频直播</option><option value="2">oneTV直播</option></select></span>
+						   <span><label>类型：</label><select name="courseType"><option value="0">文字直播</option><option value="1" selected="selected">视频直播</option><option value="2">oneTV直播</option><option value="3">汇通视讯</option></select></span>
 						</div>
 						<div class="lecturerDiv">
 							<label>讲师：</label>
