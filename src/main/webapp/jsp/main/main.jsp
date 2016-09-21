@@ -34,8 +34,13 @@
           [ ${userNo} ],<spring:message code="main.head" /><!-- 您好!今天是 --><span id="yxui_main_today">&nbsp;</span>
         </div>
         <div id="shortcut_menu">
-          <ul>
-            <li><a title="<spring:message code="main.homePage" />" href="http://www.24k.hk/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>
+          <ul> 
+            <c:if test="${hrefUrl == 'hx'}">
+               <li><a title="<spring:message code="main.homePage" />" href="http://www.hx9999.com/cn/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>  
+            </c:if>          
+            <c:if test="${hrefUrl == 'other'}">
+               <li><a title="<spring:message code="main.homePage" />" href="http://www.24k.hk/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>  
+            </c:if>                        
             <li><a title="<spring:message code="main.editPwd" />" href="#" class="button_short02" onFocus="this.blur()" onclick="updatePwd()"></a></li>
             <%--  <li><a title="<spring:message code="main.feedback" />" href="#" class="button_short05" onFocus="this.blur()" onclick="feedbackOpen()"></a></li>
             <li><a title="<spring:message code="main.help" />" href="#" class="button_short04" onFocus="this.blur()" onclick="helpOpen()"></a></li>
