@@ -1,5 +1,6 @@
 package com.gwghk.mis.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -117,6 +118,8 @@ public class MemberDao extends MongoDBBaseDao{
 		}else{
 			return false;
 		}
+		
+		update.set("updateDate",new Date());
 		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(new Criteria().andOperator(Criteria.where("memberId").is(memberId),Criteria.where("loginPlatform.chatUserGroup.id").is(groupType))), update, Member.class);
 		return wr!=null && wr.getN()>0;
 	}
@@ -141,6 +144,7 @@ public class MemberDao extends MongoDBBaseDao{
 		searchObj.and("loginPlatform.chatUserGroup").elemMatch(new Criteria().and("id").is(groupType).and("userType").is(0));
 		Update update=new Update();
 		update.set("loginPlatform.chatUserGroup.$.nickname", nickname);
+		update.set("updateDate",new Date());
 		WriteResult wr = this.mongoTemplate.updateFirst(Query.query(searchObj), update, Member.class);
 		return result.setCode((wr!=null && wr.getN()>0)?ResultCode.OK:ResultCode.FAIL);
 	}
@@ -193,6 +197,7 @@ public class MemberDao extends MongoDBBaseDao{
  				}
  			}
  		 }
+ 		 member.setUpdateDate(new Date());
  		 this.update(member);
  		 return true;
 	}
