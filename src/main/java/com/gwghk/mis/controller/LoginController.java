@@ -129,13 +129,6 @@ public class LoginController extends BaseController{
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("userNo", userParam.getUserNo());
 		map.put("locale", ResourceUtil.getSessionLocale());
-		HttpServletRequest request = ContextHolderUtils.getRequest();
-		String serverName = request.getServerName();
-		if(serverName.indexOf("hx9999") >0){
-			map.put("hrefUrl", "hx");
-		}else{
-			map.put("hrefUrl", "other");
-		}
 		return new ModelAndView("main/main",map);
 	}
 	
