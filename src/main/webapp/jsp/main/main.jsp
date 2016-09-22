@@ -35,7 +35,7 @@
         </div>
         <div id="shortcut_menu">
           <ul>
-            <li id="homeLinkId"><a title="<spring:message code="main.homePage" />" href="http://www.24k.hk/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>
+            <li><a id="homeLinkId" title="<spring:message code="main.homePage" />" href="http://www.24k.hk/" target="_blank" class="button_short03" onFocus="this.blur()"></a></li>
             <li><a title="<spring:message code="main.editPwd" />" href="#" class="button_short02" onFocus="this.blur()" onclick="updatePwd()"></a></li>
             <%--  <li><a title="<spring:message code="main.feedback" />" href="#" class="button_short05" onFocus="this.blur()" onclick="feedbackOpen()"></a></li>
             <li><a title="<spring:message code="main.help" />" href="#" class="button_short04" onFocus="this.blur()" onclick="helpOpen()"></a></li>
