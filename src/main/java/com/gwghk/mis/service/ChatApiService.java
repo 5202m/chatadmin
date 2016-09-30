@@ -188,4 +188,27 @@ public class ChatApiService{
 			return false;
 		}
     }
+    
+    /**
+     * 新增或修改规则通知
+     * @param sendData
+     * @return
+     */
+    public boolean modifyRuleNotice(String roomIds,String ruleInfo){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	paramMap.put("roomIds", roomIds);
+    	paramMap.put("ruleInfo", ruleInfo);
+		try {
+			String url = formatUrl("modifyRuleNotice");
+			String str = HttpClientUtils.httpPostString(url, paramMap);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getBoolean("isOK");
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+    }
 } 

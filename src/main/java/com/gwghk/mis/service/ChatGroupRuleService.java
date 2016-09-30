@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gwghk.mis.common.model.ApiResult;
 import com.gwghk.mis.common.model.DetachedCriteria;
 import com.gwghk.mis.common.model.Page;
@@ -33,6 +34,11 @@ public class ChatGroupRuleService{
 	@Autowired
 	private ChatGroupDao chatGroupDao;
 
+	@Autowired
+	private ChatApiService chatApiService;
+	
+	@Autowired
+	private ChatGroupService chatGroupService;
 	/**
 	 * 通过id找对应记录
 	 * @param chatGroupRuleId
@@ -51,14 +57,28 @@ public class ChatGroupRuleService{
 	public ApiResult saveChatGroupRule(ChatGroupRule chatGroupRuleParam, boolean isUpdate) {
 		ApiResult result=new ApiResult();
 		chatGroupRuleParam.setValid(1);
+	    String type=chatGroupRuleParam.getType();
     	if(isUpdate){
-    		ChatGroupRule rule = getChatGroupRuleById(chatGroupRuleParam.getId());
+    		ChatGroupRule rule=getChatGroupRuleById(chatGroupRuleParam.getId());
+    		type=rule.getType();
     		BeanUtils.copyExceptNull(rule, chatGroupRuleParam);
     		chatGroupRuleDao.update(rule);
      		chatGroupDao.updateGroupRule(rule);//更新组别关联的规则
     	}else{
     		chatGroupRuleParam.setId(chatGroupRuleDao.getNextSeqId(IdSeq.ChatGroupRule));
     		chatGroupRuleDao.add(chatGroupRuleParam);	
+    	}
+    	//目前暂时登录弹框需要推送
+    	if("login_time_set".equals(type)){
+    		List<String> strList=chatGroupDao.getRoomIdByRuleId(chatGroupRuleParam.getId());
+    		if(strList!=null && strList.size()>0){
+    			JSONObject jsonObj=new JSONObject();
+        		jsonObj.put("type", type);
+    			jsonObj.put("periodDate", chatGroupRuleParam.getPeriodDate());
+        		jsonObj.put("afterRuleTips", chatGroupRuleParam.getAfterRuleTips());
+        		jsonObj.put("beforeRuleVal", chatGroupRuleParam.getBeforeRuleVal());
+        		chatApiService.modifyRuleNotice(StringUtils.join(strList, ","),jsonObj.toJSONString());
+    		}
     	}
     	return result.setCode(ResultCode.OK);
 	}

@@ -116,6 +116,7 @@ public class ChatGroupService{
     	return result.setCode(ResultCode.OK);
 	}
 
+	
 	/**
 	 * 设置规则
 	 * @param group

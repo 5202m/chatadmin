@@ -1,8 +1,10 @@
 package com.gwghk.mis.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -72,5 +74,22 @@ public class ChatGroupDao extends MongoDBBaseDao{
 	 */
 	public List<ChatGroup> findGroupList(List<String> groupIdArr){
 		return this.findList(ChatGroup.class, new Query(Criteria.where("id").in(groupIdArr)));
+	}
+	
+	/**
+	 * 查询规则所在房间
+	 * @param group
+	 */
+	public List<String> getRoomIdByRuleId(String ruleId){
+		if(StringUtils.isNotBlank(ruleId)){
+			List<ChatGroup> groupList=this.findList(ChatGroup.class, new Query(Criteria.where("chatRules.id").is(ruleId)));
+			List<String> strList=new ArrayList<String>();
+			for(ChatGroup g: groupList){
+				strList.add(g.getId());
+			}
+			return strList;
+		}else{
+			return null;
+		}
 	}
 }
