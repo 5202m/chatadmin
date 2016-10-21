@@ -11,6 +11,41 @@
  * </p>
  */
 var Syllabus = {
+    liveLinks:{
+    	studio:{
+    		yy_01:{name:'yy:92628431/92628431',url:'http://yy.com/s/92628431/92628431/yyscene.swf'},
+    		yy_02:{name:'yy:92628431/2439533296',url:'http://yy.com/s/92628431/2439533296/yyscene.swf'},
+    		sz_01:{name:'大陆,房间:01',url:'rtmp://sz6.phgse.cn/live/01'},
+    		sz_02:{name:'大陆,房间:02',url:'rtmp://sz6.phgse.cn/live/02'},
+    		hk_01:{name:'海外,房间:01',url:'rtmp://h6.phgse.cn/live/01'},
+    		hk_02:{name:'海外,房间:02',url:'rtmp://h6.phgse.cn/live/02'},
+    		ct_01:{name:'大陆/海外(备用),房间:01',url:'rtmp://ct.phgsa.cn/live/01'},
+    		ct_02:{name:'大陆/海外(备用),房间:02',url:'rtmp://ct.phgsa.cn/live/02'}
+    	},
+    	fxstudio:{
+    		yy_03:{name:'yy:92628431/2537339360',url:'http://yy.com/s/92628431/2537339360/yyscene.swf'},
+    		yy_04:{name:'yy:92628431/2559592756',url:'http://yy.com/s/92628431/2559592756/yyscene.swf'},
+    		sz_03:{name:'大陆,房间:03',url:'rtmp://sz6.phgse.cn/live/03'},
+    		sz_04:{name:'大陆,房间:04',url:'rtmp://sz6.phgse.cn/live/04'},
+    		hk_03:{name:'海外,房间:03',url:'rtmp://h6.phgse.cn/live/03'},
+    		hk_04:{name:'海外,房间:04',url:'rtmp://h6.phgse.cn/live/04'},
+    		ct_03:{name:'大陆/海外(备用),房间:03',url:'rtmp://ct.phgsa.cn/live/03'},
+    		ct_04:{name:'大陆/海外(备用),房间:04',url:'rtmp://ct.phgsa.cn/live/04'}
+    	},
+    	hxstudio:{
+    		yy_01:{name:'yy:46327234/46327234',url:'http://yy.com/s/46327234/46327234/yyscene.swf'},
+    		yy_02:{name:'yy:82992602/82992602',url:'http://yy.com/s/82992602/82992602/yyscene.swf'},
+    		sz_10:{name:'大陆,房间:10',url:'rtmp://sz6.phgse.cn/live/10'},
+    		sz_11:{name:'大陆,房间:11',url:'rtmp://sz6.phgse.cn/live/11'},
+    		sz_12:{name:'大陆,房间:12',url:'rtmp://sz6.phgse.cn/live/12'},
+    		hk_10:{name:'海外,房间:10',url:'rtmp://h6.phgse.cn/live/10'},
+    		hk_11:{name:'海外,房间:11',url:'rtmp://h6.phgse.cn/live/11'},
+    		hk_12:{name:'海外,房间:12',url:'rtmp://h6.phgse.cn/live/12'},
+    		ct_10:{name:'大陆/海外(备用),房间:10',url:'rtmp://ct.phgsa.cn/live/10'},
+    		ct_11:{name:'大陆/海外(备用),房间:11',url:'rtmp://ct.phgsa.cn/live/11'},
+    		ct_12:{name:'大陆/海外(备用),房间:12',url:'rtmp://ct.phgsa.cn/live/12'}
+    	}
+    },	
 	gridId : 'syllabus_datagrid',
 	daysCN : ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'],
 	chatGroups : {},
@@ -22,7 +57,40 @@ var Syllabus = {
 		this.initConst();
 		this.setEvent();
 	},
-	
+	/**
+	 * 
+	 * @param type
+	 * @returns 
+	 */
+	getLiveLinks:function(type,rmType){
+		if(type==1){//视频直播(pc)
+			return Syllabus.liveLinks[rmType];
+		}
+		if(type==3||type==4){//视频直播(mb),音频直播(mb)
+			var newLinks=JSON.parse(JSON.stringify(Syllabus.liveLinks[rmType]));
+			var rw=null;
+			for(var rwIndex in newLinks){
+				rw=newLinks[rwIndex];
+			   if(rw.name.indexOf("yy")!=-1){
+				   delete newLinks[rwIndex];
+			   }
+			   rw.url=rw.url.replace("rtmp:","http:").replace("sz6.","sz.").replace("h6.","h5.");
+			   var suffix="/index.m3u8";
+			   if(rw.url.indexOf("ct.phgsa.cn")!=-1){
+				   rw.url=rw.url.replace("ct.phgsa.cn","ct.phgsa.cn:1935");
+				   suffix="/playlist.m3u8";
+			   }
+			   if(type==4){//音频直播(mb)
+				   rw.url+="A"+suffix;
+			   }else{
+				   rw.url+=suffix;
+			   }
+			}
+			console.log("newLinks",newLinks);
+			return newLinks;
+		}
+		return null;
+	},
 	/**
 	 * 功能：dataGrid初始化
 	 */
@@ -223,8 +291,7 @@ var Syllabus = {
   	 	    $("#studioLinkLabel,#studioLinkSpan").hide();
   	 	 }else{
   	 	    $("#studioLinkLabel,#studioLinkSpan").show();
-  	 	    $("#studioLinkSelect").trigger("change");
-
+  	 	    $("#studioLinkSelect").val("1").trigger("change");
   	 	 }
     },
     /**
@@ -237,6 +304,13 @@ var Syllabus = {
     		for(var i in hv){
     			if(isSetVal){
     				$("#studioLink_"+hv[i].code).val(hv[i].url);
+    				var hvUrl=hv[i].url;
+    				if(isValid(hvUrl)){
+    					if(hvUrl.indexOf("rtmp")!=-1||hvUrl.indexOf("yy.")!=-1){
+    						$("#studioLinkSelect").val("1").trigger("change");
+    						$('#studiolinkAddr').val(hvUrl);
+    				    }
+    				}
     			}else{
     				if(hv[i].code==code){
             			return hv[i].url;
@@ -250,33 +324,58 @@ var Syllabus = {
      * 设置编辑事件
      */
     setEditEvent : function() {
-    	Syllabus.getStudioLink(null,true);
+    	/**
+         * 预览地址
+         */
+    	$("#showLinksId").hover(function(){
+	        	var groupType=$("#syllabusEdit_groupType_select").val();
+	        	var ret=$('#studioLinkSpan input[id^=studioLink_]').map(function(){
+	        		if($(this).attr("t")==2){
+	        			return null;
+	        		}
+	        		var lrowList=Syllabus.getLiveLinks($(this).attr("t"),groupType);
+	        		var val=$.trim($(this).val());
+	        		var tipVal='<strong style="color:red;">地址配置有误，请检查！</strong>';
+	        		var name='';
+	        		if(val){
+	        			for(var rw in lrowList){
+	        				if(lrowList[rw].url==val){
+	        					name=lrowList[rw].name;
+	        					tipVal="【"+name+"】"+val;
+	        				}
+	        			}
+	        			if(val.indexOf("yy")!=-1){
+	        				tipVal="【YY】"+val;
+	        				name='';
+	        			}
+	        		}
+	        		tipVal=$("#studioLinkSelect").find("option[value='"+$(this).attr("t")+"']").text()+"-->"+tipVal;
+	    			return '<p style="width:500px;" '+(isValid(name)?'mc="'+name.replace(/:|,|\//g,"")+'"':'')+'>'+tipVal+'</p>';
+	    		}).get().join("\n");
+	        	$("#showLinksDiv").show().html('<p style="width:500px;">直播地址详情如下(备注：红色表示地址配置可能有误,请检查确认！):</p>'+ret);
+	        	var pmc=$("#showLinksDiv p[mc]");
+	        	pmc.removeClass('p-cl').each(function(){
+	        		if(pmc.length>1 && isValid($(this).attr("mc"))&&$('#showLinksDiv p[mc="'+$(this).attr("mc")+'"]').length<=1){
+	        			$("#showLinksDiv p[mc]").addClass('p-cl');
+	        			//$(this).addClass('p-cl');
+	        			return false;
+	        		}
+	        	});
+    	    },
+	    	function(){
+	    		$("#showLinksDiv").hide();
+	    	}
+        );
+    	
     	$("#studioLinkSelect").change(function(){
     		if(this.value=='3' || this.value=='4' || this.value=='1'){
-				$('#studiolinkAddr').empty();
-				$('#studiolinkAddr').append('<option value="">请选择</option>');
-    			var gtype = $.trim($('#syllabusEdit_groupType_select').val());
-    			if(gtype=="studio"||gtype=="fxstudio"){
-    				for(var i=0; i<9; i++){
-    					$('#studiolinkAddr').append('<option value="0'+(i+1)+'">0'+(i+1)+'</option>');
-    				}
-    			}else{
-    				for(var i=9; i<15; i++){
-    					$('#studiolinkAddr').append('<option value="'+(i+1)+'">'+(i+1)+'</option>');
-    				}
+    			$('#studiolinkAddr').html("");
+    			var currLinks=Syllabus.getLiveLinks(this.value,$("#syllabusEdit_groupType_select").val());
+    			$('#studiolinkAddr').append('<option value="">--请选择--</option>');
+    			for(var lk in currLinks){
+    				$('#studiolinkAddr').append('<option value="'+currLinks[lk].url+'">'+currLinks[lk].name+'</option>');
     			}
-				var studioLinkVal = $('#studioLink_'+$("#studioLinkSelect").val()).val();
-				if(this.value=='1' && isValid(studioLinkVal)){
-    				studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
-    				studioLinkVal = studioLinkVal.substring(1);
-    			}else if(this.value=='3' && isValid(studioLinkVal)){
-    				studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
-    				studioLinkVal = studioLinkVal.substring(1);
-    			}else if(this.value=='4' && isValid(studioLinkVal)){
-	    			studioLinkVal = studioLinkVal.match(/\/(\d{2})/g)[0];
-					studioLinkVal = studioLinkVal.substring(1);
-    			}
-    			$('#studiolinkAddr').val(studioLinkVal).show();
+    			$('#studiolinkAddr').val("").show();
     		}else{
     			$('#studiolinkAddr').hide();
     		}
@@ -286,24 +385,20 @@ var Syllabus = {
     		if(isBlank(valObj.val())){
     			valObj.val(studioLinkVal);
     		}
+    		if(isValid(valObj.val())){
+				$('#studiolinkAddr').val(valObj.val());
+			}
     		valObj.show();
     	});
     	$('#studiolinkAddr').change(function(){
     		if(isValid(this.value)){
-    			var link = $('#studioLink_'+$("#studioLinkSelect").val()).attr('link');//$(this).attr('link');
-    			if($("#studioLinkSelect").val()=='1'){
-    				link = link.formatStr(this.value);
-    			}else if($("#studioLinkSelect").val()=='3'){
-    				link = link.formatStr(this.value);
-    			}else if($("#studioLinkSelect").val()=='4'){
-    				link = link.formatStr(this.value+'A');
-    			}
-    			$('#studioLink_'+$("#studioLinkSelect").val()).val(link);
+    			$('#studioLink_'+$("#studioLinkSelect").val()).val(this.value);
     		}else{
     			$('#studioLink_'+$("#studioLinkSelect").val()).val('');
     		}
     	});
     	this.setStudioLink($("#syllabusEdit_groupType_select").val());
+    	Syllabus.getStudioLink(null,true);
     	//头tab点击事件
    	 	$("#panel_editSyllabus .courseThCls").click(function(){
 	   		$("#panel_editSyllabus .courseThCls").removeClass("clickThCls");
@@ -520,7 +615,7 @@ var Syllabus = {
 		goldOfficeUtils.openEditorDialog({
 			title : '新增/编辑课程表',
 			width : 1050,
-			height : 560,
+			height : 600,
 			href : loc_url,
 			iconCls : 'ope-edit',
 			handler : function(){

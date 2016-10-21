@@ -14,6 +14,7 @@
 	#panel_editSyllabus .courseThCls{cursor: pointer;}
 	#panel_editSyllabus .clickThCls{background-color: #E5F1D7;}
 	#panel_editSyllabus .clickTdCls{background-color: #E5F1D7;}
+	#showLinksDiv .p-cl{color:red;}
 </style>
 <script type="text/javascript">
 $(function() {
@@ -44,10 +45,12 @@ Syllabus.studioLink=${studioLinkStr};
 			<tr>
 				<th>发布时间</th>
 				<td>
-					从&nbsp; <input name="publishStartStr" id="syllabus_publishStart" class="Wdate" value="${publishStartStr }" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'syllabus_publishEnd\')}',dateFmt:'yyyy-MM-dd'})" style="width:150px"/>
-                    &nbsp;&nbsp; 到&nbsp;<input name="publishEndStr" id="syllabus_publishEnd" class="Wdate" value="${publishEndStr }" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'syllabus_publishStart\')}',dateFmt:'yyyy-MM-dd'})" style="width:150px"/>
+					从&nbsp; <input name="publishStartStr" id="syllabus_publishStart" class="Wdate" value="${publishStartStr }" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'syllabus_publishEnd\')}',dateFmt:'yyyy-MM-dd'})" style="width:120px"/>
+                    &nbsp;&nbsp; 到&nbsp;<input name="publishEndStr" id="syllabus_publishEnd" class="Wdate" value="${publishEndStr }" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'syllabus_publishStart\')}',dateFmt:'yyyy-MM-dd'})" style="width:120px"/>
 				</td>
-				<th><label id="studioLinkLabel">直播地址</label></th>
+				<th><label id="studioLinkLabel">直播地址<a href="javascript:" id="showLinksId">【预览】</a></label>
+				    <div id="showLinksDiv" style="display:none;padding:6px;position:absolute;z-index: 10000000;background-color:#fff;border: 1px solid #B99E63;"></div>
+				</th>
 				<td>
 				   <span id="studioLinkSpan">
 				   	<select id="studioLinkSelect" style="width:103px">
@@ -56,11 +59,11 @@ Syllabus.studioLink=${studioLinkStr};
 					   	<option value="2">oneTV直播</option>
 					   	<option value="4">音频直播(mb)</option>
 				   	</select>
-				    <input  id="studioLink_1" style="width:265px;" t="1" value="" link="rtmp://h6.phgse.cn/live/{0}" />
-				    <input  id="studioLink_2" style="display:none;width:265px;" t="2" value="" />
-				    <input  id="studioLink_3" style="display:none;width:265px;" t="3" value="" link="http://h5.phgse.cn/live/{0}/index.m3u8" />
-				    <input  id="studioLink_4" style="display:none;width:265px;" t="4" value="" link="http://h5.phgse.cn/live/{0}/index.m3u8" />
-				    <select id="studiolinkAddr" style="display:none;width:60px;" link="http://html1.phgse.cn:1935/live/{0}/playlist.m3u8"></select>
+				   	<select id="studiolinkAddr" style="display:none;width:180px;"></select>
+				    <input  id="studioLink_1" style="width:450px;" t="1" value=""/>
+				    <input  id="studioLink_2" style="display:none;width:400px;" t="2" value="" />
+				    <input  id="studioLink_3" style="display:none;width:400px;" t="3" value=""/>
+				    <input  id="studioLink_4" style="display:none;width:400px;" t="4" value=""/>
 				   </span>
 				</td>
 			</tr>
