@@ -97,7 +97,16 @@ var chatGroup = {
 						}}
 						
 			]],
-			toolbar : '#chatGroup_datagrid_toolbar'
+			toolbar : '#chatGroup_datagrid_toolbar',
+			onLoadSuccess:function(data){
+				$("#"+chatGroup.gridId).datagrid("clearSelections"); 
+				for(var i in data.rows){
+					if(data.rows[i].roomType!='train'){
+						$("#chatGroup_datagrid_toolbar").next().find(".datagrid-view2 .datagrid-btable tr:eq("+i+")").find(".bookingUser").hide();
+					}
+				}
+			}
+			
 		});
 	},
 	/**
