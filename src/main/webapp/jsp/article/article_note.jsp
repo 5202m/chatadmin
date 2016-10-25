@@ -69,11 +69,137 @@
 				        <input type="hidden" name="name" /> 
 				        <input type="hidden" name="position" /> 
 				        <input type="hidden" name="avatar" /> 
+				        <input type="hidden" name="usertag" /> 
 				        <select name="authorList_zh" id="authorList_zh" style="width: 180px;"></select>
 					</td>
 				</tr>
+				<tr>
+					<th>模板</th>
+					<td>
+						<select name="tag" id="tag">
+							<option value="">请选择</option>
+							<option value="trading_strategy">交易策略</option>
+							<option value="shout_single">喊单</option>
+						</select>
+						&nbsp;&nbsp;
+						<input type="checkbox" id="sendSubscribe" checked="checked">
+						<label for="sendSubscribe" id="sendSubscribeLabel">自动发送订阅通知</label>
+						<input type="button" id="sendSubscribeBtn" value=" 发送订阅通知 ">
+					</td>
+				</tr>
 		</table>
+		<input type="hidden" name="remark" id="remark" />
 	</form>
+	<table id="trading_strategy" class="tableForm_L tag_tab" border="0" cellspacing="1" cellpadding="0" style="display:none;">
+		<tr>
+			<th>品种</th>
+			<td>
+				<select name="symbol">
+		        	<option value="" >--请选择--</option>
+	        		<option value="AUDUSD" >澳元美元</option>
+					<option value="USDJPY" >美元日元</option>
+					<option value="EURUSD" >欧元美元</option>
+					<option value="GBPUSD" >英镑美元</option>
+					<option value="NZDUSD" >纽元美元</option>
+					<option value="USDCAD" >美元加元</option>
+					<option value="USDCHF" >美元瑞郎</option>
+					<option value="USDCNH" >美元人民币</option>
+					<option value="AUDJPY" >澳元日元</option>
+					<option value="AUDNZD" >澳元纽元</option>
+					<option value="CADJPY" >加元日元</option>
+					<option value="EURAUD" >欧元澳元</option>
+					<option value="EURCHF" >欧元瑞郎</option>
+					<option value="EURGBP" >欧元英镑</option>
+					<option value="EURJPY" >欧元日元</option>
+					<option value="GBPAUD" >英镑澳元</option>
+					<option value="GBPCHF" >英镑瑞郎</option>
+					<option value="GBPJPY" >英镑日元</option>
+					<option value="NZDJPY" >纽元日元</option>
+					<option value="HKDCNH" >港币人民币</option>
+					<option value="XAG/USD" >白银美元</option>
+					<option value="XAU/USD" >黄金美元</option>
+					<option value="AUD" >澳元</option>
+					<option value="USD" >美元指数</option>
+					<option value="JPY" >日元</option>
+					<option value="EUR" >欧元</option>
+					<option value="GBP" >英镑</option>
+					<option value="NZD" >纽元</option>
+					<option value="CAD" >加元</option>
+					<option value="CHF" >瑞郎</option>
+					<option value="CNH" >人民币</option>
+					<option value="HKD" >港币</option>
+					<option value="XAU" >黄金</option>
+					<option value="XAG" >白银</option>
+					<option value="UKOil" >英国原油</option>
+					<option value="USOil" >美国原油</option>
+		        </select>
+		     </td>
+		     <th>支撑位</th>
+		     <td><input type="text" name="support_level" /></td>
+		     <td><a href="javascript:void(0)" class="ope-add"></a><a href="javascript:void(0)" class="ope-remove" style="display:none;"></a></td>
+		</tr>
+	</table>
+	<table id="shout_single" class="tableForm_L tag_tab" border="0" cellspacing="1" cellpadding="0" style="display:none;">
+		<tr>
+			<th>品种</th>
+			<td>
+				<select name="symbol">
+		        	<option value="" >--请选择--</option>
+	        		<option value="AUDUSD" >澳元美元</option>
+					<option value="USDJPY" >美元日元</option>
+					<option value="EURUSD" >欧元美元</option>
+					<option value="GBPUSD" >英镑美元</option>
+					<option value="NZDUSD" >纽元美元</option>
+					<option value="USDCAD" >美元加元</option>
+					<option value="USDCHF" >美元瑞郎</option>
+					<option value="USDCNH" >美元人民币</option>
+					<option value="AUDJPY" >澳元日元</option>
+					<option value="AUDNZD" >澳元纽元</option>
+					<option value="CADJPY" >加元日元</option>
+					<option value="EURAUD" >欧元澳元</option>
+					<option value="EURCHF" >欧元瑞郎</option>
+					<option value="EURGBP" >欧元英镑</option>
+					<option value="EURJPY" >欧元日元</option>
+					<option value="GBPAUD" >英镑澳元</option>
+					<option value="GBPCHF" >英镑瑞郎</option>
+					<option value="GBPJPY" >英镑日元</option>
+					<option value="NZDJPY" >纽元日元</option>
+					<option value="HKDCNH" >港币人民币</option>
+					<option value="XAG/USD" >白银美元</option>
+					<option value="XAU/USD" >黄金美元</option>
+					<option value="AUD" >澳元</option>
+					<option value="USD" >美元指数</option>
+					<option value="JPY" >日元</option>
+					<option value="EUR" >欧元</option>
+					<option value="GBP" >英镑</option>
+					<option value="NZD" >纽元</option>
+					<option value="CAD" >加元</option>
+					<option value="CHF" >瑞郎</option>
+					<option value="CNH" >人民币</option>
+					<option value="HKD" >港币</option>
+					<option value="XAU" >黄金</option>
+					<option value="XAG" >白银</option>
+					<option value="UKOil" >英国原油</option>
+					<option value="USOil" >美国原油</option>
+		        </select>
+		     </td>
+		     <th>方向</th>
+		     <td>
+			     <select name="longshort">
+			     	<option value="" >--请选择--</option>
+			     	<option value="long">看涨</option>
+			     	<option value="short">看跌</option>
+			     </select>
+		     </td>
+		     <th>进场点位</th>
+		     <td><input type="text" name="point" style="width:100px;" /></td>
+		     <th>止盈</th>
+		     <td><input type="text" name="profit" style="width:100px;" /></td>
+		     <th>止损</th>
+		     <td><input type="text" name="loss" style="width:100px;" /></td>
+		     <td><a href="javascript:void(0)" class="ope-add"></a><a href="javascript:void(0)" class="ope-remove" style="display:none;"></a></td>
+		</tr>
+	</table>
 </div>
 <script type="text/javascript">
 	ArticleTemplate.config = JSON.parse('${config}');

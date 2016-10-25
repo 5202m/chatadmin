@@ -70,6 +70,7 @@ public class ChatShowTradeDao extends MongoDBBaseDao{
 	    		.set("boUser.avatar", boUser.getAvatar())
 	    		.set("boUser.userNo", boUser.getUserNo())
 	    		.set("boUser.userName", boUser.getUserName())
+	    		.set("boUser.telephone", boUser.getTelephone())
 	    		.set("boUser.wechatCode", boUser.getWechatCode())
 	    		.set("boUser.wechatCodeImg", boUser.getWechatCodeImg())
 	    		.set("boUser.winRate", boUser.getWinRate()),ChatShowTrade.class);

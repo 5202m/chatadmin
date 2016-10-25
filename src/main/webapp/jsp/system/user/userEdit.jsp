@@ -277,7 +277,12 @@ $(function() {
             </div>
         </td>
       </tr>
-      
+      <tr>
+      	<th>标签</th>
+      	<td colspan="3">
+      		<input type="text" name="tag" id="tag" style="width:100%;" value="${mngUser.tag }" />
+      	</td>
+      </tr>
       <tr>
         <th>备注</th>
         <td colspan="3"><input type="text" name="remark" size="100" value="${mngUser.remark }"/></td>

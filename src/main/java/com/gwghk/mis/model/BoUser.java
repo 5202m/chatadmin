@@ -116,6 +116,11 @@ public class BoUser extends BaseModel{
      */
     private String introductionImgLink;
     
+    /**
+     * 分析师标签
+     */
+    private String tag;
+    
     public String getIntroductionImgLink() {
 		return introductionImgLink;
 	}
@@ -288,6 +293,14 @@ public class BoUser extends BaseModel{
 
 	public void setRole(BoRole role) {
 		this.role = role;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 	
 }

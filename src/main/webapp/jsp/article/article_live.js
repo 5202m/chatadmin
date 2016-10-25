@@ -144,8 +144,7 @@ var ArticleTemplate = {
 			$("#article_detail_zh td[tid=content]").html('<script id="article_editor_zh" name="content" type="text/plain" style="width:auto;height:auto;">' + content + '</script>');
 			ArticleTemplate.editor = UE.getEditor("article_editor_zh", {
 				initialFrameWidth : '100%',
-				initialFrameHeight : '400',
-				serverUrl:(basePath+"/uploadController/ueditorUpload.do?saveSrc=1")
+				initialFrameHeight : '400'
 			});
 		}
 	},

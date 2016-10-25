@@ -144,11 +144,11 @@ public class ChatShowTradeService{
 	public ApiResult modifyTradeStatusByIds(String[] tradeIds, int status){
 		ApiResult api=new ApiResult();
     	boolean isSuccess=chatShowTradeDao.modifyTradeStatusByIds(tradeIds, status);
-    	
-    	List<ChatShowTrade> ChatShowTradeList = chatShowTradeDao.findList(ChatShowTrade.class, Query.query(Criteria.where("_id").in(tradeIds)));
-    	String tradeInfo = JSONHelper.toJSONString(ChatShowTradeList);
-    	chatApiService.showTradeNotice(tradeInfo);
-    	
+    	if(isSuccess && status == 1){
+    		List<ChatShowTrade> ChatShowTradeList = chatShowTradeDao.findList(ChatShowTrade.class, Query.query(Criteria.where("_id").in((Object[])tradeIds)));
+        	String tradeInfo = JSONHelper.toJSONString(ChatShowTradeList);
+        	chatApiService.showTradeNotice(tradeInfo);
+    	}
     	return api.setCode(isSuccess?ResultCode.OK:ResultCode.FAIL);
 	}
 	

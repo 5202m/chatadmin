@@ -160,7 +160,7 @@
 	      </tr>
 	      <tr>
 	      	<th>默认皮肤</th>
-	      	<td colspan="3">
+	      	<td>
 	      		<select name="theme" id="theme">
 	      			<option value="">请选择</option>
 	      			<option value="theme1">主题1</option>
@@ -178,6 +178,18 @@
 	      		</select>
 	      		<input type="hidden" name="defTemplate" id="defTemplate" value='${chatGroup.defTemplate}' />
 	      	</td>
+	      	<th>房间类别</th>
+	      	<td>
+	      		<select name="roomType" id="roomType">
+	      			<option value="normal"<c:if test="${chatGroup.roomType=='normal'}"> selected="selected"</c:if>>普通</option>
+	      			<option value="vip"<c:if test="${chatGroup.roomType=='vip'}"> selected="selected"</c:if>>VIP</option>
+	      			<option value="train"<c:if test="${chatGroup.roomType=='train'}"> selected="selected"</c:if>>培训班</option>
+	      		</select>
+	      	</td>
+	      </tr>
+	      <tr>
+	      	<th>进入房间积分</th>
+	      	<td colspan="3"><input type="text" name="point" id="point" value="${chatGroup.point}" /></td>
 	      </tr>
 	      <tr>
 	         <th>开放时间</th>

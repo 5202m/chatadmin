@@ -167,6 +167,37 @@ public class ChatApiService{
 		}
     }
     
+     /**
+     * socket 通知客户端用户晒单
+     * @function:  
+     * @param tradeIds
+     * @return boolean   
+     * @exception 
+     * @author:Jade.zhu   
+     * @since  1.0.0
+     */
+    public boolean noticeShowTrade(String[] tradeIds){
+    	Map<String, String> paramMap=new HashMap<String, String>();
+    	String tradeIdStr = "";
+    	for(int i = 0, len=tradeIds.length; i < len; i++){
+    		if(tradeIdStr.length()>0){
+    			tradeIdStr += ",";
+    		}
+    		tradeIdStr += tradeIds[i];
+    	}
+    	paramMap.put("tradeIds", tradeIdStr);
+		try {
+			String str = HttpClientUtils.httpPostString(formatUrl("noticeShowTrade"), paramMap);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getBoolean("isOK");
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+    }
     /**
      * socket通知客户端,晒单审核完成后，通知到客户端
      * @param sendData

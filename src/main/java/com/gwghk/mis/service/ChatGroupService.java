@@ -116,7 +116,6 @@ public class ChatGroupService{
     	return result.setCode(ResultCode.OK);
 	}
 
-	
 	/**
 	 * 设置规则
 	 * @param group
@@ -286,6 +285,17 @@ public class ChatGroupService{
 			return chatGroupDao.findListInclude(ChatGroup.class, query,selectField);
 		}
 		return chatGroupDao.findList(ChatGroup.class, query);
+	}
+	
+	public ApiResult saveChatGroupTranin(ChatGroup chatGroupParam) {
+		ApiResult result=new ApiResult();
+		chatGroupParam.setValid(1);
+		if(StringUtils.isBlank(chatGroupParam.getId())){
+			return result.setCode(ResultCode.Error103);
+		}
+
+		chatGroupDao.update(chatGroupParam);          
+    	return result.setCode(ResultCode.OK);
 	}
 
 }

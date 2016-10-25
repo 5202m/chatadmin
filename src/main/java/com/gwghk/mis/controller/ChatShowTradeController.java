@@ -274,10 +274,12 @@ public class ChatShowTradeController extends BaseController{
 		     if(chatShowTrade.getTradeType()==2){
 		    	 String avatar = request.getParameter("avatar");
 		    	 String userName = request.getParameter("userName");
+		    	 String telePhone = request.getParameter("telephone"); 
 		    	 userNo = request.getParameter("userId");
 		    	 user.setUserNo(userNo);
 		    	 user.setAvatar(avatar);
 		    	 user.setUserName(userName);
+		    	 user.setTelephone(telePhone);
 		     }
 		     chatShowTrade.setBoUser(user);
 		 }

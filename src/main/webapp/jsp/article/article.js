@@ -188,7 +188,7 @@ var article = {
 			title : title,
 			width : 900,
 			height : 600,
-			href : formatUrl(basePath + '/articleController/articleInfo.do?articleId=' + articleId + "&opType=" + opType),
+			href : formatUrl(basePath + '/articleController/articleInfo.do?articleId=' + articleId + "&opType=" + opType+'&t='+new Date().getTime()),
 			iconCls : 'ope-import',
 			buttons : buttons,
 			handler : function(){

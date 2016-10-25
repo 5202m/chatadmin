@@ -101,6 +101,11 @@ public class Article extends BaseModel{
 	 * 栏目路径名(仅用于输出)
 	 */
 	private String categoryNamePath;
+	
+	/**
+	 * 所需积分，资料下载
+	 */
+	private Integer point;
 
 	public String getId() {
 		return id;
@@ -248,6 +253,14 @@ public class Article extends BaseModel{
 
 	public void setSrcId(Integer srcId) {
 		this.srcId = srcId;
+	}
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
 	}
 	
 	

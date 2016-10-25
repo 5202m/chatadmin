@@ -107,6 +107,22 @@ public class ChatGroup extends BaseModel{
 	 */
 	private String defTemplate;
 	
+
+	/**
+	 * 培训用户
+	 */
+	private List<TraninClient> traninClient;
+	
+	/**
+	 * 房间类别（普通，vip，培训班）
+	 */
+	private String roomType;
+	
+	/**
+	 * 房间积分
+	 */
+	private Integer point;
+
 	public String getDefTemplate() {
 		return defTemplate;
 	}
@@ -278,5 +294,32 @@ public class ChatGroup extends BaseModel{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	public List<TraninClient> getTraninClient() {
+		return traninClient;
+	}
+
+	public void setTraninClient(List<TraninClient> traninClient) {
+		this.traninClient = traninClient;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
+     
+	
+
 	
 }

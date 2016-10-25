@@ -55,6 +55,7 @@ $(function() {
     			<input type="hidden" name="avatar" value="${chatTrade.boUser.avatar}" />
     			<input type="hidden" name="userName" value="${chatTrade.boUser.userName}" />
     			<input type="hidden" name="userId" value="${chatTrade.boUser.userNo}" />
+    			<input type="hidden" name="telephone" value="${chatTrade.boUser.telephone}" />
     		</td>
     		<th>状态</th>
     		<td>

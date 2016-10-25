@@ -331,7 +331,67 @@ var chatGroup = {
 		$("#chatGroup_datagrid").datagrid('unselectAll');
 		var url = formatUrl(basePath + '/chatGroupController/del.do');
 		goldOfficeUtils.deleteOne('chatGroup_datagrid',recordId,url);
-	}
+	},
+	/**
+	 * 功能：查看
+	 * @param recordId   dataGrid行Id
+	 */
+	bookingUser2 : function(recordId){
+		$("#system_user_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/chatGroupController/'+recordId+'/getTrainClient.do');
+		goldOfficeUtils.openSimpleDialog({
+			title : '查看预约用户',       /**查看记录*/
+			height : 575 ,
+			href : url ,
+			iconCls : 'pag-edit',			
+		});
+	},
+	
+	trainClient: function(recordId){
+		$("#system_user_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/chatGroupController/'+recordId+'/getTrainClient.do');
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/authTrainClient.do');
+		goldOfficeUtils.openEditorDialog({
+			title : "查看报名客户",
+			width : 550,
+			height : 575,
+			href : url,
+			iconCls : 'pag-edit',
+			handler : function(){
+				var $select = $(this).parent().siblings().find('select');
+				var chatGroupId = $("#chatGroupId").val();
+				var unAuthTraninClientJson;
+				var authTraninClientJosn;
+				$select.each(function(i, n) {
+					if($(n).hasClass('unAuthTraninClientSelect')) {
+						  unAuthTraninClientJson = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);		
+						
+					};
+					if($(n).hasClass('authTraninClientSelect')) {
+						  authTraninClientJosn = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);	
+					};	
+				});	
+				
+				goldOfficeUtils.ajax({
+					url : submitUrl,
+					data : {
+						chatGroupId:chatGroupId,
+						unAuthTranin: unAuthTraninClientJson,
+						authTranin: authTraninClientJosn
+					},
+					success : function(data){
+						var d = $.parseJSON(data);
+						if (d.success) {
+							$("#myWindow").dialog("close");
+							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批成功','info');
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批失败，原因：'+data.msg,'error');
+						}
+					}
+				});	
+			}
+		});
+	},
 };
 		
 //初始化

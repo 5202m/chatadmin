@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,17 +34,22 @@ import com.gwghk.mis.constant.WebConstant;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
+import com.gwghk.mis.model.TraninClient;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
+import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.service.UserService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.IPUtil;
+import com.gwghk.mis.util.JSONHelper;
 import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * 聊天室房间管理
@@ -70,7 +76,9 @@ public class ChatGroupController extends BaseController{
 	
 	@Autowired
 	private RoleService roleService;
-	
+
+	@Autowired
+	private MemberService memberService;
 
 	/**
 	 * 设置状态
@@ -166,8 +174,9 @@ public class ChatGroupController extends BaseController{
     	setCommonShow(map);
     	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
+    	List<BoUser> analystList = userService.getUserListByRole("analyst");
     	//分析师列表
-    	map.addAttribute("analystList", new ArrayList<BoUser>());
+    	map.addAttribute("analystList", analystList);
     	return "chat/groupSubmit";
     }
     
@@ -399,6 +408,102 @@ public class ChatGroupController extends BaseController{
     	}
   		return j;
     }
+
+    /**
+     * 
+     * @function:  查看培训班报名客户
+     * @param chatGroupId
+     * @param map
+     * @return
+     * @throws Exception String   
+     * @exception 
+     * @author:Jade.zhu   
+     * @since  1.0.0
+     */
+    @RequestMapping(value = "/chatGroupController/{chatGroupId}/getTrainClient", method = RequestMethod.GET)
+	@ActionVerification(key = "bookingClient")
+    public String bookingUserList(@PathVariable String chatGroupId , ModelMap map) throws Exception {
+    	ChatGroup chatGroup = chatGroupService.getChatGroupById(chatGroupId);
+    	List<TraninClient>  TraninClientList = chatGroup.getTraninClient();
+		List<TraninClient> authTraninClientList = new ArrayList<TraninClient>();
+		List<TraninClient> unAuthTraninClientList = new ArrayList<TraninClient>();
+		if(null != TraninClientList){
+			for (TraninClient traninClient : TraninClientList) {
+				if(traninClient.getIsAuth() == 0){
+					unAuthTraninClientList.add(traninClient);
+				}else{
+					authTraninClientList.add(traninClient);
+				}
+			}
+		}
+    	
+    	map.put("chatGroup", chatGroup); 	
+    	map.put("authTraninClientList", authTraninClientList); 
+    	map.put("unAuthTraninClientList", unAuthTraninClientList); 
+    	return "chat/groupBookingUser";
+    }
+    
+    /**
+     * 修改审批报名客户
+     */
+    @RequestMapping(value = "/chatGroupController/authTrainClient", method = RequestMethod.POST)
+	@ResponseBody
+	@ActionVerification(key = "authTrainClient")
+	public AjaxJson authTrainRegis(HttpServletRequest request, HttpServletResponse response) {
+		AjaxJson j = new AjaxJson();
+		ApiResult result;	
+		String chatGroupId = request.getParameter("chatGroupId");
+		String authTraninClient = request.getParameter("authTranin");
+		String unAuthTraninClient = request.getParameter("unAuthTranin");
+	   	ChatGroup chatGroup=chatGroupService.getChatGroupById(chatGroupId);
+	   	net.sf.json.JSONArray authTraninClientArray = null;
+	   	net.sf.json.JSONArray unAuthTraninClientArray = null;
+	   	if(null != authTraninClient && !"null".equals(authTraninClient)){
+			authTraninClientArray = JSONHelper.toJSONArray(authTraninClient);
+		}
+	   	if(null != unAuthTraninClient && !"null".equals(unAuthTraninClient)){
+	   		unAuthTraninClientArray = JSONHelper.toJSONArray(unAuthTraninClient);
+		}
+	   	
+	   	if(null != authTraninClientArray){
+	   		for (int i = 0; i < authTraninClientArray.size(); i++) {
+				JSONObject jsonObject = authTraninClientArray.getJSONObject(i);	   
+				for (TraninClient traninClient : chatGroup.getTraninClient()) {
+					if(traninClient.getClientId().equals(jsonObject.getString("clientId"))){
+						traninClient.setIsAuth(1);
+					}
+				}
+		   }
+	   	}
+	   	
+	   	if(null != unAuthTraninClientArray){
+	   		for (int i = 0; i < unAuthTraninClientArray.size(); i++) {
+				JSONObject jsonObject = unAuthTraninClientArray.getJSONObject(i);	   
+				System.out.println(jsonObject.getString("clientId"));
+				for (TraninClient traninClient : chatGroup.getTraninClient()) {
+					if(traninClient.getClientId().equals(jsonObject.getString("clientId"))){
+						traninClient.setIsAuth(0);
+					}
+				}
+		   }
+	   	}
+	   	
+		result = chatGroupService.saveChatGroupTranin(chatGroup);
+		if (result.isOk()) {
+			j.setSuccess(true);
+			String message = "用户房间：" + chatGroup.getName() + " " + DateUtil.getDateSecondFormat(new Date()) + " 修改审批报名用户成功";
+			logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.info("<--method:authUser()|" + message);
+		}
+		else {
+			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+			String message = "用户：" + chatGroup.getName()  + " " + DateUtil.getDateSecondFormat(new Date()) + " 修改审批报名用户失败";
+			logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.error("<--method:authUser()|" + message + ",ErrorMsg:" + result.toString());
+		}
+		return j;
+	}
     
     /**
      * 设置直播通用参数

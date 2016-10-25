@@ -230,4 +230,30 @@ public class PmApiService{
     		return null;
     	}
     }
+
+	
+	/**
+	 * 订阅通知（文档）
+	 * @param articleId
+	 * @return
+	 */
+	public boolean subscribeArticle(String articleId){
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("type", "ARTICLE");
+		paramMap.put("dataId", articleId);
+		try {
+			String str = HttpClientUtils.httpPostString(formatUrl(ApiDir.subscribe, "notice"), paramMap);
+			logger.info("<<API-subscribeArticle() : " + str);
+			if (StringUtils.isNotBlank(str)) {
+				JSONObject obj = JSON.parseObject(str);
+				return obj.getBooleanValue("data");
+			} else {
+				return false;
+			}
+		}
+		catch (Exception e) {
+			logger.error("发送订阅通知失败!", e);
+			return false;
+		}
+	}
 } 

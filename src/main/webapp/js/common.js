@@ -172,80 +172,67 @@ function nullValToEmpty(val){
 	return isBlank(val)?"":val;
 }
 /**
- * 
- * @param formId 一个或多个，多个则生成json数组
- * @returns
+ * 将form数据转化为json字符串
+ * @param formIds 一个或多个，多个则生成json数组
+ * @returns {*}
  */
-function formFieldsToJson(formIds,concatValArr) {
+function formFieldsToJson(formIds) {
     if(isBlank(formIds)){
-		return "";
-	}
-    var arr=[];
-    var formIdsObj=null;
-    if($.isArray(formIds)){
-    	arr=formIds;
-    }else if(validObj(formIds)){
-    	arr=$.makeArray(formIds);
-    }else{
-    	arr[0]=formIds;
+        return "";
     }
-    var resultArr=[],formId="",formStrArr=null;
-    var text,checkBox,area,select,allcheckBoxSame;
+    var setOrPush = function(target, key, value){
+        if(target.hasOwnProperty(key)){
+            if(target[key] instanceof  Array){
+                target[key].push(value);
+            }else{
+                target[key] = [target[key], value];
+            }
+        }else{
+            target[key] = value;
+        }
+    };
+
+    var arr=[];
+    if($.isArray(formIds)){
+        arr=formIds;
+    }else if(validObj(formIds)){
+        arr=$.makeArray(formIds);
+    }else{
+        arr[0]=formIds;
+    }
+    var ObjArr=[], obj = null,$form="";
     for(var i=0;i<arr.length;i++){
-    	formStr="";
-    	formId=arr[i];
-    	formStrArr=[];
-    	allcheckBoxSame={};
-		text=$("input[name][type!=button][type!=submit][type!=checkbox]", $(formId)).map(function () {
-	        return "\""+this.name+"\":\""+nullValToEmpty(this.value)+"\"";
-		 }).get().join(",");
-		checkBox=$("input[name][type=checkbox]", $(formId)).map(function () {
-			var pKey=$(this).parent().attr("id");
-		    if(isValid(pKey)&&this.name==pKey){
-		        if(this.checked){
-		        	var val=allcheckBoxSame[pKey];
-		        	allcheckBoxSame[pKey]=isValid(val)?(val+","+nullValToEmpty(this.value)):this.value;
-		        }
-		    	return null;
-		    }else{
-	           return "\""+this.name+"\":\""+((this.value == "on"||this.value == "off")?(this.checked? "true" :"false"):nullValToEmpty(this.value))+"\"";
-		    }
-		 }).get().join(",");
-		area=$("textarea[name]", $(formId)).map(function () {
-			if(isValid(this.value)){
-				this.value=this.value.replace(/\"/g,"\\\"").replace(/&nbsp;/g,"  ").replace(/[\f\n\r\t\v]/g, "");
-			}
-		    return "\""+this.name+"\":\""+nullValToEmpty(this.value)+"\"";
-		 }).get().join(",");
-		select=$("select[name]", $(formId)).map(function () {
-		    return "\""+this.name+"\":\""+(this.value=="--"?"":nullValToEmpty(this.value))+"\"";
-		 }).get().join(",");
-		if(isValid(text)){
-			formStrArr.push(text);
-		}
-		if(isValid(checkBox)){
-			formStrArr.push(checkBox);		
-		}
-		if(isValid(area)){
-			formStrArr.push(area);		
-		}
-		if(isValid(select)){
-			formStrArr.push(select);			
-		}
-		if(validObj(allcheckBoxSame)){
-			for(var name in allcheckBoxSame){
-				formStrArr.push("\""+name+"\":\""+allcheckBoxSame[name]+"\"");
-			}
-		}
-		if(formStrArr.length>0){
-			if($.isArray(concatValArr)){
-				var concatVal=concatValArr[i];
-				formStrArr.push(concatVal);
-			}
-			resultArr.push("{"+formStrArr.join(",")+"}");
-		}
-	}
-    return resultArr.length>1?"["+resultArr.join(",")+"]":nullValToEmpty(resultArr[0]);
+        $form = $(arr[i]);
+        obj = {};
+        $form.find("input[name][type!=button][type!=submit][type!=checkbox]").each(function(){
+            var $this = $(this);
+            setOrPush(obj, $this.attr("name"), nullValToEmpty($this.val()));
+        });
+        $form.find("input[name][type=checkbox]:checked").each(function(){
+            var $this = $(this);
+            setOrPush(obj, $this.attr("name"), nullValToEmpty($this.val()));
+        });
+        $form.find("textarea[name]").each(function(){
+            var $this = $(this);
+            var loc_val = nullValToEmpty($this.val());
+            loc_val = loc_val.replace(/[\f\n\r\t\v]/g, "");
+            setOrPush(obj, $this.attr("name"), loc_val);
+        });
+        $form.find("select[name]").each(function(){
+            var loc_name = $(this).attr("name");
+            $(this).find("option:selected").each(function(name){
+                setOrPush(obj, name, nullValToEmpty($(this).val()));
+            }, [loc_name]);
+        });
+        ObjArr.push(obj);
+    }
+    var result = null;
+    if(ObjArr.length == 1){
+        result = ObjArr[0];
+    }else if(ObjArr.length > 1){
+        result = ObjArr;
+    }
+    return JSON.stringify(result);
 }
 
 /**
@@ -778,6 +765,23 @@ function isPlatform(platform){
 }
 
 /**
+ * 将手机号格式化为userId
+ * @param mobilePhone
+ * @returns {String}
+ */
+function formatMobileToUserId(mobilePhone){
+    var str=[];
+    str[0]='p',str[1]='x',str[2]='i',str[3]='u',str[4]='d',str[5]='c',str[6]='v',str[7]='s',str[8]='n',str[9]='f';
+    var userId='';
+    for(var i=0;i<mobilePhone.length;i++){
+        userId+=str[parseInt(mobilePhone.charAt(i))];
+    }
+    var index1=Math.floor(Math.random() * 10),index2=Math.floor(Math.random() * 10);
+    return str[index1]+userId+str[index2];
+}
+
+
+/**
  * 包含字符，逗号分隔
  * @param src
  * @param subStr
@@ -788,6 +792,18 @@ function containSplitStr(src,subStr){
     }
     return (','+src+',').indexOf((','+subStr+','))!=-1;
 }
+
+/**
+ * 判断{}对象是否为空
+ * @param e
+ * @returns {Number}
+ */
+function isEmptyObject(e) {  
+    var t;  
+    for (t in e)  
+        return !1;  
+    return !0  
+}  
 
 /*替换字符串中占位符 扩展方法 begin*/
 String.prototype.formatStr=function() {

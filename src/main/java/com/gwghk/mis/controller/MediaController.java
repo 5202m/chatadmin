@@ -230,7 +230,7 @@ public class MediaController extends BaseController{
     			return j;
     		}
     		logger.info(JSONHelper.bean2json(media));
-        	ApiResult result =articleService.addArticle(media);
+        	ApiResult result =articleService.addArticle(media, false);
         	if(result.isOk()){
         		j.setSuccess(true);
         		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增媒体："+media.getId();

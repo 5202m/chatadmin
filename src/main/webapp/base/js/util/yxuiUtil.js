@@ -544,7 +544,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 			},
 			integer : {// 验证整数
 				validator : function(value) {
-					return /^[+]?[1-9]+\d*$/i.test(value);
+					return /^[+-]?[1-9]+\d*$/i.test(value);
 				},
 				message : '请输入整数'
 			},
@@ -936,4 +936,63 @@ yxui.findSelectMultipleValue = function(options) {
 	returnArr.push(ids);
 	returnArr.push(texts);
 	return returnArr;
+}
+
+/**
+ * select 选择框数据采集
+ * 
+ * @param key1  键
+ * @return key2   建
+ * @param options
+ * @return 数组
+ */
+yxui.findSelectMultipleValueStrong = function(key1,key2,options) {
+	
+	var setOrPush = function(target, key, value){
+        if(target.hasOwnProperty(key)){
+            if(target[key] instanceof  Array){
+                target[key].push(value);
+            }else{
+                target[key] = [target[key], value];
+            }
+        }else{
+            target[key] = value;
+        }
+    };
+    var ObjArr=[];
+	var returnArr = [], ids = [], texts = [];
+	if ($.browser.msie) {
+		for (var i = 0; i < options.length; i++) {
+			var obj = {};
+			var value = options[i].value;
+			var text = options[i].text;
+			if(text.indexOf("【")){
+				text = text.substring(0,text.indexOf("【"));
+			}			
+			setOrPush(obj, key1, value);
+			setOrPush(obj, key2, text);
+			
+			ObjArr.push(obj);
+		}
+	} else {
+		$(options).each(function(i, n) {
+			var obj = {};
+			var val = $(n).val();
+			var text = $(n).html();
+			if(text.indexOf("【")){
+				text = text.substring(0,text.indexOf("【"));
+			}			
+			setOrPush(obj, key1, val);
+			setOrPush(obj, key2, text);	
+			
+			ObjArr.push(obj);
+		});
+	}
+	
+	var result = null;   
+    if(ObjArr.length == 0){
+    	ObjArr = null;
+    }
+    result = ObjArr; 
+    return JSON.stringify(ObjArr);
 }

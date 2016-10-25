@@ -31,6 +31,11 @@ public class ArticleAuthor
 	 */
 	private String name;
 	
+	/**
+	 * 作者标签
+	 */
+	private String tag;
+	
 	public String getUserId()
 	{
 		return userId;
@@ -76,5 +81,15 @@ public class ArticleAuthor
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+
+	public String getTag() {
+		return tag;
+	}
+
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

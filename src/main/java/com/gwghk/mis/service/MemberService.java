@@ -263,4 +263,19 @@ public class MemberService{
 		}
 		return memberDao.findPageInclude(Member.class, query, dCriteria,"loginPlatform.chatUserGroup.$","mobilePhone","updateDate");
 	}
+	
+	/**
+	 * 
+	 * @function:  根据用户ID获取用户信息
+	 * @param userIds
+	 * @return List<Member>   
+	 * @exception 
+	 * @author:Jade.zhu   
+	 * @since  1.0.0
+	 */
+	public List<Member> getMemberByUserId(String[] userIds){
+		return memberDao.findListInclude(Member.class, Query.query(
+				   new Criteria().andOperator(Criteria.where("loginPlatform.chatUserGroup.userId").in((Object[])userIds)
+				   ,Criteria.where("valid").is(1))), "loginPlatform.chatUserGroup.$");
+	}
 }

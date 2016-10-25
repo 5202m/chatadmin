@@ -84,8 +84,12 @@
       </tr>
       <tr>
       	<th width="15%">序号</th>
-        <td width="35%" colspan="3">
+        <td width="35%">
         	<input type="text" name="sequence" value="${media.sequence}"/>
+        </td>
+      	<th width="15%">所需积分</th>
+        <td width="35%">
+        	<input type="text" name="point" value="${media.point}"/>
         </td>
       </tr>
       <tr>

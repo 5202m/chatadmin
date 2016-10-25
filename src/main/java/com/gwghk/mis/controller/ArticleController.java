@@ -187,7 +187,8 @@ public class ArticleController extends BaseController{
     		if(!j.isSuccess()){
     			return j;
     		}
-        	ApiResult result =articleService.addArticle(article);
+    		boolean isSendSubscribe = "1".equals(request.getParameter("sendSubscribe"));
+        	ApiResult result =articleService.addArticle(article, isSendSubscribe);
         	if(result.isOk()){
         		j.setSuccess(true);
         		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增文章："+article.getId();
@@ -325,7 +326,6 @@ public class ArticleController extends BaseController{
     	}
   		return j;
     }
-    
 
 	/**
 	 * 功能：文章管理-提取策略
@@ -463,5 +463,24 @@ public class ArticleController extends BaseController{
     	}
     	map.addAttribute("config", JSON.toJSONString(config));
 		return "article/" + view;
+    }
+    
+    /**
+     * 功能：文章管理-批量删除
+     */
+    @RequestMapping(value="/articleController/sendSubscribe",method=RequestMethod.POST)
+    @ResponseBody
+    public AjaxJson sendSubscribe(HttpServletRequest request,HttpServletResponse response){
+    	String articleId = request.getParameter("articleId");
+    	AjaxJson j = new AjaxJson();
+    	if(StringUtils.isBlank(articleId)){
+    		j.setSuccess(false);
+    		j.setMsg("文章编号不能为空！");
+    	}else{
+    		articleService.sendSubscribe(articleId);
+    		j.setSuccess(true);
+    		j.setMsg("发送订阅通知成功！");
+    	}
+    	return j;
     }
 }

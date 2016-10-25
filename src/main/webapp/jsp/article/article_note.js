@@ -14,6 +14,7 @@ var ArticleTemplate = {
 		this.initView(detail.content, true);
 		var articleInfo = ArticleEdit.article;
 		var $form = $("#articleBaseInfoForm");
+		$form.find("#articleId").val(articleInfo.id);
 		$form.find("#publishStartDate").val(timeObjectUtil.longMsTimeConvertToDateTime(articleInfo.publishStartDate));
 		$form.find("#publishEndDate").val(timeObjectUtil.longMsTimeConvertToDateTime(articleInfo.publishEndDate));
 		$form.find("#articleStatus").val(articleInfo.status);
@@ -23,8 +24,24 @@ var ArticleTemplate = {
 			var $detailForm = $("#article_detail_zh");
 			$detailForm.find("input[name='title']").val(detail.title);
 			$detailForm.find("#authorList_zh").html("<option>" + (detail.authorInfo ? detail.authorInfo.name : "") + "</option>");
+			$detailForm.find("select[name='tag']").val(detail.tag);
+			$detailForm.find("input[name='remark']").val(detail.remark);
+			var $tagTab = $('#'+detail.tag);
+			var remarkArr = eval('('+detail.remark+')');
+			if(remarkArr.length>0){
+				$.each(remarkArr, function(i, row){
+					$tagTab.find('tr:first td:last .ope-add').click();
+					$.each(row, function(key, val){
+						$tagTab.find('tr:eq('+i+') td select[name="'+key+'"]').val(val);
+						$tagTab.find('tr:eq('+i+') td input[name="'+key+'"]').val(val);
+					});
+				});
+				$tagTab.find('tr:last td:last .ope-remove').click();
+			}
+			$detailForm.find("select[name='tag']").trigger('change', "R");
 		}
 		$("#articleBasePanel").find("input,select,textarea").prop("disabled", true);
+		$("#sendSubscribeBtn").prop("disabled", false);
 	},
 	/**
 	 * 新增初始化
@@ -32,6 +49,7 @@ var ArticleTemplate = {
 	 */
 	preAdd : function(){
 		this.initView('', false);
+		$("#article_detail_zh select[name='tag']").trigger('change', "C");
 	},
 	/**
 	 * 编辑初始化
@@ -55,6 +73,21 @@ var ArticleTemplate = {
 			var $detailForm = $("#article_detail_zh");
 			$detailForm.find("input[name='title']").val(detail.title);
 			$detailForm.find("#authorList_zh").combogrid('setValue', detail.authorInfo ? detail.authorInfo.userId : "");
+			$detailForm.find("select[name='tag']").val(detail.tag);
+			$detailForm.find("input[name='remark']").val(detail.remark);
+			var $tagTab = $('#'+detail.tag);
+			var remarkArr = eval('('+detail.remark+')');
+			if(remarkArr.length>0){
+				$.each(remarkArr, function(i, row){
+					$tagTab.find('tr:first td:last .ope-add').click();
+					$.each(row, function(key, val){
+						$tagTab.find('tr:eq('+i+') td select[name="'+key+'"]').val(val);
+						$tagTab.find('tr:eq('+i+') td input[name="'+key+'"]').val(val);
+					});
+				});
+				$tagTab.find('tr:last td:last .ope-remove').click();
+			}
+			$detailForm.find("select[name='tag']").trigger('change', "U");
 		}
 	},
 	/**
@@ -65,6 +98,29 @@ var ArticleTemplate = {
 			return false;
 		}
 		this.checkClearAuthor();//清除无效的作者值
+		if(isValid($('#article_detail_zh #tag').val())){
+			var remark = [];
+			$('#'+$('#article_detail_zh #tag').val()+' tr').each(function(){
+				var row = {};
+				$(this).find('select').each(function(){
+					if(isValid($(this).val())){
+						row[$(this).attr('name')] = $(this).val();
+						if($(this).attr('name')=='symbol'){
+							row['name'] = $(this).find('option:selected').text();
+						}
+					}
+				});
+				$(this).find('input').each(function(){
+					if(isValid($(this).val())){
+						row[$(this).attr('name')] = $(this).val();
+					}
+				});
+				if(!isEmptyObject(row)){
+					remark.push(row);
+				}
+			});
+			$('#remark').val(JSON.stringify(remark));
+		}
 		var serializeFormData = $("#articleBaseInfoForm").serialize();
 		var detaiInfo=formFieldsToJson($("#article_detail_zh"));
 		var detaiInfoObj = eval("("+detaiInfo+")");
@@ -75,6 +131,7 @@ var ArticleTemplate = {
 				authorInfo.avatar = value.avatar;
 				authorInfo.position = value.position;
 				authorInfo.name = value.name;
+				authorInfo.tag = value.usertag.replace('，',',');
 				detaiInfoObj[key].authorInfo = authorInfo;
 			});
 		}else{
@@ -83,9 +140,13 @@ var ArticleTemplate = {
 			authorInfo.avatar = detaiInfoObj.avatar;
 			authorInfo.position = detaiInfoObj.position;
 			authorInfo.name = detaiInfoObj.name;
+			authorInfo.tag = detaiInfoObj.usertag.replace('，',',');
 			detaiInfoObj.authorInfo = authorInfo;
 		}
 		detaiInfo = JSON.stringify(detaiInfoObj);
+		if($("#sendSubscribe").is(":visible") && $("#sendSubscribe").prop("checked")){
+			serializeFormData += "&sendSubscribe=1";
+		}
 		$.messager.progress();//提交时，加入进度框
 		var submitInfo = serializeFormData+"&detaiInfo="+encodeURIComponent(detaiInfo);
 		return submitInfo;
@@ -115,6 +176,42 @@ var ArticleTemplate = {
 				}
 			}
 		});
+		if(isValid($('#article_detail_zh #tag').val())){
+			$('#'+$('#tag').val()+' input,#'+$('#tag').val()+' select').each(function(){
+				if(isBlank($(this).val())){
+					if($(this).attr("name")=="symbol" && $('#tag').val()=='shout_single'){
+						alert("请选择品种！");
+						isPass=false;
+						return false;
+					}
+					/*if($(this).attr("name")=="support_level"){
+						alert("支撑位不能为空！");
+						isPass=false;
+						return false;
+					}*/
+					if($(this).attr("name")=="longshort"){
+						alert("请选择方向！");
+						isPass=false;
+						return false;
+					}
+					if($(this).attr("name")=="point"){
+						alert("进场点位不能为空！");
+						isPass=false;
+						return false;
+					}
+					if($(this).attr("name")=="profit"){
+						alert("止盈不能为空！");
+						isPass=false;
+						return false;
+					}
+					if($(this).attr("name")=="loss"){
+						alert("止损不能为空！");
+						isPass=false;
+						return false;
+					}
+				}
+			});
+		}
 		if(isPass){
 			isPass = $("#article_detail_zh").form('validate');
 		}
@@ -166,6 +263,51 @@ var ArticleTemplate = {
 				initialFrameHeight : '400'
 			});
 		}
+		
+		//模板切换
+		$('#tag').bind("change", function(e, opType){
+			opType = opType || $(this).data("opType");
+			$(this).data("opType", opType);
+			if(opType == "U"){
+				$("#sendSubscribe,#sendSubscribeLabel,#sendSubscribeBtn").hide();
+			}else if(opType == "R"){
+				$("#sendSubscribe,#sendSubscribeLabel").hide();
+				$("#sendSubscribeBtn").show();
+			}else{//C
+				var tag = $(this).val();
+				if(!tag){
+					$("#sendSubscribe,#sendSubscribeLabel,#sendSubscribeBtn").hide();
+				}else{
+					$("#sendSubscribe,#sendSubscribeLabel").show();
+					$("#sendSubscribeBtn").hide();
+				}
+			}
+			$('.tag_tab').hide();
+			$('#'+$(this).val()).show();
+		});
+		
+		
+		$('.tag_tab .ope-add').click(function(){
+			$('#'+$('#tag').val()+' tr:first').clone().appendTo($('#'+$('#tag').val()));
+			$('#'+$('#tag').val()+' tr:last').find('input').val('');
+			$('#'+$('#tag').val()+' tr:last td:last .ope-add').hide();
+			$('#'+$('#tag').val()+' tr:last td:last .ope-remove').show();
+		});
+		
+		$('.tag_tab .ope-remove').live('click', function(){
+			$(this).parent().parent().remove();
+		});
+		
+		/**发送订阅通知*/
+		$("#sendSubscribeBtn").bind("click", function(){
+			var articleId = $("#articleBaseInfoForm #articleId").val();
+			goldOfficeUtils.ajax({
+				url : basePath +'/articleController/sendSubscribe.do?articleId='+articleId,
+				success : function(data){
+					alert(data.msg);
+				}
+			});
+		});
 	},
 	/**
 	 * 拉取课程表信息
@@ -209,6 +351,7 @@ var ArticleTemplate = {
 				}},
 		        {field : 'userName',title : '姓名',width:100},
 				{field : 'position',hidden:true},
+				{field : 'tag',hidden:true},
 		        {field : 'avatar',title : '头像',width:40,formatter : function(value, rowData, rowIndex) {
 		        	if(isBlank(value)){
 		        		return '';
@@ -222,6 +365,7 @@ var ArticleTemplate = {
 			   $('#article_detail_'+lang+' input[name=name]').val(rowData.userName);
 			   $('#article_detail_'+lang+' input[name=position]').val(rowData.position);
 			   $('#article_detail_'+lang+' input[name=avatar]').val(rowData.avatar);
+			   $('#article_detail_'+lang+' input[name=usertag]').val(rowData.tag);
 		    },
 		    onChange:function(val){
 		    	var lang=id.replace("authorList_","");
@@ -253,4 +397,5 @@ var ArticleTemplate = {
 			 }
 		});
 	}
+	
 };

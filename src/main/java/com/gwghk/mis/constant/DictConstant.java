@@ -37,6 +37,12 @@ public class DictConstant {
 	/**短信应用点*/
 	public  String DICT_SMS_USE_TYPE = "sms_use_type";
 	
+	/**积分类别*/
+	public  String DICT_POINTS_TYPE = "points_type";
+	
+	/**积分项目*/
+	public  String DICT_POINTS_ITEM = "points_item";
+	
 	/**外接直播*/
 	public  String DICT_EXTERNAL_STUDIO = "external_studio";
 	

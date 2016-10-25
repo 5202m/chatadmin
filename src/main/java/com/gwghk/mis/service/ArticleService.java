@@ -157,15 +157,20 @@ public class ArticleService{
 	 * @param syncArticle
 	 * @return
 	 */
-	public ApiResult addArticle(Article article) {
+	public ApiResult addArticle(Article article, boolean isSendSubscribe) {
 		ApiResult result=new ApiResult();
 		try {
 			article.setValid(1);
 			article.setPraise(0);
 			articleDao.addArticle(article);
+			//chat socket通知
 			if("class_note".equals(article.getCategoryId()) ||
 					"trade_strategy_article".equals(article.getCategoryId())){
 				chatApiService.noticeArticle(article, "C");
+			}
+			//api 订阅通知
+			if(isSendSubscribe && "class_note".equals(article.getCategoryId())){
+				pmApiService.subscribeArticle(article.getId());
 			}
 		} catch (Exception e) {
 			return result.setCode(ResultCode.FAIL);
@@ -183,8 +188,16 @@ public class ArticleService{
 		Article article=articleDao.findById(Article.class, articleParam.getId());
 		BeanUtils.copyExceptNull(article, articleParam);
 		article.setDetailList(articleParam.getDetailList());
-		article.setValid(1);
-		articleDao.update(article);
+		try {
+			article.setValid(1);
+			articleDao.update(article);
+			if("class_note".equals(article.getCategoryId()) ||
+					"trade_strategy_article".equals(article.getCategoryId())){
+				chatApiService.noticeArticle(article, "U");
+			}
+		} catch (Exception e) {
+			return new ApiResult().setCode(ResultCode.FAIL);
+		}
 		return new ApiResult().setCode(ResultCode.OK);
 	}
 
@@ -313,7 +326,7 @@ public class ArticleService{
 				detailList=new ArrayList<ArticleDetail>();
 				detailList.add(articleDetail);
 				article.setDetailList(detailList);
-				ApiResult result=this.addArticle(article);
+				ApiResult result=this.addArticle(article, false);
 				if(result.isOk()){
 					api.setCode(ResultCode.OK);
 				}
@@ -328,5 +341,14 @@ public class ArticleService{
 			return api.setErrorMsg("没有可提取的交易策略！");
 		}
 		return api;
+	}
+	
+	/**
+	 * 发送订阅通知
+	 * @param articleId
+	 * @return
+	 */
+	public boolean sendSubscribe(String articleId){
+		return pmApiService.subscribeArticle(articleId);
 	}
 }
