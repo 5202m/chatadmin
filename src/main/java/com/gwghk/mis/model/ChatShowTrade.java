@@ -20,6 +20,8 @@ public class ChatShowTrade extends BaseModel
 	@Indexed
 	private String groupType;
 	@Indexed
+	private String groupId;
+	@Indexed
 	private BoUser boUser; //分析师
 	private Date showDate; //晒单时间
 	private String tradeImg; //晒单图片
@@ -102,6 +104,12 @@ public class ChatShowTrade extends BaseModel
 	}
 	public void setProfit(String profit) {
 		this.profit = profit;
+	}
+	public String getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 	
 }
