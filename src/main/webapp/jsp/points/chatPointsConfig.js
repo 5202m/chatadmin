@@ -44,18 +44,29 @@ var chatPointsConfig = {
 			    	$("#chatPointsConfig_datagrid_rowOperation input").val(value);
 			    	return $("#chatPointsConfig_datagrid_rowOperation").html();
 			    }},
-				{title : "组别",field : 'groupType',formatter : function(value, rowData, rowIndex) {
+				{title : "房间组别",field : 'groupType',formatter : function(value, rowData, rowIndex) {
 					return chatPointsConfig.formatByDicts("groupType", value);
 				}},
-				{title : "类别",field : 'type',formatter : function(value, rowData, rowIndex) {
+				{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
+					var nameArr=[],tmpData={"simulate":"模拟用户",register:"注册用户",vip:"VIP用户,",active:"真实A用户",notActive:"真实N用户"};;
+					if(value){
+						for(var i in tmpData){
+							if(value.indexOf(i)!=-1){
+								nameArr.push(tmpData[i]);
+							}
+						}
+					}
+					return nameArr.join("，");
+				}},
+				{title : "积分类别",field : 'type',formatter : function(value, rowData, rowIndex) {
 					return chatPointsConfig.formatByDicts("type", value);
 				}},
-				{title : "项目",field : 'item',formatter : function(value, rowData, rowIndex) {
+				{title : "积分项目",field : 'item',formatter : function(value, rowData, rowIndex) {
 					return chatPointsConfig.formatByDicts("item", value);
 				}},
 				{title : "积分值",field : 'val'},
-				{title : "提示",field : 'tips'},
-	            {title : "上限",field : 'limitVal',formatter : function(value, rowData, rowIndex) {
+				{title : "积分提示",field : 'tips'},
+	            {title : "积分上限",field : 'limitVal',formatter : function(value, rowData, rowIndex) {
 	            	return value ? (value + "&nbsp;" + chatPointsConfig.formatByDicts("limitUnit", rowData["limitUnit"])) : "无上限";
 				}},
 	            {title : "状态",field : 'status',formatter : function(value, rowData, rowIndex) {
@@ -205,13 +216,16 @@ var chatPointsConfig = {
 			},
 			onLoad : function(){
 				chatPointsConfig.initSelect($("#chatPointsConfig_queryForm"), $("#chatPointsConfigAdd_Form"), false);
-
 				/**类别联动事件*/
 				chatPointsConfig.setEventType($("#chatPointsConfigAdd_type"), $("#chatPointsConfigAdd_item"));
-				
 				//默认手动加减分
 				$("#chatPointsConfigAdd_type").val("hand");
 				$("#chatPointsConfigAdd_item").val("hand_manual");
+				 $("#chatPointsConfigAdd_groupType").change(function(){
+						$("#chatPointsConfigAdd_clientGroup").combotree({
+							data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{filter:'visitor',groupType:this.value}),
+						}); 
+				 }).trigger("change");
 			}
 		});
 	},
@@ -273,7 +287,13 @@ var chatPointsConfig = {
 			},
 			onLoad : function(){
 				chatPointsConfig.initSelect($("#chatPointsConfig_queryForm"), $("#chatPointsConfigEdit_Form"), true);
-
+				 $("#chatPointsConfigEdit_groupType").change(function(){
+					    var  val=$("#chatPointsConfigEdit_clientGroup").attr("defVal");
+						$("#chatPointsConfigEdit_clientGroup").combotree({
+							data:getJson(basePath+"/chatClientGroupController/getClientGroupList.do",{filter:'visitor',clientGroup:val,groupType:$("#chatPointsConfigEdit_groupType_val").val()}),
+						}); 
+						$("#chatPointsConfigEdit_clientGroup").attr("defVal","");
+				 }).trigger("change");
 				/**类别联动事件*/
 				chatPointsConfig.setEventType($("#chatPointsConfigEdit_type"), $("#chatPointsConfigEdit_item"));
 			}

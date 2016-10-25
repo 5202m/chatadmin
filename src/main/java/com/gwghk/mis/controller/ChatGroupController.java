@@ -5,10 +5,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -48,8 +49,6 @@ import com.gwghk.mis.util.JSONHelper;
 import com.gwghk.mis.util.JsonUtil;
 import com.gwghk.mis.util.ResourceBundleUtil;
 import com.gwghk.mis.util.ResourceUtil;
-
-import net.sf.json.JSONObject;
 
 /**
  * 聊天室房间管理

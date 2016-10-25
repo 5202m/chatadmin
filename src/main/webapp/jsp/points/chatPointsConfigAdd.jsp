@@ -4,21 +4,27 @@
   <form id="chatPointsConfigAdd_Form" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
-        <th width="30%">组别</th>
+        <th width="30%">房间组别</th>
         <td width="70%">
         	<select name="groupType" id="chatPointsConfigAdd_groupType" style="width: 155px;">
         	</select>
 		</td>
       </tr>
       <tr>
-        <th>类别</th>
+        <th>积分类别</th>
         <td>
         	<select name="type" id="chatPointsConfigAdd_type" style="width: 155px;">
         	</select>
 		</td>
       </tr>
+       <tr>
+        <th>客户组别</th>
+        <td>
+        	<select class="easyui-combotree" name="clientGroupStr" id="chatPointsConfigAdd_clientGroup" style="width:250px;" data-options="cascadeCheck:false" multiple></select>
+		</td>
+      </tr>
       <tr>
-        <th>项目</th>
+        <th>积分项目</th>
         <td>
         	<select name="item" id="chatPointsConfigAdd_item" style="width: 155px;">
         	</select>

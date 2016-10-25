@@ -126,6 +126,12 @@ public class ChatPointsConfigController extends BaseController{
 	@RequestMapping(value="/chatPointsConfig/save",method=RequestMethod.POST)
    	@ResponseBody
     public AjaxJson save(HttpServletRequest request, ChatPointsConfig chatPointsConfig){
+		String[] clientGroupArr=request.getParameterValues("clientGroupStr");
+       	if(clientGroupArr!=null){
+       		chatPointsConfig.setClientGroup(StringUtils.join(clientGroupArr, ","));
+       	}else{
+       		chatPointsConfig.setClientGroup("");
+       	}
         AjaxJson j = new AjaxJson();
         ApiResult result = null;
         Date currDate = new Date();

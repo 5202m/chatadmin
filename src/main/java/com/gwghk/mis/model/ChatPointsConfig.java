@@ -28,6 +28,11 @@ public class ChatPointsConfig extends BaseModel{
 	private String groupId;
 	
 	/**
+	 * 客户组别
+	 */
+	private String clientGroup;
+	
+	/**
 	 * 类别
 	 */
 	private String type;
@@ -257,5 +262,13 @@ public class ChatPointsConfig extends BaseModel{
 	 */
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getClientGroup() {
+		return clientGroup;
+	}
+
+	public void setClientGroup(String clientGroup) {
+		this.clientGroup = clientGroup;
 	}
 }
