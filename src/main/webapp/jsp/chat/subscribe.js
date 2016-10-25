@@ -303,7 +303,7 @@ var chatSubscribe = {
 		getAnalystCNameByCode:function(value){
 			var cName = [];
 			if(isValid(value)){
-				value = value.split(',');console.log(value);
+				value = value.split(',');
 				$.each(value, function(key, val){
 					cName.push($('div[node-id="'+val+'"] span.tree-title:first').text());
 				});
