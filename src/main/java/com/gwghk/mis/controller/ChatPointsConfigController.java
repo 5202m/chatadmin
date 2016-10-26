@@ -80,7 +80,6 @@ public class ChatPointsConfigController extends BaseController{
 	@RequestMapping(value = "/chatPointsConfig/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ChatPointsConfig chatPointsConfig) {
-		this.getRoomInfo(chatPointsConfig);
 		Page<ChatPointsConfig> page = chatPointsConfigService.getChatPointsConfigs(this.createDetachedCriteria(dataGrid, chatPointsConfig));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
@@ -102,6 +101,7 @@ public class ChatPointsConfigController extends BaseController{
         if(chatPointsConfig != null){
         	this.setRoomInfo(chatPointsConfig);
         	map.put("chatPointsConfig", chatPointsConfig);
+        	map.addAttribute("clientGroupStr",StringUtils.join(chatPointsConfig.getClientGroup(), ","));
         }
         return "points/chatPointsConfigEdit";
     }
@@ -126,16 +126,14 @@ public class ChatPointsConfigController extends BaseController{
 	@RequestMapping(value="/chatPointsConfig/save",method=RequestMethod.POST)
    	@ResponseBody
     public AjaxJson save(HttpServletRequest request, ChatPointsConfig chatPointsConfig){
-		String[] clientGroupArr=request.getParameterValues("clientGroupStr");
-       	if(clientGroupArr!=null){
-       		chatPointsConfig.setClientGroup(StringUtils.join(clientGroupArr, ","));
-       	}else{
-       		chatPointsConfig.setClientGroup("");
+		AjaxJson j = new AjaxJson();
+       	if(chatPointsConfig.getClientGroup()==null){
+       		j.setSuccess(false);
+    		j.setMsg("客户组不能为空");
+    		return j;
        	}
-        AjaxJson j = new AjaxJson();
         ApiResult result = null;
         Date currDate = new Date();
-        this.getRoomInfo(chatPointsConfig);
         chatPointsConfig.setCreateUser(userParam.getUserNo());
         chatPointsConfig.setCreateDate(currDate);
         chatPointsConfig.setCreateIp(IPUtil.getClientIP(request));
@@ -189,26 +187,6 @@ public class ChatPointsConfigController extends BaseController{
 			logger.error("<<delete()|"+message+",ErrorMsg:"+result.toString());
 		}
 		return j;
-	}
-
-	/**
-	 * 设置房间信息
-	 * @param chatPointsConfig
-	 */
-	private void getRoomInfo(ChatPointsConfig chatPointsConfig){
-		String groupId = chatPointsConfig.getGroupId();
-		if(groupId != null){
-			int index = groupId.indexOf(",");
-			if(index != -1){
-				chatPointsConfig.setGroupType(groupId.substring(0, index));
-				chatPointsConfig.setGroupId("");
-			}else{
-				index = groupId.indexOf("_");
-				if(index != -1){
-					chatPointsConfig.setGroupType(groupId.substring(0, index));
-				}
-			}
-		}
 	}
 
 	/**

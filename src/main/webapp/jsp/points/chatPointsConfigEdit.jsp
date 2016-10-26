@@ -22,7 +22,7 @@
       <tr>
         <th>客户组别</th>
         <td>
-        	<select defVal="${chatPointsConfig.clientGroup}" class="easyui-combotree" name="clientGroupStr" id="chatPointsConfigEdit_clientGroup" style="width:250px;" data-options="cascadeCheck:false" multiple></select>
+        	<select defVal="${clientGroupStr}" class="easyui-combotree" name="clientGroup" id="chatPointsConfigEdit_clientGroup" style="width:250px;" data-options="cascadeCheck:false" multiple></select>
 		</td>
       </tr>
       <tr>

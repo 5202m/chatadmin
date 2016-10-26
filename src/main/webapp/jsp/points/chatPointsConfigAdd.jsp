@@ -20,7 +20,7 @@
        <tr>
         <th>客户组别</th>
         <td>
-        	<select class="easyui-combotree" name="clientGroupStr" id="chatPointsConfigAdd_clientGroup" style="width:250px;" data-options="cascadeCheck:false" multiple></select>
+        	<select class="easyui-combotree" name="clientGroup" id="chatPointsConfigAdd_clientGroup" style="width:250px;" data-options="cascadeCheck:false" multiple></select>
 		</td>
       </tr>
       <tr>

@@ -51,7 +51,7 @@ var chatPointsConfig = {
 					var nameArr=[],tmpData={"simulate":"模拟用户",register:"注册用户",vip:"VIP用户,",active:"真实A用户",notActive:"真实N用户"};;
 					if(value){
 						for(var i in tmpData){
-							if(value.indexOf(i)!=-1){
+							if(value.join(",").indexOf(i)!=-1){
 								nameArr.push(tmpData[i]);
 							}
 						}
