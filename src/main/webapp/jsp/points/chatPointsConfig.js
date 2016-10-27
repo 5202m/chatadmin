@@ -48,7 +48,7 @@ var chatPointsConfig = {
 					return chatPointsConfig.formatByDicts("groupType", value);
 				}},
 				{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
-					var nameArr=[],tmpData={"visitor":"游客","simulate":"模拟用户",register:"注册用户",vip:"VIP用户,",active:"真实A用户",notActive:"真实N用户"};;
+					var nameArr=[],tmpData={"simulate":"模拟用户",register:"注册用户",vip:"VIP用户,",active:"真实A用户",notActive:"真实N用户"};;
 					if(value){
 						for(var i in tmpData){
 							if(value.join(",").indexOf(i)!=-1){
@@ -223,7 +223,7 @@ var chatPointsConfig = {
 				$("#chatPointsConfigAdd_item").val("hand_manual");
 				 $("#chatPointsConfigAdd_groupType").change(function(){
 						$("#chatPointsConfigAdd_clientGroup").combotree({
-							data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{groupType:this.value}),
+							data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{filter:'visitor',groupType:this.value}),
 						}); 
 				 }).trigger("change");
 			}
@@ -290,7 +290,7 @@ var chatPointsConfig = {
 				 $("#chatPointsConfigEdit_groupType").change(function(){
 					    var  val=$("#chatPointsConfigEdit_clientGroup").attr("defVal");
 						$("#chatPointsConfigEdit_clientGroup").combotree({
-							data:getJson(basePath+"/chatClientGroupController/getClientGroupList.do",{clientGroup:val,groupType:$("#chatPointsConfigEdit_groupType_val").val()}),
+							data:getJson(basePath+"/chatClientGroupController/getClientGroupList.do",{filter:'visitor',clientGroup:val,groupType:$("#chatPointsConfigEdit_groupType_val").val()}),
 						}); 
 						$("#chatPointsConfigEdit_clientGroup").attr("defVal","");
 				 }).trigger("change");
