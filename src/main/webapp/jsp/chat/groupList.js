@@ -401,6 +401,50 @@ var chatGroup = {
 			}
 		});
 	},
+	/**
+	 * 导入客户
+	 * @param recordId
+	 */
+	importClient : function(recordId){
+		$("#system_user_datagrid").datagrid('unselectAll');
+		var url = formatUrl(basePath + '/chatGroupController/'+recordId+'/preImportClient.do');
+		var submitUrl =  formatUrl(basePath + '/chatGroupController/importClient.do');
+		goldOfficeUtils.openEditorDialog({
+			title : "导入指定客户",
+			width : 550,
+			height : 450,
+			href : url,
+			iconCls : 'pag-edit',
+			handler : function(){
+				var mobiles = $("#groupUserImport_form textarea").val();
+				mobiles = mobiles || "";
+				mobiles = mobiles.replace(/\s/g, "").replace(/，/g, ",");
+				if(/^\d{11}(,\d{11})*$/.test(mobiles) == false){
+					alert("手机号码有误！");
+					return;
+				}
+				$("#groupUserImport_form textarea").val(mobiles);
+				
+				goldOfficeUtils.ajaxSubmitForm({
+					url : submitUrl,
+					formId : 'groupUserImport_form',
+					onSuccess : function(data){
+						data = $.parseJSON(data);
+						if (data.success) {
+							if(!data.obj || data.obj.length == 0){
+								$("#myWindow").dialog("close");
+								$.messager.alert($.i18n.prop("common.operate.tips"),'客户全部导入成功','info');
+							}else{
+								$.messager.alert($.i18n.prop("common.operate.tips"),'以下手机号未注册直播间，导入失败：<br>' + data.obj.join(", "),'info');
+							}
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批失败，原因：'+data.msg,'error');
+						}
+					}
+				});	
+			}
+		});
+	}
 };
 		
 //初始化

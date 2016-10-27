@@ -516,4 +516,49 @@ public class ChatGroupController extends BaseController{
        	}
     }
    
+    /**
+     * 跳转到客户导入页面
+     * @param chatGroupId
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/chatGroupController/{chatGroupId}/preImportClient", method = RequestMethod.GET)
+	@ActionVerification(key = "bookingClient")
+    public String preImportClient(@PathVariable String chatGroupId , ModelMap map) throws Exception {
+    	map.put("groupId", chatGroupId); 
+    	return "chat/groupUserImport";
+    }
+
+    /**
+     * 跳转到客户导入页面
+     * @param chatGroupId
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/chatGroupController/importClient", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxJson importClient(HttpServletRequest request, ModelMap map) throws Exception {
+    	BoUser boUser = ResourceUtil.getSessionUser();
+    	AjaxJson result = new AjaxJson();
+		String groupId = request.getParameter("groupId");
+		String mobiles = request.getParameter("mobiles");
+		ApiResult apiResult = chatGroupService.importClient(groupId, mobiles);
+		if (apiResult.isOk()) {
+			result.setSuccess(true);
+			result.setObj(apiResult.getReturnObj());
+			String message = "用户：" + boUser.getUserNo() + " " + DateUtil.getDateSecondFormat(new Date()) + " 导入用户成功";
+			logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.info("<--method:importClient()|" + message);
+		}
+		else {
+			result.setSuccess(false);
+			result.setMsg(apiResult.getErrorMsg());
+			String message = "用户：" + boUser.getUserNo()  + " " + DateUtil.getDateSecondFormat(new Date()) + " 导入用户失败";
+			logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.error("<--method:importClient()|" + message + ",ErrorMsg:" + result.toString());
+		}
+    	return result;
+    }
 }

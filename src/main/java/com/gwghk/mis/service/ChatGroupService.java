@@ -1,7 +1,9 @@
 package com.gwghk.mis.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
+import com.gwghk.mis.model.ChatUserGroup;
+import com.gwghk.mis.model.Member;
+import com.gwghk.mis.model.TraninClient;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
@@ -46,6 +51,9 @@ public class ChatGroupService{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private ChatApiService chatApiService;
@@ -296,6 +304,69 @@ public class ChatGroupService{
 
 		chatGroupDao.update(chatGroupParam);          
     	return result.setCode(ResultCode.OK);
+	}
+	
+	/**
+	 * 导入客户
+	 * @param groupId
+	 * @param mobiles
+	 * @return
+	 */
+	public ApiResult importClient(String groupId, String mobiles) {
+		ChatGroup chatGroup = this.getChatGroupById(groupId);
+		String[] mobilephones = mobiles.split(",");
+
+		ApiResult result=new ApiResult();
+		if(chatGroup != null && mobilephones != null && mobilephones.length > 0){
+			//查询导入的手机号对应对直播间注册信息
+			List<Member> members = memberService.getMemberListByMobiles(mobilephones, chatGroup.getGroupType());
+			Set<String> importUserIds = new HashSet<String>();
+			Set<String> importMobiles = new HashSet<String>();
+			List<TraninClient> newTcs = new ArrayList<TraninClient>();
+			//将新导入的全部追加到房间授权列表中
+			if(members != null){
+				ChatUserGroup groupTmp = null;
+				TraninClient newTc = null;
+				for (Member member : members) {
+					groupTmp = member.getLoginPlatform().getChatUserGroup().get(0);
+					if(importUserIds.contains(groupTmp.getUserId()) == false){
+						newTc = new TraninClient();
+						newTc.setClientId(groupTmp.getUserId());
+						newTc.setNickname(groupTmp.getNickname());
+						newTc.setIsAuth(1);
+						newTcs.add(newTc);
+						importUserIds.add(groupTmp.getUserId());
+						importMobiles.add(member.getMobilePhone());
+					}
+				}
+			}
+			//补充原始已经报名的客户信息（以新导入的信息为准）
+			List<TraninClient> oldTcs = chatGroup.getTraninClient();
+			if(oldTcs != null){
+				for (TraninClient oldTc : oldTcs) {
+					if(importUserIds.contains(oldTc.getClientId()) == false){
+						newTcs.add(oldTc);
+					}
+				}
+			}
+			chatGroup.setTraninClient(newTcs);
+			//保存房间信息
+			chatGroupDao.update(chatGroup);
+			
+			//筛选未成功导入的手机号
+			List<String> importFails = new ArrayList<String>();
+			for (String mobilephone : mobilephones) {
+				if(importMobiles.contains(mobilephone) == false){
+					importFails.add(mobilephone);
+				}
+			}
+			result.setReturnObj(importFails.toArray());
+			result.setCode(ResultCode.OK);
+		}else{
+			result.setErrorMsg("房间或客户手机不存在");
+			result.setCode(ResultCode.FAIL);
+		}
+		return result;
 	}
 
 }

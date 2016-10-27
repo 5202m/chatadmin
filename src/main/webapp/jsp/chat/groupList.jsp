@@ -57,7 +57,8 @@
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatGroup.edit(this.id)"><spring:message code="common.buttons.edit" /></a>
 	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="chatGroup.del(this.id)"><spring:message code="common.buttons.delete" /></a>
 	  <a class="easyui-linkbutton assignUser" data-options="plain:true,iconCls:'ope-grant',disabled:false"  onclick="chatGroup.authUser(this.id)">用户授权</a>
-	  <a class="easyui-linkbutton bookingUser" data-options="plain:true,iconCls:'ope-grant',disabled:false"  onclick="chatGroup.trainClient(this.id)">报名客户</a>
+	  <a class="easyui-linkbutton bookingUser" data-options="plain:true,iconCls:'ope-grant',disabled:false"  onclick="chatGroup.trainClient(this.id)">客户授权</a>
+	  <a class="easyui-linkbutton bookingUser" data-options="plain:true,iconCls:'ope-grant',disabled:false"  onclick="chatGroup.importClient(this.id)">客户导入</a>
   </div>
  
 </div>

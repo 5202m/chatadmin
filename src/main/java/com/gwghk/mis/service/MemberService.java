@@ -64,6 +64,26 @@ public class MemberService{
 	public Member getByMobilePhone(String mobilePhone){
 		return memberDao.getByMemberMobilePhone(mobilePhone);
 	}
+
+
+	/**
+	 * 按照指定的用户编号查询用户列表
+	 * @param userNos
+	 * @return
+	 */
+	public List<Member> getMemberListByMobiles(String[] mobiles, String groupType)
+	{
+		Query query=new Query();
+		Criteria criteria = Criteria.where("valid").is(1);
+		if(mobiles != null && mobiles.length > 0)
+		{
+			criteria.and("mobilePhone").in((Object[])mobiles);
+		}
+		criteria.and("loginPlatform.chatUserGroup._id").is(groupType);
+		query.addCriteria(criteria);
+		
+		return memberDao.findListInclude(Member.class, query, "mobilePhone", "loginPlatform.chatUserGroup.$");
+	}
 	
 	/**
 	 * 保存:修改或者新增，如果memberId为null,为新增，否则为修改
