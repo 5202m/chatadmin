@@ -389,8 +389,7 @@ var chatGroup = {
 						authTranin: authTraninClientJosn
 					},
 					success : function(data){
-						var d = $.parseJSON(data);
-						if (d.success) {
+						if (data.success) {
 							$("#myWindow").dialog("close");
 							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批成功','info');
 						}else{

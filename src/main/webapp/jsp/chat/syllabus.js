@@ -12,38 +12,33 @@
  */
 var Syllabus = {
     liveLinks:{
+    	obsUrlIndex:["playlist.m3u8","index.m3u8","playlist.m3u8"],
+    	obsLabel:{
+			main_sz:{name:'大陆{0},房间:{1}',url:['sz.hhkcdn.com/live']},
+			main_hk:{name:'海外{0},房间:{1}',url:['hk.hhkcdn.com/live']},
+            other_sz:{name:'大陆(备用{0}),房间:{1}',url:['sz.vpcdn.com/live','sz6.phgse.cn/live','ct1.phgsa.cn:1935/live']},
+			other_hk:{name:'海外(备用{0}),房间:{1}',url:['hk.vpcdn.com/live','h6.phgse.cn/live','ct.phgsa.cn:1935/live']}
+        },
     	studio:{
-    		yy_01:{name:'yy:92628431/92628431',url:'http://yy.com/s/92628431/92628431/yyscene.swf'},
-    		yy_02:{name:'yy:92628431/2439533296',url:'http://yy.com/s/92628431/2439533296/yyscene.swf'},
-    		sz_01:{name:'大陆,房间:01',url:'rtmp://sz6.phgse.cn/live/01'},
-    		sz_02:{name:'大陆,房间:02',url:'rtmp://sz6.phgse.cn/live/02'},
-    		hk_01:{name:'海外,房间:01',url:'rtmp://h6.phgse.cn/live/01'},
-    		hk_02:{name:'海外,房间:02',url:'rtmp://h6.phgse.cn/live/02'},
-    		ct_01:{name:'大陆/海外(备用),房间:01',url:'rtmp://ct.phgsa.cn/live/01'},
-    		ct_02:{name:'大陆/海外(备用),房间:02',url:'rtmp://ct.phgsa.cn/live/02'}
+    		obsCode:["01","02"],
+    	    yyLink:[
+    	    	{name:'yy:92628431/92628431',url:'http://yy.com/s/92628431/92628431/yyscene.swf'},
+        		{name:'yy:92628431/2439533296',url:'http://yy.com/s/92628431/2439533296/yyscene.swf'}
+    	    ]
     	},
     	fxstudio:{
-    		yy_03:{name:'yy:92628431/2537339360',url:'http://yy.com/s/92628431/2537339360/yyscene.swf'},
-    		yy_04:{name:'yy:92628431/2559592756',url:'http://yy.com/s/92628431/2559592756/yyscene.swf'},
-    		sz_03:{name:'大陆,房间:03',url:'rtmp://sz6.phgse.cn/live/03'},
-    		sz_04:{name:'大陆,房间:04',url:'rtmp://sz6.phgse.cn/live/04'},
-    		hk_03:{name:'海外,房间:03',url:'rtmp://h6.phgse.cn/live/03'},
-    		hk_04:{name:'海外,房间:04',url:'rtmp://h6.phgse.cn/live/04'},
-    		ct_03:{name:'大陆/海外(备用),房间:03',url:'rtmp://ct.phgsa.cn/live/03'},
-    		ct_04:{name:'大陆/海外(备用),房间:04',url:'rtmp://ct.phgsa.cn/live/04'}
+    		obsCode:["03","04"],
+    	    yyLink:[
+    	    	{name:'yy:92628431/2537339360',url:'http://yy.com/s/92628431/2537339360/yyscene.swf'},
+        		{name:'yy:92628431/2559592756',url:'http://yy.com/s/92628431/2559592756/yyscene.swf'}
+    	    ]
     	},
     	hxstudio:{
-    		yy_01:{name:'yy:46327234/46327234',url:'http://yy.com/s/46327234/46327234/yyscene.swf'},
-    		yy_02:{name:'yy:82992602/82992602',url:'http://yy.com/s/82992602/82992602/yyscene.swf'},
-    		sz_10:{name:'大陆,房间:10',url:'rtmp://sz6.phgse.cn/live/10'},
-    		sz_11:{name:'大陆,房间:11',url:'rtmp://sz6.phgse.cn/live/11'},
-    		sz_12:{name:'大陆,房间:12',url:'rtmp://sz6.phgse.cn/live/12'},
-    		hk_10:{name:'海外,房间:10',url:'rtmp://h6.phgse.cn/live/10'},
-    		hk_11:{name:'海外,房间:11',url:'rtmp://h6.phgse.cn/live/11'},
-    		hk_12:{name:'海外,房间:12',url:'rtmp://h6.phgse.cn/live/12'},
-    		ct_10:{name:'大陆/海外(备用),房间:10',url:'rtmp://ct.phgsa.cn/live/10'},
-    		ct_11:{name:'大陆/海外(备用),房间:11',url:'rtmp://ct.phgsa.cn/live/11'},
-    		ct_12:{name:'大陆/海外(备用),房间:12',url:'rtmp://ct.phgsa.cn/live/12'}
+    		obsCode:["10","11","12"],
+    	    yyLink:[
+    	    	{name:'yy:46327234/46327234',url:'http://yy.com/s/46327234/46327234/yyscene.swf'},
+    	    	{name:'yy:82992602/82992602',url:'http://yy.com/s/82992602/82992602/yyscene.swf'}
+    	    ]
     	}
     },	
 	gridId : 'syllabus_datagrid',
@@ -58,38 +53,34 @@ var Syllabus = {
 		this.setEvent();
 	},
 	/**
-	 * 
-	 * @param type
+	 * 提取连接
+	 * @param type 设备类型
+	 * @param rmType 房间类型
 	 * @returns 
 	 */
 	getLiveLinks:function(type,rmType){
-		if(type==1){//视频直播(pc)
-			return Syllabus.liveLinks[rmType];
-		}
-		if(type==3||type==4){//视频直播(mb),音频直播(mb)
-			var newLinks=JSON.parse(JSON.stringify(Syllabus.liveLinks[rmType]));
-			var rw=null;
-			for(var rwIndex in newLinks){
-				rw=newLinks[rwIndex];
-			   if(rw.name.indexOf("yy")!=-1){
-				   delete newLinks[rwIndex];
-			   }
-			   rw.url=rw.url.replace("rtmp:","http:").replace("sz6.","sz.").replace("h6.","h5.");
-			   var suffix="/index.m3u8";
-			   if(rw.url.indexOf("ct.phgsa.cn")!=-1){
-				   rw.url=rw.url.replace("ct.phgsa.cn","ct.phgsa.cn:1935");
-				   suffix="/playlist.m3u8";
-			   }
-			   if(type==4){//音频直播(mb)
-				   rw.url+="A"+suffix;
-			   }else{
-				   rw.url+=suffix;
-			   }
+		var devLinks=Syllabus.liveLinks[rmType];
+		var rw=null;
+		var obsLabel=Syllabus.liveLinks.obsLabel;
+		var lst=[],codeList=null,urlTmp=null;
+		for(var rwIndex in obsLabel){
+			rw=obsLabel[rwIndex];
+			for(var i in rw.url){
+				codeList=devLinks.obsCode;
+				for(var cd in codeList){
+					if(type==1){
+						urlTmp="rtmp://"+rw.url[i]+"/"+codeList[cd];
+					}else{
+						urlTmp="http://"+rw.url[i].replace("h6","h5").replace("sz6","sz")+"/"+codeList[cd]+(type==4?"A/":"/")+Syllabus.liveLinks.obsUrlIndex[i];
+					}
+					lst.push({name:rw.name.formatStr(rw.url.length==1?"":parseInt(i)+1,codeList[cd]),url:urlTmp});
+				}
 			}
-			console.log("newLinks",newLinks);
-			return newLinks;
 		}
-		return null;
+		if(type==1){
+			lst=devLinks.yyLink.concat(lst);
+		}
+		return lst;
 	},
 	/**
 	 * 功能：dataGrid初始化
