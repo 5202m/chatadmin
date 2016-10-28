@@ -30,10 +30,10 @@ public class ChatGroup extends BaseModel{
 	private String name;
 	
 	/**
-	 * 内容状态：0 、禁用 ；1、启动
+	 * 内容状态：0 、禁用 ；1、启动; 2、授权访问
 	 */
 	private Integer status;
-
+	
 	/**
 	 * 聊天规则
 	 */

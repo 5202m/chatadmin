@@ -32,6 +32,7 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
+import com.gwghk.mis.model.BoDict;
 import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.model.ChatGroup;
 import com.gwghk.mis.model.ChatGroupRule;
@@ -87,7 +88,15 @@ public class ChatGroupController extends BaseController{
 		DictConstant dict=DictConstant.getInstance();
 		map.put("groupLevelList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_LEVEL));
 		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
-    	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
+		List<BoDict> dictList=new ArrayList<BoDict>();
+		dictList.addAll(ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
+		BoDict dictRow=new BoDict();
+		dictRow.setName("授权访问");
+		dictRow.setNameCN("授权访问");
+		dictRow.setId("room_limit_id");
+		dictRow.setCode("2");
+		dictList.add(dictRow);
+    	map.put("statusList",dictList);
     	
 	}
 	
