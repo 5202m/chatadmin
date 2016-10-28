@@ -478,7 +478,6 @@ public class ChatGroupController extends BaseController{
 	   	if(null != unAuthTraninClientArray){
 	   		for (int i = 0; i < unAuthTraninClientArray.size(); i++) {
 				JSONObject jsonObject = unAuthTraninClientArray.getJSONObject(i);	   
-				System.out.println(jsonObject.getString("clientId"));
 				for (TraninClient traninClient : chatGroup.getTraninClient()) {
 					if(traninClient.getClientId().equals(jsonObject.getString("clientId"))){
 						traninClient.setIsAuth(0);
