@@ -71,6 +71,11 @@ public class ChatShowTradeService{
     		}
     		BeanUtils.copyExceptNull(trade, showTrade);
     		chatShowTradeDao.updateTrade(trade);
+    		if(showTrade.getStatus()==1 && showTrade.getTradeType() == 2){
+	    		List<ChatShowTrade> ChatShowTradeList = chatShowTradeDao.findList(ChatShowTrade.class, Query.query(Criteria.where("_id").in(showTrade.getId())));
+	        	String tradeInfo = JSONHelper.toJSONString(ChatShowTradeList);
+	        	chatApiService.showTradeNotice(tradeInfo);
+    		}
     	}else{
     		showTrade.setId(null);
     		showTrade.setShowDate(new Date());
