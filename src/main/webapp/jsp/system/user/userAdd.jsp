@@ -151,8 +151,12 @@ $(function() {
       
       <tr>
         <th><spring:message code="user.position" /><!-- 职位 --><span class="red">*</span></th>
-        <td colspan="3"><input type="text" name="position" id="position" class="easyui-validatebox" 
+        <td><input type="text" name="position" id="position" class="easyui-validatebox" 
         		data-options="required:true,missingMessage:'<spring:message code="user.valid.position" />'"/></td>
+        <th>月收益</th>
+        <td>
+        	<input type="text" name="earningsM" id="earningsM"/>
+        </td>
       </tr>
       <tr>
         <th>头像</th>

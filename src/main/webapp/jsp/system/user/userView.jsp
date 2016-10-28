@@ -35,7 +35,9 @@
       </tr>
       <tr>
         <th><spring:message code="user.position" /><!-- 职位 --></th>
-        <td colspan="3"><span>${mngUser.position}</span></td>
+        <td><span>${mngUser.position}</span></td>
+        <th>月收益</th>
+        <td><span>${mngUser.earningsM}</span></td>
       </tr>
       <tr>
         <th>头像</th>

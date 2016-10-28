@@ -148,12 +148,14 @@ $(function() {
         	<input type="text" name="winRate" id="winRate" value="${mngUser.winRate}" />
         </td>
       </tr>
-      
-      
       <tr>
         <th width="15%"><spring:message code="user.position" /><!-- 职位 --><span class="red">*</span></th>
-        <td width="35%" colspan="3"><input type="text" name="position" id="position" class="easyui-validatebox" 
+        <td width="35%"><input type="text" name="position" id="position" class="easyui-validatebox" 
         			data-options="required:true,missingMessage:'<spring:message code="user.valid.position" />'" value="${mngUser.position}"/></td>
+        <th>月收益</th>
+        <td>
+        	<input type="text" name="earningsM" id="earningsM" value="${mngUser.earningsM}" />
+        </td>
       </tr>
        <tr>
         <th width="15%">头像</th>

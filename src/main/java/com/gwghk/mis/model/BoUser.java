@@ -112,6 +112,11 @@ public class BoUser extends BaseModel{
     private String winRate;
     
     /**
+     * 月收益
+     */
+    private String earningsM;
+    
+    /**
      * 简介图片跳转链接
      */
     private String introductionImgLink;
@@ -149,6 +154,14 @@ public class BoUser extends BaseModel{
 
 	public void setWinRate(String winRate) {
 		this.winRate = winRate;
+	}
+	
+	public String getEarningsM() {
+		return earningsM;
+	}
+
+	public void setEarningsM(String earningsM) {
+		this.earningsM = earningsM;
 	}
 
 	public String getAvatar() {
