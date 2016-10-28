@@ -544,7 +544,7 @@ $.extend($.fn.validatebox.defaults.rules, {
 			},
 			integer : {// 验证整数
 				validator : function(value) {
-					return /^[+-]?[1-9]+\d*$/i.test(value);
+					return /^[+-]?([1-9]\d*)|0$/i.test(value);
 				},
 				message : '请输入整数'
 			},

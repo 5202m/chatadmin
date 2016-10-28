@@ -33,7 +33,7 @@
       <tr>
         <th>积分值</th>
         <td>
-        	<input type="text" size="5" name="val" class="easyui-validatebox" data-options="required:true,validType:'integer',missingMessage:'请输入积分值'">
+        	<input type="text" size="5" name="val" class="easyui-validatebox" data-options="validType:'integer',missingMessage:'请输入积分值'">
 		</td>
       </tr>
       <tr>
