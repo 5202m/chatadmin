@@ -97,8 +97,8 @@ var mediaEdit = {
 	 * 设置作者列表
 	 */
 	setAuthorList:function(id){
-		var avatar=$('form[name=mediaDetailForm] input[name=avatar]').val();
-		var author=$('form[name=mediaDetailForm] input[name=name]').val();
+		var lang=id.replace("media_authorList_","");
+		var author=$('#media_detail_'+lang+' form[name=mediaDetailForm] input[name=userId]').val();
 		$('#'+id).combogrid({
 		    idField:'userNo',
 		    textField:'userName',
