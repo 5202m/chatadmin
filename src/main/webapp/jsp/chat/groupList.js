@@ -104,6 +104,9 @@ var chatGroup = {
 					if(data.rows[i].roomType!='train'){
 						$("#chatGroup_datagrid_toolbar").next().find(".datagrid-view2 .datagrid-btable tr:eq("+i+")").find(".bookingUser").hide();
 					}
+					if(data.rows[i].roomType!='vip'){
+						$("#chatGroup_datagrid_toolbar").next().find(".datagrid-view2 .datagrid-btable tr:eq("+i+")").find(".importClient").hide();
+					}
 				}
 			}
 			
