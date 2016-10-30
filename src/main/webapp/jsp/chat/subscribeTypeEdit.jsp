@@ -85,20 +85,20 @@ $(function(){
     		<th>提供订阅方式<span class="red">*</span></th>
     		<td>
     			<label><input type="checkbox" name="noticeType" value="email" cval="邮件" />邮件</label>
-    			<input type="text" id="emailPoint" style="width:50px;" />
+    			<input type="text" id="emailPoint" style="width:50px;" />积分
     			<label><input type="checkbox" name="noticeType" value="sms" cval="短信" />短信</label>
-    			<input type="text" id="smsPoint" style="width:50px;" /><br />
+    			<input type="text" id="smsPoint" style="width:50px;" />积分<br />
     			<label><input type="checkbox" name="noticeType" value="wechat" cval="微信" />微信</label>
-    			<input type="text" id="wechatPoint" style="width:50px;" /><br />
+    			<input type="text" id="wechatPoint" style="width:50px;" />积分<br />
     			<span class="noticeTip">请选择</span>
     			<input type="hidden" name="noticeTypes" id="noticeTypes" />
     		</td>
     		<th>订阅周期</th>
     		<td>
     			<label><input type="checkbox" name="cycle" value="week" cval="1周" />1周</label>
-    			<input type="text" id="weekPoint" style="width:50px;" /><br />
+    			<input type="text" id="weekPoint" style="width:50px;" />积分<br />
    				<label><input type="checkbox" name="cycle" value="month" cval="1月" />1月</label>
-   				<input type="text" id="monthPoint" style="width:50px;" /><br />
+   				<input type="text" id="monthPoint" style="width:50px;" />积分<br />
    				<span class="noticeCycleTip">请选择</span>
    				<input type="hidden" name="noticeCycle" id="noticeCycle" />
     		</td>
