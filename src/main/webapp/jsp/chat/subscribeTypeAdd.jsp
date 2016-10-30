@@ -89,7 +89,7 @@
     	<tr>
     		<th>服务开始时间<span class="red">*</span></th>
     		<td>
-    			<input type="text" name="startDateStr" id="startDate" onFocus="WdatePicker({minDate:'%y-%M-{%d+1}',maxDate:'#F{$dp.$D(\'endDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate easyui-validatebox" data-options="required:true" />
+    			<input type="text" name="startDateStr" id="startDate" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'endDate\')}',dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate easyui-validatebox" data-options="required:true" />
     			<span class="startTip">请选择</span>
     		</td>
     		<th>服务结束时间<span class="red">*</span></th>
