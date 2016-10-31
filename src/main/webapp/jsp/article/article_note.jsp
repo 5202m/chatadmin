@@ -132,6 +132,8 @@
 					<option value="XAG" >白银</option>
 					<option value="UKOil" >英国原油</option>
 					<option value="USOil" >美国原油</option>
+					<option value="CNHGOLD" >人民币黄金</option>
+					<option value="CNHSILVER" >人民币白银</option>
 		        </select>
 		     </td>
 		     <th>支撑位</th>
@@ -181,6 +183,8 @@
 					<option value="XAG" >白银</option>
 					<option value="UKOil" >英国原油</option>
 					<option value="USOil" >美国原油</option>
+					<option value="CNHGOLD" >人民币黄金</option>
+					<option value="CNHSILVER" >人民币白银</option>
 		        </select>
 		     </td>
 		     <th>方向</th>
