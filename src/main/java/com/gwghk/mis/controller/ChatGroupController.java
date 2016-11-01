@@ -1,5 +1,6 @@
 package com.gwghk.mis.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gwghk.mis.model.*;
+import com.gwghk.mis.util.*;
+import com.sdk.orm.DataRowSet;
+import com.sdk.orm.IRow;
+import com.sdk.poi.POIExcelBuilder;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,24 +38,12 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoDict;
-import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.ChatGroup;
-import com.gwghk.mis.model.ChatGroupRule;
-import com.gwghk.mis.model.TraninClient;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.TokenAccessService;
 import com.gwghk.mis.service.UserService;
-import com.gwghk.mis.util.BrowserUtils;
-import com.gwghk.mis.util.DateUtil;
-import com.gwghk.mis.util.IPUtil;
-import com.gwghk.mis.util.JSONHelper;
-import com.gwghk.mis.util.JsonUtil;
-import com.gwghk.mis.util.ResourceBundleUtil;
-import com.gwghk.mis.util.ResourceUtil;
 
 /**
  * 聊天室房间管理
@@ -569,4 +563,52 @@ public class ChatGroupController extends BaseController{
 		}
     	return result;
     }
+	@RequestMapping(value = "/chatGroupController/{chatGroupId}/exportUnAuthClient", method = RequestMethod.GET)
+	public void exportUnAuthClient(HttpServletRequest request, HttpServletResponse response,@PathVariable  String chatGroupId){
+		try{
+			POIExcelBuilder builder = new POIExcelBuilder(new File(request.getServletContext().getRealPath(WebConstant.ROOM_UN_AUTH_CLINET_DATA)));
+			//
+			ChatGroup chatGroup = chatGroupService.getChatGroupById(chatGroupId);
+			List<TraninClient>  TraninClientList = chatGroup.getTraninClient();
+			List<TraninClient> unAuthTraninClientList = new ArrayList<>();
+			if(null != TraninClientList){
+				for (TraninClient traninClient : TraninClientList) {
+					//获取未授权用户列表
+					if(traninClient.getIsAuth() == 0){
+						unAuthTraninClientList.add(traninClient);
+					}
+				}
+			}
+			//根据用户id 查询出用户信息 #
+			String[] ids = new String[unAuthTraninClientList.size()];
+			for(int i = 0;i<unAuthTraninClientList.size();i++){
+				ids[i] = unAuthTraninClientList.get(i).getClientId();
+			}
+			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroupId);
+			DataRowSet dataSet = new DataRowSet();
+			for(int i = 0;i<userList.size();i++){
+				Member member = userList.get(i);
+				if(member.getLoginPlatform() == null || member.getLoginPlatform().getChatUserGroup() == null){
+					continue;
+				}
+				for(ChatUserGroup chatUserGroup:member.getLoginPlatform().getChatUserGroup()){
+					if(chatGroupId.contains(chatUserGroup.getId())){
+						IRow row = dataSet.append();
+						row.set("nickName",chatUserGroup.getNickname());
+						row.set("mobilePhone",member.getMobilePhone());
+						row.set("userNo",chatUserGroup.getAccountNo());
+						break;
+					}
+				}
+			}
+			builder.put("dataSet",dataSet);
+			builder.parse();
+			ExcelUtil.wrapExcelExportResponse("未授权用户", request, response);
+			builder.write(response.getOutputStream());
+		}catch (Exception e){
+			logService.addLog(e.toString(), WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT, BrowserUtils.checkBrowse(request), IPUtil.getClientIP(request));
+			logger.error("<--method:exportUnAuthClient()|" + e + ",ErrorMsg:" + e.toString());
+		}
+
+	}
 }

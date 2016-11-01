@@ -298,4 +298,14 @@ public class MemberService{
 				   new Criteria().andOperator(Criteria.where("loginPlatform.chatUserGroup.userId").in((Object[])userIds)
 				   ,Criteria.where("valid").is(1))), "loginPlatform.chatUserGroup.$");
 	}
+
+	public List<Member> getMemberByUserIdGroupType(String[] userIds,String groupId){
+		Criteria criteria = new Criteria();
+		Criteria userGroupCriteria = new Criteria();
+		userGroupCriteria.and("userId").in((Object[])userIds).and("rooms.id").is(groupId);
+		criteria.and("valid").is(1).and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
+		Query query =new Query();
+		query.addCriteria(criteria);
+		return memberDao.findListInclude(Member.class, query, "loginPlatform.chatUserGroup","mobilePhone");
+	}
 }

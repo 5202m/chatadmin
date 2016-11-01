@@ -369,38 +369,56 @@ var chatGroup = {
 			height : 575,
 			href : url,
 			iconCls : 'pag-edit',
-			handler : function(){
-				var $select = $(this).parent().siblings().find('select');
-				var chatGroupId = $("#chatGroupId").val();
-				var unAuthTraninClientJson;
-				var authTraninClientJosn;
-				$select.each(function(i, n) {
-					if($(n).hasClass('unAuthTraninClientSelect')) {
-						  unAuthTraninClientJson = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);		
-						
-					};
-					if($(n).hasClass('authTraninClientSelect')) {
-						  authTraninClientJosn = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);	
-					};	
-				});	
-				
-				goldOfficeUtils.ajax({
-					url : submitUrl,
-					data : {
-						chatGroupId:chatGroupId,
-						unAuthTranin: unAuthTraninClientJson,
-						authTranin: authTraninClientJosn
-					},
-					success : function(data){
-						if (data.success) {
-							$("#myWindow").dialog("close");
-							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批成功','info');
-						}else{
-							$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批失败，原因：'+data.msg,'error');
-						}
+			buttons:[
+				{
+					text:'导出',
+					iconCls:"ope-export",
+					handler:function(){
+						var chatGroupId = $("#chatGroupId").val();
+						window.location.href = formatUrl(basePath+"/chatGroupController/"+chatGroupId+"/exportUnAuthClient.do")
 					}
-				});	
-			}
+				},
+				{
+					text : '提交',
+					iconCls : "ope-save",
+					handler : function(){
+						var $select = $(this).parent().siblings().find('select');
+						var chatGroupId = $("#chatGroupId").val();
+						var unAuthTraninClientJson;
+						var authTraninClientJosn;
+						$select.each(function(i, n) {
+							if($(n).hasClass('unAuthTraninClientSelect')) {
+								unAuthTraninClientJson = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);
+
+							};
+							if($(n).hasClass('authTraninClientSelect')) {
+								authTraninClientJosn = yxui.findSelectMultipleValueStrong("clientId","nickname",n.options);
+							};
+						});
+						goldOfficeUtils.ajax({
+							url : submitUrl,
+							data : {
+								chatGroupId:chatGroupId,
+								unAuthTranin: unAuthTraninClientJson,
+								authTranin: authTraninClientJosn
+							},
+							success : function(data){
+								if (data.success) {
+									$("#myWindow").dialog("close");
+									$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批成功','info');
+								}else{
+									$.messager.alert($.i18n.prop("common.operate.tips"),'报名审批失败，原因：'+data.msg,'error');
+								}
+							}
+						});
+					}
+				},{
+					text : '关闭',
+					iconCls : "ope-close",
+					handler : function() {
+						$(this).parents(".easyui-dialog:first").dialog("close");
+				}
+			}]
 		});
 	},
 	/**
