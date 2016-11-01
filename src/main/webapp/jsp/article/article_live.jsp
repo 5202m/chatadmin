@@ -66,49 +66,44 @@
 					<td>
 				        <select name="tag" style="width: 180px;">
 				        	<option value="" >--请选择--</option>
-				        	<optgroup label="黄金">
-				        		<option value="1" >黄金</option>
-								<option value="2" >白银</option>
-								<option value="3" >美元指数</option>
-				        	</optgroup>
-				        	<optgroup label="外汇">
-				        		<option value="AUDUSD" >澳元美元</option>
-								<option value="USDJPY" >美元日元</option>
-								<option value="EURUSD" >欧元美元</option>
-								<option value="GBPUSD" >英镑美元</option>
-								<option value="NZDUSD" >纽元美元</option>
-								<option value="USDCAD" >美元加元</option>
-								<option value="USDCHF" >美元瑞郎</option>
-								<option value="USDCNH" >美元人民币</option>
-								<option value="AUDJPY" >澳元日元</option>
-								<option value="AUDNZD" >澳元纽元</option>
-								<option value="CADJPY" >加元日元</option>
-								<option value="EURAUD" >欧元澳元</option>
-								<option value="EURCHF" >欧元瑞郎</option>
-								<option value="EURGBP" >欧元英镑</option>
-								<option value="EURJPY" >欧元日元</option>
-								<option value="GBPAUD" >英镑澳元</option>
-								<option value="GBPCHF" >英镑瑞郎</option>
-								<option value="GBPJPY" >英镑日元</option>
-								<option value="NZDJPY" >纽元日元</option>
-								<option value="HKDCNH" >港币人民币</option>
-								<option value="XAG/USD" >白银美元</option>
-								<option value="XAU/USD" >黄金美元</option>
-								<option value="AUD" >澳元</option>
-								<option value="USD" >美元</option>
-								<option value="JPY" >日元</option>
-								<option value="EUR" >欧元</option>
-								<option value="GBP" >英镑</option>
-								<option value="NZD" >纽元</option>
-								<option value="CAD" >加元</option>
-								<option value="CHF" >瑞郎</option>
-								<option value="CNH" >人民币</option>
-								<option value="HKD" >港币</option>
-								<option value="XAU" >黄金</option>
-								<option value="XAG" >白银</option>
-								<option value="UKOil" >英国原油</option>
-								<option value="USOil" >美国原油</option>
-				        	</optgroup>
+			        		<option value="AUDUSD" >澳元美元</option>
+							<option value="USDJPY" >美元日元</option>
+							<option value="EURUSD" >欧元美元</option>
+							<option value="GBPUSD" >英镑美元</option>
+							<option value="NZDUSD" >纽元美元</option>
+							<option value="USDCAD" >美元加元</option>
+							<option value="USDCHF" >美元瑞郎</option>
+							<option value="USDCNH" >美元人民币</option>
+							<option value="AUDJPY" >澳元日元</option>
+							<option value="AUDNZD" >澳元纽元</option>
+							<option value="CADJPY" >加元日元</option>
+							<option value="EURAUD" >欧元澳元</option>
+							<option value="EURCHF" >欧元瑞郎</option>
+							<option value="EURGBP" >欧元英镑</option>
+							<option value="EURJPY" >欧元日元</option>
+							<option value="GBPAUD" >英镑澳元</option>
+							<option value="GBPCHF" >英镑瑞郎</option>
+							<option value="GBPJPY" >英镑日元</option>
+							<option value="NZDJPY" >纽元日元</option>
+							<option value="HKDCNH" >港币人民币</option>
+							<option value="XAG/USD" >白银美元</option>
+							<option value="XAU/USD" >黄金美元</option>
+							<option value="AUD" >澳元</option>
+							<option value="USD" >美元</option>
+							<option value="JPY" >日元</option>
+							<option value="EUR" >欧元</option>
+							<option value="GBP" >英镑</option>
+							<option value="NZD" >纽元</option>
+							<option value="CAD" >加元</option>
+							<option value="CHF" >瑞郎</option>
+							<option value="CNH" >人民币</option>
+							<option value="HKD" >港币</option>
+							<option value="XAU" >黄金</option>
+							<option value="XAG" >白银</option>
+							<option value="UKOil" >英国原油</option>
+							<option value="USOil" >美国原油</option>
+							<option value="CNHGOLD" >人民币黄金</option>
+							<option value="CNHSILVER" >人民币白银</option>
 				        </select>
 					</td>
 				</tr>
