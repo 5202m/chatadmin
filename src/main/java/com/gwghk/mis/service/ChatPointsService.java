@@ -170,7 +170,7 @@ public class ChatPointsService {
 		}else{
 			result = this.addJournal(false, pointsTmp > 0, pointsDb, journal, updater, new Date(), updateIp);
 		}
-    	return result.setCode(ResultCode.OK);
+    	return result;
 	}
 	
 	/**
