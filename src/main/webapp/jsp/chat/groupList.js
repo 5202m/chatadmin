@@ -369,10 +369,15 @@ var chatGroup = {
 			height : 575,
 			href : url,
 			iconCls : 'pag-edit',
+			onOpen:function(){
+				$(".right_export_btn").parent().parent().css("float","left");
+			},
 			buttons:[
 				{
 					text:'导出',
-					iconCls:"ope-export",
+					iconCls:"ope-export right_export_btn",
+					left:"100",
+					cls:"hhhh",
 					handler:function(){
 						var chatGroupId = $("#chatGroupId").val();
 						window.location.href = formatUrl(basePath+"/chatGroupController/"+chatGroupId+"/exportUnAuthClient.do")

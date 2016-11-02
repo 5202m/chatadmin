@@ -598,12 +598,6 @@ public class ChatGroupController extends BaseController{
 					IRow row = dataSet.append();
 					row.set("nickName",chatUserGroup.getNickname());
 					row.set("mobilePhone",member.getMobilePhone());
-					chatUserGroup.setAccountNo("0001");
-					row.set("accountNo",chatUserGroup.getAccountNo());
-					row = dataSet.append();
-					row.set("nickName",chatUserGroup.getNickname());
-					row.set("mobilePhone",member.getMobilePhone());
-					chatUserGroup.setAccountNo("0002");
 					row.set("accountNo",chatUserGroup.getAccountNo());
 				}
 			}
