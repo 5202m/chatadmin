@@ -570,20 +570,17 @@ public class ChatGroupController extends BaseController{
 			//
 			ChatGroup chatGroup = chatGroupService.getChatGroupById(chatGroupId);
 			List<TraninClient>  TraninClientList = chatGroup.getTraninClient();
-			List<TraninClient> unAuthTraninClientList = new ArrayList<>();
+			List<String> idList = new ArrayList<>();
+			//获取未授权用户id列表
 			if(null != TraninClientList){
 				for (TraninClient traninClient : TraninClientList) {
-					//获取未授权用户列表
 					if(traninClient.getIsAuth() == 0){
-						unAuthTraninClientList.add(traninClient);
+						idList.add(traninClient.getClientId());
 					}
 				}
 			}
 			//根据用户id 查询出用户信息 #
-			String[] ids = new String[unAuthTraninClientList.size()];
-			for(int i = 0;i<unAuthTraninClientList.size();i++){
-				ids[i] = unAuthTraninClientList.get(i).getClientId();
-			}
+			String[] ids = idList.toArray(new String[]{});
 			//根据用户id，对应组别查询
 			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroup.getGroupType());
 			DataRowSet dataSet = new DataRowSet();
