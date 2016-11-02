@@ -584,21 +584,27 @@ public class ChatGroupController extends BaseController{
 			for(int i = 0;i<unAuthTraninClientList.size();i++){
 				ids[i] = unAuthTraninClientList.get(i).getClientId();
 			}
-			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroupId);
+			//根据用户id，对应组别查询
+			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroup.getGroupType());
 			DataRowSet dataSet = new DataRowSet();
 			for(int i = 0;i<userList.size();i++){
 				Member member = userList.get(i);
 				if(member.getLoginPlatform() == null || member.getLoginPlatform().getChatUserGroup() == null){
 					continue;
 				}
-				for(ChatUserGroup chatUserGroup:member.getLoginPlatform().getChatUserGroup()){
-					if(chatGroupId.contains(chatUserGroup.getId())){
-						IRow row = dataSet.append();
-						row.set("nickName",chatUserGroup.getNickname());
-						row.set("mobilePhone",member.getMobilePhone());
-						row.set("userNo",chatUserGroup.getAccountNo());
-						break;
-					}
+				if(member.getLoginPlatform().getChatUserGroup().size()>0){
+					//因已对组别过滤 所以直接取第一条
+					ChatUserGroup chatUserGroup = member.getLoginPlatform().getChatUserGroup().get(0);
+					IRow row = dataSet.append();
+					row.set("nickName",chatUserGroup.getNickname());
+					row.set("mobilePhone",member.getMobilePhone());
+					chatUserGroup.setAccountNo("0001");
+					row.set("accountNo",chatUserGroup.getAccountNo());
+					row = dataSet.append();
+					row.set("nickName",chatUserGroup.getNickname());
+					row.set("mobilePhone",member.getMobilePhone());
+					chatUserGroup.setAccountNo("0002");
+					row.set("accountNo",chatUserGroup.getAccountNo());
 				}
 			}
 			builder.put("dataSet",dataSet);

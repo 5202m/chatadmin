@@ -299,13 +299,10 @@ public class MemberService{
 				   ,Criteria.where("valid").is(1))), "loginPlatform.chatUserGroup.$");
 	}
 
-	public List<Member> getMemberByUserIdGroupType(String[] userIds,String groupId){
-		Criteria criteria = new Criteria();
-		Criteria userGroupCriteria = new Criteria();
-		userGroupCriteria.and("userId").in((Object[])userIds).and("rooms.id").is(groupId);
-		criteria.and("valid").is(1).and("loginPlatform.chatUserGroup").elemMatch(userGroupCriteria);
-		Query query =new Query();
-		query.addCriteria(criteria);
-		return memberDao.findListInclude(Member.class, query, "loginPlatform.chatUserGroup","mobilePhone");
+	public List<Member> getMemberByUserIdGroupType(String[] userIds,String groupType){
+		return memberDao.findListInclude(Member.class, Query.query(
+				new Criteria().andOperator(Criteria.where("loginPlatform.chatUserGroup.userId").in((Object[])userIds),
+						Criteria.where("loginPlatform.chatUserGroup._id").is(groupType)
+						,Criteria.where("valid").is(1))), "loginPlatform.chatUserGroup.$","mobilePhone");
 	}
 }
