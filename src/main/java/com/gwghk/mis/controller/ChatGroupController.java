@@ -583,9 +583,6 @@ public class ChatGroupController extends BaseController{
 
 			//根据用户id，对应组别查询
 			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroup.getGroupType());
-			//FIXME 调试使用 正式应用时 需删除
-			logger.error("exportUnAuthClient--------ids size:"+ids.length +"    -----    userList size:"+userList.size());
-
 			DataRowSet dataSet = new DataRowSet();
 			for(int i = 0;i<userList.size();i++){
 				try{
