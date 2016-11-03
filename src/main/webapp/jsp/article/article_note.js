@@ -132,6 +132,7 @@ var ArticleTemplate = {
 				authorInfo.position = value.position;
 				authorInfo.name = value.name;
 				authorInfo.tag = value.usertag.replace('，',',');
+				this.filterContent(value);
 				detaiInfoObj[key].authorInfo = authorInfo;
 			});
 		}else{
@@ -142,6 +143,7 @@ var ArticleTemplate = {
 			authorInfo.name = detaiInfoObj.name;
 			authorInfo.tag = detaiInfoObj.usertag.replace('，',',');
 			detaiInfoObj.authorInfo = authorInfo;
+			this.filterContent(detaiInfoObj);
 		}
 		detaiInfo = JSON.stringify(detaiInfoObj);
 		if($("#sendSubscribe").is(":visible") && $("#sendSubscribe").prop("checked")){
@@ -327,7 +329,10 @@ var ArticleTemplate = {
 					$form.find("#platformStr").combotree('setValue', groupId);
 					$form = $("#article_detail_zh");
 					$form.find("input[name='title']").val(course.title);
-					$form.find("#authorList_zh").combogrid('setValue', course.lecturerId);
+					if(course.lecturerId){
+						var lecturerId = course.lecturerId.replace(/,.*/g, "");
+						$form.find("#authorList_zh").combogrid('setValue', lecturerId);
+					}
 				}else{
 					alert("未找到相应课程信息！");
 					$("#tradeNodeRoomId option:first").prop("selected", true);
@@ -396,6 +401,16 @@ var ArticleTemplate = {
 				 }
 			 }
 		});
+	},
+	/**
+	 * 过滤文档内容特殊字符
+	 * @param detail
+	 */
+	filterContent : function(detail){
+		if(detail){
+			detail.content = detail.content || "";
+			detail.content = detail.content.replace(/[\r\n]/g, "");
+			detail.content = detail.content.replace(/(<p>(\s*<br\/?>\s*)*<\/p>)*$/g, "");
+		}
 	}
-	
 };
