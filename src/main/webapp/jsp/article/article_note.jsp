@@ -138,6 +138,8 @@
 		     </td>
 		     <th>支撑位</th>
 		     <td><input type="text" name="support_level" /></td>
+			<th>阻力位</th>
+			<td><input type="text" name="drag_level" /></td>
 		     <td><a href="javascript:void(0)" class="ope-add"></a><a href="javascript:void(0)" class="ope-remove" style="display:none;"></a></td>
 		</tr>
 	</table>
