@@ -579,23 +579,21 @@ public class ChatGroupController extends BaseController{
 					}
 				}
 			}
-			//根据用户id 查询出用户信息 #
 			String[] ids = idList.toArray(new String[]{});
 			//根据用户id，对应组别查询
 			List<Member> userList = memberService.getMemberByUserIdGroupType(ids,chatGroup.getGroupType());
 			DataRowSet dataSet = new DataRowSet();
 			for(int i = 0;i<userList.size();i++){
-				Member member = userList.get(i);
-				if(member.getLoginPlatform() == null || member.getLoginPlatform().getChatUserGroup() == null){
-					continue;
-				}
-				if(member.getLoginPlatform().getChatUserGroup().size()>0){
+				try{
+					Member member = userList.get(i);
 					//因已对组别过滤 所以直接取第一条
 					ChatUserGroup chatUserGroup = member.getLoginPlatform().getChatUserGroup().get(0);
 					IRow row = dataSet.append();
 					row.set("nickName",chatUserGroup.getNickname());
 					row.set("mobilePhone",member.getMobilePhone());
 					row.set("accountNo",chatUserGroup.getAccountNo());
+				}catch (Exception e){
+					logger.error("<--method:exportUnAuthClient()|" + e + ",ErrorMsg:" + e.toString());
 				}
 			}
 			builder.put("dataSet",dataSet);
