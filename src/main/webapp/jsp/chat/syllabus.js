@@ -337,7 +337,7 @@ var Syllabus = {
 	        			}
 	        			if(val.indexOf("yy")!=-1){
 	        				tipVal="【YY】"+val;
-	        				name='';
+	        				name='yy';
 	        			}
 	        		}
 	        		tipVal=$("#studioLinkSelect").find("option[value='"+$(this).attr("t")+"']").text()+"-->"+tipVal;
@@ -346,10 +346,11 @@ var Syllabus = {
 	        	$("#showLinksDiv").show().html('<p style="width:500px;">直播地址详情如下(备注：红色表示地址配置可能有误,请检查确认！):</p>'+ret);
 	        	var pmc=$("#showLinksDiv p");
 	        	pmc.removeClass('p-cl');
+	        	var lpSize=$('#showLinksDiv p label:contains("yy")').length>0?2:3;
 	        	if(pmc.find("strong").length==0 && pmc.length>1){
-	        		var hasError=$('#showLinksDiv p label:contains("大陆")').length<3 && $('#showLinksDiv p label:contains("海外")').length<3;
+	        		var hasError=$('#showLinksDiv p label:contains("大陆")').length<lpSize && $('#showLinksDiv p label:contains("海外")').length<lpSize;
 		        	if(!hasError){
-		        		hasError=$('#showLinksDiv p label:contains("'+$('#showLinksDiv p label:first').text().split(":")[1]+'")').length<3;
+		        		hasError=$('#showLinksDiv p label:contains("'+$('#showLinksDiv p label:first').text().split(":")[1]+'")').length<lpSize;
 		        	}
 		        	if(hasError){
 		        		pmc.addClass('p-cl');
