@@ -20,7 +20,7 @@ var Syllabus = {
 			other_hk:{name:'海外(备用{0}),房间:{1}',url:['hk.vpcdn.com/live','h6.phgse.cn/live','ct.phgsa.cn:1935/live']}
         },
     	studio:{
-    		obsCode:["01","02"],
+    		obsCode:["01","02","05"],
     	    yyLink:[
     	    	{name:'yy:92628431/92628431',url:'http://yy.com/s/92628431/92628431/yyscene.swf'},
         		{name:'yy:92628431/2439533296',url:'http://yy.com/s/92628431/2439533296/yyscene.swf'}
@@ -341,17 +341,20 @@ var Syllabus = {
 	        			}
 	        		}
 	        		tipVal=$("#studioLinkSelect").find("option[value='"+$(this).attr("t")+"']").text()+"-->"+tipVal;
-	    			return '<p style="width:500px;" '+(isValid(name)?'mc="'+name.replace(/:|,|\//g,"")+'"':'')+'>'+tipVal+'</p>';
+	    			return '<p style="width:500px;"><label style="display:none;">'+(isValid(name)?name:'')+'</label>'+tipVal+'</p>';
 	    		}).get().join("\n");
 	        	$("#showLinksDiv").show().html('<p style="width:500px;">直播地址详情如下(备注：红色表示地址配置可能有误,请检查确认！):</p>'+ret);
-	        	var pmc=$("#showLinksDiv p[mc]");
-	        	pmc.removeClass('p-cl').each(function(){
-	        		if(pmc.length>1 && isValid($(this).attr("mc"))&&$('#showLinksDiv p[mc="'+$(this).attr("mc")+'"]').length<=1){
-	        			$("#showLinksDiv p[mc]").addClass('p-cl');
-	        			//$(this).addClass('p-cl');
-	        			return false;
-	        		}
-	        	});
+	        	var pmc=$("#showLinksDiv p");
+	        	pmc.removeClass('p-cl');
+	        	if(pmc.find("strong").length==0 && pmc.length>1){
+	        		var hasError=$('#showLinksDiv p label:contains("大陆")').length<3 && $('#showLinksDiv p label:contains("海外")').length<3;
+		        	if(!hasError){
+		        		hasError=$('#showLinksDiv p label:contains("'+$('#showLinksDiv p label:first').text().split(":")[1]+'")').length<3;
+		        	}
+		        	if(hasError){
+		        		pmc.addClass('p-cl');
+		        	}
+	        	}
     	    },
 	    	function(){
 	    		$("#showLinksDiv").hide();
