@@ -350,7 +350,7 @@ var Syllabus = {
 	        	if(pmc.find("strong").length==0 && pmc.length>1){
 	        		var hasError=$('#showLinksDiv p label:contains("大陆")').length<lpSize && $('#showLinksDiv p label:contains("海外")').length<lpSize;
 		        	if(!hasError){
-		        		hasError=$('#showLinksDiv p label:contains("'+$('#showLinksDiv p label:first').text().split(":")[1]+'")').length<lpSize;
+		        		hasError=$('#showLinksDiv p label:contains("'+$('#showLinksDiv p label:last').text().split(":")[1]+'")').length<lpSize;
 		        	}
 		        	if(hasError){
 		        		pmc.addClass('p-cl');
