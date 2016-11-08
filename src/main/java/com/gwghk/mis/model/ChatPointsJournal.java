@@ -55,6 +55,11 @@ public class ChatPointsJournal extends BaseModel{
 	private String remark;
 
 	/**
+	 * 标记
+	 */
+	private String tag;
+
+	/**
 	 * 是否删除(0：未删除 1：删除)
 	 */
 	private Integer isDeleted;
@@ -169,6 +174,14 @@ public class ChatPointsJournal extends BaseModel{
 	 */
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 
 	/**
