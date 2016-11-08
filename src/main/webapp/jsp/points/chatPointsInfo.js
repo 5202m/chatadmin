@@ -357,7 +357,8 @@ var chatPointsInfo = {
 				{title : "积分后值",field : 'after'},
 				{title : "操作者",field : 'opUser'},
 				{title : "时间",field : 'date', formatter:timeObjectUtil.formatterDateTime},
-				{title : "备注",field : 'remark'}
+				{title : "备注",field : 'remark'},
+				{title : "标记",field : 'tag'}
 			]]
 		});
 		
