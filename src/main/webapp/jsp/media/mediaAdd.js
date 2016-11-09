@@ -129,8 +129,10 @@ var mediaAdd = {
 			alert("请选择栏目！");
 			return;
 		}
-		if(val.indexOf('advertisement')!=-1 || val=='sysPicture' || val=='student_style'){
+		if(val.indexOf('advertisement')!=-1 || val=='sysPicture'){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic'});
+		}else if(val=='student_style'){
+			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'pic', 'saveSrc':'1'});
 		}else if(val.indexOf("video")!=-1 || val.indexOf("audio")!=-1){
 			$('#mediaFileId').uploadify('settings','formData',{'fileDir' : 'video'});
 		}else if(val == "download"){
