@@ -125,6 +125,11 @@ public class BoUser extends BaseModel{
      * 分析师标签
      */
     private String tag;
+
+	/**
+	 * 直播地址
+	 */
+	private String liveLinks;
     
     public String getIntroductionImgLink() {
 		return introductionImgLink;
@@ -315,5 +320,14 @@ public class BoUser extends BaseModel{
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	
+
+
+	public String getLiveLinks() {
+		return liveLinks;
+	}
+
+	public void setLiveLinks(String liveLinks) {
+		this.liveLinks = liveLinks;
+	}
+
 }

@@ -309,4 +309,21 @@ public class UserService{
 		}
 		return nextPhone;
 	}
+
+	/**
+	 * 功能：重置密码
+	 * @param userId 用户ID
+	 * @param liveLink 直播地址
+	 */
+	public ApiResult saveLiveLinks(String userId, String liveLink){
+		ApiResult result = new ApiResult();
+		BoUser user = userDao.getByUserId(userId);
+		if(user != null){
+			user.setLiveLinks(liveLink);
+			userDao.update(user);
+			return result.setCode(ResultCode.OK);
+		}else{
+			return result.setCode(ResultCode.Error1010);
+		}
+	}
 }

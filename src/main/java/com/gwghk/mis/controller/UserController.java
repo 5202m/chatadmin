@@ -341,4 +341,45 @@ public class UserController extends BaseController{
     private String getNextPhone(Pattern pattern){
     	return userService.getNextUserPhone(pattern);
     }
+
+	/**
+	 * 功能：用户管理-设置直播地址
+	 */
+	@ActionVerification(key="setLiveLinks")
+	@RequestMapping(value="/userController/{userId}/getLiveLinks", method = RequestMethod.GET)
+	public String getVideoUrl(@PathVariable String userId , ModelMap map) throws Exception {
+		BoUser user=userService.getUserById(userId);
+		map.addAttribute("mngUser",user);
+		return "system/user/liveLinks";
+	}
+
+	/**
+	 * 功能：用户管理-设置直播地址
+	 */
+	@ActionVerification(key="setLiveLinks")
+	@ResponseBody
+	@RequestMapping(value="/userController/setLiveLinks", method = RequestMethod.POST)
+	public AjaxJson setLiveLinks(HttpServletRequest request, HttpServletResponse response) {
+		BoUser userParam = ResourceUtil.getSessionUser();
+		AjaxJson j = new AjaxJson();
+		String userId = request.getParameter("userId");
+		String liveLinks = request.getParameter("liveLinks");
+		ApiResult result =userService.saveLiveLinks(userId, liveLinks);
+		if(result.isOk()){
+			j.setSuccess(true);
+			String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功设置直播地址："+userId;
+			logService.addLog(message, WebConstant.Log_Leavel_INFO, WebConstant.Log_Type_UPDATE
+					,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+			logger.info("<--method:update()|"+message);
+		}else{
+			j.setSuccess(false);
+			j.setMsg(ResourceBundleUtil.getByMessage(result.getCode()));
+			String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 设置直播地址："+userId+" 失败";
+			logService.addLog(message, WebConstant.Log_Leavel_ERROR, WebConstant.Log_Type_INSERT
+					,BrowserUtils.checkBrowse(request),IPUtil.getClientIP(request));
+			logger.error("<--method:update()|"+message+",ErrorMsg:"+result.toString());
+		}
+		return j;
+	}
+
 }
