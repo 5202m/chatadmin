@@ -69,7 +69,7 @@ public class ChatGroupRuleService{
     		chatGroupRuleDao.add(chatGroupRuleParam);	
     	}
     	//目前暂时登录弹框需要推送
-    	if("login_time_set".equals(type)){
+    	if("login_time_set".equals(type) || "online_mem_set".equals(type)){
     		List<String> strList=chatGroupDao.getRoomIdByRuleId(chatGroupRuleParam.getId());
     		if(strList!=null && strList.size()>0){
     			JSONObject jsonObj=new JSONObject();
