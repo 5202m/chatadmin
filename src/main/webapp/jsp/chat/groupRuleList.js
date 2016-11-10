@@ -90,6 +90,10 @@ var chatGroupRule = {
 			handler : function(){   //提交时处理
 				if($("#chatGroupRuleSubmitForm").form('validate')){
 					$("#chatGroupRule_periodDate").val($("#chatGroupRule_periodDate_div").dateTimeWeek("getData"));
+					if($('#chatGroupRuleSubmitForm select[name="type"]').val()=='online_mem_set') {
+						var ruleVal = {'member':$('#member').val(), 'visitor':$('#visitor').val(),'start':$('#start').val(),'end':$('#end').val(),'normal':$('#normal').val()};
+						$('#chatGroupRuleSubmitForm input[name="beforeRuleVal"]').val(JSON.stringify(ruleVal));
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupRuleSubmitForm',
@@ -126,6 +130,13 @@ var chatGroupRule = {
 			handler : function(){    //提交时处理
 				if($("#chatGroupRuleSubmitForm").form('validate')){
 					$("#chatGroupRule_periodDate").val($("#chatGroupRule_periodDate_div").dateTimeWeek("getData"));
+					if($('#chatGroupRuleSubmitForm select[name="type"]').val()=='online_mem_set') {
+						var ruleVal = {};
+						$('#chatGroupRuleSubmitForm #chatGroupRule_online_mem_tbody input[type="text"]').each(function(){
+							ruleVal[$(this).attr('name')] = $(this).val();
+						});
+						$('#chatGroupRuleSubmitForm input[name="beforeRuleVal"]').val(JSON.stringify(ruleVal));
+					}
 					goldOfficeUtils.ajaxSubmitForm({
 						url : submitUrl,
 						formId : 'chatGroupRuleSubmitForm',

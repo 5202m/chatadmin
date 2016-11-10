@@ -26,6 +26,10 @@
 				}); 
 				$('#chatGroupRule_clientGroup_tbody').show();
 			}
+			if(val.indexOf('online_mem')!=-1){
+				$("tbody[id^=chatGroupRule_]").hide();
+				$('#chatGroupRule_online_mem_tbody').show();
+			}
 			if(val == "visitor_filter"){
 				$("#chatGroupRule_beforeRule_tbody th:first").html("禁言游客的昵称(多个可以用逗号分隔)");
 			}else if(val == "login_time_set"){
@@ -42,6 +46,15 @@
 				$(this).val("");
 			});
 			selectVal();
+		});
+		if('${chatGroupRule.type}'=='online_mem_set' && isValid('${chatGroupRule.beforeRuleVal}')){
+			var ruleVal = JSON.parse('${chatGroupRule.beforeRuleVal}');
+			$.each(ruleVal, function(k, v){
+				$('#chatGroupRuleSubmitForm #chatGroupRule_online_mem_tbody input[name="'+k+'"]').val(v);
+			});
+		}
+		$('#chatGroupRuleSubmitForm #chatGroupRule_online_mem_tbody input[type="text"]').bind('propertychange input',function(){
+			$(this).val($(this).val().replace(/[^\d]/g,''));
 		});
 	});
 </script>
@@ -91,6 +104,18 @@
 		      	  <td><input type="text" name="afterRuleVal" value="${chatGroupRule.afterRuleVal}" style="width:350px;"/></td>
 		      </tr>
 	      </tbody>
+		  <tbody id="chatGroupRule_online_mem_tbody" style="display:none;">
+		      <tr>
+				  <th rowspan="3">虚拟在线人数</th>
+				  <td><span style="width:75px;display:inline-block;text-align: right;">会员</span><input type="text" name="member" id="member" style="width:80px;" /><span style="width:30px;display:inline-block;text-align: center;">游客</span><input type="text" name="visitor" id="visitor" style="width:80px;" /></td>
+			  </tr>
+			  <tr>
+				  <td><span style="width:75px;display:inline-block;text-align: right;">VIP会员范围</span><input type="text" name="vipstart" id="start" style="width:80px;" /><span style="width:30px;display:inline-block;text-align: center;">~</span><input type="text" name="vipend" id="end" style="width:80px;" /></td>
+			  </tr>
+		  		<tr>
+					<td><span style="width:75px;display:inline-block;text-align: right;">普通会员范围</span><input type="text" name="normalstart" id="normalstart" style="width:80px;" /><span style="width:30px;display:inline-block;text-align: center;">~</span><input type="text" name="normalend" id="normalend" style="width:80px;" /></td>
+				</tr>
+		  </tbody>
 	      <tbody>
 		      <tr>
 		          <th>执行规则后的提示语</th>
