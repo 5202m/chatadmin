@@ -480,28 +480,6 @@ var Syllabus = {
         $("#panel_editSyllabus table:first a.ope-remove").bind("click", function () {
             $(this).parents("tbody:first").remove();
         });
-
-        /**
-         * 上移
-         */
-        $("#panel_editSyllabus table:first a.ope-up").bind("click", function () {
-            var loc_tbody = $(this).parents("tbody:first");
-            var loc_before = loc_tbody.prev();
-            if (loc_before.is("tbody:visible")) {
-                loc_before.before(loc_tbody);
-            }
-        });
-
-        /**
-         * 下移
-         */
-        $("#panel_editSyllabus table:first a.ope-down").bind("click", function () {
-            var loc_tbody = $(this).parents("tbody:first");
-            var loc_next = loc_tbody.next();
-            if (loc_next.is("tbody:visible")) {
-                loc_next.next(loc_tbody);
-            }
-        });
     },
 	
 	/**
@@ -706,6 +684,7 @@ var Syllabus = {
                 }).get();
         		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
         	}).get();
+			console.log(allTime);
             return JSON.stringify({
                 days : weekArr,
                 timeBuckets : allTime.sort(arraySort("startTime",false))

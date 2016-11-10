@@ -97,8 +97,6 @@ Syllabus.studioLink=${studioLinkStr};
 				<th width="8%">
 					<div>
 						<a href="javascript:void(0)" class="ope-remove"></a>
-						<a href="javascript:void(0)" class="ope-up"></a>
-						<a href="javascript:void(0)" class="ope-down"></a>
 					</div><br>
 					<input name="startTime" value="00:00" style="width: 70px;"><br>
 					-<br>

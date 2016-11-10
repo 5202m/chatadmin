@@ -741,9 +741,13 @@ function isMobile(userAgent){
  * @returns {Function}
  */
 function arraySort(key,desc){
-    return function(a,b){
-        return desc? (a[key] < b[key]) : (a[key] > b[key]);
-    }
+	return function(a,b){
+		var result = a[key] < b[key] ? -1 : ((a[key] > b[key]) ? 1 : 0);
+		if(desc){
+			result = result * -1;
+		}
+		return result;
+	};
 }
 
 /**
