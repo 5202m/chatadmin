@@ -25,8 +25,12 @@ var chatSubscribe = {
 							}},
 							
 				            {title : '订阅服务类型',field : 'type',formatter : function(value, rowData, rowIndex) {
-								return chatSubscribe.getDictNameByCode('#type',value);
-							}},                   	
+								var types = !value ? [] : value.split(/[,，]/);
+								for(var i = 0, lenI = types.length; i < lenI; i++){
+									types[i] = chatSubscribe.getDictNameByCode('#type', types[i]);
+								}
+								return types.join("，");
+							}},
 				            {title : '用户ID',field : 'userId',sortable : true,formatter : function(value, rowData, rowIndex) {
 								return formatMobileToUserId(rowData.userId);
 							}},                  	
