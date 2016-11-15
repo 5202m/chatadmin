@@ -122,7 +122,10 @@ public class ChatGroup extends BaseModel{
 	 * 房间积分
 	 */
 	private Integer point;
-
+	/****
+	 * 房间简介 在培训班中显示
+	 */
+	private String label;
 	public String getDefTemplate() {
 		return defTemplate;
 	}
@@ -318,8 +321,12 @@ public class ChatGroup extends BaseModel{
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
-     
-	
 
-	
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

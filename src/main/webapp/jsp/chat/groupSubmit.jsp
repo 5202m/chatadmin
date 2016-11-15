@@ -204,6 +204,12 @@
 	           <textarea rows="3" name="remark" style="width:100%;">${chatGroup.remark}</textarea>
 	         </td>
 	      </tr>
+		<tr>
+			<th>房间标签</th>
+			<td colspan="3">
+                <input  name="label" style="width:50%;" value="${chatGroup.label}">
+			</td>
+		</tr>
     </table>
   </form>
 </div>
