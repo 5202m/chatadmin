@@ -890,6 +890,8 @@ var Syllabus = {
 	/**
 	 * 加载分析师直播地址
 	 * @param userId
+	 * @param dom
+	 * @param liveLink
 	 */
 	getAnalystLiveLinks:function(userId,dom, liveLink){
 		if(dom.children('option').length<2) {
