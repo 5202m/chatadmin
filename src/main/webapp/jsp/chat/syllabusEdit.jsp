@@ -77,7 +77,7 @@ Syllabus.studioLink=${studioLinkStr};
 	<table class="tableForm_L" border="0" cellpadding="0" cellspacing="1">
 		<thead>
 			<tr>
-				<th width="8%">
+				<th width="6%">
 					<a href="javascript:void(0)" class="ope-add"></a>
 				</th>
 				<c:forEach var="locDay" items="${days}" varStatus="status">
@@ -94,7 +94,7 @@ Syllabus.studioLink=${studioLinkStr};
 		</thead>
 		<tbody style="display:none;">
 			<tr>
-				<th width="8%">
+				<th width="6%">
 					<div>
 						<a href="javascript:void(0)" class="ope-remove"></a>
 						<a href="javascript:void(0)" class="ope-up"></a>
@@ -112,10 +112,18 @@ Syllabus.studioLink=${studioLinkStr};
 						</div>
 						<div class="lecturerDiv">
 							<label>讲师：</label>
-							<select style="width:250px;" name="lecturer" id="select_lecturer0_${status.index}" class="easyui-validatebox" data-options="cascadeCheck:false" multiple></select>
+							<select style="width:200px;" name="lecturer" id="select_lecturer0_${status.index}" class="easyui-validatebox" data-options="cascadeCheck:false" multiple></select>
 
-							<label>直播地址：</label>
-							<select name="liveLink" id="liveLink_${status.index}">
+							<label>直播地址：视频(pc)</label>
+							<select name="liveLink_pc" class="liveLink" id="liveLink_pc_${status.index}" style="width:120px;">
+								<option value="">请选择</option>
+							</select>
+							<label>视频(mb)</label>
+							<select name="liveLink_mb" class="liveLink" id="liveLink_mb_${status.index}" style="width:120px;">
+								<option value="">请选择</option>
+							</select>
+							<label>音频(mb)</label>
+							<select name="liveLinka_mb" class="liveLink" id="liveLinka_mb_${status.index}" style="width:120px;">
 								<option value="">请选择</option>
 							</select>
 						</div>

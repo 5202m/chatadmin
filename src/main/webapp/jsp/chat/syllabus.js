@@ -180,11 +180,10 @@ var Syllabus = {
     			}
     		},
 			onCheck:function(node,checked){
-				var lDom = dom.find('select[name="liveLink"]');
 				if(isValid(userId)){
-					Syllabus.getAnalystLiveLinks(userId, lDom, liveLink);
+					Syllabus.getAnalystLiveLinks(userId, dom, liveLink);
 				}else {
-					Syllabus.getAnalystLiveLinks(node.id, lDom, liveLink);
+					Syllabus.getAnalystLiveLinks(node.id, dom, liveLink);
 				}
 			}
 		});
@@ -216,7 +215,7 @@ var Syllabus = {
         		selectDom.trigger("change");
         	}
     	}else{
-    		this.setLecturerSelect(dom,this.lecturerList,'','');
+    		this.setLecturerSelect(dom,this.lecturerList,null,'');
     	}
     },
     /**
@@ -226,7 +225,7 @@ var Syllabus = {
     	var gtype=$("#syllabusEdit_groupType_select").val(),gId=$("#syllabusEdit_groupId_select").val()||$("#syllabusEdit_groupId_select").attr("tv");
     	this.lecturerList=getJson(basePath +"/chatSyllabusController/getAuthorList.do",{groupType:gtype,groupId:gId});
     	$("#panel_editSyllabus tbody:visible").each(function(){
-    		Syllabus.setLecturerSelect($(this).find(".main"),Syllabus.lecturerList,'','');
+    		Syllabus.setLecturerSelect($(this).find(".main"),Syllabus.lecturerList,null,'');
     	});
     },
     /**
@@ -273,11 +272,11 @@ var Syllabus = {
          		var txtEl=pMain.find("textarea,input[name=title],select[name=courseType]").prop("disabled", disable);
          		if(disable){
          			txtEl.val("");
-         			//pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
-					pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
+         			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+					//pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
          		}else{
-         			//pMain.find("select[id^='select_lecturer']").combotree("enable");
-					pMain.find('select[name="lecturer"]').combotree("enable");
+         			pMain.find("select[id^='select_lecturer']").combotree("enable");
+					//pMain.find('select[name="lecturer"]').combotree("enable");
          		}
              });
      		 Syllabus.fillCourses($(this),(courses&&courses.hasOwnProperty(loc_day)?courses[loc_day]:null));
@@ -430,11 +429,11 @@ var Syllabus = {
     		var txtEl=pMain.find("select[name=status],select[name=courseType],textarea,input[name=title]").prop("disabled", disable);
     		if(disable){
     			txtEl.val("");
-     			//pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
-				pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
+     			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+				//pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
     		}else{
-    			//pMain.find("select[id^='select_lecturer']").combotree("enable");
-				pMain.find('select[name="lecturer"]').combotree("enable");
+    			pMain.find("select[id^='select_lecturer']").combotree("enable");
+				//pMain.find('select[name="lecturer"]').combotree("enable");
     		}
         });
         //新增默认状态为无效
@@ -699,7 +698,7 @@ var Syllabus = {
         	//课表
         	var allTime=$panel.find("tbody:visible").map(function(){
         		var courseArr=$(this).find(allowDayTd).map(function(){
-					 var lectDom=$(this).find('select[name="lecturer"]'); //var lectDom=$(this).find("select[id^='select_lecturer']");
+					 var lectDom=$(this).find("select[id^='select_lecturer']");//var lectDom=$(this).find('select[name="lecturer"]');
                 	 var txt=lectDom.combotree("getText");
                 	 if(txt){
                 		 txt=txt.replace("请选择","");
@@ -707,11 +706,17 @@ var Syllabus = {
                 	 var currContent=$(this).find("textarea[name='context']").val();
                 	 currContent=isValid(currContent)?currContent.replace(/[\r\n]/g,""):'';
 					 var userId = $(this).find('select[name="liveLink"]').attr('userId');//加载直播地址的分析师userNo
+					 var liveLinks = [];
+					 $(this).find('select.liveLink').each(function(){
+						 if(isValid($(this).val())){
+							 liveLinks.push({'code':$(this).find('option:selected').attr('code'),'url':$(this).find('option:selected').val()});
+						 }
+					 });
                      return {title:$(this).find("input[name='title']").val(), 
     	    	        	 status:parseInt($(this).find("select[name='status']").val()),
     	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
     	    	        	 lecturer:txt,lecturerId:lectDom.combotree("getValues").join(","),
-						     liveLink:$(this).find('select[name="liveLink"] option:selected').val(),
+						     liveLink:liveLinks,
 						     //liveName:$(this).find('select[name="liveLink"] option:selected').text(),
 						     liveLinkForUserId:isValid(userId)?userId:'',
     	    	        	 context : currContent};
@@ -893,17 +898,37 @@ var Syllabus = {
 	 * @param dom
 	 * @param liveLink
 	 */
-	getAnalystLiveLinks:function(userId,dom, liveLink){
+	getAnalystLiveLinks:function(userId,dom,liveLink){
 		if(dom.children('option').length<2) {
 			var liveLinks = getJson(basePath + "/userController/getAnalystLiveLink.do", {userId: userId});
 			if (isValid(liveLinks)) {
-				dom.attr('userId', userId);
+				var lDomPc = dom.find('select[name="liveLink_pc"]'),lDomMb = dom.find('select[name="liveLink_mb"]'),lDomAMb =dom.find('select[name="liveLinka_mb"]');
+				lDomPc.attr('userId', userId);
 				liveLinks = JSON.parse(liveLinks);
-				var options = ['<option value="" code="">请选择</option>'];
+				var pcOptions = ['<option value="" code="">请选择</option>'],mbOptions = ['<option value="" code="">请选择</option>'], mbaOptions = ['<option value="" code="">请选择</option>'];
 				$.each(liveLinks, function (i, row) {
-					options.push('<option value="' + row.url + '" code="' + row.code + '"' + (row.url == liveLink ? ' selected="selected"' : '') + '>' + row.name + '</option>');
+					if(row.code=='1') {
+						pcOptions.push('<option value="' + row.url + '" code="' + row.code + '">' + row.name + '</option>');
+					}else if(row.code=='3'){
+						mbOptions.push('<option value="' + row.url + '" code="' + row.code + '">' + row.name + '</option>');
+					}else if(row.code=='4'){
+						mbaOptions.push('<option value="' + row.url + '" code="' + row.code + '">' + row.name + '</option>');
+					}
 				});
-				dom.html(options.join(''));
+				lDomPc.html(pcOptions.join(''));
+				lDomMb.html(mbOptions.join(''));
+				lDomAMb.html(mbaOptions.join(''));
+				if(liveLink){
+					$.each(liveLink,function(i, row){
+						if(row.code=='1'){
+							lDomPc.val(row.url);
+						}else if(row.code=='3'){
+							lDomMb.val(row.url);
+						}else if(row.code=='4'){
+							lDomAMb.val(row.url);
+						}
+					});
+				}
 			}
 		}
 	}
