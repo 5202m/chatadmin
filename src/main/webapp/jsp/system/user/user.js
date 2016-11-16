@@ -32,7 +32,8 @@ var systemUser = {
 				{code:1,name:'yy:46327234/46327234',url:'http://yy.com/s/46327234/46327234/yyscene.swf'},
 				{code:1,name:'yy:82992602/82992602',url:'http://yy.com/s/82992602/82992602/yyscene.swf'}
 			]
-		}
+		},
+		oneTVLink:{code:1,name:'oneTV',url:'http://www.one-tv.com/stream/live_mpegts.swf'}
 	},
 	gridId : 'system_user_datagrid',
 	opType : '',
@@ -362,6 +363,10 @@ var systemUser = {
             var obsLabel=systemUser.liveLinks.obsLabel;
             var codeList=null,urlTmp=null;
 			if(type==1){
+				if(k==0) {
+					var oneTVLink = systemUser.liveLinks.oneTVLink;
+					pcSz.push('<label><input type="checkbox" name="liveLink" value="' + oneTVLink.url + '" code="' + oneTVLink.code + '" />' + oneTVLink.name + '</label>');
+				}
 				$.each(devLinks.yyLink,function(i, row){
 					pcSz.push('<label><input type="checkbox" name="liveLink" value="'+row.url+'" code="'+row.code+'" />'+row.name+'</label>');
 				});

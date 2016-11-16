@@ -382,4 +382,14 @@ public class UserController extends BaseController{
 		return j;
 	}
 
+	/**
+	 * 获取分析师直播地址
+	 */
+	@RequestMapping(value="/userController/getAnalystLiveLink", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
+	@ResponseBody
+	public String getAnalystLiveLink(HttpServletRequest request , ModelMap map) throws Exception {
+		String userId = request.getParameter("userId");
+		BoUser user=userService.getUserByNo(userId);
+		return JSONArray.toJSONString(user.getLiveLinks());
+	}
 }

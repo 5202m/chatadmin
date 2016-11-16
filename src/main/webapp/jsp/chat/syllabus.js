@@ -164,8 +164,8 @@ var Syllabus = {
 	/**
 	 * 设置作者/分析师
 	 */
-    setLecturerSelect:function(dom,data){
-		dom.find("select[id^='select_lecturer']").combotree({
+    setLecturerSelect:function(dom,data,liveLink,userId){
+		dom.find('select[name="lecturer"]').combotree({//dom.find("select[id^='select_lecturer']").combotree({
     		data:data,
     		onLoadSuccess:function(node,param){
     			for(var i in data){
@@ -178,7 +178,15 @@ var Syllabus = {
     					dt.text(dt.text()+"【"+data[i].id+"】");
     				}
     			}
-    		}
+    		},
+			onCheck:function(node,checked){
+				var lDom = dom.find('select[name="liveLink"]');
+				if(isValid(userId)){
+					Syllabus.getAnalystLiveLinks(userId, lDom, liveLink);
+				}else {
+					Syllabus.getAnalystLiveLinks(node.id, lDom, liveLink);
+				}
+			}
 		});
     },
    
@@ -200,15 +208,15 @@ var Syllabus = {
 						tmpList[i].checked=true;
 					}
 				}
-        		this.setLecturerSelect(dom,tmpList);
+        		this.setLecturerSelect(dom,tmpList, course.liveLink, course.liveLinkForUserId);
         	}else{
-        		this.setLecturerSelect(dom,this.lecturerList);
+        		this.setLecturerSelect(dom,this.lecturerList, course.liveLink, course.liveLinkForUserId);
         	}
         	if("0"==course.status){
         		selectDom.trigger("change");
         	}
     	}else{
-    		this.setLecturerSelect(dom,this.lecturerList);
+    		this.setLecturerSelect(dom,this.lecturerList,'','');
     	}
     },
     /**
@@ -218,7 +226,7 @@ var Syllabus = {
     	var gtype=$("#syllabusEdit_groupType_select").val(),gId=$("#syllabusEdit_groupId_select").val()||$("#syllabusEdit_groupId_select").attr("tv");
     	this.lecturerList=getJson(basePath +"/chatSyllabusController/getAuthorList.do",{groupType:gtype,groupId:gId});
     	$("#panel_editSyllabus tbody:visible").each(function(){
-    		Syllabus.setLecturerSelect($(this).find(".main"),Syllabus.lecturerList);
+    		Syllabus.setLecturerSelect($(this).find(".main"),Syllabus.lecturerList,'','');
     	});
     },
     /**
@@ -265,9 +273,11 @@ var Syllabus = {
          		var txtEl=pMain.find("textarea,input[name=title],select[name=courseType]").prop("disabled", disable);
          		if(disable){
          			txtEl.val("");
-         			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+         			//pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+					pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
          		}else{
-         			pMain.find("select[id^='select_lecturer']").combotree("enable");
+         			//pMain.find("select[id^='select_lecturer']").combotree("enable");
+					pMain.find('select[name="lecturer"]').combotree("enable");
          		}
              });
      		 Syllabus.fillCourses($(this),(courses&&courses.hasOwnProperty(loc_day)?courses[loc_day]:null));
@@ -420,9 +430,11 @@ var Syllabus = {
     		var txtEl=pMain.find("select[name=status],select[name=courseType],textarea,input[name=title]").prop("disabled", disable);
     		if(disable){
     			txtEl.val("");
-     			pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+     			//pMain.find("select[id^='select_lecturer']").combotree("disable").combotree("clear");
+				pMain.find('select[name="lecturer"]').combotree("disable").combotree("clear");
     		}else{
-    			pMain.find("select[id^='select_lecturer']").combotree("enable");
+    			//pMain.find("select[id^='select_lecturer']").combotree("enable");
+				pMain.find('select[name="lecturer"]').combotree("enable");
     		}
         });
         //新增默认状态为无效
@@ -547,8 +559,7 @@ var Syllabus = {
 	 * 获取课程表记录
 	 * @param syllabusId
 	 */
-	getSyllabus : function(syllabusId)
-	{
+	getSyllabus : function(syllabusId){
 		$("#panel_viewSyllabus table").html("");
 		goldOfficeUtils.ajax({
 			url : basePath +'/chatSyllabusController/view.do?id=' + syllabusId,
@@ -602,8 +613,7 @@ var Syllabus = {
 	 * 修改
 	 * @param item
 	 */
-	edit : function(item)
-	{
+	edit : function(item){
 		var loc_syllabusId = !item ? "" : $(item).siblings("input").val();
 		var loc_url = formatUrl(basePath + '/chatSyllabusController/preEdit.do?id=' + loc_syllabusId);
 		goldOfficeUtils.openEditorDialog({
@@ -671,8 +681,7 @@ var Syllabus = {
      * 获取课程json字符串
      * {days : [{day: Integer, status : Integer}], timeBuckets : [{startTime : String, endTime : String, course : [{context : String, courseType : Integer,lecturer:String,lecturerId:String, title : String, status : Integer}]}]}
      */
-    getCoursesJson : function()
-    {
+    getCoursesJson : function(){
     	var $panel=$("#panel_editSyllabus table.tableForm_L"),allowDayTd="";
         //星期
         var weekArr=$panel.find("thead .courseThCls").map(function(){
@@ -690,17 +699,21 @@ var Syllabus = {
         	//课表
         	var allTime=$panel.find("tbody:visible").map(function(){
         		var courseArr=$(this).find(allowDayTd).map(function(){
-                	 var lectDom=$(this).find("select[id^='select_lecturer']");
+					 var lectDom=$(this).find('select[name="lecturer"]'); //var lectDom=$(this).find("select[id^='select_lecturer']");
                 	 var txt=lectDom.combotree("getText");
                 	 if(txt){
                 		 txt=txt.replace("请选择","");
                 	 }
                 	 var currContent=$(this).find("textarea[name='context']").val();
                 	 currContent=isValid(currContent)?currContent.replace(/[\r\n]/g,""):'';
+					 var userId = $(this).find('select[name="liveLink"]').attr('userId');//加载直播地址的分析师userNo
                      return {title:$(this).find("input[name='title']").val(), 
     	    	        	 status:parseInt($(this).find("select[name='status']").val()),
     	    	        	 courseType:parseInt($(this).find("select[name='courseType']").val()),
     	    	        	 lecturer:txt,lecturerId:lectDom.combotree("getValues").join(","),
+						     liveLink:$(this).find('select[name="liveLink"] option:selected').val(),
+						     //liveName:$(this).find('select[name="liveLink"] option:selected').text(),
+						     liveLinkForUserId:isValid(userId)?userId:'',
     	    	        	 context : currContent};
                 }).get();
         		return {startTime: $(this).find("input[name='startTime']").timespinner('getValue'), endTime : $(this).find("input[name='endTime']").timespinner('getValue'),course:courseArr};
@@ -873,7 +886,25 @@ var Syllabus = {
             return "";
         }
         return loc_html.join("");
-    }
+    },
+	/**
+	 * 加载分析师直播地址
+	 * @param userId
+	 */
+	getAnalystLiveLinks:function(userId,dom, liveLink){
+		if(dom.children('option').length<2) {
+			var liveLinks = getJson(basePath + "/userController/getAnalystLiveLink.do", {userId: userId});
+			if (isValid(liveLinks)) {
+				dom.attr('userId', userId);
+				liveLinks = JSON.parse(liveLinks);
+				var options = ['<option value="" code="">请选择</option>'];
+				$.each(liveLinks, function (i, row) {
+					options.push('<option value="' + row.url + '" code="' + row.code + '"' + (row.url == liveLink ? ' selected="selected"' : '') + '>' + row.name + '</option>');
+				});
+				dom.html(options.join(''));
+			}
+		}
+	}
 };
 		
 //初始化
