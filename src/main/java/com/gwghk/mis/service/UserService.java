@@ -1,9 +1,6 @@
 package com.gwghk.mis.service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -92,9 +89,13 @@ public class UserService{
 					criteria.and("role.roleId").in((Object[])roleIds);
 				}
 			}
+			if(boUser.getRole() != null && boUser.getRole().getSystemCategory() != null){
+				criteria.and("role.systemCategory").is(boUser.getRole().getSystemCategory());
+			}
 		}
 		query.addCriteria(criteria);
-		return userDao.getUserPage(query,dCriteria);
+		Page<BoUser> page =  userDao.getUserPage(query,dCriteria);
+		return page;
 	}
 	
 	/**
@@ -146,32 +147,51 @@ public class UserService{
 		
 		return userDao.getUserList(query);
 	}
-	
+
+	/****
+	 * 返回拥有分析师角色的用户
+	 * @param systemCategory
+	 * @return
+	 */
+	public List<BoUser> getAnalystUser(String systemCategory){
+		Query query=new Query();
+		Criteria criteria = Criteria.where("valid").is(1);
+		criteria.and("systemCategory").is(systemCategory);
+		criteria.and("roleNo").regex(StringUtil.toFuzzyMatch(WebConstant.ROLE_NO_ANALYST_PRE));
+		query.addCriteria(criteria);
+		//对应系统的分析师角色
+		List<BoRole> roleList = roleDao.findList(BoRole.class,query);
+		Map<String,BoRole> roleMap = new HashMap<>();
+		String[] ids = new String[roleList.size()];
+		for(int i = 0;i<roleList.size();i++){
+			ids[i] = roleList.get(i).getRoleId();
+			roleMap.put(ids[i],roleList.get(i));
+		}
+
+		//组装id 查找出存在此角色的用户
+		query=new Query();
+		criteria = Criteria.where("valid").is(1);
+		criteria.and("roles."+systemCategory).in(ids);
+		query.addCriteria(criteria);
+		List<BoUser> list =  userDao.findList(BoUser.class,query);
+		return list;
+	}
 	/**
 	 * 新增用户信息
 	 * @param userParam
-	 * @param boolean isUpdate 是否更新，true为更新，false为插入
+	 * @param  isUpdate 是否更新，true为更新，false为插入
 	 * @return
 	 * @throws Exception 
 	 */
     public ApiResult saveUser(BoUser userParam,boolean isUpdate){
     	userParam.setValid(1);
-    	BoRole boRole=userParam.getRole();
-    	String roleId=null;
     	ApiResult result=new ApiResult();
-    	if(boRole!=null){
-    		roleId=boRole.getRoleId();
-    		if(StringUtils.isNotBlank(roleId)){
-    			boRole=roleDao.getByRoleId(roleId);
-    			BoRole newBoRole = new BoRole();
-    			if(boRole != null){
-    				newBoRole.setRoleId(boRole.getRoleId());
-    				newBoRole.setRoleNo(boRole.getRoleNo());
-    				newBoRole.setRoleName(boRole.getRoleName());
-    				boRole = newBoRole;
-    			}
-        	}
-    	}
+		if(userParam.getRole() != null){
+			BoRole role = roleDao.findById(BoRole.class,userParam.getRole().getRoleId());
+			userParam.setRole(role);
+		}else{
+			userParam.setRole(null);
+		}
     	if(isUpdate){
     		BoUser user=userDao.getByUserId(userParam.getUserId());
     		if(user==null){
@@ -182,18 +202,12 @@ public class UserService{
     			return result.setCode(ResultCode.Error102);
     		}
     		BeanUtils.copyExceptNull(user, userParam);
-    		if(boRole!=null){
-    			user.setRole(boRole);
-    		}
-    		userDao.update(user);
+    		userDao.update(userParam);
     	}else{
     		if(userDao.getByUserNo(userParam.getUserNo())!=null || userDao.getByPhone(userParam.getTelephone())!=null){
     			return result.setCode(ResultCode.Error102);
     		}
     		userParam.setPassword(MD5.getMd5(WebConstant.MD5_KEY+userParam.getPassword()));
-    		if(boRole!=null){
-    			userParam.setRole(boRole);
-    		}
     		userDao.addUser(userParam);	
     	}
     	return result.setCode(ResultCode.OK);
@@ -217,10 +231,13 @@ public class UserService{
 	 */
 	public Map<String,Object> getUserRoleRelation(String roleId){
 		Map<String,Object> map=new HashMap<String, Object>();
+		BoRole role = roleDao.findById(BoRole.class,roleId);
 		//查询关联用户
-		map.put("relation", userDao.getRelationList(roleId));
+		List<BoUser> relationList = userDao.getRelationList(roleId);
+		map.put("relation", relationList);
 		//查询非关联用户
-		map.put("unRelation",userDao.getUnRelationList());
+		List<BoUser> unRelationList = userDao.getUnRelationList(roleId);
+		map.put("unRelation",unRelationList);
 		return map;
 	}
 
@@ -232,10 +249,14 @@ public class UserService{
 	 */
 	public ApiResult setUserRole(String[] userIds, String roleId) {
 		ApiResult apiResult=new ApiResult();
+		BoRole role = roleDao.findById(BoRole.class,roleId);
 		if(userIds==null){
-			return apiResult.setCode(userDao.deleteUserRole(new String[]{roleId})?ResultCode.OK:ResultCode.FAIL);
+			return apiResult.setCode(userDao.deleteUserRole(new BoRole[]{role})?ResultCode.OK:ResultCode.FAIL);
 		}else{
-			boolean result=userDao.addUserRole(userIds, roleId);//对输入的用户赋予角色权限
+			//先清除
+			userDao.deleteUserRole(new BoRole[]{role});
+			//对输入的用户赋予角色权限
+			boolean result=userDao.addUserRole(userIds, role);
 			return apiResult.setCode(result?ResultCode.OK:ResultCode.FAIL);
 		}
 	}
@@ -246,7 +267,19 @@ public class UserService{
 	public BoUser getUserById(String userId) {
 		return userDao.getByUserId(userId);
 	}
-	
+
+	/*****
+	 * 通过userId查用户信息
+	 * @param userId
+	 * @param systemCategory 当前登录系统，返回对应系统权限
+	 * @return
+	 */
+	public BoUser getUserById(String userId,String systemCategory) {
+		BoUser user = userDao.getByUserId(userId);
+		return user;
+	}
+
+
 	/**
 	 * 通过userNo查用户信息
 	 */
@@ -257,7 +290,7 @@ public class UserService{
 	/**
 	 * 功能：重置密码
 	 * @param userId 用户ID
-	 * @param pwd 新密码
+	 * @param newPwd 新密码
 	 */
     public ApiResult saveResetPwd(String userId,String newPwd){
     	ApiResult result = new ApiResult();

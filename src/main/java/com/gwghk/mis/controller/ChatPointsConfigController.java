@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,10 @@ public class ChatPointsConfigController extends BaseController{
 	
 	@Autowired
 	private ChatGroupService chatGroupService;
-	
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
+
 	/**
 	 * 功能：积分配置管理-首页
 	 */
@@ -63,6 +67,7 @@ public class ChatPointsConfigController extends BaseController{
 		map.put("item", ResourceUtil.getSubDictListByParentCode(dict.DICT_POINTS_ITEM));
 		map.put("status", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 		map.put("groupList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
+		map.put("systemCategory",systemCategoryService.getSystemCategoryByCode(userParam.getRole().getSystemCategory()));
 		logger.debug("-->start into ChatPointsConfigController.index() and url is /ChatPointsConfigController/index.do");
 		return "points/chatPointsConfigList";
 	}
@@ -80,6 +85,7 @@ public class ChatPointsConfigController extends BaseController{
 	@RequestMapping(value = "/chatPointsConfig/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ChatPointsConfig chatPointsConfig) {
+		chatPointsConfig.setGroupType(userParam.getRole().getSystemCategory());
 		Page<ChatPointsConfig> page = chatPointsConfigService.getChatPointsConfigs(this.createDetachedCriteria(dataGrid, chatPointsConfig));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
@@ -140,10 +146,10 @@ public class ChatPointsConfigController extends BaseController{
         chatPointsConfig.setUpdateUser(chatPointsConfig.getCreateUser());
         chatPointsConfig.setUpdateDate(currDate);
         chatPointsConfig.setUpdateIp(chatPointsConfig.getCreateIp());
-        
         if(StringUtils.isNotBlank(chatPointsConfig.getCfgId())){
         	result = chatPointsConfigService.update(chatPointsConfig);
         }else{
+			chatPointsConfig.setGroupType(userParam.getRole().getSystemCategory());
         	result = chatPointsConfigService.add(chatPointsConfig);
         }
     	if(result.isOk()){

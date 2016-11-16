@@ -119,4 +119,14 @@ public class RoleDao extends MongoDBBaseDao{
 	public BoRole getByRoleNo(String roleNo) {
 		return this.findOne(BoRole.class,Query.query(Criteria.where("roleNo").is(roleNo)));
 	}
+
+	/****
+	 * 根据id查询角色
+	 * @param ids
+	 * @return
+	 */
+	public List<BoRole> findByIds(String[] ids){
+		Query query = new Query(Criteria.where("roleId").in(ids));
+		return this.findList(BoRole.class,query);
+	}
 }

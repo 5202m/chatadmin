@@ -101,6 +101,7 @@ public class MediaController extends BaseController{
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 media.setDetailList(detailList);
+		media.setSystemCategory(userParam.getRole().getSystemCategory());
     	 DetachedCriteria<Article> detachedCriteria = this.createDetachedCriteria(dataGrid, media);
     	 if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
 			LinkedHashMap<String, SortDirection> orderMap = new LinkedHashMap<String, SortDirection>();
@@ -222,6 +223,7 @@ public class MediaController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Article media){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(media,request,false);
+		media.setSystemCategory(userParam.getRole().getSystemCategory());
     	AjaxJson j = new AjaxJson();
     	try{
     		setCommonSave(request,media);

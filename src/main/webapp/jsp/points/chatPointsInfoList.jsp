@@ -8,16 +8,17 @@
 			<form class="yxForm" id="chatPointsInfo_queryForm">
 				<table class="tableForm_L" style="margin-top: 3px" width="99%" heigth="auto" border="0" cellpadding="0" cellspacing="1">
 					<tr>
-						<th width="10%">组别</th>
+						<input name="systemCategoryName" id="systemCategoryName" value="${systemCategory.name}" type="hidden">
+						<%--<th width="10%">组别</th>
 						<td width="23%">
 							<t:dictSelect id="chatPointsInfo_groupType" field="groupType" isEdit="true" defaultVal="" isShowPleaseSelected="false"  dataList="${groupList}"/>
-						</td>
+						</td>--%>
 						<th width="10%">手机号码</th>
 						<td width="23%">
 							<input type="text" name="userId" style="width: 160px" />
 						</td>
 						<th width="10%">积分范围</th>
-						<td width="24%">
+						<td width="50%" colspan="3">
 							<input type="text" id="chatPointsInfo_pointsStart" name="pointsStart" size="10" />
 							——
 							<input type="text" id="chatPointsInfo_pointsEnd" name="pointsEnd" size="10" />

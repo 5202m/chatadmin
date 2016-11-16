@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gwghk.mis.model.*;
+import com.gwghk.mis.service.*;
 import com.gwghk.mis.util.*;
 import com.sdk.orm.DataRowSet;
 import com.sdk.orm.IRow;
@@ -38,12 +39,6 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.common.model.TreeBean;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.service.ChatClientGroupService;
-import com.gwghk.mis.service.ChatGroupService;
-import com.gwghk.mis.service.MemberService;
-import com.gwghk.mis.service.RoleService;
-import com.gwghk.mis.service.TokenAccessService;
-import com.gwghk.mis.service.UserService;
 
 /**
  * 聊天室房间管理
@@ -74,6 +69,8 @@ public class ChatGroupController extends BaseController{
 	@Autowired
 	private MemberService memberService;
 
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 	/**
 	 * 设置状态
 	 * @param map
@@ -100,6 +97,8 @@ public class ChatGroupController extends BaseController{
 	@RequestMapping(value = "/chatGroupController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map){
 		setCommonShow(map);
+		BoSystemCategory systemCategory = systemCategoryService.getSystemCategoryByCode(userParam.getRole().getSystemCategory());
+		map.put("systemCategory",systemCategory);
 		logger.debug(">>start into chatGroupController.index() and url is /chatGroupController/index.do");
 		return "chat/groupList";
 	}
@@ -122,6 +121,7 @@ public class ChatGroupController extends BaseController{
     	if(talkStyleArr!=null){
     		chatGroup.setTalkStyle(StringUtils.join(talkStyleArr, ","));
        	}
+		chatGroup.setGroupType(userParam.getRole().getSystemCategory());
 		 Page<ChatGroup> page = chatGroupService.getChatGroupPage(this.createDetachedCriteria(dataGrid, chatGroup));
 		 List<ChatGroup> chatGroupList=page.getCollection();
 		 Map<String, Object> result = new HashMap<String, Object>();
@@ -176,7 +176,7 @@ public class ChatGroupController extends BaseController{
     	setCommonShow(map);
     	map.addAttribute("chatRuleIds","");
     	map.addAttribute("chatGroup",new ChatGroup());
-    	List<BoUser> analystList = userService.getUserListByRole("analyst");
+    	List<BoUser> analystList = userService.getAnalystUser(userParam.getRole().getSystemCategory());
     	//分析师列表
     	map.addAttribute("analystList", analystList);
     	return "chat/groupSubmit";
@@ -198,7 +198,7 @@ public class ChatGroupController extends BaseController{
     		chatGroup.setChatRuleIds(StringUtils.join(list, ","));
     	}
     	//分析师列表
-    	List<BoUser> loc_allAnalysts = userService.getUserListByRole("analyst");
+    	List<BoUser> loc_allAnalysts = userService.getAnalystUser(userParam.getRole().getSystemCategory());
     	String[] loc_authUsers = chatGroup.getAuthUsers();
     	List<BoUser> loc_users = new ArrayList<BoUser>();
     	int lenJ = loc_authUsers == null ? 0 : loc_authUsers.length;
@@ -271,6 +271,7 @@ public class ChatGroupController extends BaseController{
 		if(chatGroup.getAuthUsers() == null){
 			chatGroup.setAuthUsers(new String[0]);
 		}
+		chatGroup.setGroupType(userParam.getRole().getSystemCategory());
 		ApiResult result = chatGroupService.saveChatGroup(chatGroup, true, false);
 		if (result.isOk()) {
 			j.setSuccess(true);
@@ -297,6 +298,7 @@ public class ChatGroupController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatGroup chatGroup){
     	setBaseInfo(chatGroup,request,false);
     	setCommonChatGroupParam(request,chatGroup);
+		chatGroup.setGroupType(userParam.getRole().getSystemCategory());
     	AjaxJson j = new AjaxJson();
     	String[] chatRuleIdArr=request.getParameterValues("chatRuleId");
     	if(chatRuleIdArr!=null){
@@ -516,6 +518,7 @@ public class ChatGroupController extends BaseController{
        	if(clientGroupArr!=null){
        		chatGroup.setClientGroup(StringUtils.join(clientGroupArr, ","));
        	}
+		chatGroup.setGroupType(userParam.getRole().getSystemCategory());
     }
    
     /**

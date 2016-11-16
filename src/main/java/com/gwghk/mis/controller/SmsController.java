@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gwghk.mis.service.SmsConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,14 +51,16 @@ public class SmsController extends BaseController{
 
 	@Autowired
 	private PmApiService pmApiService;
+
+	@Autowired
+	private SmsConfigService smsConfigService;
 	
 	/**
 	 * 功能：短信信息管理-首页
 	 */
 	@RequestMapping(value = "/sms/index", method = RequestMethod.GET)
 	public String index(HttpServletRequest request, ModelMap map) {
-		DictConstant dict=DictConstant.getInstance();
-		map.put("smsUseTypes", ResourceUtil.getSubDictListByParentCode(dict.DICT_SMS_USE_TYPE));
+		map.put("smsUseTypes", smsConfigService.getDictList(userParam.getRole().getSystemCategory()));
 		logger.debug("-->start into SmsInfoController.index() and url is /smsInfoController/index.do");
 		return "sms/smsInfo/smsInfoList";
 	}
@@ -75,7 +78,7 @@ public class SmsController extends BaseController{
 	@RequestMapping(value = "/sms/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, SmsInfo smsInfo) {
-		Page<SmsInfo> page = smsInfoService.getSmsInfos(this.createDetachedCriteria(dataGrid, smsInfo));
+		Page<SmsInfo> page = smsInfoService.getSmsInfos(this.createDetachedCriteria(dataGrid, smsInfo),userParam.getRole().getSystemCategory());
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
 		result.put("rows", null == page ? new ArrayList<SmsInfo>() : page.getCollection());

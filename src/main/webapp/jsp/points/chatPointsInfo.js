@@ -25,6 +25,7 @@ var chatPointsInfo = {
 	 * 功能：dataGrid初始化
 	 */
 	initGrid : function(){
+		var systemCategoryName = $("#systemCategoryName").val();
 		goldOfficeUtils.dataGrid({
 			gridId : chatPointsInfo.gridId,
 			idField:"pointsId",
@@ -37,7 +38,7 @@ var chatPointsInfo = {
 			    	return $("#chatPointsInfo_datagrid_rowOperation").html();
 			    }},
 	            {title : "组别",field : 'groupType',formatter : function(value, rowData, rowIndex) {
-	            	return chatPointsInfo.formatByDicts("groupType", value);
+	            	return systemCategoryName;
 				}},
 				{title : "用户编号",field : 'userId',formatter : function(value, rowData, rowIndex) {
 					return formatMobileToUserId(value);
@@ -357,7 +358,8 @@ var chatPointsInfo = {
 				{title : "积分后值",field : 'after'},
 				{title : "操作者",field : 'opUser'},
 				{title : "时间",field : 'date', formatter:timeObjectUtil.formatterDateTime},
-				{title : "备注",field : 'remark'}
+				{title : "备注",field : 'remark'},
+				{title : "标记",field : 'tag'}
 			]]
 		});
 		
@@ -377,7 +379,7 @@ var chatPointsInfo = {
 			var filed = $(this).attr("field");
 			var val = points[filed];
 			if(filed == "groupType"){
-				val = chatPointsInfo.formatByDicts("groupType", val);
+				val = $("#systemCategoryName").val();
 			}else if(filed == "userId"){
 				val = formatMobileToUserId(val);
 			}

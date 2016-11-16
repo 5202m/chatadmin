@@ -1,5 +1,8 @@
 package com.gwghk.mis.service;
 
+import com.gwghk.mis.constant.DictConstant;
+import com.gwghk.mis.model.BoDict;
+import com.gwghk.mis.util.ResourceUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,6 +15,10 @@ import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.dao.SmsConfigDao;
 import com.gwghk.mis.enums.ResultCode;
 import com.gwghk.mis.model.SmsConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * 短信配置管理<BR>
@@ -37,7 +44,7 @@ public class SmsConfigService {
 	 * @param dCriteria
 	 * @return
 	 */
-	public Page<SmsConfig> getSmsConfigs(DetachedCriteria<SmsConfig> dCriteria) {
+	public Page<SmsConfig> getSmsConfigs(DetachedCriteria<SmsConfig> dCriteria,String systemCategory) {
 		SmsConfig smsConfig = dCriteria.getSearchModel();
 		Query query = new Query();
 		Criteria criteria = Criteria.where("isDeleted").is(1);
@@ -45,12 +52,14 @@ public class SmsConfigService {
 			if (StringUtils.isNotBlank(smsConfig.getType())) {
 				criteria.and("type").is(smsConfig.getType());
 			}
-			if (StringUtils.isNotBlank(smsConfig.getUseType())) {
-				criteria.and("useType").is(smsConfig.getUseType());
-			}
 			if (smsConfig.getStatus() != null) {
 				criteria.and("status").is(smsConfig.getStatus());
 			}
+		}
+		if(smsConfig != null && StringUtils.isNotBlank(smsConfig.getUseType())){
+			criteria.and("useType").is(smsConfig.getUseType());
+		}else{
+			criteria.and("useType").regex(this.getDickPattern(systemCategory));
 		}
 		query.addCriteria(criteria);
 		return smsConfigDao.querySmsConfigs(query, dCriteria);
@@ -110,5 +119,26 @@ public class SmsConfigService {
 		ApiResult result=new ApiResult();
 		boolean isOk = smsConfigDao.delete(smsCfgId);
 		return result.setCode(isOk ? ResultCode.OK : ResultCode.FAIL);
+	}
+
+	/****
+	 * 返回应用点  根据规则已前缀为判断标准 studio_reg
+	 * @param systemCategory 当前登录系统
+	 * @return
+	 */
+	public List<BoDict> getDictList(String systemCategory){
+		//过滤组 只显示当前登录系统 所在应用点， 根据规则已前缀为判断标准 studio_reg
+		List<BoDict> dicts = ResourceUtil.getSubDictListByParentCode(DictConstant.getInstance().DICT_SMS_USE_TYPE);
+		List<BoDict> list = new ArrayList<>();
+		for(BoDict dict:dicts){
+			Pattern pattern = this.getDickPattern(systemCategory);
+			if(pattern.matcher(dict.getCode()).matches()){
+				list.add(dict);
+			}
+		}
+		return list;
+	}
+	public Pattern getDickPattern(String systemCategory){
+		return Pattern.compile("^"+systemCategory+"_.*");
 	}
 }

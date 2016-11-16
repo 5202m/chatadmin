@@ -51,7 +51,11 @@ public class BoRole extends BaseModel{
 	 * 角色名或角色号，用于权限类别中角色的查询
 	 */
     private String roleNoOrName;
-    
+	/***
+	 * 所属系统
+	 */
+	private String systemCategory;
+
     /**
      * 聊天室组列表
      */
@@ -119,5 +123,13 @@ public class BoRole extends BaseModel{
 
 	public void setChatGroupList(List<ChatGroup> chatGroupList) {
 		this.chatGroupList = chatGroupList;
+	}
+
+	public String getSystemCategory() {
+		return systemCategory;
+	}
+
+	public void setSystemCategory(String systemCategory) {
+		this.systemCategory = systemCategory;
 	}
 }

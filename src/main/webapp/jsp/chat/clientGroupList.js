@@ -29,9 +29,7 @@ var chatClientGroup = {
 						    });
 							return $("#chatClientGroup_datagrid_rowOperation").html();
 						}},
-						{title : '类别',field : 'groupTypeName',formatter : function(value, rowData, rowIndex) {
-							return chatClientGroup.getDictNameByCode("#chatClientGroup_queryForm select[name=groupType]",rowData.groupType);
-						}},
+
 			            {title : '编号',field : 'clientGroupId'},
 						{title : '名称',field : 'name'},
 						{title : '默认房间',field : 'defChatGroupId',formatter : function(value, rowData, rowIndex) {

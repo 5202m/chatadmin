@@ -7,9 +7,20 @@
         	<div>
 			    <form class="yxForm" id="system_authority_role_queryForm">
 			      <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
+					  <tr>
+						  <th width="10%">所属系统</th>
+						  <td width="23%" colspan="3">
+							   <select name="systemCategory" id="auth_list_systemCategory">
+								   <c:forEach var="systemCategory" items="${systemCategoryList}">
+									   <option value="${systemCategory.code}">${systemCategory.name}</option>
+								   </c:forEach>
+							   </select>
+						  </td>
+					  </tr>
 			        <tr>
 			          <th width="10%"><spring:message code="authority.rolenoname" /><!-- 角色编号/名称 --></th>
-			          <td width="23%" colspan="3"><input type="text" name="roleNoOrName" id="roleNoOrName" style="width:160px"/>
+			          <td width="23%" colspan="3">
+						  <input type="text" name="roleNoOrName" id="roleNoOrName" style="width:160px"/>
 			          	<a href="#" class="easyui-linkbutton" id="system_authority_role_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /> </a> &nbsp;&nbsp;
 			          </td>
 			        </tr>

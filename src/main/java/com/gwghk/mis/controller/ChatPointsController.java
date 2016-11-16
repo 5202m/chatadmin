@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,9 @@ public class ChatPointsController extends BaseController{
 	
 	@Autowired
 	private ChatGroupService chatGroupService;
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 	
 	/**
 	 * 功能：积分配置管理-首页
@@ -62,6 +66,7 @@ public class ChatPointsController extends BaseController{
 		map.put("item", ResourceUtil.getSubDictListByParentCode(dict.DICT_POINTS_ITEM));
 		map.put("groupList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
 		logger.debug("-->start into ChatPointsController.index() and url is /ChatPointsController/index.do");
+		map.put("systemCategory",systemCategoryService.getSystemCategoryByCode(userParam.getRole().getSystemCategory()));
 		return "points/chatPointsInfoList";
 	}
 
@@ -96,7 +101,7 @@ public class ChatPointsController extends BaseController{
 		if(StringUtils.isNotBlank(param)){
 			params.put("timeEnd", DateUtil.parseDateSecondFormat(param));
 		}
-		
+		params.put("systemCategory",userParam.getRole().getSystemCategory());
 		Page<ChatPoints> page = chatPointsService.getChatPoints(this.createDetachedCriteria(dataGrid, chatPoints), params);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
@@ -126,7 +131,7 @@ public class ChatPointsController extends BaseController{
     public AjaxJson save(HttpServletRequest request, ChatPoints chatPoints){
         AjaxJson j = new AjaxJson();
         ApiResult result = null;
-        
+		chatPoints.setGroupType(userParam.getRole().getSystemCategory());
         result = chatPointsService.add(chatPoints, userParam.getUserNo(), IPUtil.getClientIP(request));
     	if(result.isOk()){
 	    	j.setSuccess(true);
@@ -146,7 +151,6 @@ public class ChatPointsController extends BaseController{
 	/**
 	 * 删除
 	 * @param request
-	 * @param chatPoints
 	 * @return
 	 */
 	@RequestMapping(value="/chatPointsInfo/delete",method=RequestMethod.POST)

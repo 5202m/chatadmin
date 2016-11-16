@@ -6,6 +6,8 @@
    <div data-options="region:'north',border:false" style="height:120px;">
     <div class="easyui-panel" data-options="fit:true,title:'<spring:message code="common.searchCondition" />',border:false,iconCls:'pag-search'">
     <form class="yxForm" id="chatGroup_queryForm">
+      <input id="systemCategoryName" type="hidden" value="${systemCategory.name}">
+      <input id="systemCategoryCode" type="hidden" value="${systemCategory.code}">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
           <th width="10%">编号</th>
@@ -16,12 +18,9 @@
           <td width="20%"><t:dictSelect id="chatGroupStatus" field="status" isEdit="false" isShowPleaseSelected="true" dataList="${statusList}"/></td>
         </tr>
         <tr>
-          <th>房间类别</th>
-          <td>
-             <t:dictSelect  selectClass="width:170px;" id="chatGroupType" field="groupType" isEdit="false" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
-          </td>
+
           <th>聊天规则</th>
-          <td>
+          <td colspan="3">
              <select class="easyui-combotree" style="width:400px;" name="chatRuleId"  id="chatRuleIds" data-options="cascadeCheck:false" multiple></select>
           </td>
           <th>聊天方式</th>

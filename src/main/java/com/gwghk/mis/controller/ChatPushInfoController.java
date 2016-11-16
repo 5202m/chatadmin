@@ -1,13 +1,12 @@
 package com.gwghk.mis.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gwghk.mis.model.*;
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,6 @@ import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.ChatGroup;
-import com.gwghk.mis.model.ChatPushInfo;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatPushInfoService;
@@ -58,7 +54,9 @@ public class ChatPushInfoController extends BaseController{
 	
 	@Autowired
 	private ChatPushInfoService chatPushInfoService;
-	
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 
 	/**
 	 * 设置状态
@@ -66,7 +64,14 @@ public class ChatPushInfoController extends BaseController{
 	 */
 	private void setCommonShow(ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
-		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
+		BoSystemCategory systemCategory = systemCategoryService.getSystemCategoryByCode(userParam.getRole().getSystemCategory());
+		List<BoDict> dictList = new ArrayList<>();
+		BoDict boDict = new BoDict();
+		boDict.setCode(systemCategory.getCode());
+		boDict.setName(systemCategory.getName());
+		boDict.setNameCN(systemCategory.getName());
+		dictList.add(boDict);
+		map.put("groupTypeList",dictList);
     	map.put("statusList", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 	}
 	
@@ -84,14 +89,14 @@ public class ChatPushInfoController extends BaseController{
 	 * 获取datagrid列表
 	 * @param request
 	 * @param dataGrid  分页查询参数对象
-	 * @param chatGroup   实体查询参数对象
+	 * @param pushInfo   实体查询参数对象
 	 * @return Map<String,Object> datagrid需要的数据
 	 */
 	@RequestMapping(value = "/chatPushInfoController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatPushInfo pushInfo){
 		 Page<ChatPushInfo> page = chatPushInfoService.getPage(this.createDetachedCriteria(dataGrid, pushInfo));
-		 Map<String, Object> result = new HashMap<String, Object>();
+		 Map<String, Object> result = new HashMap<>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatGroup>() : page.getCollection());
 	     return result;

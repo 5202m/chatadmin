@@ -68,35 +68,11 @@ public class ChatSubscribeController extends BaseController {
 	
 	@RequestMapping(value = "/chatSubscribeController/index", method = RequestMethod.GET)
 	public String index(HttpServletRequest request,ModelMap map, String opType){
-		DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	map.put("chatSubscribeType", chatSubscribeTypeService.getSubscribeType());
 		return "chat/subscribeList";
 	}
-	
-	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setName(dict.getNameCN());
-    		tbean.setGroupType(dict.getCode());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
-	}
-	
+
 	/**
 	 * 
 	 * @function:  获取订阅列表
@@ -112,7 +88,9 @@ public class ChatSubscribeController extends BaseController {
 	@RequestMapping(value = "/chatSubscribeController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid, ChatSubscribe subscribe, String opType){
-		
+		if(subscribe.getGroupType() == null || "".equals(subscribe.getGroupType())){
+			subscribe.setGroupType(userParam.getRole().getSystemCategory());
+		}
 		Page<ChatSubscribe> page = chatSubscribeService.getSubscribePage(this.createDetachedCriteria(dataGrid, subscribe));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total",null == page ? 0  : page.getTotalSize());
@@ -126,8 +104,7 @@ public class ChatSubscribeController extends BaseController {
     @RequestMapping(value="/chatSubscribeController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
     public String add(ModelMap map, String opType) throws Exception {
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	map.put("chatSubscribeTypeObj", JSONArray.toJSONString(chatSubscribeTypeService.getSubscribeType()));
     	return "chat/subscribeAdd";
     }
@@ -143,8 +120,7 @@ public class ChatSubscribeController extends BaseController {
     	map.put("startDateStr",DateUtil.getDateSecondFormat(subscribe.getStartDate()));
     	map.put("endDateStr",DateUtil.getDateSecondFormat(subscribe.getEndDate()));
     	
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
     	return "chat/subscribeView";
     }
@@ -169,8 +145,7 @@ public class ChatSubscribeController extends BaseController {
     	map.put("startDateStr",DateUtil.getDateSecondFormat(subscribe.getStartDate()));
     	map.put("endDateStr",DateUtil.getDateSecondFormat(subscribe.getEndDate()));
     	
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	map.put("chatSubscribeTypeObj", JSONArray.toJSONString(chatSubscribeTypeService.getSubscribeType()));
 		return "chat/subscribeEdit";
     }

@@ -5,13 +5,6 @@
     <input type="hidden" name="pointsId" id="chatPointsInfoAdd_pointsId">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
       <tr>
-        <th width="30%">组别</th>
-        <td width="70%" id="chatPointsInfoAdd_groupTypeTd">
-        	<select name="groupType" id="chatPointsInfoAdd_groupType" style="width: 155px;">
-        	</select>
-		</td>
-      </tr>
-      <tr>
         <th>手机号</th>
         <td id="chatPointsInfoAdd_userIdTd">
         	<input type="text" name="userId" class="easyui-validatebox" data-options="required:true,validType:'mobile',missingMessage:'请输入客户手机号'">

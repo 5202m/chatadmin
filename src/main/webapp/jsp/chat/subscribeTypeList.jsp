@@ -10,8 +10,18 @@
     <form class="yxForm" id="subscribeType_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
-        	<th width="10%">服务类型</th>
-        	<td><input type="text" name="name" id="name" /></td>        	
+            <th width="10%">房间组别</th>
+            <td>
+                <select name="groupType" id="subscribeType_groupType_select" style="width: 160px;">
+                    <c:forEach var="row" items="${chatGroupList}">
+                        <c:if test="${empty row.id}">
+                            <option value="${row.groupType }">
+                                    ${row.name}
+                            </option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+            </td>
           <th width="10%">分析师</th>
           <td>
             <select class="easyui-combotree" name="analysts" id="analystsSelectId" style="width:250px;" data-options="cascadeCheck:false" multiple>
@@ -19,19 +29,8 @@
           </td>
         </tr>
         <tr>
-          <th width="10%">房间组别</th>
-			<td>
-				<select name="groupType" id="subscribeType_groupType_select" style="width: 160px;">
-					<option value="">--请选择--</option>
-					<c:forEach var="row" items="${chatGroupList}">
-						<c:if test="${empty row.id}">
-							<option value="${row.groupType }">
-								${row.name}
-							</option>
-						</c:if>
-					</c:forEach>
-				</select>
-		</td>
+            <th width="10%">服务类型</th>
+            <td><input type="text" name="name" id="name" /></td>
         <th width="10%">状态</th>
         <td>
         	<select name="status" id="subscribeType_status_select">
@@ -59,7 +58,7 @@
   
    <!-- datagrid-toolbar -->
   <div id="subscribeType_datagrid_toolbar">
-    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatSubscribeType.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a> 
+    <a class="easyui-linkbutton add" data-options="plain:true,iconCls:'ope-add',disabled:false"  onclick="chatSubscribeType.add();"><spring:message code="common.buttons.add" /><!-- 新增 --></a>
     <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"    onclick="chatSubscribeType.batchDel();"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
     <a class="easyui-linkbutton refresh" data-options="plain:true,iconCls:'ope-reload',disabled:false"   onclick="chatSubscribeType.refresh();"><spring:message code="common.buttons.refresh" /><!-- 刷新 --></a>
     <!--a class="easyui-linkbutton setStatus" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="chatSubscribeType.setStatus(1)">审核通过 </a>

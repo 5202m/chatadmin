@@ -32,6 +32,7 @@ var chatPointsConfig = {
 	 * 功能：dataGrid初始化
 	 */
 	initGrid : function(){
+		var systemCategoryName = $("#systemCategoryName").val();
 		goldOfficeUtils.dataGrid({
 			gridId : chatPointsConfig.gridId,
 			idField:"cfgId",
@@ -45,7 +46,7 @@ var chatPointsConfig = {
 			    	return $("#chatPointsConfig_datagrid_rowOperation").html();
 			    }},
 				{title : "房间组别",field : 'groupType',formatter : function(value, rowData, rowIndex) {
-					return chatPointsConfig.formatByDicts("groupType", value);
+					return systemCategoryName;
 				}},
 				{title : '客户组别',field : 'clientGroup',formatter : function(value, rowData, rowIndex) {
 					var nameArr=[],tmpData={"simulate":"模拟用户",register:"注册用户",vip:"VIP用户,",active:"真实A用户",notActive:"真实N用户"};;
@@ -221,11 +222,9 @@ var chatPointsConfig = {
 				//默认手动加减分
 				$("#chatPointsConfigAdd_type").val("hand");
 				$("#chatPointsConfigAdd_item").val("hand_manual");
-				 $("#chatPointsConfigAdd_groupType").change(function(){
-						$("#chatPointsConfigAdd_clientGroup").combotree({
-							data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{filter:'visitor',groupType:this.value}),
-						}); 
-				 }).trigger("change");
+				$("#chatPointsConfigAdd_clientGroup").combotree({
+					data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{filter:'visitor',groupType:$("#systemCategoryCode").val()})
+				});
 			}
 		});
 	},
@@ -287,13 +286,10 @@ var chatPointsConfig = {
 			},
 			onLoad : function(){
 				chatPointsConfig.initSelect($("#chatPointsConfig_queryForm"), $("#chatPointsConfigEdit_Form"), true);
-				 $("#chatPointsConfigEdit_groupType").change(function(){
-					    var  val=$("#chatPointsConfigEdit_clientGroup").attr("defVal");
-						$("#chatPointsConfigEdit_clientGroup").combotree({
-							data:getJson(basePath+"/chatClientGroupController/getClientGroupList.do",{filter:'visitor',clientGroup:val,groupType:$("#chatPointsConfigEdit_groupType_val").val()}),
-						}); 
-						$("#chatPointsConfigEdit_clientGroup").attr("defVal","");
-				 }).trigger("change");
+				var  val=$("#chatPointsConfigEdit_clientGroup").attr("defVal");
+				$("#chatPointsConfigEdit_clientGroup").combotree({
+					data:getJson(basePath + "/chatClientGroupController/getClientGroupList.do",{filter:'visitor',clientGroup:val,groupType:$("#systemCategoryCode").val()})
+				});
 				/**类别联动事件*/
 				chatPointsConfig.setEventType($("#chatPointsConfigEdit_type"), $("#chatPointsConfigEdit_item"));
 			}

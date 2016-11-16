@@ -3,14 +3,7 @@
 <div style="padding:5px;overflow:hidden;">
   <form id="chatPointsConfigEdit_Form" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-      <tr>
-        <th width="30%">房间组别</th>
-        <td width="70%">
-        	<select name="groupType" id="chatPointsConfigEdit_groupType" style="width: 155px;">
-        	</select>
-        	<input type="hidden" value="${chatPointsConfig.groupType }" id="chatPointsConfigEdit_groupType_val">
-		</td>
-      </tr>
+
       <tr>
         <th>积分类别</th>
         <td>

@@ -1,12 +1,12 @@
 package com.gwghk.mis.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gwghk.mis.model.BoDict;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +55,7 @@ public class SmsConfigController extends BaseController{
 	@RequestMapping(value = "/smsConfig/index", method = RequestMethod.GET)
 	public String index(HttpServletRequest request, ModelMap map) {
 		DictConstant dict=DictConstant.getInstance();
-		map.put("smsUseTypes", ResourceUtil.getSubDictListByParentCode(dict.DICT_SMS_USE_TYPE));
+		map.put("smsUseTypes",smsConfigService.getDictList(userParam.getRole().getSystemCategory()));
 		map.put("status", ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS));
 		logger.debug("-->start into SmsConfigController.index() and url is /SmsConfigController/index.do");
 		return "sms/smsConfig/smsConfigList";
@@ -74,7 +74,7 @@ public class SmsConfigController extends BaseController{
 	@RequestMapping(value = "/smsConfig/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, SmsConfig smsConfig) {
-		Page<SmsConfig> page = smsConfigService.getSmsConfigs(this.createDetachedCriteria(dataGrid, smsConfig));
+		Page<SmsConfig> page = smsConfigService.getSmsConfigs(this.createDetachedCriteria(dataGrid, smsConfig),userParam.getRole().getSystemCategory());
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
 		result.put("rows", null == page ? new ArrayList<SmsInfo>() : page.getCollection());

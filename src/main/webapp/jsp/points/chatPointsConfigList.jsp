@@ -8,16 +8,14 @@
 			<form class="yxForm" id="chatPointsConfig_queryForm">
 				<table class="tableForm_L" style="margin-top: 3px" width="99%" heigth="auto" border="0" cellpadding="0" cellspacing="1">
 					<tr>
-						<th width="10%">组别</th>
-						<td width="23%">
-							<t:dictSelect id="chatPointsConfig_groupType" field="groupType" isEdit="true" defaultVal="" isShowPleaseSelected="false"  dataList="${groupList}"/>
-						</td>
+						<input name="systemCategoryName" id="systemCategoryName" value="${systemCategory.name}" type="hidden">
+						<input name="systemCategoryCode" id="systemCategoryCode" value="${systemCategory.code}" type="hidden">
 						<th width="10%">类别</th>
 						<td width="23%">
 							<t:dictSelect id="chatPointsConfig_type" field="type" isEdit="true" defaultVal="" isShowPleaseSelected="true"  dataList="${type}"/>
 						</td>
 						<th width="10%">项目</th>
-						<td width="24%">
+						<td width="57%" colspan="3">
 							<t:dictSelect id="chatPointsConfig_item" field="item" isEdit="true" defaultVal="" isShowPleaseSelected="true"  dataList="${item}"/>
 						</td>
 					</tr>

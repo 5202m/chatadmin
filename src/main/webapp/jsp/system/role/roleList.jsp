@@ -14,7 +14,15 @@
           <td width="23%"><input type="text" name="roleName" id="roleName" style="width:160px"/></td>
         </tr>
         <tr>
-          <td colspan="6" align="right">&nbsp;&nbsp;
+          <th width="10%">所属系统</th>
+          <td width="23%">
+              <select name="systemCategory" id="role_list_systemCategory">
+                  <c:forEach var="systemCategory" items="${systemCategoryList}">
+                      <option value="${systemCategory.code}">${systemCategory.name}</option>
+                  </c:forEach>
+              </select>
+          </td>
+          <td colspan="4" align="right">&nbsp;&nbsp;
 	        <a href="#" class="easyui-linkbutton" id="system_role_queryForm_search" data-options="iconCls:'ope-search'" >
 	        <spring:message code="common.buttons.search" /><!-- 查询 --> </a> &nbsp;&nbsp;
 	        <a href="#" class="easyui-linkbutton" id="system_role_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>

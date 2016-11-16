@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gwghk.mis.model.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,12 +23,6 @@ import com.gwghk.mis.dao.ChatGroupRuleDao;
 import com.gwghk.mis.dao.RoleDao;
 import com.gwghk.mis.enums.IdSeq;
 import com.gwghk.mis.enums.ResultCode;
-import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.ChatGroup;
-import com.gwghk.mis.model.ChatGroupRule;
-import com.gwghk.mis.model.ChatUserGroup;
-import com.gwghk.mis.model.Member;
-import com.gwghk.mis.model.TraninClient;
 import com.gwghk.mis.util.BeanUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.StringUtil;
@@ -57,7 +52,8 @@ public class ChatGroupService{
 
 	@Autowired
 	private ChatApiService chatApiService;
-
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 	/**
 	 * 通过id找对应记录
 	 * @param chatGroupId
@@ -240,12 +236,28 @@ public class ChatGroupService{
 	 * @return
 	 */
 	public List<ChatGroup> getChatGroupList(String...selectField) {
-		Query query = Query.query(Criteria.where("valid").is(1).and("status").is(1));
+		return this.getChatGroupListByType(null,selectField);
+	}
+
+	/****
+	 * 提取列表数据 根据类型
+	 * @param groupType
+	 * @param selectField
+	 * @return
+	 */
+	public List<ChatGroup> getChatGroupListByType(String groupType,String...selectField){
+		Criteria criteria = new Criteria();
+		criteria.and("valid").is(1).and("status").is(1);
+		if(groupType != null){
+			criteria.and("groupType").is(groupType);
+		}
+		Query query = Query.query(criteria);
 		query.with(new Sort(new Order(Direction.ASC, "groupType"), new Order(Direction.ASC, "level")));
 		if(selectField!=null){
 			return chatGroupDao.findListInclude(ChatGroup.class, query,selectField);
 		}
 		return chatGroupDao.findList(ChatGroup.class, query);
+
 	}
 	/**
 	 * 提取列表数据
@@ -369,4 +381,41 @@ public class ChatGroupService{
 		return result;
 	}
 
+	/****
+	 *返回对应类型下的房间树
+	 * @return
+	 */
+	public List<ChatGroup> formatTreeList(String type){
+		List<ChatGroup> nodeList = new ArrayList<ChatGroup>();
+		List<ChatGroup> groupList=this.getChatGroupByTypeList(type,"id","name","groupType");
+		ChatGroup tbean=null;
+		BoSystemCategory systemCategory = systemCategoryService.getSystemCategoryByCode(type);
+		tbean=new ChatGroup();
+		tbean.setId(systemCategory.getCode());
+		tbean.setName(systemCategory.getName());
+		nodeList.add(tbean);
+		for(ChatGroup group:groupList){
+			if(group.getGroupType().equals(systemCategory.getCode())){
+				group.setName(StringUtil.fillChar('　', 1)+group.getName());
+				nodeList.add(group);
+			}
+		}
+		return nodeList;
+	}
+	public List<ChatGroup> formatTreeList2(String type){
+		List<ChatGroup> nodeList = new ArrayList<>();
+		List<ChatGroup> groupList=this.getChatGroupByTypeList(type,"id","name","groupType");
+		ChatGroup tbean=null;
+		BoSystemCategory systemCategory = systemCategoryService.getSystemCategoryByCode(type);
+		tbean=new ChatGroup();
+		tbean.setName(systemCategory.getName());
+		tbean.setGroupType(systemCategory.getCode());
+		nodeList.add(tbean);
+		for(ChatGroup group:groupList){
+			if(group.getGroupType().equals(systemCategory.getCode())){
+				nodeList.add(group);
+			}
+		}
+		return nodeList;
+	}
 }

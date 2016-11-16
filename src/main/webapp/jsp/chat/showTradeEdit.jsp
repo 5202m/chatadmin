@@ -71,7 +71,6 @@ $(function() {
       <th width="10%">房间组别<span class="red">*</span></th>
 		<td colspan="3">
 			<select name="groupType" id="syllabus_groupType_select" style="width: 160px;">
-				<option value="">--请选择--</option>
 				<c:forEach var="row" items="${chatGroupList}">
 					<c:if test="${empty row.id}">
 						<option value="${row.groupType}" <c:if test="${row.groupType==chatTrade.groupType}">selected="selected"</c:if>>

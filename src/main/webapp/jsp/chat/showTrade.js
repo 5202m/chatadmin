@@ -288,7 +288,7 @@ var chatShowTrade = {
 		$('#'+id).combogrid({
 		    idField:'userNo',
 		    textField:'userName',
-		    url:basePath+'/userController/getAnalystList.do',
+		    url:basePath+'/userController/getAnalystList.do?groupType='+$("#showTrade_groupType_select").val(), //只有单一选项 所默认一个。
 		    columns:[[
 		        {field : 'userNo', hidden:true},
 		        {field : 'author_Key_id',hidden:true,formatter : function(value, rowData, rowIndex) {

@@ -15,12 +15,20 @@
       </tr>
       <tr>
         <th width="15%"><spring:message code="common.status" /><!-- 状态 --></th>
-        <td width="35%" colspan="3">
+        <td width="35%">
         	<select id="status" name="status" style="width: 155px;">
          		<option value="0"><spring:message code="common.enabled" /><!-- 启用 --></option>
          		<option value="1"><spring:message code="common.disabled" /><!-- 禁用 --></option>
          	</select>
          </td>
+          <th width="15%"><spring:message code="common.status" /><!-- 状态 --></th>
+          <td width="35%">
+              <select id="role_add_systemCategory" name="systemCategory" style="width: 155px;">
+                  <c:forEach var="systemCategory" items="${systemCategoryList}">
+                      <option value="${systemCategory.code}">${systemCategory.name}</option>
+                  </c:forEach>
+              </select>
+          </td>
       </tr>
       <tr>
         <th width="15%"><spring:message code="common.remark" /><!-- 备注 --></th>

@@ -18,7 +18,7 @@ var systemRole = {
 			singleSelect : false,
 			idField:"roleId",
 			sortName : 'roleId',
-			url : basePath+'/roleController/datagrid.do',
+			url : basePath+'/roleController/datagrid.do?systemCategory='+$("#role_list_systemCategory").val(),
 			columns : [[
 			            {title : 'roleId',field : 'roleId',checkbox : true},
 			            {title : $.i18n.prop("common.operate"),field : 'todo',formatter : function(value, rowData, rowIndex) {   	/**操作*/
@@ -48,6 +48,7 @@ var systemRole = {
 			var queryParams = $('#'+systemRole.gridId).datagrid('options').queryParams;
 			queryParams['roleNo'] = roleNo;
 			queryParams['roleName'] = roleName;
+			queryParams['systemCategory'] = $("#role_list_systemCategory").val();
 			$('#'+systemRole.gridId).datagrid({
 				url : basePath+'/roleController/datagrid.do',
 				pageNumber : 1
@@ -175,7 +176,7 @@ var systemRole = {
 				var userList = data.attributes.userList;
 				if(userList.length > 0){
 					$.each(userList,function(n,obj){
-						var val = obj['id'];
+						var val = obj['userId'];
 						var text = obj['userNo']+'/'+obj['userName'];
 						unselectedUserList.append("<option value='"+val+"'>"+text+"</option>");
 				    });

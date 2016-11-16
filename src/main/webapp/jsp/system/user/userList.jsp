@@ -21,20 +21,26 @@
           </td>
         </tr>
        <tr>
-          <th><spring:message code="user.position" /><!-- 职位 --></th>
-          <td><input type="text" name="position" id="position" style="width:160px"/></td>
+          <th>所属系统</th>
+          <td>
+              <select name="role.systemCategory" id="user_list_systemCategory" style="width:160px" class="systemCategorySelect" data-type="group1">
+                  <option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
+                  <c:forEach var="systemCategory" items="${systemCategoryList}">
+                      <option value="${systemCategory.code}">${systemCategory.name}</option>
+                  </c:forEach>
+              </select>
+          </td>
           <th><spring:message code="user.role" /><!-- 所属角色 --></th>
           <td>
-	          <select id="role" name="role" style="width:160px">
+	          <select id="role" name="role" style="width:160px" class="roleSelect"  data-type="group1">
 	              <option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
-	              <c:forEach var="role" items="${roleList}">
-      					<option value="${role.roleId}">${role.roleName}【${role.remark}】</option>
-      			  </c:forEach> 
 	          </select>
           </td>
         </tr>
         <tr>
-          	<td colspan="4" align="right">&nbsp;&nbsp;
+            <th><spring:message code="user.position" /><!-- 职位 --></th>
+            <td><input type="text" name="position" id="position" style="width:160px"/></td>
+          	<td colspan="2" align="right">&nbsp;&nbsp;
 	        	<a href="#" class="easyui-linkbutton" id="system_user_queryForm_search" data-options="iconCls:'ope-search'" ><spring:message code="common.buttons.search" /><!-- 查询 --> </a> 
 	        	&nbsp;&nbsp; <a href="#" class="easyui-linkbutton" id="system_user_queryForm_reset" data-options="iconCls:'ope-empty'" ><spring:message code="common.buttons.clear" /><!-- 清空 --> </a>
         	</td>
@@ -62,7 +68,6 @@
 	  <a class="easyui-linkbutton edit" data-options="plain:true,iconCls:'ope-edit',disabled:false"  onclick="systemUser.edit(this.id)"><spring:message code="common.buttons.edit" /><!-- 修改 --></a>
 	  <a class="easyui-linkbutton view" data-options="plain:true,iconCls:'ope-view',disabled:false" onclick="systemUser.view(this.id)"><spring:message code="common.buttons.view" /><!-- 查看 --></a>
 	  <a class="easyui-linkbutton resetPwd" data-options="plain:true,iconCls:'ope-redo',disabled:false" onclick="systemUser.resetPwd(this.id)"><spring:message code="user.resetpwd" /><!-- 重设密码 --></a>
-      <a class="easyui-linkbutton setLiveLinks" data-options="plain:true,iconCls:'ope-edit',disabled:false" onclick="systemUser.saveLiveLinks(this.id)">直播地址</a>
 	  <a class="easyui-linkbutton delete" data-options="plain:true,iconCls:'ope-remove',disabled:false"  onclick="systemUser.del(this.id)"><spring:message code="common.buttons.delete" /><!-- 删除 --></a>
   </div>
   

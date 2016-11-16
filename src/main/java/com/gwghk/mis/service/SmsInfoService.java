@@ -51,7 +51,7 @@ public class SmsInfoService {
 	 * @param dCriteria
 	 * @return
 	 */
-	public Page<SmsInfo> getSmsInfos(DetachedCriteria<SmsInfo> dCriteria) {
+	public Page<SmsInfo> getSmsInfos(DetachedCriteria<SmsInfo> dCriteria,String systemCategory) {
 		SmsInfo smsInfo = dCriteria.getSearchModel();
 		Query query = new Query();
 		Criteria criteria = new Criteria();
@@ -73,15 +73,16 @@ public class SmsInfoService {
 			if (StringUtils.isNotBlank(smsInfo.getType())) {
 				criteria.and("type").is(smsInfo.getType());
 			}
-			if (StringUtils.isNotBlank(smsInfo.getUseType())) {
-				criteria.and("useType").is(smsInfo.getUseType());
-			}
 			if (smsInfo.getStatus() != null) {
 				criteria.and("status").is(smsInfo.getStatus());
 			}
-			
-			query.addCriteria(criteria);
 		}
+		if(smsInfo != null && StringUtils.isNotBlank(smsInfo.getUseType())){
+			criteria.and("useType").is(smsInfo.getUseType());
+		}else{
+			criteria.and("useType").regex(smsConfigService.getDickPattern(systemCategory));
+		}
+		query.addCriteria(criteria);
 		return smsInfoDao.querySmsInfos(query, dCriteria);
 	}
 	

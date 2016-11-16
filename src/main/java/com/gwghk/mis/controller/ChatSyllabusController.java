@@ -61,28 +61,6 @@ public class ChatSyllabusController extends BaseController
 	@Autowired
 	private ChatSyllabusService syllabusService;
 
-	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setName(dict.getNameCN());
-    		tbean.setGroupType(dict.getCode());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
-	}
 	
 	/**
 	 * 功能：聊天室规则管理-首页
@@ -91,7 +69,7 @@ public class ChatSyllabusController extends BaseController
 	public String index(HttpServletRequest request, ModelMap map)
 	{
 		DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
 		logger.debug(">>start into chatSyllabusController.index() and url is /chatSyllabusController/index.do");
 		return "chat/syllabus";
@@ -109,6 +87,7 @@ public class ChatSyllabusController extends BaseController
 	@RequestMapping(value = "/chatSyllabusController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> datagrid(HttpServletRequest request, DataGrid dataGrid, ChatSyllabus syllabus) {
+		syllabus.setGroupType(userParam.getRole().getSystemCategory());
 		Page<ChatSyllabus> page = syllabusService.getSyllabuses(this.createDetachedCriteria(dataGrid, syllabus));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
@@ -153,7 +132,7 @@ public class ChatSyllabusController extends BaseController
 		}
 		
 		DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
 		map.addAttribute("syllabus", loc_syllabus);
 		JSONObject obj=new JSONObject();
 		obj.put("data", loc_syllabus.getStudioLink());

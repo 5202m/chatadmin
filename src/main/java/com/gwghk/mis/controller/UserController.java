@@ -1,15 +1,14 @@
 package com.gwghk.mis.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.gwghk.mis.service.SystemCategoryService;
+import com.gwghk.mis.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,15 +33,9 @@ import com.gwghk.mis.model.BoUser;
 import com.gwghk.mis.service.ChatShowTradeService;
 import com.gwghk.mis.service.RoleService;
 import com.gwghk.mis.service.UserService;
-import com.gwghk.mis.util.BrowserUtils;
-import com.gwghk.mis.util.DateUtil;
-import com.gwghk.mis.util.IPUtil;
-import com.gwghk.mis.util.PropertiesUtil;
-import com.gwghk.mis.util.ResourceBundleUtil;
-import com.gwghk.mis.util.ResourceUtil;
 
 /**
- * 摘要：用户管理
+ * 摘要：用户管理 TODO opType 分析师页面
  * @author Gavin.guo
  * @date   2014-10-14
  */
@@ -60,15 +53,19 @@ public class UserController extends BaseController{
 	
 	@Autowired
 	private ChatShowTradeService chatShowTradeService;
-	
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 	/**
 	 * 功能：用户管理-首页
 	 */
 	@RequestMapping(value = "/userController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map, String opType){
 		logger.debug(">>start into UserController.index() and url is /userController/index.do");
-		map.addAttribute("roleList",this.getAcceptRoles(opType));
+		String systemCategory = userParam.getRole().getSystemCategory();
+		map.addAttribute("roleList",this.getAcceptRoles(opType,systemCategory));
 		map.addAttribute("opType", opType);
+		map.put("systemCategoryList",systemCategoryService.list());
 		return "system/user/userList";
 	}
 
@@ -87,7 +84,7 @@ public class UserController extends BaseController{
 		 if(StringUtils.isNotEmpty(roleId)){
 			 roleIds = new String[]{roleId};
 		 }else if("analyst".equals(opType)){
-			 List<BoRole> analystRoles = this.getAcceptRoles(opType);
+			 List<BoRole> analystRoles = this.getAcceptRoles(opType,userParam.getRole().getSystemCategory());
 			 if(analystRoles != null){
 				 int len = analystRoles.size();
 				 roleIds = new String[len];
@@ -96,9 +93,9 @@ public class UserController extends BaseController{
 				 }
 			 }
 		 }
-		 
+
 		 Page<BoUser> page = userService.getUserPage(this.createDetachedCriteria(dataGrid, mngUser), roleIds);
-		 Map<String, Object> result = new HashMap<String, Object>();
+		 Map<String, Object> result = new HashMap<>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<BoUser>() : page.getCollection());
 	     return result;
@@ -110,10 +107,11 @@ public class UserController extends BaseController{
     @RequestMapping(value="/userController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
     public String add(ModelMap map, String opType) throws Exception {
-    	map.addAttribute("roleList",this.getAcceptRoles(opType));
+    	map.addAttribute("roleList",this.getAcceptRoles(opType,userParam.getRole().getSystemCategory()));
     	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     	Pattern pattern = Pattern.compile("^13800138.*$", Pattern.CASE_INSENSITIVE);
     	map.addAttribute("telephone", this.getNextPhone(pattern));
+		map.put("systemCategoryList",systemCategoryService.list());
     	return "system/user/userAdd";
     }
     
@@ -123,7 +121,7 @@ public class UserController extends BaseController{
     @RequestMapping(value="/userController/{userId}/view", method = RequestMethod.GET)
     @ActionVerification(key="view")
     public String view(@PathVariable String userId , ModelMap map) throws Exception {
-    	BoUser user=userService.getUserById(userId);
+    	BoUser user=userService.getUserById(userId,userParam.getRole().getSystemCategory());
     	map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
     	map.addAttribute("mngUser",user);
 		return "system/user/userView";
@@ -137,8 +135,11 @@ public class UserController extends BaseController{
     public String edit(@PathVariable String userId , ModelMap map, String opType) throws Exception {
     	BoUser user=userService.getUserById(userId);
     	map.addAttribute("mngUser",user);
-		map.addAttribute("roleList", this.getAcceptRoles(opType));
 		map.addAttribute("filePath",PropertiesUtil.getInstance().getProperty("pmfilesDomain"));
+		map.put("systemCategoryList",systemCategoryService.list());
+		if(user.getRole() != null && user.getRole().getSystemCategory() != null){
+			map.put("roleList",roleService.getRoleList(user.getRole().getSystemCategory()));
+		}
 		return "system/user/userEdit";
     }
     
@@ -153,7 +154,7 @@ public class UserController extends BaseController{
     	user.setCreateUser(userParam.getUserNo());
     	user.setCreateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();
-    	ApiResult result =userService.saveUser(user, false);
+		ApiResult result =userService.saveUser(user, false);
     	if(result.isOk()){
     		j.setSuccess(true);
     		String message = " 用户: " + userParam.getUserNo() + " "+DateUtil.getDateSecondFormat(new Date()) + " 成功新增用户："+user.getUserNo();
@@ -300,18 +301,22 @@ public class UserController extends BaseController{
      * @param opType
      * @return
      */
-    private List<BoRole> getAcceptRoles(String opType){
+    private List<BoRole> getAcceptRoles(String opType,String systemCategory){
     	if("analyst".equals(opType)){
-    		return roleService.getAnalystRoleList();
+    		return roleService.getAnalystRoleList(systemCategory);
     	}else{
-    		return roleService.getRoleList();
+    		return roleService.getRoleList(systemCategory);
     	}
     }
     
     @RequestMapping(value = "/userController/getAnalystList", method = RequestMethod.POST,produces = "plain/text; charset=UTF-8")
    	@ResponseBody
     public String getAnalystList(HttpServletRequest request,ModelMap map) throws Exception {
-    	List<BoUser> allAnalysts = userService.getUserListByRole("analyst");
+		String groupType = request.getParameter("groupType");
+		if(groupType == null || "".equals(groupType)){
+			groupType = userParam.getRole().getSystemCategory();
+		}
+    	List<BoUser> allAnalysts = userService.getAnalystUser(groupType);
     	String hasOther=request.getParameter("hasOther");
     	if(StringUtils.isNotBlank(hasOther) && !request.getServerName().contains("hx9999.com")){
     		String path=PropertiesUtil.getInstance().getProperty("pmfilesDomain")+"/upload/pic/header/chat/201508";

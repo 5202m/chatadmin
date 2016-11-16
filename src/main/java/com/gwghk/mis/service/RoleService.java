@@ -57,6 +57,7 @@ public class RoleService{
 			if(StringUtils.isNotBlank(role.getRoleNo())){
 				criteria.and("roleNo").is(role.getRoleNo());
 			}
+			criteria.and("systemCategory").is(role.getSystemCategory());
 			if(StringUtils.isNotBlank(role.getRoleName())){
 				criteria.and("roleName").is(role.getRoleName());
 			}
@@ -70,7 +71,7 @@ public class RoleService{
 
 	/**
 	 * 通过角色id找对应记录
-	 * @param id
+	 * @param roleId
 	 * @return
 	 */
 	public BoRole getByRoleId(String roleId) {
@@ -80,7 +81,7 @@ public class RoleService{
 	/**
 	 * 保存角色
 	 * @param roleParam
-	 * @param b
+	 * @param isUpdate
 	 * @return
 	 */
 	public ApiResult saveRole(BoRole roleParam, boolean isUpdate) {
@@ -90,6 +91,8 @@ public class RoleService{
     		BoRole role=roleDao.getByRoleId(roleParam.getRoleId());
     		BeanUtils.copyExceptNull(role, roleParam);
     		roleDao.update(role);
+			//更新用户角色信息
+			userDao.updateByRole(role);
     	}else{
     		if(roleDao.getByRoleNo(roleParam.getRoleNo())!=null){
     			return result.setCode(ResultCode.Error102);
@@ -101,16 +104,18 @@ public class RoleService{
 	
 	/**
 	 * 删除角色
-	 * @param ids
+	 * @param roleIds
 	 * @return
 	 */
 	public ApiResult deleteRole(String[] roleIds) {
 		ApiResult api=new ApiResult();
+		BoRole[] roles = roleDao.findByIds(roleIds).toArray(new BoRole[]{});
+
 		if(roleDao.deleteRole(roleIds)){
 		    for(String roleId:roleIds){
 		    	menuDao.deleteMenuRole(null, roleId);
 		    }
-			userDao.deleteUserRole(roleIds);
+			userDao.deleteUserRole(roles);
 			return api.setCode(ResultCode.OK);
 		}else{
 			return api.setCode(ResultCode.FAIL);
@@ -161,16 +166,23 @@ public class RoleService{
 	 * 提取所有角色信息
 	 * @return
 	 */
-	public List<BoRole> getRoleList() {
-		return roleDao.getRoleList(Query.query(Criteria.where("valid").is(1)));
+	public List<BoRole> getRoleList(String systemCategory) {
+		Criteria criteria = new Criteria();
+		criteria.and("valid").is(1)
+				.and("systemCategory").is(systemCategory);
+		return roleDao.getRoleList(Query.query(criteria));
 	}
 	
 	/**
 	 * 提取所有分析师角色信息
 	 * @return
 	 */
-	public List<BoRole> getAnalystRoleList() {
-		return roleDao.getRoleList(Query.query(Criteria.where("valid").is(1).and("roleNo").regex("analyst")));
+	public List<BoRole> getAnalystRoleList(String systemCategory) {
+		Criteria criteria = new Criteria();
+		criteria.and("valid").is(1)
+				.and("systemCategory").is(systemCategory)
+				.and("roleNo").regex("analyst");
+		return roleDao.getRoleList(Query.query(criteria));
 	}
 	
 	/**

@@ -70,7 +70,6 @@ $(function() {
 		<td width="35%">
 			<select name="groupType" id="syllabus_groupType_select" style="width: 160px;"
 			class="easyui-validatebox" data-options="required:true">
-				<option value="">--请选择--</option>
 				<c:forEach var="row" items="${chatGroupList}">
 					<c:if test="${empty row.id}">
 						<option value="${row.groupType }">

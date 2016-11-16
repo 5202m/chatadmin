@@ -3,6 +3,7 @@ package com.gwghk.mis.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +32,16 @@ public class AuthorityController extends BaseController{
 	
 	@Autowired
 	private MenuService menuService;
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
 	/**
 	 * 功能：权限管理-首页
 	 */
 	@RequestMapping(value = "/authorityController/index", method = RequestMethod.GET)
 	public  String  index(ModelMap map){
 		logger.debug(">>start into AuthorityController.index()...");
+		map.put("systemCategoryList",systemCategoryService.list());
 		return "system/authority/authorityList";
 	}
 	
@@ -62,7 +67,7 @@ public class AuthorityController extends BaseController{
 	public String loadMenuTree(String roleId){
 		return menuService.getMenuRoleTreeJson(roleId,true,ResourceUtil.getSessionLocale()).getMenuJson();
 	}
-	
+
 	 /**
    	* 功能：权限管理-保存更新
    	*/

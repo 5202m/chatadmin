@@ -107,6 +107,7 @@ public class ArticleController extends BaseController{
     	 detail.setAuthorInfo(author);
     	 detailList.add(detail);
     	 article.setDetailList(detailList);
+		article.setSystemCategory(userParam.getRole().getSystemCategory());
     	 DetachedCriteria<Article> detachedCriteria = this.createDetachedCriteria(dataGrid, article);
     	 if(detachedCriteria.getOrderbyMap() == null || detachedCriteria.getOrderbyMap().isEmpty()){
     		 LinkedHashMap<String, SortDirection> orderMap = new LinkedHashMap<String, SortDirection>();
@@ -140,7 +141,6 @@ public class ArticleController extends BaseController{
     /**
      * 设置栏目名称
      * @param categoryId
-     * @param map
      * @return
      */
     private String getCategoryTxt(String categoryId){
@@ -180,6 +180,7 @@ public class ArticleController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,false);
+		article.setSystemCategory(userParam.getRole().getSystemCategory());
     	AjaxJson j = new AjaxJson();
     	try{
     		setCommonSave(request,article);
@@ -238,6 +239,7 @@ public class ArticleController extends BaseController{
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,Article article){
     	BoUser userParam = ResourceUtil.getSessionUser();
     	setBaseInfo(article,request,true);
+		article.setSystemCategory(userParam.getRole().getSystemCategory());
     	AjaxJson j = new AjaxJson();
         try{
 	    	setCommonSave(request,article);

@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gwghk.mis.model.*;
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +30,6 @@ import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoDict;
-import com.gwghk.mis.model.BoUser;
-import com.gwghk.mis.model.ChatClientGroup;
-import com.gwghk.mis.model.ChatGroup;
-import com.gwghk.mis.model.ChatMessage;
-import com.gwghk.mis.model.ChatMsgToUser;
 import com.gwghk.mis.service.ChatClientGroupService;
 import com.gwghk.mis.service.ChatGroupService;
 import com.gwghk.mis.service.ChatMessgeService;
@@ -64,30 +60,7 @@ public class ChatMessageController extends BaseController{
 	private ChatGroupService chatGroupService;
 	@Autowired
 	private ChatClientGroupService chatClientGroupService;
-	
-	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setId(dict.getCode());
-    		tbean.setName(dict.getNameCN());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				group.setName(StringUtil.fillChar('　', 1)+group.getName());
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
-	}
+
 	/**
 	 * 功能：聊天室信息管理-首页
 	 */
@@ -96,8 +69,8 @@ public class ChatMessageController extends BaseController{
 		DictConstant dict=DictConstant.getInstance();
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
-    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
+    	map.put("chatGroupList",chatGroupService.formatTreeList(userParam.getRole().getSystemCategory()));
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(userParam.getRole().getSystemCategory()));
 		logger.debug(">>start into chatMessageController.index() and url is /chatMessageController/index.do");
 		return "chat/messageList";
 	}
@@ -105,12 +78,12 @@ public class ChatMessageController extends BaseController{
 	/**
 	 * 设置通用查询
 	 * @param request
-	 * @param dataGrid
 	 * @param chatMessage
 	 */
 	private void setComSearch(HttpServletRequest request,ChatMessage chatMessage){
 		 chatMessage.setPublishStartDateStr(request.getParameter("publishStartDateStr"));
 		 chatMessage.setPublishEndDateStr(request.getParameter("publishEndDateStr"));
+		 chatMessage.setGroupType(userParam.getRole().getSystemCategory());
 		 String talkStyle=request.getParameter("talkStyle");
 		 if(StringUtils.isNotBlank(talkStyle)){
 			 ChatMsgToUser msgToUser=new ChatMsgToUser();

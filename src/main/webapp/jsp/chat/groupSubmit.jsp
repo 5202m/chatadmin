@@ -5,16 +5,15 @@
 <script type="text/javascript">
 	//初始化
 	$(function() {
-		 $("#chatGroupTypeId").change(function(){
-			 if(this.value.indexOf('studio')!=-1){
-				 $("#clientGroupTreeId").show();
-			 }else{
-				 $("#clientGroupTreeId").hide();
-			 }
-			 $("#clientGroupSelectId").combotree({
-				    data:getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",{clientGroup:"${chatGroup.clientGroup}",groupType:this.value}),
-				}); 
-		 }).trigger("change");
+		var systemCategory = $("#systemCategoryCode").val();
+		 if(systemCategory.indexOf('studio')!=-1){
+			 $("#clientGroupTreeId").show();
+		 }else{
+			 $("#clientGroupTreeId").hide();
+		 }
+		 $("#clientGroupSelectId").combotree({
+				data:getJson("<%=request.getContextPath()%>/chatClientGroupController/getClientGroupList.do",{clientGroup:"${chatGroup.clientGroup}",groupType:systemCategory}),
+		  });
 		 var openDateTmp='${chatGroup.openDate}';
 		 $("#chatGroup_openDate_div").dateTimeWeek({data:(isValid(openDateTmp)?JSON.parse(openDateTmp):null)});
 		 getJson("<%=request.getContextPath()%>/chatGroupRuleController/getGroupRuleCombox.do",null,function(data){
@@ -90,16 +89,6 @@
 <div style="padding:5px;overflow:hidden;">
   <form id="chatGroupSubmitForm" class="yxForm" method="post">
     <table class="tableForm_L" border="0" cellspacing="1" cellpadding="0">
-          <tr>
-	          <th width="15%">房间类别</th>
-	          <td width="35%">
-	             <t:dictSelect  selectClass="width:170px;" id="chatGroupTypeId" defaultVal="${chatGroup.groupType}" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
-	          </td>
-	          <th width="15%">房间等级</th>
-	          <td width="35%">
-	             <t:dictSelect  selectClass="width:170px;" id="chatGroupLevel" defaultVal="${chatGroup.level}" field="level" isEdit="true" isShowPleaseSelected="false"  dataList="${groupLevelList}"/>
-	          </td>
-          </tr>
     	   <tr>
 	         <th width="15%">编号(系统自动生成)</th>
 	         <td width="35%">

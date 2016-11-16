@@ -112,25 +112,33 @@ $(function() {
         <th width="15%"><spring:message code="user.email" /><!-- Email --></th>
         <td width="35%"><input type="text" name="email" id="email" class="easyui-validatebox" data-options="required:true,validType:'email',missingMessage:'<spring:message code="user.valid.email" />'" value="${mngUser.email}"/></td>
       </tr>
+		<tr>
+			<th>所属系统</th>
+			<td>
+				<select style="width:170px" class="systemCategorySelect" data-type="group2">
+					<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
+					<c:forEach var="systemCategory" items="${systemCategoryList}">
+						<option value="${systemCategory.code}"<c:if test="${mngUser.role != null  && systemCategory.code == mngUser.role.systemCategory}"> selected="selected"</c:if> >
+							${systemCategory.name}
+						</option>
+					</c:forEach>
+				</select>
+			</td>
+			<th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
+			<td width="35%">
+				<select id="roleId" name="role.roleId" style="width: 170px;"  class="roleSelect"  data-type="group2">
+					<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
+					<c:forEach var="role" items="${roleList}">
+						<option value="${role.roleId}" <c:if test="${role.roleId == mngUser.role.roleId}">selected="selected"</c:if> >
+								${role.roleName}【${role.remark}】
+						</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
       <tr>
-        <th width="15%"><spring:message code="user.role" /><!-- 所属角色 --></th>
-        <td width="35%">
-         	<select id="roleId" name="role.roleId" style="width: 155px;">
-         		<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
-         		<c:forEach var="role" items="${roleList}">
-         		   <c:choose>
-	      				 <c:when test="${role.roleId == mngUser.role.roleId}"> 
-					      	<option value="${role.roleId}" selected="selected">${role.roleName}【${role.remark}】</option>
-					     </c:when> 
-					     <c:otherwise> 
-					      	<option value="${role.roleId}">${role.roleName}【${role.remark}】</option>
-					     </c:otherwise> 
-				    </c:choose>
-      			</c:forEach>		
-         	</select>
-        </td>
-        <th width="15%"><spring:message code="common.status" /><!-- 状态 --></th>
-        <td width="35%">
+        <th width="15%" ><spring:message code="common.status" /><!-- 状态 --></th>
+        <td width="35%" colspan="3">
         	<select id="status" name="status" style="width: 155px;">
          		<option value="0" <c:if test='${mngUser.status == 0}'>selected="selected"</c:if> ><spring:message code="common.enabled" /><!-- 启用 --></option>
          		<option value="1" <c:if test='${mngUser.status == 1}'>selected="selected"</c:if> ><spring:message code="common.disabled" /><!-- 禁用 --></option>

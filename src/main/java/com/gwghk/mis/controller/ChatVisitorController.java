@@ -70,34 +70,6 @@ public class ChatVisitorController extends BaseController
 	@Autowired
 	private ChatVisitorService chatVisitorService;
 
-	/**
-	 * 格式成树形列表
-	 * 
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList)
-	{
-		List<ChatGroup> nodeList = new ArrayList<ChatGroup>();
-		List<ChatGroup> groupList = chatGroupService.getChatGroupList("id", "name", "groupType");
-		ChatGroup tbean = null;
-		for (BoDict dict : dictList)
-		{
-			tbean = new ChatGroup();
-			tbean.setId(dict.getCode());
-			tbean.setName(dict.getNameCN());
-			nodeList.add(tbean);
-			for (ChatGroup group : groupList)
-			{
-				if (group.getGroupType().equals(dict.getCode()))
-				{
-					group.setName(StringUtil.fillChar('　', 1) + group.getName());
-					nodeList.add(group);
-				}
-			}
-		}
-		return nodeList;
-	}
 	
 	/**
 	 * 功能：访客记录-标签页
@@ -119,7 +91,7 @@ public class ChatVisitorController extends BaseController
 	public String visitor(HttpServletRequest request, ModelMap map)
 	{
 		DictConstant dict = DictConstant.getInstance();
-		map.put("chatGroupList", this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+		map.put("chatGroupList", chatGroupService.formatTreeList(userParam.getRole().getSystemCategory()));
 		logger.debug(">>start into chatVisitorController.visitor() and url is /chatVisitorController/visitor.do");
 		return "chat/visitorList";
 	}
@@ -139,6 +111,7 @@ public class ChatVisitorController extends BaseController
 	public Map<String, Object> datagridVisitor(HttpServletRequest request, DataGrid dataGrid, ChatVisitor chatVisitor)
 	{
 		this.resetRoomInfo(chatVisitor.getRoomId(), chatVisitor);
+		//chatVisitor.setGroupType(userParam.getRole().getSystemCategory());
 		Page<ChatVisitor> page = chatVisitorService.getChatVisitors(this.createDetachedCriteria(dataGrid, chatVisitor));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", null == page ? 0 : page.getTotalSize());
@@ -319,7 +292,7 @@ public class ChatVisitorController extends BaseController
 	
 	/**
 	 * 功能：访客记录-首页
-	 * @param request
+	 * @param map
 	 * @param type
 	 * @return
 	 */
@@ -327,7 +300,7 @@ public class ChatVisitorController extends BaseController
 	public String report(ModelMap map, @Param("type")String type)
 	{
 		DictConstant dict = DictConstant.getInstance();
-		map.put("chatGroupList", this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+		map.put("chatGroupList", chatGroupService.formatTreeList(userParam.getRole().getSystemCategory()));
 		Calendar calendar = Calendar.getInstance();
 		map.put("today", DateUtil.formatDate(calendar.getTime(), "yyyy-MM-dd"));
 		calendar.add(Calendar.DATE, -1);
@@ -370,9 +343,6 @@ public class ChatVisitorController extends BaseController
 	/**
 	 * 获取datagrid列表(报表-在线时长人数统计)
 	 * @param request
-	 * @param groupId
-	 * @param dateStart
-	 * @param dateEnd
 	 * @return
 	 */
 	@RequestMapping(value = "/chatVisitorController/repDDatagrid", method = RequestMethod.GET)
@@ -438,9 +408,6 @@ public class ChatVisitorController extends BaseController
 	/**
 	 * 获取datagrid列表(报表-各类在线人数统计)
 	 * @param request
-	 * @param groupId
-	 * @param dateStart
-	 * @param dateEnd
 	 * @return
 	 */
 	@RequestMapping(value = "/chatVisitorController/repODatagrid", method = RequestMethod.GET)
@@ -506,9 +473,6 @@ public class ChatVisitorController extends BaseController
 	/**
 	 * 获取datagrid列表(报表-整点在线人数统计)
 	 * @param request
-	 * @param groupId
-	 * @param dateStart
-	 * @param dateEnd
 	 * @return
 	 */
 	@RequestMapping(value = "/chatVisitorController/repTDatagrid", method = RequestMethod.GET)

@@ -88,7 +88,7 @@ public class UserDao extends MongoDBBaseDao{
 	
 	/**
 	 * 删除通过参数
-	 * @param map
+	 * @param userId
 	 * @return
 	 */
 	public void deleteByUserId(String userId){
@@ -121,15 +121,14 @@ public class UserDao extends MongoDBBaseDao{
 	 * @param roleId
 	 * @return
 	 */
-	public List<BoUser>  getUnRelationList(){
-		return this.findList(BoUser.class,Query.query(Criteria.where("role").exists(false)));
+	public List<BoUser>  getUnRelationList(String roleId){
+		return this.findList(BoUser.class,Query.query(Criteria.where("role.roleId").nin(roleId)));
 	}
 	
 	/**
 	 * 分页查询
 	 * @param query
-	 * @param pageNo
-	 * @param pageSize
+	 * @param dCriteria
 	 * @return
 	 */
 	public Page<BoUser> getUserPage(Query query,DetachedCriteria<BoUser> dCriteria){
@@ -138,26 +137,27 @@ public class UserDao extends MongoDBBaseDao{
 	
 	/**
 	 * 删除用户角色
-	 * @param roleId
+	 * @param roles
 	 * @return
 	 */
-	public boolean deleteUserRole(Object[] roleId){
-		Query query=new Query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("role.roleId").in(roleId)));
-		WriteResult wr=this.mongoTemplate.updateMulti(query,new Update().unset("role"),BoUser.class);
-		return wr!=null&&wr.getN()>0;
+	public boolean deleteUserRole(BoRole[] roles){
+		int count = 0;
+		for(BoRole role:roles){
+			Query query=new Query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("role.roleId").is(role.getRoleId())));
+			WriteResult wr=this.mongoTemplate.updateMulti(query,new Update().unset("role"),BoUser.class);
+			count = count+wr.getN();
+		}
+		return count>0;
 	}
 	
 	/**
 	 * 根据用户id数组及角色id设置用户角色
-	 * @param menuIds
-	 * @param roleId
+	 * @param userIds
+	 * @param role
 	 * @return
 	 */
-	public boolean addUserRole(Object[] userIds,String roleId){
-		BoRole role=new BoRole();
-		role.setRoleId(roleId);
-		Query query=Query.query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("userId").in(userIds),
-				Criteria.where("role.roleId").ne(roleId)));
+	public boolean addUserRole(Object[] userIds,BoRole role){
+		Query query=Query.query(new Criteria().andOperator(Criteria.where("valid").is(1),Criteria.where("userId").in(userIds)));
 		WriteResult wr=this.mongoTemplate.updateMulti(query,new Update().set("role",role),BoUser.class);
 		return wr!=null&&wr.getN()>=0;
 	}
@@ -176,5 +176,14 @@ public class UserDao extends MongoDBBaseDao{
 		query.with(new Sort(Sort.Direction.DESC, "telephone"));
 		query.limit(1);
 		return this.findOne(BoUser.class, query);
+	}
+
+	/****
+	 * 修改用户角色信息 根据用户角色
+	 * @param role
+	 */
+	public void updateByRole(BoRole role){
+		Query query = new Query(Criteria.where("role.roleId").is(role.getRoleId()));
+		this.mongoTemplate.updateMulti(query,new Update().set("role",role),BoUser.class);
 	}
 }

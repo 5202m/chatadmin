@@ -119,18 +119,27 @@ $(function() {
         <td><input type="text" name="email" id="email" class="easyui-validatebox" 
         				data-options="required:true,validType:'email',missingMessage:'<spring:message code="user.valid.email" />'"/></td>
       </tr>
+		<tr>
+			<th>所属系统</th>
+			<td>
+				<select style="width:170px" class="systemCategorySelect" data-type="group2">
+					<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
+					<c:forEach var="systemCategory" items="${systemCategoryList}">
+						<option value="${systemCategory.code}">${systemCategory.name}</option>
+					</c:forEach>
+				</select>
+			</td>
+			<th><spring:message code="user.role" /><!-- 所属角色 --></th>
+			<td>
+				<select id="roleId" name="role.roleId" style="width: 170px;" class="roleSelect"  data-type="group2">
+					<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
+				</select>
+			</td>
+		</tr>
       <tr>
-        <th><spring:message code="user.role" /><!-- 所属角色 --></th>
-        <td>
-         	<select id="roleId" name="role.roleId" style="width: 155px;">
-         		<option value=""><spring:message code="common.pleaseselect" /><!-- 请选择 --></option>
-         		<c:forEach var="role" items="${roleList}">
-      				<option value="${role.roleId}">${role.roleName}【${role.remark}】</option>
-      			</c:forEach>   		
-         	</select>
-        </td>
+
         <th><spring:message code="common.status" /><!-- 状态 --></th>
-        <td>
+        <td colspan="3">
         	<select id="status" name="status" style="width: 155px;">
          		<option value="0"><spring:message code="common.enabled" /><!-- 启用 --></option>
          		<option value="1"><spring:message code="common.disabled" /><!-- 禁用 --></option>

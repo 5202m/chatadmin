@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gwghk.mis.model.*;
+import com.gwghk.mis.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +30,6 @@ import com.gwghk.mis.common.model.DataGrid;
 import com.gwghk.mis.common.model.Page;
 import com.gwghk.mis.constant.DictConstant;
 import com.gwghk.mis.constant.WebConstant;
-import com.gwghk.mis.model.BoDict;
-import com.gwghk.mis.model.ChatClientGroup;
-import com.gwghk.mis.model.ChatGroup;
-import com.gwghk.mis.model.ChatMessage;
-import com.gwghk.mis.model.ChatRoom;
-import com.gwghk.mis.model.ChatUserGroup;
-import com.gwghk.mis.model.Member;
-import com.gwghk.mis.service.ChatApiService;
-import com.gwghk.mis.service.ChatClientGroupService;
-import com.gwghk.mis.service.ChatGroupService;
-import com.gwghk.mis.service.MemberService;
 import com.gwghk.mis.util.BrowserUtils;
 import com.gwghk.mis.util.DateUtil;
 import com.gwghk.mis.util.ExcelUtil;
@@ -70,37 +61,13 @@ public class ChatUserController extends BaseController{
 	private ChatApiService chatApiService;
 
 	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setId(dict.getCode());
-    		tbean.setName(dict.getNameCN());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				group.setName(StringUtil.fillChar('　', 1)+group.getName());
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
-	}
-	
-	/**
 	 * 功能：聊天室内容管理-首页
 	 */
 	@RequestMapping(value = "/chatUserController/toExitRoom", method = RequestMethod.GET)
 	public  String  toExitRoom(HttpServletRequest request,ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
     	map.put("userIds", request.getParameter("userIds"));
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList(userParam.getRole().getSystemCategory()));
 		logger.debug(">>start into chatUserController.toExitRoom() and url is /chatUserController/toExitRoom.do");
 		return "chat/exitRoom";
 	}
@@ -152,10 +119,10 @@ public class ChatUserController extends BaseController{
 	@RequestMapping(value = "/chatUserController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map){
 		DictConstant dict=DictConstant.getInstance();
-    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(null));
+    	map.put("clientGroupList", chatClientGroupService.getClientGroupList(userParam.getRole().getSystemCategory()));
 		List<BoDict> dictList=ResourceUtil.getSubDictListByParentCode(dict.DICT_USE_STATUS);
     	map.put("statusList", dictList);
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList(userParam.getRole().getSystemCategory()));
 		logger.debug(">>start into chatUserController.index() and url is /chatUserController/index.do");
 		return "chat/userList";
 	}
@@ -164,7 +131,7 @@ public class ChatUserController extends BaseController{
 	 * 获取datagrid列表
 	 * @param request
 	 * @param dataGrid  分页查询参数对象
-	 * @param chatOnlineUser   实体查询参数对象
+	 * @param member   实体查询参数对象
 	 * @return Map<String,Object> datagrid需要的数据
 	 */
 	@RequestMapping(value = "/chatUserController/datagrid", method = RequestMethod.GET)

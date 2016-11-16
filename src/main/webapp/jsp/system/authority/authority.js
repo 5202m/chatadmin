@@ -20,7 +20,7 @@ var systemAuthority = {
 			singleSelect : true,
 			idField:"roleId",
 			sortName : 'roleId',
-			url : basePath+'/roleController/datagrid.do',
+			url : basePath+'/roleController/datagrid.do?systemCategory='+$("#auth_list_systemCategory").val(),
 			columns : [[
 	            {title : 'roleId',field : 'roleId',hidden : true},
 	            {title : $.i18n.prop("role.roleno"),field : 'roleNo',width : 60},     /**角色编号*/
@@ -94,6 +94,7 @@ var systemAuthority = {
 			var roleNoOrName =  $("#roleNoOrName").val();
 			var queryParams = $('#'+systemAuthority.gridId).datagrid('options').queryParams;
 			queryParams['roleNoOrName'] = roleNoOrName;
+			queryParams['systemCategory'] = $("#auth_list_systemCategory").val();
 			$('#'+systemAuthority.gridId).datagrid({
 				url : basePath+'/roleController/datagrid.do',
 				pageNumber : 1

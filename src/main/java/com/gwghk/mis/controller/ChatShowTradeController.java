@@ -64,35 +64,10 @@ public class ChatShowTradeController extends BaseController{
 	 */
 	@RequestMapping(value = "/chatShowTradeController/index", method = RequestMethod.GET)
 	public  String  index(HttpServletRequest request,ModelMap map, String opType){
-		
-		DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
 		return "chat/showTradeList";
 	}
-	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setName(dict.getNameCN());
-    		tbean.setGroupType(dict.getCode());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
-	}
-
 	/**
 	 * 获取datagrid列表
 	 * @param request
@@ -113,11 +88,13 @@ public class ChatShowTradeController extends BaseController{
 			 user.setUserName(userName);
 		 }
 	     chatShowTrade.setBoUser(user);
+		 if(chatShowTrade.getGroupType() == null || "".equals(chatShowTrade.getGroupType())){
+			chatShowTrade.setGroupType(userParam.getRole().getSystemCategory());
+		 }
 		 Page<ChatShowTrade> page = chatShowTradeService.getShowTradePage(this.createDetachedCriteria(dataGrid, chatShowTrade));
-		 Map<String, Object> result = new HashMap<String, Object>();
+		 Map<String, Object> result = new HashMap<>();
 		 result.put("total",null == page ? 0  : page.getTotalSize());
 	     result.put("rows", null == page ? new ArrayList<ChatShowTrade>() : page.getCollection());
-	     System.out.println(page);
 	     return result;
 	}
 	/**
@@ -127,7 +104,7 @@ public class ChatShowTradeController extends BaseController{
     @ActionVerification(key="add")
     public String add(ModelMap map, String opType) throws Exception {
     	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	return "chat/showTradeAdd";
     }
     
@@ -199,8 +176,7 @@ public class ChatShowTradeController extends BaseController{
     	ChatShowTrade chatTrade=chatShowTradeService.getTradeById(showTradeId);
     	map.put("chatTrade",chatTrade);
     	
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
     	map.put("showDateFormat" ,DateUtil.formatDate(chatTrade.getShowDate(), "yyyy-MM-dd HH:mm:ss"));
     	
@@ -213,8 +189,7 @@ public class ChatShowTradeController extends BaseController{
     	ChatShowTrade chatTrade=chatShowTradeService.getTradeById(showTradeId);
     	map.put("chatTrade",chatTrade);
     	
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
 		return "chat/showTradeEdit";
     }

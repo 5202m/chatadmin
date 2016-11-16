@@ -1,12 +1,10 @@
 package com.gwghk.mis.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gwghk.mis.service.SystemCategoryService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,13 +51,17 @@ public class RoleController extends BaseController{
 	
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private SystemCategoryService systemCategoryService;
+
 	/**
 	 * 功能：角色管理-首页
 	 */
 	@RequestMapping(value = "/roleController/index", method = RequestMethod.GET)
-	public  String  index(){
+	public  String  index(ModelMap map){
 		logger.debug("-->start into roleController.index() and url is /roleController/index.do");
+		map.put("systemCategoryList",systemCategoryService.list());
 		return "system/role/roleList";
 	}
 
@@ -67,25 +69,47 @@ public class RoleController extends BaseController{
 	 * 功能：获取dataGrid列表
 	 * @param request
 	 * @param dataGrid  分页查询参数对象
-	 * @param mngRole   角色实体查询参数对象
+	 * @param br   角色实体查询参数对象
 	 * @return Map<String,Object> dataGrid需要的数据
 	 */
 	@RequestMapping(value = "/roleController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,BoRole br){
+		if(br.getSystemCategory() == null || "".equals(br.getSystemCategory())){
+			br.setSystemCategory(userParam.getRole().getSystemCategory());
+		}
 		Page<BoRole> page = roleService.getRolePage(this.createDetachedCriteria(dataGrid, br));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total",null == page ? 0  : page.getTotalSize());
 	    result.put("rows", null == page ? new ArrayList<BoRole>() : page.getCollection());
 	    return result;
 	}
-	
+
+	/****
+	 * 返回角色列表 FIXME 添加权限
+	 * @param systemCategory
+	 * @return
+	 */
+	@RequestMapping(value = "/roleController/list", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxJson roleList(String systemCategory){
+		AjaxJson json = new AjaxJson();
+		if(systemCategory == null || "".equals(systemCategory)){
+			systemCategory = userParam.getRole().getSystemCategory();
+		}
+		json.setSuccess(true);
+		json.setObj(roleService.getRoleList(systemCategory));
+		return json;
+	}
+
+
 	/**
 	 * 功能：角色管理-新增
 	 */
     @RequestMapping(value="/roleController/add", method = RequestMethod.GET)  
     @ActionVerification(key="add")
     public String add(ModelMap map) throws Exception {
+		map.put("systemCategoryList",systemCategoryService.list());
     	return "system/role/roleAdd";
     }
     
@@ -115,6 +139,10 @@ public class RoleController extends BaseController{
    	@ResponseBody
     @ActionVerification(key="add")
     public AjaxJson create(HttpServletRequest request,BoRole role){
+		if(role.getSystemCategory() == null || "".equals(role.getSystemCategory())){
+			//不存在所属系统时  默认添加系统
+			role.setSystemCategory(userParam.getRole().getSystemCategory());
+		}
     	role.setCreateUser(userParam.getUserNo());
     	role.setCreateIp(IPUtil.getClientIP(request));
     	AjaxJson j = new AjaxJson();

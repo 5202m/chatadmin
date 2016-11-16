@@ -76,32 +76,8 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
 	
 	@RequestMapping(value = "/chatSubscribeTypeController/index", method = RequestMethod.GET)
 	public String index(HttpServletRequest request,ModelMap map, String opType){
-		DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
 		return "chat/subscribeTypeList";
-	}
-	
-	/**
-	 * 格式成树形列表
-	 * @param dictList
-	 * @return
-	 */
-	private List<ChatGroup> formatTreeList(List<BoDict> dictList){
-    	List<ChatGroup> nodeList = new ArrayList<ChatGroup>(); 
-    	List<ChatGroup> groupList=chatGroupService.getChatGroupList("id","name","groupType");
-    	ChatGroup tbean=null;
-    	for(BoDict dict:dictList){
-    		tbean=new ChatGroup();
-    		tbean.setName(dict.getNameCN());
-    		tbean.setGroupType(dict.getCode());
-    		nodeList.add(tbean);
-    		for(ChatGroup group:groupList){
-    			if(group.getGroupType().equals(dict.getCode())){
-    				nodeList.add(group);
-    			}
-    		}
-    	}
-    	return nodeList;
 	}
 	
 	/**
@@ -119,7 +95,9 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
 	@RequestMapping(value = "/chatSubscribeTypeController/datagrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid, ChatSubscribeType subscribeType, String opType){
-		
+		if(subscribeType.getGroupType() == null || "".equals(subscribeType.getGroupType())){
+			subscribeType.setGroupType(userParam.getRole().getSystemCategory());
+		}
 		Page<ChatSubscribeType> page = chatSubscribeTypeService.getSubscribeTypePage(this.createDetachedCriteria(dataGrid, subscribeType));
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total",null == page ? 0  : page.getTotalSize());
@@ -141,8 +119,7 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
 	@RequestMapping(value="/chatSubscribeTypeController/add", method = RequestMethod.GET)
     @ActionVerification(key="add")
     public String add(ModelMap map, String opType) throws Exception {
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	return "chat/subscribeTypeAdd";
     }
 	
@@ -163,8 +140,7 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
     	ChatSubscribeType subscribeType=chatSubscribeTypeService.getSubscribeTypeById(subscribeTypeId);
     	map.put("chatSubscribeType",subscribeType);
     	
-    	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	
     	return "chat/subscribeTypeView";
     }
@@ -184,9 +160,8 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
 	@ActionVerification(key="edit")
     @RequestMapping(value="/chatSubscribeTypeController/{subscribeTypeId}/edit", method = RequestMethod.GET)
     public String edit(@PathVariable String subscribeTypeId , ModelMap map, String opType) throws Exception {
-		DictConstant dict=DictConstant.getInstance();
     	ChatSubscribeType subscribeType=chatSubscribeTypeService.getSubscribeTypeById(subscribeTypeId);
-    	map.put("chatGroupList",this.formatTreeList(ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE)));
+    	map.put("chatGroupList",chatGroupService.formatTreeList2(userParam.getRole().getSystemCategory()));
     	map.put("chatSubscribeType",subscribeType);
     	map.put("startDateStr",DateUtil.getDateSecondFormat(subscribeType.getStartDate()));
     	map.put("endDateStr",DateUtil.getDateSecondFormat(subscribeType.getEndDate()));
@@ -353,7 +328,7 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
     	String analysts=request.getParameter("analysts");
        	List<TreeBean> treeList=new ArrayList<TreeBean>();
        	TreeBean tbean=null;
-       	List<BoUser> allAnalysts = userService.getUserListByRole("analyst");
+       	List<BoUser> allAnalysts = userService.getAnalystUser(userParam.getRole().getSystemCategory());
        	String[] nameArr={"梁育诗","罗恩•威廉","黃湛铭","赵相宾","周游","刘敏","陈杭霞","金道研究院"};
     	BoUser user=null;
     	for(int i=0;i<nameArr.length;i++){
@@ -378,8 +353,4 @@ private static final Logger logger = LoggerFactory.getLogger(ChatSubscribeTypeCo
         }
        	return JsonUtil.formatListToTreeJson(treeList,false);
      }
-	
-	/*public List<ChatSubscribeType> getSubscribeTypeList(){
-		return chatSubscribeTypeService.getSubscribeType();
-	}*/
 }

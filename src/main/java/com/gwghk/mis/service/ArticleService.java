@@ -49,7 +49,7 @@ public class ArticleService{
 	private ChatApiService chatApiService;
 	/**
 	 * 分页查询文章
-	 * @param detachedCriteria
+	 * @param dCriteria
 	 * @return
 	 */
 	public Page<Article> getArticlePage(DetachedCriteria<Article> dCriteria, Integer type) {
@@ -92,6 +92,7 @@ public class ArticleService{
 			if(article.getPublishEndDate()!=null){
 				criteria = criteria.and("publishEndDate").lte(article.getPublishEndDate());
 			}
+			criteria.and("systemCategory").is(article.getSystemCategory());
 			Criteria  detailCriteria = new Criteria();
 			List<ArticleDetail> detailList=article.getDetailList();
 			if(detailList!=null&&detailList.size()>0){
@@ -154,7 +155,7 @@ public class ArticleService{
 	/**
 	 * 新增文章记录
 	 * @param article
-	 * @param syncArticle
+	 * @param isSendSubscribe
 	 * @return
 	 */
 	public ApiResult addArticle(Article article, boolean isSendSubscribe) {
@@ -181,7 +182,6 @@ public class ArticleService{
 	/**
 	 * 更新文章记录
 	 * @param articleParam
-	 * @param b
 	 * @return
 	 */
 	public ApiResult updateArticle(Article articleParam) {

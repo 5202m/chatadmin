@@ -51,9 +51,7 @@ public class ChatPointsService {
 		Query query = new Query();
 		Criteria criteria = Criteria.where("isDeleted").is(0);
 		if (chatPoints != null) {
-			if (StringUtils.isNotBlank(chatPoints.getGroupType())) {
-				criteria.and("groupType").is(chatPoints.getGroupType());
-			}
+			criteria.and("groupType").is(params.get("systemCategory"));
 			if (StringUtils.isNotBlank(chatPoints.getUserId())) {
 				criteria.and("userId").is(chatPoints.getUserId());
 			}
@@ -103,7 +101,7 @@ public class ChatPointsService {
 		field.include("journal.$");
 		
 		query.addCriteria(criteria);
-		
+
 		return chatPointsDao.queryPoints(query, dCriteria);
 	}
 	

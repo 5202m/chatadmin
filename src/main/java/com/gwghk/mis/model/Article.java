@@ -106,6 +106,10 @@ public class Article extends BaseModel{
 	 * 所需积分，资料下载
 	 */
 	private Integer point;
+	/***
+	 * 所属系统
+	 */
+	private String systemCategory;
 
 	public String getId() {
 		return id;
@@ -262,6 +266,12 @@ public class Article extends BaseModel{
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
-	
-	
+
+	public String getSystemCategory() {
+		return systemCategory;
+	}
+
+	public void setSystemCategory(String systemCategory) {
+		this.systemCategory = systemCategory;
+	}
 }

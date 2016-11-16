@@ -8,10 +8,6 @@
     <form class="yxForm" id="chatClientGroup_queryForm">
       <table class="tableForm_L" style="margin-top:3px" width="99%" heigth="auto"  border="0" cellpadding="0" cellspacing="1">
         <tr>
-          <th width="10%">类别</th>
-          <td width="15%">
-             <t:dictSelect  selectClass="width:150px;" defaultVal="studio" field="groupType" isEdit="true" isShowPleaseSelected="false"  dataList="${groupTypeList}"/>
-          </td>
           <th width="10%">编号</th>
           <td width="15%"><input type="text" name="clientGroupId" /></td>
           <th width="10%">名称</th>
@@ -23,11 +19,6 @@
 	              <c:forEach var="row" items="${chatGroupList}">
 	                 <option value="${row.id}">
 	                 	 ${row.name}
-	      				 <c:forEach var="currGroupType" items="${groupTypeList}">
-	      					<c:if test="${currGroupType.code == row.groupType}">
-	      						【${currGroupType.nameCN }】
-	      					</c:if>
-	      				 </c:forEach>
 	                 </option>
 	              </c:forEach>
 	         </select>

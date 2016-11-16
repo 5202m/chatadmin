@@ -24,7 +24,6 @@
           <th width="10%">房间组别</th>
 			<td width="23%">
 				<select name="groupType" id="showTrade_groupType_select" style="width: 160px;">
-					<option value="">--请选择--</option>
 					<c:forEach var="row" items="${chatGroupList}">
 						<c:if test="${empty row.id}">
 							<option value="${row.groupType }">

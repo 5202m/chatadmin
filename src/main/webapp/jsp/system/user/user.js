@@ -64,11 +64,10 @@ var systemUser = {
 			            {title : $.i18n.prop("user.name"),field : 'userName',sortable : true},		/**姓名*/
 			            {title : $.i18n.prop("user.email"),field : 'email'},						/**Email*/
 						{title : $.i18n.prop("user.phone"),field : 'telephone',sortable : true},	/**手机号*/		
-						{title : $.i18n.prop("user.role"),field :'roleName',sortable : true,formatter : function(value, rowData, rowIndex) {/**状态*/
-						    if(rowData.role != null){
-						    	return rowData.role.roleName;
-						    }
-							return '';
+						{title : $.i18n.prop("user.role"),field :'role',sortable : true,formatter : function(value, rowData, rowIndex) {
+							if(value){
+								return value.roleName;
+							}
 						}},   	/**所属角色*/
 						{title : $.i18n.prop("common.status"),field : 'status',sortable : true,formatter : function(value, rowData, rowIndex) {/**状态*/
 							if (value == 0) {
@@ -94,11 +93,15 @@ var systemUser = {
 			var status = $("#status  option:selected").val();      //状态
 			var position = $("#position").val();                   //职位
 			var role = $("#role  option:selected").val();          //角色
+			var systemCategory = $("#user_list_systemCategory").val();
 			var queryParams = $('#'+systemUser.gridId).datagrid('options').queryParams;
 			queryParams['userNo'] = userNo;
 			queryParams['status'] = status;
 			queryParams['position'] = position;
 			queryParams['roleId'] = role;
+			if(systemCategory){
+				queryParams['role.systemCategory'] = systemCategory;
+			}
 			$('#'+systemUser.gridId).datagrid({
 				url : basePath+'/userController/datagrid.do?opType=' + systemUser.opType,
 				pageNumber : 1
@@ -107,6 +110,36 @@ var systemUser = {
 		// 重置
 		$("#system_user_queryForm_reset").on("click",function(){
 			$("#system_user_queryForm")[0].reset();
+		});
+		$(".systemCategorySelect").live("change",function(){
+			var systemCategory = $(this).val();
+			var type = $(this).data("type");
+			var roleSelect = $(".roleSelect[data-type='"+type+"']");
+			if(systemCategory){
+				var url = formatUrl(basePath + '/roleController/list.do');
+				goldOfficeUtils.ajax({
+					type:"get",
+					url : url,
+					data : {
+						systemCategory : systemCategory
+					},
+					success: function(data) {
+						if(data.success) {
+							var html = [];
+							for(var i = 0;i<data.obj.length;i++){
+								var role = data.obj[i];
+								html.push("<option value='"+role.roleId+"' t='t'>"+role.roleName+"</option>");
+							}
+							roleSelect.children("[t]").remove();
+							roleSelect.append(html.join(""));
+						}else{
+							$.messager.alert($.i18n.prop("common.operate.tips"),$.i18n.prop("common.savefail"),'error');     /**操作提示 保存失败!*/
+						}
+					}
+				});
+			}else{
+				roleSelect.children("[t]").remove();
+			}
 		});
 	},
 	/**
@@ -356,12 +389,12 @@ var systemUser = {
 	 * @returns
 	 */
 	getLiveLinks:function(type){
-        $.each(['studio','fxstudio','hxstudio'],function(k, v){
+		$.each(['studio','fxstudio','hxstudio'],function(k, v){
 			var pcSz=[],pcHk=[],mbSz=[],mbHk=[],mbAudioSz=[],mbAudioHk=[];
-            var devLinks=systemUser.liveLinks[v];
-            var rw=null;
-            var obsLabel=systemUser.liveLinks.obsLabel;
-            var codeList=null,urlTmp=null;
+			var devLinks=systemUser.liveLinks[v];
+			var rw=null;
+			var obsLabel=systemUser.liveLinks.obsLabel;
+			var codeList=null,urlTmp=null;
 			if(type==1){
 				if(k==0) {
 					var oneTVLink = systemUser.liveLinks.oneTVLink;
@@ -371,16 +404,16 @@ var systemUser = {
 					pcSz.push('<label><input type="checkbox" name="liveLink" value="'+row.url+'" code="'+row.code+'" />'+row.name+'</label>');
 				});
 			}
-            for(var rwIndex in obsLabel){
-                rw=obsLabel[rwIndex];
-                for(var i in rw.url){
-                    codeList=devLinks.obsCode;
-                    for(var cd in codeList){
-                        if(type==1){
-                            urlTmp="rtmp://"+rw.url[i]+"/"+codeList[cd];
-                        }else{
-                            urlTmp="http://"+rw.url[i].replace("h6","h5").replace("sz6","sz")+"/"+codeList[cd]+(type==4?"A/":"/")+systemUser.liveLinks.obsUrlIndex[i];
-                        }
+			for(var rwIndex in obsLabel){
+				rw=obsLabel[rwIndex];
+				for(var i in rw.url){
+					codeList=devLinks.obsCode;
+					for(var cd in codeList){
+						if(type==1){
+							urlTmp="rtmp://"+rw.url[i]+"/"+codeList[cd];
+						}else{
+							urlTmp="http://"+rw.url[i].replace("h6","h5").replace("sz6","sz")+"/"+codeList[cd]+(type==4?"A/":"/")+systemUser.liveLinks.obsUrlIndex[i];
+						}
 						if(type==1){
 							if(rw.name.indexOf('大陆')>-1){
 								pcSz.push('<label><input type="checkbox" name="liveLink" value="'+urlTmp+'" code="'+type+'" />'+(rw.name.formatStr(rw.url.length==1?"":parseInt(i)+1,codeList[cd]))+'</label>');
@@ -400,16 +433,16 @@ var systemUser = {
 								mbAudioHk.push('<label><input type="checkbox" name="liveLink" value="'+urlTmp+'" code="'+type+'" />'+(rw.name.formatStr(rw.url.length==1?"":parseInt(i)+1,codeList[cd]))+'</label>');
 							}
 						}
-                    }
-                }
-            }
+					}
+				}
+			}
 			pcSz = pcSz.concat(pcHk);
 			mbSz = mbSz.concat(mbHk);
 			mbAudioSz = mbAudioSz.concat(mbAudioHk);
 			$('#setLiveLinks_form #videoUrlPc').append(pcSz.join(''));
 			$('#setLiveLinks_form #videoUrlMb').append(mbSz.join(''));
 			$('#setLiveLinks_form #audioUrlMb').append(mbAudioSz.join(''));
-        });
+		});
 	},
 	setLiveLinks:function(liveLinks){
 		if(isValid(liveLinks)){
@@ -470,7 +503,7 @@ var systemUser = {
 		});
 	}
 };
-		
+
 //初始化
 $(function() {
 	systemUser.init();

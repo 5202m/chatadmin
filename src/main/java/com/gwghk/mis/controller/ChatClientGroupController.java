@@ -62,8 +62,8 @@ public class ChatClientGroupController extends BaseController{
 	 */
 	private void setCommonShow(ModelMap map){
     	DictConstant dict=DictConstant.getInstance();
-    	map.put("chatGroupList", chatGroupService.getChatGroupList("id","name", "groupType"));
-		map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
+    	map.put("chatGroupList", chatGroupService.getChatGroupByTypeList(userParam.getRole().getSystemCategory(),"id","name", "groupType"));
+		//map.put("groupTypeList", ResourceUtil.getSubDictListByParentCode(dict.DICT_CHAT_GROUP_TYPE));
 	}
 	
 	   /**
@@ -115,6 +115,7 @@ public class ChatClientGroupController extends BaseController{
 	@RequestMapping(value = "/chatClientGroupController/dataGrid", method = RequestMethod.GET)
 	@ResponseBody
 	public  Map<String,Object>  datagrid(HttpServletRequest request, DataGrid dataGrid,ChatClientGroup clientGroup){
+		 clientGroup.setGroupType(userParam.getRole().getSystemCategory());
 		 Page<ChatClientGroup> page = chatClientGroupService.getClientGroupPage(this.createDetachedCriteria(dataGrid, clientGroup));
 		 List<ChatClientGroup> chatGroupList=page.getCollection();
 		 Map<String, Object> result = new HashMap<String, Object>();
@@ -155,6 +156,7 @@ public class ChatClientGroupController extends BaseController{
     public AjaxJson create(HttpServletRequest request,HttpServletResponse response,ChatClientGroup clientGroup){
     	setBaseInfo(clientGroup,request,false);
     	AjaxJson j = new AjaxJson();
+		clientGroup.setGroupType(userParam.getRole().getSystemCategory());
     	ApiResult result =chatClientGroupService.saveClientGroup(clientGroup, false);
     	if(result.isOk()){
     		j.setSuccess(true);
@@ -182,6 +184,7 @@ public class ChatClientGroupController extends BaseController{
     public AjaxJson update(HttpServletRequest request,HttpServletResponse response,ChatClientGroup clientGroup){
     	setBaseInfo(clientGroup,request,true);
     	AjaxJson j = new AjaxJson();
+		clientGroup.setGroupType(userParam.getRole().getSystemCategory());
     	ApiResult result =chatClientGroupService.saveClientGroup(clientGroup, true);
     	if(result.isOk()){
     		j.setSuccess(true);

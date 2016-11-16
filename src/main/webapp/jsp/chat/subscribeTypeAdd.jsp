@@ -31,7 +31,6 @@
 	    	<th>房间组别<span class="red">*</span></th>
 			<td>
 				<select name="groupType" id="subscribeType_groupType_select" style="width: 160px;" class="easyui-validatebox" data-options="required:true">
-					<option value="">--请选择--</option>
 					<c:forEach var="row" items="${chatGroupList}">
 						<c:if test="${empty row.id}">
 							<option value="${row.groupType }">
